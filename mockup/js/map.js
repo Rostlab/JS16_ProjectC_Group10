@@ -56,8 +56,9 @@ jQuery(function() {
         minZoom: mapOptions.mapMinZoom,
         maxZoom: mapOptions.mapMaxZoom,
         bounds: bounds,
+        errorTileUrl: 'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png',
         noWrap: true,
-        attribution: 'Tiles &copy; HBO'
+        attribution: 'Tiles &copy; <a href="http://viewers-guide.hbo.com">HBO</a>'
     });
 
     map.addLayer(r);
