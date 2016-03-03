@@ -9,3 +9,8 @@
 #filter .input-group {
 	width: 100%;
 }
+
+#filter #filter-dropdown img {
+	height: 2em;
+	margin: 0 .5em 0 -1em;
+}
