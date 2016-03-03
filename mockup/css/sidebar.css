@@ -1,0 +1,22 @@
+/*.--.     Alex Max Tobi          ,-. .--. 
+ : .--'   Project C - Map       .'  :: ,. :
+ : : _ .--.  .--. .-..-..---.    `: :: :: :
+ : :; :: ..'' .; :: :; :: .; `    : :: :; :
+ `.__.':_;  `.__.'`.__.': ._.'    :_;`.__.'
+                        : :                
+                        :_;
+*/
+#sidebar {
+	background: #CFD8DC;
+	padding: 0.5em;
+	position: fixed;
+	width: 250px;
+	right: 0;
+	top:0;
+	bottom: 0;
+}
+
+#sidebar hr{
+	margin: 0.5em 0;
+	border: 2px solid #B6B6B6;
+}

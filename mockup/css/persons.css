@@ -1,0 +1,44 @@
+/*.--.     Alex Max Tobi          ,-. .--. 
+ : .--'   Project C - Map       .'  :: ,. :
+ : : _ .--.  .--. .-..-..---.    `: :: :: :
+ : :; :: ..'' .; :: :; :: .; `    : :: :; :
+ `.__.':_;  `.__.'`.__.': ._.'    :_;`.__.'
+                        : :                
+                        :_;
+*/
+#persons {
+	position: absolute;
+	width: 250px;
+	margin-top:3.5em;
+	top: 0;
+	bottom: 0;
+	overflow: scroll;
+}
+
+#persons .person {
+	padding: .5em 0;
+	border-bottom: 1px solid #B6B6B6;
+}
+
+#persons .person img {
+	float: left;
+	width: 75px;
+	height: 75px;
+	margin-right: .5em;
+	border: 5px solid #FFA000;
+}
+#persons .person .personinfo {
+	padding: 1em 0;
+	vertical-align: middle;
+	height: 75px;
+}
+#persons .person .name {
+	font-weight: bold;
+	font-size: 1.25em;
+	overflow:hidden;
+	height: 1.25em;
+}
+
+#persons .person .house {
+	color: #727272;
+}
