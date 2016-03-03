@@ -1,0 +1,126 @@
+#map {
+	background: #001;
+	position: fixed;
+	left:0;
+	right: 250px;
+	top:0;
+	bottom: 40px;
+}
+
+#sidebar {
+	background: #CFD8DC;
+	padding: 0.5em;
+	position: fixed;
+	width: 250px;
+	right: 0;
+	top:0;
+	bottom: 0;
+}
+
+#timeline {
+	position: fixed;
+	left:0;
+	right: 250px;
+	bottom:0;
+	height: 40px;
+	background: #455A64;
+	color: #fff;
+}
+
+#sidebar hr{
+	margin: 0.5em 0;
+	border: 2px solid #B6B6B6;
+}
+
+#sidebar .persons {
+	position: absolute;
+width: 250px;
+margin-top:3.5em;
+top: 0;
+bottom: 0;
+overflow: scroll;
+}
+
+#sidebar .person {
+	padding: .5em 0;
+	border-bottom: 1px solid #B6B6B6;
+}
+
+#sidebar .person img {
+	float: left;
+	width: 75px;
+	height: 75px;
+	margin-right: .5em;
+	border: 5px solid #FFA000;
+}
+#sidebar .person .personinfo {
+	padding: 1em 0;
+	vertical-align: middle;
+	height: 75px;
+}
+#sidebar .person .name {
+	font-weight: bold;
+	font-size: 1.25em;
+overflow:hidden;
+height: 1.25em;
+}
+
+#sidebar .person .house {
+	color: #727272;
+}
+
+	.sealabel {
+		font-family: "Lobster Two";
+		font-weight: bold;
+		color: #ccf;
+		text-align: center;
+	}
+	
+	.zoom0 .sealabel{
+		font-size: 5px;
+	}
+	
+	.zoom1 .sealabel{
+		font-size: 10px;
+	}
+	
+	.zoom2 .sealabel{
+		font-size: 20px;
+	}
+	
+	.zoom3 .sealabel{
+		font-size: 40px;
+	}
+	
+	.zoom4 .sealabel{
+		font-size: 80px;
+	}
+	
+	.zoom5 .sealabel{
+		font-size: 160px;
+	}
+	
+	.zoom0 .big {
+		font-size: 10px;
+	}
+	
+	.zoom1 .big {
+		font-size: 20px;
+	}
+	
+	.zoom2 .big {
+		font-size: 40px;
+	}
+	
+	.zoom3 .big{
+		font-size: 80px;
+	}
+	
+	.zoom4 .big {
+		font-size: 160px;
+	}
+	
+	.zoom5 .big {
+		font-size: 320px;
+		opacity: 0.5;
+	}
