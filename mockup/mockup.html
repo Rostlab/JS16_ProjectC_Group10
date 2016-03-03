@@ -9,7 +9,7 @@
 	<!-- Leaflet CSS -->
 	<link rel="stylesheet" href="https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/master/leaflet.css" />
 	<!-- Our Code -->
-	<link rel="stylesheet" href="css/map.css" />
+	<link rel="stylesheet" href="css/main.css" />
 	<!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Bootstrap (depends on jQuery) -->
@@ -18,105 +18,29 @@
 	<script src="https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/master/leaflet.js"></script>
 	<!-- Our Code -->
 	<script src="js/map.js"></script>
+	<script src="js/search.js"></script>
+	<script src="js/persons.js"></script>
+	<script src="js/timeline.js"></script>
 </head>
 <body>
-	<div id="map"></div>
+	<div id="map">
+		<!-- Filled in map.js -->
+	</div>
 	<div id="sidebar">
-		<div class="input-group">
-      <input type="text" class="form-control" placeholder="Search for...">
-      <span class="input-group-btn">
+		<div id="search" class="input-group">
+      		<input type="text" class="form-control" placeholder="Search for...">
+      		<span class="input-group-btn">
         <button class="btn btn-default" type="button">Go!</button>
       </span>
     </div><!-- /input-group -->
 		<hr />
-		<div class="persons">
-			<div class="person">
-				<img src="img/edd.jpg" class="img-circle" />
-				<div class="personinfo">
-					<div class="name">Eddard Stark</div>
-					<div class="house">House Stark</div>
-				</div>
-			</div>
-			<div class="person">
-				<img src="img/robb.jpg" class="img-circle" style="border-color: #F57C00"/>
-				<div class="personinfo">
-					<div class="name">Robb Stark</div>
-					<div class="house">House Stark</div>
-				</div>
-			</div>
-			<div class="person">
-				<img src="img/sansa.jpg" class="img-circle" style="border-color: #CDDC39"/>
-				<div class="personinfo">
-					<div class="name">Sansa Stark</div>
-					<div class="house">House Stark</div>
-				</div>
-			</div>
-			<div class="person">
-				<img src="img/arya.jpg" class="img-circle" style="border-color: #8BC34A"/>
-				<div class="personinfo">
-					<div class="name">Arya Stark</div>
-					<div class="house">House Stark</div>
-				</div>
-			</div>
-			<div class="person">
-				<img src="img/bran.jpg" class="img-circle" style="border-color: #D32F2F"/>
-				<div class="personinfo">
-					<div class="name">Brandon Stark</div>
-					<div class="house">House Stark</div>
-				</div>
-			</div>
-			<div class="person">
-				<img src="img/rickon.jpg" class="img-circle" style="border-color: #536DFE"/>
-				<div class="personinfo">
-					<div class="name">Rickon Stark</div>
-					<div class="house">House Stark</div>
-				</div>
-			</div>
-			<div class="person">
-				<img src="img/jon.jpg" class="img-circle" style="border-color: #512DA8"/>
-				<div class="personinfo">
-					<div class="name">Jon Snow</div>
-					<div class="house">House Stark</div>
-				</div>
-			</div>
-			<div class="person">
-				<img src="img/dummy.jpg" class="img-circle" style="border-color: #009688"/>
-				<div class="personinfo">
-					<div class="name">Daenerys Targaryen</div>
-					<div class="house">House Targaryen</div>
-				</div>
-			</div>
-			<div class="person">
-				<img src="img/dummy.jpg" class="img-circle" style="border-color: #03A9F4"/>
-				<div class="personinfo">
-					<div class="name">Tywin Lannister</div>
-					<div class="house">House Lannister</div>
-				</div>
-			</div>
-			<div class="person">
-				<img src="img/dummy.jpg" class="img-circle" style="border-color: #795548"/>
-				<div class="personinfo">
-					<div class="name">Jaime Lannister</div>
-					<div class="house">House Lannister</div>
-				</div>
-			</div>
-			<div class="person">
-				<img src="img/dummy.jpg" class="img-circle" style="border-color: #E91E63"/>
-				<div class="personinfo">
-					<div class="name">Cersei Lannister</div>
-					<div class="house">House Lannister</div>
-				</div>
-			</div>
-			<div class="person">
-				<img src="img/dummy.jpg" class="img-circle" style="border-color: #FF5722"/>
-				<div class="personinfo">
-					<div class="name">Tyrion Lannister</div>
-					<div class="house">House Lannister</div>
-				</div>
-			</div>
+		<div id="persons">
+			<!-- Filled in persons.js -->
 		</div>
 	</div>
-	<div id="timeline">Timeline</div>
+	<div id="timeline">
+		<!-- Filled in timeline.js -->
+	</div>
 
 
 </body>
