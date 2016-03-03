@@ -12,4 +12,4 @@ main.css includes all different needed CSS files (and avoids merge conflicts)
 @import url("timeline.css");
 @import url("sidebar.css");
 @import url("persons.css");
-@import url("search.css");
+@import url("filter.css");

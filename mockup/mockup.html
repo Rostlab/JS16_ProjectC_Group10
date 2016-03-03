@@ -17,8 +17,9 @@
 	<!-- Leaflet -->
 	<script src="https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/master/leaflet.js"></script>
 	<!-- Our Code -->
+	<script src="js/person-data.js"></script>
 	<script src="js/map.js"></script>
-	<script src="js/search.js"></script>
+	<script src="js/filter.js"></script>
 	<script src="js/persons.js"></script>
 	<script src="js/timeline.js"></script>
 </head>
@@ -27,12 +28,15 @@
 		<!-- Filled in map.js -->
 	</div>
 	<div id="sidebar">
-		<div id="search" class="input-group">
+		<form id="filter">
+		<div class="input-group">
       		<input type="text" class="form-control" placeholder="Search for...">
-      		<span class="input-group-btn">
-        <button class="btn btn-default" type="button">Go!</button>
-      </span>
-    </div><!-- /input-group -->
+    <i class="glyphicon glyphicon-search form-control-feedback"></i>
+	  		<ul id="filter-dropdown" class="dropdown-menu">
+  			</ul>
+    	</div>
+		</form>
+		<!-- /input-group -->
 		<hr />
 		<div id="persons">
 			<!-- Filled in persons.js -->
