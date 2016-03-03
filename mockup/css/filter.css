@@ -6,4 +6,6 @@
                         : :                
                         :_;
 */
-// TODO
+#filter .input-group {
+	width: 100%;
+}
