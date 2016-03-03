@@ -51,7 +51,6 @@ jQuery(function() {
             el.className = el.className.slice(0, -1) + e.zoom;
         }
     });
-    //var r = new L.tileLayer("http://viewers-guide.hbo.com/mapimages/{z}/y{y}x{x}.png", {
     var r = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/{z}/y{y}x{x}.png", {
         minZoom: mapOptions.mapMinZoom,
         maxZoom: mapOptions.mapMaxZoom,
@@ -60,8 +59,25 @@ jQuery(function() {
         noWrap: true,
         attribution: 'Tiles &copy; <a href="http://viewers-guide.hbo.com">HBO</a>'
     });
-
     map.addLayer(r);
+	var markers = new L.layerGroup();
+	map.addLayer(markers);
+	
+	// Delete Button
+	var delCtrl = L.Control.extend(
+	{
+		options: {position: 'topright'},
+		onAdd: function (map) {
+			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom deleteButton');
+			L.DomEvent.disableClickPropagation(c);
+			c.innerHTML = 'x';
+			c.onclick = function(){
+				markers.clearLayers();
+			}
+			return c;
+		},
+	});
+	map.addControl(new delCtrl());
 
     var label = L.divIcon({
         className: 'sealabel big',
@@ -91,7 +107,7 @@ jQuery(function() {
     function onMapClick(e) {
         var marker = new L.marker(e.latlng, {
             draggable: 'true'
-        }).addTo(map);
+        }).addTo(markers);
         var position = e.latlng;
         marker.bindPopup("" + position).openPopup();
         marker.on('dragend', function(event) {
