@@ -15,9 +15,29 @@
 	overflow: scroll;
 }
 
+#persons .person.disabled {
+	opacity: 0.9;
+}
+
+#persons .person.disabled:hover {
+	opacity: 1;
+}
+
+#persons .person.disabled img {
+	border-color: #888 !important;
+	-webkit-filter: grayscale(1);
+	filter: grayscale(100%);
+}
+
+#persons .person.disabled img:hover {
+	-webkit-filter: grayscale(0);
+	filter: grayscale(0);
+}
+
 #persons .person {
 	padding: .5em 0;
 	border-bottom: 1px solid #B6B6B6;
+	transition: all .3s;
 }
 
 #persons .person img {
@@ -26,6 +46,7 @@
 	height: 75px;
 	margin-right: .5em;
 	border: 5px solid #FFA000;
+	transition: all .3s;
 }
 #persons .person .personinfo {
 	padding: 1em 0;

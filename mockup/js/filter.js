@@ -21,7 +21,8 @@ jQuery(function () {
 		if(s.length) {
 		s.map(function(p) {
 			var img = p.img || defaultPersonImage;
-			l.append('<li><a href="#"><img src="'+img+'" class="img-circle"/>'+p.name+'</a></li>');
+			var item = jQuery.parseHTML('<li><a href="#"><img src="'+img+'" class="img-circle"/>'+p.name+'</a></li>');
+			l.append(item);
 		});
 		} else {
 			l.append('<li class="dropdown-header">Nothing found</li>');
@@ -31,9 +32,10 @@ jQuery(function () {
 		var s = f.val().toLowerCase();
 		var o1 = []; // Beginnt mit
 		var o2 = []; // Ist enthalten
-		personList.map(function(p) {
+		personList.map(function(p,i) {
 			var pos = p.name.toLowerCase().indexOf(s);
 			if(pos != -1) {
+				p.index = i;
 				(pos === 0 ? o1 : o2).push(p);
 			}
 		});
