@@ -12,10 +12,17 @@ jQuery(function() {
 	personList.map(function(p,i){
 		var img = p.img || defaultPersonImage;
 		color = colors[i%colors.length];
-		$("#persons").append('<div class="person"><img src="'+img+'" class="img-circle" '+
-			'style="border-color:'+color+'"/>'+
+		$("#persons").append('<div class="person disabled" id="person'+i+'"><img src="'+img+'"'+
+			' class="img-circle" style="border-color:'+color+'"/>'+
 			'<div class="personinfo"><div class="name">'+p.name+'</div>'+
 			'<div class="house">'+p.house+'</div></div></div>');
+		$("#person"+i).click(function (e) {
+			var el = $(e.target);
+			if(!el.hasClass('person')) {
+				el = el.parents('.person');
+			}
+			el.toggleClass('disabled');
+		});
 	});
 			
 });
