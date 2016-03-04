@@ -60,39 +60,41 @@ jQuery(function() {
         attribution: 'Tiles &copy; <a href="http://viewers-guide.hbo.com">HBO</a>'
     });
     map.addLayer(r);
-	var markers = new L.layerGroup();
+	markers = new L.layerGroup();
+	cityMarkers = [];
 	map.addLayer(markers);
 	
-	// Delete Button
-	var delCtrl = L.Control.extend(
+	// JSON Out Button
+	var jsonCtrl = L.Control.extend(
 	{
 		options: {position: 'topright'},
 		onAdd: function (map) {
-			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom deleteButton');
+			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-floppy-save');
 			L.DomEvent.disableClickPropagation(c);
-			c.innerHTML = 'x';
 			c.onclick = function(){
-				markers.clearLayers();
+				$('#jsonModal').modal('show');
+				$('#jsonArea').val(JSON.stringify(cityInfo));
 			};
 			return c;
 		},
 	});
-	map.addControl(new delCtrl());
-
+	map.addControl(new jsonCtrl());
+	
     function onMapClick(e) {
 	    if(curCity == -1) {
 		    return;
 	    }
 	    var city = cityInfo[curCity];
-	    if(city.marker) {
-		    var marker = city.marker;
+	    var marker = cityMarkers[curCity];
+	    if(marker) {
 		    marker.setLatLng(e.latlng);
 	    } else {
-		    var marker = city.marker = new L.marker(e.latlng, {
+		    var marker = cityMarkers[curCity] = new L.marker(e.latlng, {
             	draggable: 'true'
         	}).bindPopup().addTo(markers);
 	    }
         var position = e.latlng;
+	    city.coord = [position.lat, position.lng];
         marker.setPopupContent("<h4>"+city.name+"</h4>" + position).openPopup();
         marker.on('dragend', function(event) {
             var position = marker.getLatLng();

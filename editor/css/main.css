@@ -45,17 +45,23 @@
 
 #sidebar li {
 	padding: 5px 5px;
-	border-bottom: 1px solid #ddd
+	border-bottom: 1px solid #ddd;
+	border-left: 3px solid #d00;
+}
+
+#sidebar li.onmap {
+	border-left: 3px solid #0d0;
 }
 
 #sidebar li:nth-of-type(odd) {
 	background: #eee;
 }
 
-#map .deleteButton {
+#map .leaflet-control-custom {
 	width: 30px;
 	height: 30px;
 	background-color: #fff;
+	padding: 3px;
 	font-size: 20px;
 	font-weight: bold;
 	text-align: center;
