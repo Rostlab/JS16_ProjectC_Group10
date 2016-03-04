@@ -98,6 +98,7 @@ jQuery(function() {
         marker.setPopupContent("<h4>"+city.name+"</h4>" + position).openPopup();
         marker.on('dragend', function(event) {
             var position = marker.getLatLng();
+			city.coord = [position.lat, position.lng];
 			marker.setPopupContent("<h4>"+city.name+"</h4>" + position).openPopup();
         });
     }
