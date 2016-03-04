@@ -73,7 +73,7 @@ jQuery(function() {
 			c.innerHTML = 'x';
 			c.onclick = function(){
 				markers.clearLayers();
-			}
+			};
 			return c;
 		},
 	});
@@ -87,14 +87,14 @@ jQuery(function() {
         icon: label
     }).addTo(map);
 
-    var label = L.divIcon({
+    label = L.divIcon({
         className: 'sealabel big',
         html: 'The&nbsp;Summer&nbsp;Sea'
     });
     L.marker([-23, -90], {
         icon: label
     }).addTo(map);
-    var label = L.divIcon({
+    label = L.divIcon({
         className: 'sealabel',
         html: 'Sea&nbsp;of&nbsp;Dorne'
     });
@@ -114,6 +114,6 @@ jQuery(function() {
             var position = marker.getLatLng();
             marker.unbindPopup().bindPopup("" + position).openPopup();
         });
-    };
+    }
     map.on('click', onMapClick);
 });

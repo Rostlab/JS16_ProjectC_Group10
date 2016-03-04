@@ -33,7 +33,9 @@ jQuery(function () {
 		var o2 = []; // Ist enthalten
 		personList.map(function(p) {
 			var pos = p.name.toLowerCase().indexOf(s);
-			(pos == -1) || (pos == 0 ? o1 : o2).push(p);
+			if(pos != -1) {
+				(pos === 0 ? o1 : o2).push(p);
+			}
 		});
 		return o1.concat(o2);
 	}
