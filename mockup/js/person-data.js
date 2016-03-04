@@ -16,8 +16,8 @@ personList = [
 	{name:'Rickon Stark', img:'img/persons/rickon.jpg', house:'House Stark'},
 	{name:'Jon Snow', img:'img/persons/jon.jpg', house:'House Stark'},
 	{name:'Daenerys Targaryen', img: 'img/persons/daenerys.jpg', house:'House Targaryen'},
-	{name:'Tywin Lannister', img:'', house:'House Lannister'},
-	{name:'Jaime Lannister', img:'', house:'House Lannister'},
-	{name:'Cersei Lannister', img:'', house:'House Lannister'},
-	{name:'Tyrion Lannister', img:'', house:'House Lannister'}
+	{name:'Tywin Lannister', img:'img/persons/tywin.png', house:'House Lannister'},
+	{name:'Jaime Lannister', img:'img/persons/jaime.png', house:'House Lannister'},
+	{name:'Cersei Lannister', img:'img/persons/cersei.jpeg', house:'House Lannister'},
+	{name:'Tyrion Lannister', img:'img/persons/tyrion.png', house:'House Lannister'}
 ];
