@@ -62,7 +62,7 @@ jQuery(function() {
     map.addLayer(r);
 	var markers = new L.layerGroup();
 	map.addLayer(markers);
-	
+	//map.zoomIn();
 	// Delete Button
 	var delCtrl = L.Control.extend(
 	{
@@ -101,19 +101,33 @@ jQuery(function() {
     L.marker([17.5, -92], {
         icon: label
     }).addTo(map);
+    
+    
+    var fort = L.divIcon({
+        className: 'fort-label'
+    });
+    cityInfo.map(function (city) {
+   		L.marker(city.coord, {
+        	icon: fort
+    	}).bindPopup(city.name).addTo(map);
+    });
 
 
-
+	var marker;
     function onMapClick(e) {
-        var marker = new L.marker(e.latlng, {
-            draggable: 'true'
-        }).addTo(markers);
+    	if(!marker) {
+        	marker = new L.marker(e.latlng, {
+        	    draggable: 'true'
+        	}).bindPopup().addTo(markers);
+        	marker.on('dragend', function(event) {
+            	var position = marker.getLatLng();
+            	marker.setPopupContent("" + position).openPopup();
+        	});
+        } else {
+        	marker.setLatLng(e.latlng);
+        }
         var position = e.latlng;
-        marker.bindPopup("" + position).openPopup();
-        marker.on('dragend', function(event) {
-            var position = marker.getLatLng();
-            marker.unbindPopup().bindPopup("" + position).openPopup();
-        });
+        marker.setPopupContent("" + position).openPopup();
     }
     map.on('click', onMapClick);
 });
