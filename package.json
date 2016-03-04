@@ -4,7 +4,7 @@
   "description": "Project C (Globetrotters) of Group 10, JavaScript Seminar 2016, RostLab",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt"
   },
   "repository": {
     "type": "git",
