@@ -10,10 +10,10 @@ jQuery(function () {
 	var f = $('#filter input'); // Filter Element
 	var l = $('#filter-dropdown'); // Dropdown
 	f.focusin(function () {
-		l.css('display', 'block');
+		l.fadeIn();
 	});
 	f.focusout(function () {
-		l.css('display', 'none');
+		// l.hide();
 	});
 	f.keyup(function() {
 		var s = search();
@@ -21,7 +21,11 @@ jQuery(function () {
 		if(s.length) {
 		s.map(function(p) {
 			var img = p.img || defaultPersonImage;
-			var item = jQuery.parseHTML('<li><a href="#"><img src="'+img+'" class="img-circle"/>'+p.name+'</a></li>');
+			var item = jQuery('<li><a href="#"><img src="'+img+'" class="img-circle"/>'+p.name+'</a></li>').click(function(e) {
+				$('#person'+p.index).trigger('click', {target:$('#person'+p.index)});
+				l.fadeOut();
+				return false;
+			});
 			l.append(item);
 		});
 		} else {
