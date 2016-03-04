@@ -1,0 +1,33 @@
+{
+  "name": "globetrotters_group10",
+  "version": "0.0.1",
+  "description": "Project C (Globetrotters) of Group 10, JavaScript Seminar 2016, RostLab",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rostlab/JS16_ProjectC_Group10.git"
+  },
+  "keywords": [
+    "rostlab",
+    "got",
+    "group10",
+    "tum",
+    "seminar",
+    "globetrotters"
+  ],
+  "author": "Group 10",
+  "license": "GNU",
+  "bugs": {
+    "url": "https://github.com/Rostlab/JS16_ProjectC_Group10/issues"
+  },
+  "homepage": "https://github.com/Rostlab/JS16_ProjectC_Group10#readme",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-qunit": "^1.0.1",
+    "grunt-contrib-watch": "^0.6.1"
+  }
+}
