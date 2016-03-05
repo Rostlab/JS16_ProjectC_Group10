@@ -8,19 +8,19 @@
 */
 jQuery(function() {
     L.CRS.CustomZoom = L.extend({}, L.CRS.EPSG3857, {
-        scale: function(z) {
-            var f;
-            switch (z) {
+        scale: function(zoom) {
+            var factor;
+            switch (zoom) {
                 case 4:
-                    f = 2.166;
+                    factor = 2.166;
                     break;
                 case 5:
-                    f = 2.0915;
+                    factor = 2.0915;
                     break;
                 default:
-                    f = 2;
+                    factor = 2;
             }
-            return 256 * Math.pow(f, z);
+            return 256 * Math.pow(factor, zoom);
         }
     });
     var map = L.map(document.getElementById('map'), {
