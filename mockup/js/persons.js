@@ -14,19 +14,17 @@ jQuery(function() {
 		color = colors[i%colors.length]; // Iterate through the colors
 		// Make new elem
 		var item = $('<div class="person disabled" id="person'+i+'"><img src="'+img+'"'+
-			' class="img-circle" style="border-color:'+color+'"/>'+
-			'<div class="personinfo"><div class="name">'+p.name+'</div>'+
-			'<div class="house">'+p.house+'+
-			'<div class="container">
-			<a href="#" title="Dismissible popover" data-toggle="popover" data-trigger="focus" data-content="Coming soon...">Click me</a> 
-			</div></div></div></div>');
-		
-		
-		<script>
+		' class="img-circle" style="border-color:'+color+'"/>'+
+		'<div class="personinfo"><div class="name">'+p.name+'</div>'+
+		'<div class="house">'+p.house+'</div>'+
+		'<div class="container"><a href="#" title="Dismissible popover" data-toggle="popover" data-trigger="focus" data-content="Coming soon...">Click me</a>' 
+		'</div></div></div>');
+
 		$(document).ready(function(){
     		$('[data-toggle="popover"]').popover();   
 		});
-		</script>
+
+		
 		item.click(function (e) { // Bind the click listener
 			var el = $(e.target); // Clicked Element
 			if(!el.hasClass('person')) {
