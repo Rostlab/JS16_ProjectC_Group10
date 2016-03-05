@@ -8,6 +8,9 @@ The known GoT world is vast and stretches over the three continents of Westeros,
     - jQuery
     - Bootstrap
 
+# WORK IN PROGRESS
+    - Editor for map
+
 ## How to run the tests
 Install node modules:
 ```
