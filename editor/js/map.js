@@ -65,11 +65,26 @@ jQuery(function() {
 	map.addLayer(markers);
 	
 	// JSON Out Button
+	var editCtrl = L.Control.extend(
+	{
+		options: {position: 'topright'},
+		onAdd: function (map) {
+			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-edit');
+			L.DomEvent.disableClickPropagation(c);
+			c.onclick = function(){
+				$('#editModal').modal('show');
+			};
+			return c;
+		},
+	});
+	map.addControl(new editCtrl());
+	
+	// JSON Out Button
 	var jsonCtrl = L.Control.extend(
 	{
 		options: {position: 'topright'},
 		onAdd: function (map) {
-			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-floppy-save');
+			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-share');
 			L.DomEvent.disableClickPropagation(c);
 			c.onclick = function(){
 				$('#jsonModal').modal('show');
@@ -95,11 +110,13 @@ jQuery(function() {
 	    }
         var position = e.latlng;
 	    city.coord = [position.lat, position.lng];
-        marker.setPopupContent("<h4>"+city.name+"</h4>" + position).openPopup();
+        marker.setPopupContent("<h4>"+city.name+'</h4><button type="button" class="btn btn-danger" '+
+        	'onclick="">Don\'t Save</button><button type="button" class="btn btn-success" '+
+        	'>Save</button>').openPopup();
         marker.on('dragend', function(event) {
             var position = marker.getLatLng();
 			city.coord = [position.lat, position.lng];
-			marker.setPopupContent("<h4>"+city.name+"</h4>" + position).openPopup();
+			marker.openPopup();
         });
     }
     map.on('click', onMapClick);
