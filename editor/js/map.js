@@ -154,7 +154,7 @@ jQuery(function() {
 		});
 	});
 	
-    /*function onMapClick(e) {
+    function onMapClick(e) {
 	    if(curCity == -1) {
 		    return;
 	    }
@@ -178,5 +178,5 @@ jQuery(function() {
 			marker.openPopup();
         });
     }
-    map.on('click', onMapClick);*/
+    map.on('click', onMapClick);
 });
