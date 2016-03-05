@@ -17,11 +17,11 @@
 	<!-- Leaflet -->
 	<script src="https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/master/leaflet.js"></script>
 	<!-- Our Code -->
-	<script src="js/person-data.js"></script>
+	<script src="js/character-data.js"></script>
 	<script src="js/map-functions-data.js"></script>
 	<script src="js/map.js"></script>
 	<script src="js/filter.js"></script>
-	<script src="js/persons.js"></script>
+	<script src="js/characters.js"></script>
 	<script src="js/timeline.js"></script>
 </head>
 <body>
@@ -39,14 +39,30 @@
 		</form>
 		<!-- /input-group -->
 		<hr />
-		<div id="persons">
-			<!-- Filled in persons.js -->
+		<div id="characters">
+			<!-- Filled in characters.js -->
 		</div>
 	</div>
 	<div id="timeline">
 		<!-- Filled in timeline.js -->
 	</div>
-
+	
+	<!-- Dynamisches Modal -->
+<div class="modal fade" id="dynModal" tabindex="-1" role="dialog" aria-labelledby="dynModalLabel">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h3 class="modal-title" id="dynModalLabel"></h3>
+			</div>
+			<div class="modal-body"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+			</div>
+		</div>
+	</div>
+</div>
+	
 </body>
 </html>
 
