@@ -7,64 +7,48 @@
                         :_;
 */
 jQuery(function() {
-    var mapOptions = {
-        defaultCoords: [0, 0],
-        mapMinZoom: 0,
-        mapMaxZoom: 5
-    };
     L.CRS.CustomZoom = L.extend({}, L.CRS.EPSG3857, {
-        scale: function(e) {
-            var t;
-            switch (e) {
+        scale: function(zoom) {
+            var factor;
+            switch (zoom) {
                 case 4:
-                    t = 2.166;
+                    factor = 2.166;
                     break;
                 case 5:
-                    t = 2.0915;
+                    factor = 2.0915;
                     break;
                 default:
-                    t = 2;
+                    factor = 2;
             }
-            return 256 * Math.pow(t, e);
+            return 256 * Math.pow(factor, zoom);
         }
     });
-    var n = {
-        maxZoom: mapOptions.mapMaxZoom,
-        minZoom: mapOptions.mapMinZoom,
+    var map = L.map(document.getElementById('map'), {
         tapTolerance: 20,
-        crs: L.CRS.CustomZoom,
-        attributionControl: true
-    };
-
-    var map = L.map(document.getElementById('map'), n);
+        crs: L.CRS.CustomZoom
+    });
     var bounds = new L.LatLngBounds(L.latLng(85,-180), L.latLng(-43.85, 171.34));
 
 
     map.options.mapBounds = bounds;
     map.fitBounds(bounds);
     map.setMaxBounds(bounds);
-    map.on('zoomanim', function(e) { // Add a class to alter the labels
-        var el = document.getElementById('map');
-        if (el.className[el.className.length - 2] != 'm') {
-            el.className += " zoom" + e.zoom;
-        } else {
-            el.className = el.className.slice(0, -1) + e.zoom;
-        }
-    });
+    
     var r = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/{z}/y{y}x{x}.png", {
-        minZoom: mapOptions.mapMinZoom,
-        maxZoom: mapOptions.mapMaxZoom,
+        minZoom: 0,
+        maxZoom: 5,
         bounds: bounds,
         errorTileUrl: 'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png',
         noWrap: true,
         attribution: 'Tiles &copy; <a href="http://viewers-guide.hbo.com">HBO</a>'
     });
     map.addLayer(r);
+	
 	markers = new L.layerGroup();
 	cityMarkers = [];
 	map.addLayer(markers);
 	
-	// JSON Out Button
+	// Edit Button
 	var editCtrl = L.Control.extend(
 	{
 		options: {position: 'topright'},
@@ -72,14 +56,18 @@ jQuery(function() {
 			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-edit');
 			L.DomEvent.disableClickPropagation(c);
 			c.onclick = function(){
-				$('#editModal').modal('show');
+				if(gotDB.curCity == -1) {
+					alert("Please select city");
+				} else {
+					$('#editModal').modal('show');
+				}
 			};
 			return c;
 		},
 	});
 	map.addControl(new editCtrl());
 	
-	// JSON Out Button
+	// Save to JSON Button
 	var jsonCtrl = L.Control.extend(
 	{
 		options: {position: 'topright'},
@@ -88,14 +76,85 @@ jQuery(function() {
 			L.DomEvent.disableClickPropagation(c);
 			c.onclick = function(){
 				$('#jsonModal').modal('show');
-				$('#jsonArea').val(JSON.stringify(cityInfo));
+				$('#jsonArea').val(JSON.stringify(gotDB.getAll()));
 			};
 			return c;
 		},
 	});
 	map.addControl(new jsonCtrl());
 	
-    function onMapClick(e) {
+	
+	// BEGIN FILTER PART
+	
+	var f = $('#filter input'); // Filter Element
+	var l = $('#filter-dropdown'); // Dropdown
+	f.keyup(function() {
+		var s = f.val().toLowerCase();
+		$('#sidebar li').each(function(i, el) {
+			el = $(el);
+			if(el.text().toLowerCase().indexOf(s) == -1) {
+				el.hide();
+			} else {
+				el.show();
+			}
+		});
+	});
+	
+	$('#sidebar').append('<ul></ul>');
+	ul = $('#sidebar ul');
+	gotDB.getAll().map(function(city, i) {
+		var x = "";
+		if(city.coord) {
+			addMarker(city, i);
+        	x = ' class="onmap"';
+		}
+		var li = $('<li'+x+'>'+city.name+'</li>').click(function () {
+			gotDB.setCurrent(i);
+		});
+		ul.append(li);
+	});
+	
+	function addMarker(city, i) {
+		cityMarkers[i] = new L.marker(city.coord, {
+            	draggable: 'true'
+        }).bindPopup(function() {
+	        return makePopup(city, i)
+        }).on('click', function() {
+	        gotDB.setCurrent(i);
+        }).addTo(markers);
+	}
+	
+	function makePopup(city, i) {
+		var c = $('<div><h4>'+city.name+'</h4></div>');
+		c.append($('<button type="button" class="btn btn-danger">Don\'t Save</button').click(function() {
+			cityMarkers[i].setLatLng(gotDB.getCurrent().coord);
+		}));
+		c.append($('<button type="button" class="btn btn-warning">Bearbeiten</button').click(function() {
+			$('#editModal').modal('show');
+		}));
+		c.append($('<button type="button" class="btn btn-success">Save</button').click(function() {
+			gotDB.updateCurrent({"coord":cityMarkers[i].getLatLng()});
+			cityMarkers[i].closePopup();
+		}));
+		return c.get(0);
+	}
+	
+	$('#editModal').on('show.bs.modal', function () {
+		var city = gotDB.getCurrent();
+		$('#name').val(city.name || "");
+		$('#type').val(city.type || "others");
+		$('#prio').val(city.prio || "6");
+	});
+	
+	$('#saveEditModal').click(function () {
+		gotDB.updateCurrent({
+			"name":$('#name').val(),
+			"type":$('#type').val(),
+			"prio":$('#prio').val()
+		});
+	});
+	
+    /*function onMapClick(e) {
 	    if(curCity == -1) {
 		    return;
 	    }
@@ -119,5 +178,5 @@ jQuery(function() {
 			marker.openPopup();
         });
     }
-    map.on('click', onMapClick);
+    map.on('click', onMapClick);*/
 });
