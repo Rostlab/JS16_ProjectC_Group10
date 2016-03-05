@@ -9,20 +9,22 @@
 jQuery(function() {
 	var colors = ['#FFA000', '#F57C00', '#CDDC39', '#8BC34A', '#D32F2F', '#536DFE', '#512DA8', '#009688', 
 		'#03A9F4', '#795548', '#E91E63', '#FF5722'];
-	personList.map(function(p,i){
-		var img = p.img || defaultPersonImage;
-		color = colors[i%colors.length];
-		$("#persons").append('<div class="person disabled" id="person'+i+'"><img src="'+img+'"'+
+	personList.map(function(p,i){ // For every person
+		var img = p.img || defaultPersonImage; // Image defined or use default
+		color = colors[i%colors.length]; // Iterate through the colors
+		// Make new elem
+		var item = $('<div class="person disabled" id="person'+i+'"><img src="'+img+'"'+
 			' class="img-circle" style="border-color:'+color+'"/>'+
 			'<div class="personinfo"><div class="name">'+p.name+'</div>'+
 			'<div class="house">'+p.house+'</div></div></div>');
-		$("#person"+i).click(function (e) {
-			var el = $(e.target);
+		
+		item.click(function (e) { // Bind the click listener
+			var el = $(e.target); // Clicked Element
 			if(!el.hasClass('person')) {
-				el = el.parents('.person');
+				el = el.parents('.person'); // Get the container	
 			}
-			el.toggleClass('disabled');
+			el.toggleClass('disabled'); // Toggle the class name (de-)activate it
 		});
-	});
-			
+		$("#persons").append(item);// Add it to the list
+	});	
 });
