@@ -17,8 +17,8 @@
 	<!-- Leaflet -->
 	<script src="https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/master/leaflet.js"></script>
 	<!-- Our Code -->
+	<script src="js/mapData.js"></script>
 	<script src="js/map.js"></script>
-	<script src="js/filter.js"></script>
 </head>
 <body>
 	<div id="map">
@@ -39,17 +39,17 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="modalLabel">Download JSON </h4>
+        <h4 class="modal-title" id="modalLabel">Download JSON</h4>
       </div>
       <div class="modal-body">
         <form>
           <div class="form-group">
-	          <textarea id="jsonArea"></textarea>
+	          <textarea id="jsonArea" class="form-control" rows="15"></textarea>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -66,23 +66,36 @@
         <form>
   		  <div class="form-group">
     		<label for="name">Name</label>
-    		<input type="text" class="form-control" id="name" placeholder="City Name">
+    		<input type="text" class="form-control" id="name" placeholder="City Name" />
   		  </div>
   		  <div class="form-group">
     		<label for="type">Type</label>
     		<select name="type" id="type" class="form-control">
-    			<option>City</option>
-    			<option>Town</option>
-    			<option>Castle</option>
-    			<option>Ruin</option>
-    			<option>Other</option>
+    			<option value="city">City</option>
+    			<option value="town">Town</option>
+    			<option value="castle">Castle</option>
+    			<option value="ruin">Ruin</option>
+    			<option value="other">Other</option>
+    		</select>
+  		  </div>
+  		  <div class="form-group">
+    		<label for="prio">Priority</label>
+    		<select name="prio" id="prio" class="form-control">
+    			<option value="0">Zoom 0</option>
+    			<option value="1">Zoom 1</option>
+    			<option value="2">Zoom 2</option>
+    			<option value="3">Zoom 3</option>
+    			<option value="4">Zoom 4</option>
+    			<option value="5">Zoom 5</option>
+    			<option value="6">Zoom 6</option>
     		</select>
   		  </div>
 		</form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Don't Save</button>
-        <button type="button" class="btn btn-success" data-dismiss="modal">Save</button>
+        <!--<button type="button" class="btn btn-danger pull-left" data-dismiss="modal" id="deleteEditModal">Delete Point</button>-->
+        <button type="button" class="btn btn-warning" data-dismiss="modal">Don't Save</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="saveEditModal">Save</button>
       </div>
     </div>
   </div>

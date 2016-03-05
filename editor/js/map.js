@@ -7,64 +7,48 @@
                         :_;
 */
 jQuery(function() {
-    var mapOptions = {
-        defaultCoords: [0, 0],
-        mapMinZoom: 0,
-        mapMaxZoom: 5
-    };
     L.CRS.CustomZoom = L.extend({}, L.CRS.EPSG3857, {
-        scale: function(e) {
-            var t;
-            switch (e) {
+        scale: function(z) {
+            var f;
+            switch (z) {
                 case 4:
-                    t = 2.166;
+                    f = 2.166;
                     break;
                 case 5:
-                    t = 2.0915;
+                    f = 2.0915;
                     break;
                 default:
-                    t = 2;
+                    f = 2;
             }
-            return 256 * Math.pow(t, e);
+            return 256 * Math.pow(f, z);
         }
     });
-    var n = {
-        maxZoom: mapOptions.mapMaxZoom,
-        minZoom: mapOptions.mapMinZoom,
+    var map = L.map(document.getElementById('map'), {
         tapTolerance: 20,
-        crs: L.CRS.CustomZoom,
-        attributionControl: true
-    };
-
-    var map = L.map(document.getElementById('map'), n);
+        crs: L.CRS.CustomZoom
+    });
     var bounds = new L.LatLngBounds(L.latLng(85,-180), L.latLng(-43.85, 171.34));
 
 
     map.options.mapBounds = bounds;
     map.fitBounds(bounds);
     map.setMaxBounds(bounds);
-    map.on('zoomanim', function(e) { // Add a class to alter the labels
-        var el = document.getElementById('map');
-        if (el.className[el.className.length - 2] != 'm') {
-            el.className += " zoom" + e.zoom;
-        } else {
-            el.className = el.className.slice(0, -1) + e.zoom;
-        }
-    });
+    
     var r = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/{z}/y{y}x{x}.png", {
-        minZoom: mapOptions.mapMinZoom,
-        maxZoom: mapOptions.mapMaxZoom,
+        minZoom: 0,
+        maxZoom: 5,
         bounds: bounds,
         errorTileUrl: 'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png',
         noWrap: true,
         attribution: 'Tiles &copy; <a href="http://viewers-guide.hbo.com">HBO</a>'
     });
     map.addLayer(r);
+	
 	markers = new L.layerGroup();
 	cityMarkers = [];
 	map.addLayer(markers);
 	
-	// JSON Out Button
+	// Edit Button
 	var editCtrl = L.Control.extend(
 	{
 		options: {position: 'topright'},
@@ -72,14 +56,18 @@ jQuery(function() {
 			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-edit');
 			L.DomEvent.disableClickPropagation(c);
 			c.onclick = function(){
-				$('#editModal').modal('show');
+				if(curCity == -1) {
+					alert("Please select city");
+				} else {
+					$('#editModal').modal('show');
+				}
 			};
 			return c;
 		},
 	});
 	map.addControl(new editCtrl());
 	
-	// JSON Out Button
+	// Save to JSON Button
 	var jsonCtrl = L.Control.extend(
 	{
 		options: {position: 'topright'},
@@ -95,7 +83,77 @@ jQuery(function() {
 	});
 	map.addControl(new jsonCtrl());
 	
-    function onMapClick(e) {
+	
+	// BEGIN FILTER PART
+	
+	var f = $('#filter input'); // Filter Element
+	var l = $('#filter-dropdown'); // Dropdown
+	f.keyup(function() {
+		var s = f.val().toLowerCase();
+		$('#sidebar li').each(function(i, el) {
+			el = $(el);
+			if(el.text().toLowerCase().indexOf(s) == -1) {
+				el.hide();
+			} else {
+				el.show();
+			}
+		});
+	});
+	
+	$('#sidebar').append('<ul></ul>');
+	ul = $('#sidebar ul');
+	cityInfo.map(function(city, i) {
+		var x = "";
+		if(city.coord) {
+			addMarker(city, i);
+        	x = ' class="onmap"';
+		}
+		var li = $('<li'+x+'>'+city.name+'</li>').click(function () {
+			curCity = i;
+		});
+		ul.append(li);
+	});
+	
+	function addMarker(city, i) {
+		cityMarkers[i] = new L.marker(city.coord, {
+            	draggable: 'true'
+        }).bindPopup(function() {
+	        return makePopup(city, i)
+        }).on('click', function() {
+	        curCity = i;
+        }).addTo(markers);
+	}
+	
+	function makePopup(city, i) {
+		var c = $('<div><h4>'+city.name+'</h4></div>');
+		c.append($('<button type="button" class="btn btn-danger">Don\'t Save</button').click(function() {
+			cityMarkers[i].setLatLng(cityInfo[i].coord);
+		}));
+		c.append($('<button type="button" class="btn btn-warning">Bearbeiten</button').click(function() {
+			$('#editModal').modal('show');
+		}));
+		c.append($('<button type="button" class="btn btn-success">Save</button').click(function() {
+			cityInfo[i].coord = cityMarkers[i].getLatLng();
+			cityMarkers[i].closePopup();
+		}));
+		return c.get(0);
+	}
+	
+	$('#editModal').on('shown.bs.modal', function () {
+		var city = cityInfo[curCity];
+		$('#name').val(city.name || "");
+		$('#type').val(city.type || "others");
+		$('#prio').val(city.prio || "6");
+	});
+	
+	$('#saveEditModal').click(function () {
+		var city = cityInfo[curCity];
+		city.name = $('#name').val();
+		city.type = $('#type').val();
+		city.prio = $('#prio').val();
+	});
+	
+    /*function onMapClick(e) {
 	    if(curCity == -1) {
 		    return;
 	    }
@@ -119,5 +177,5 @@ jQuery(function() {
 			marker.openPopup();
         });
     }
-    map.on('click', onMapClick);
+    map.on('click', onMapClick);*/
 });
