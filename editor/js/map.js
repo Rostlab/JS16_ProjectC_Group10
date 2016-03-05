@@ -43,6 +43,16 @@ jQuery(function() {
         attribution: 'Tiles &copy; <a href="http://viewers-guide.hbo.com">HBO</a>'
     });
     map.addLayer(r);
+    
+    var labels = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/labels/{z}/y{y}x{x}.png", {
+        minZoom: 4,
+        maxZoom: 5,
+        bounds: bounds,
+        errorTileUrl: 'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png',
+        noWrap: true,
+        attribution: 'Tiles &copy; <a href="http://viewers-guide.hbo.com">HBO</a>'
+    });
+    map.addLayer(labels);
 	
 	markers = new L.layerGroup();
 	cityMarkers = [];
