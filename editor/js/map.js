@@ -56,7 +56,7 @@ jQuery(function() {
 			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-edit');
 			L.DomEvent.disableClickPropagation(c);
 			c.onclick = function(){
-				if(curCity == -1) {
+				if(gotDB.curCity == -1) {
 					alert("Please select city");
 				} else {
 					$('#editModal').modal('show');
@@ -76,7 +76,7 @@ jQuery(function() {
 			L.DomEvent.disableClickPropagation(c);
 			c.onclick = function(){
 				$('#jsonModal').modal('show');
-				$('#jsonArea').val(JSON.stringify(cityInfo));
+				$('#jsonArea').val(JSON.stringify(gotDB.getAll()));
 			};
 			return c;
 		},
@@ -102,14 +102,14 @@ jQuery(function() {
 	
 	$('#sidebar').append('<ul></ul>');
 	ul = $('#sidebar ul');
-	cityInfo.map(function(city, i) {
+	gotDB.getAll().map(function(city, i) {
 		var x = "";
 		if(city.coord) {
 			addMarker(city, i);
         	x = ' class="onmap"';
 		}
 		var li = $('<li'+x+'>'+city.name+'</li>').click(function () {
-			curCity = i;
+			gotDB.setCurrent(i);
 		});
 		ul.append(li);
 	});
@@ -120,37 +120,38 @@ jQuery(function() {
         }).bindPopup(function() {
 	        return makePopup(city, i)
         }).on('click', function() {
-	        curCity = i;
+	        gotDB.setCurrent(i);
         }).addTo(markers);
 	}
 	
 	function makePopup(city, i) {
 		var c = $('<div><h4>'+city.name+'</h4></div>');
 		c.append($('<button type="button" class="btn btn-danger">Don\'t Save</button').click(function() {
-			cityMarkers[i].setLatLng(cityInfo[i].coord);
+			cityMarkers[i].setLatLng(gotDB.getCurrent().coord);
 		}));
 		c.append($('<button type="button" class="btn btn-warning">Bearbeiten</button').click(function() {
 			$('#editModal').modal('show');
 		}));
 		c.append($('<button type="button" class="btn btn-success">Save</button').click(function() {
-			cityInfo[i].coord = cityMarkers[i].getLatLng();
+			gotDB.updateCurrent({"coord":cityMarkers[i].getLatLng()});
 			cityMarkers[i].closePopup();
 		}));
 		return c.get(0);
 	}
 	
-	$('#editModal').on('shown.bs.modal', function () {
-		var city = cityInfo[curCity];
+	$('#editModal').on('show.bs.modal', function () {
+		var city = gotDB.getCurrent();
 		$('#name').val(city.name || "");
 		$('#type').val(city.type || "others");
 		$('#prio').val(city.prio || "6");
 	});
 	
 	$('#saveEditModal').click(function () {
-		var city = cityInfo[curCity];
-		city.name = $('#name').val();
-		city.type = $('#type').val();
-		city.prio = $('#prio').val();
+		gotDB.updateCurrent({
+			"name":$('#name').val(),
+			"type":$('#type').val(),
+			"prio":$('#prio').val()
+		});
 	});
 	
     /*function onMapClick(e) {
