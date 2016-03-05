@@ -23,14 +23,18 @@ jQuery(function() {
 			var a = $(e.relatedTarget); // Make Short for Caller
 			var t = a.attr('title'); // Title 
 			var tEl = $('#dynModal .modal-header'); // Header Container
-			t && tEl.show() && $('#dynModalLabel').text(t) || tEl.hide(); // Fill or Hide
-		
+			if (t && tEl.show()) { // Fill or Hide
+			 $('#dynModalLabel').text(t);
+			} else {
+			 tEl.hide();
+			}
+			
 			var bEl = $('#dynModal .modal-body'); // Body Container
 			bEl.html("<span class='fa fa-spin fa-cog fa-5x'></span>").addClass('text-center'); // Spinner
 			bEl.load(a.attr('href'), function(r,c) {
 			//TODO: funktion die es aus datenbank zieht muss noch geschrieben werden
 				if(c!='error'){bEl.removeClass('text-center');} else {
-					bEl.html("<span class='fa fa-exclamation-triangle fa-5x text-danger'></span>")
+					bEl.html("<span class='fa fa-exclamation-triangle fa-5x text-danger'></span>");
 				}
 			});// Load when URL
 		});
