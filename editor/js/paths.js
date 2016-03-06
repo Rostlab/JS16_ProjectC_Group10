@@ -8,19 +8,54 @@
 */
 jQuery(function() {
 	var latlngs = [];
+	var path = [];
 	var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
 	var dot = L.divIcon({className: 'point'});
+	
+	
+	// Back Button
+	var backCtrl = L.Control.extend(
+	{
+		options: {position: 'topright'},
+		onAdd: function (map) {
+			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-arrow-left');
+			L.DomEvent.disableClickPropagation(c);
+			c.onclick = function(){
+				latlngs.pop();
+				polyline.setLatLngs(latlngs);
+			};
+			return c;
+		},
+	});
+	map.addControl(new backCtrl());
+	
+	// Save to JSON Button
+	var jsonCtrl = L.Control.extend(
+	{
+		options: {position: 'topright'},
+		onAdd: function (map) {
+			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-share');
+			L.DomEvent.disableClickPropagation(c);
+			c.onclick = function(){
+				$('#jsonModal').modal('show');
+				$('#jsonArea').val(JSON.stringify(path));
+			};
+			return c;
+		},
+	});
+	map.addControl(new jsonCtrl());
 	
 	gotDB.getAll().map(function (place) {
    		L.marker(place.coord, {
 	   		icon:dot
    		}).on('click', function (e) {
-	    	addToPolyline(e.latlng)
+	    	addToPolyline(place.coord, place.name)
     	}).bindLabel(place.name, {direction:'auto'}).addTo(map);
     });
 	
-	function addToPolyline(c) {
+	function addToPolyline(c, info) {
 		latlngs.push(c);
+		info ? path.push([c.lat,c.lng, info]) : path.push([c.lat,c.lng]);
 		polyline.setLatLngs(latlngs);
 	}
 	
