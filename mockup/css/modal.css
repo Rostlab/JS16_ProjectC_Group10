@@ -43,7 +43,7 @@
 
 /* @group dynModal wiki */
 
-#dynModal #contentSub, #dynModal #siteSub, #dynModal #jump-to-nav, #dynModal #mw-data-after-content, #dynModal .printfooter, #dynModal .navbox, #dynModal .references, #dynModal .references-small, #dynModal .catlinks {
+#dynModal #contentSub, #dynModal #siteSub, #dynModal #jump-to-nav, #dynModal #mw-data-after-content, #dynModal .printfooter, #dynModal .navbox, #dynModal .references, #dynModal .references-small, #dynModal .catlinks, #dynModal sup.reference {
 	display: none;
 }
 
