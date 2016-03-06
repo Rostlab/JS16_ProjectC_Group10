@@ -237,4 +237,8 @@
 }
 /* @group @end */
 
+#dynModal .modal-footer {
+	clear: both;
+}
+
 /* @end */
