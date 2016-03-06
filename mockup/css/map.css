@@ -25,76 +25,43 @@
 }
 
 /* @group Labels */ 
-.sealabel {
-	font-family: "Lobster Two";
-	font-weight: bold;
-	color: #ccf;
-	text-align: center;
-}
-
-.fort-label {
+.leaflet-marker-icon.got {
 	width: 16px !important;
 	height: 16px !important;
 	margin-left: -10px !important;
 	margin-top: -10px !important;
-	background: transparent url("../img/labels/fort.png") no-repeat;
+}
+
+.leaflet-marker-icon.got.city {
+	background: transparent url("../img/labels/city.png") no-repeat;
 	background-size: 16px;
 }
 
-.zoom5 .fort-label {
+.leaflet-marker-icon.got.town {
+	background: transparent url("../img/labels/town.png") no-repeat;
+	background-size: 16px;
+}
+
+.leaflet-marker-icon.got.castle {
+	background: transparent url("../img/labels/castle.png") no-repeat;
+	background-size: 16px;
+}
+
+.leaflet-marker-icon.got.ruin {
+	background: transparent url("../img/labels/ruin.png") no-repeat;
+	background-size: 16px;
+}
+
+.leaflet-marker-icon.got.other {
+	background: transparent url("../img/labels/other.png") no-repeat;
+	background-size: 16px;
+}
+
+.zoom5 .leaflet-marker-icon.got {
 	width: 32px !important;
 	height: 32px !important;
 	margin-left: -19px !important;
 	margin-top: -19px !important;
 	background-size: 32px;
-}
-
-.zoom0 .sealabel{
-	font-size: 5px;
-}
-
-.zoom1 .sealabel{
-	font-size: 10px;
-}
-
-.zoom2 .sealabel{
-	font-size: 20px;
-}
-
-.zoom3 .sealabel{
-	font-size: 40px;
-}
-
-.zoom4 .sealabel{
-	font-size: 80px;
-}
-
-.zoom5 .sealabel{
-	font-size: 160px;
-}
-
-.zoom0 .big {
-	font-size: 10px;
-}
-
-.zoom1 .big {
-	font-size: 20px;
-}
-
-.zoom2 .big {
-	font-size: 40px;
-}
-
-.zoom3 .big{
-	font-size: 80px;
-}
-
-.zoom4 .big {
-	font-size: 160px;
-}
-
-.zoom5 .big {
-	font-size: 320px;
-	opacity: 0.5;
 }
 /* @end */
