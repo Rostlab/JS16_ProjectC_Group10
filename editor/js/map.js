@@ -173,7 +173,7 @@ jQuery(function() {
 	    if(marker) {
 		    marker.setLatLng(e.latlng);
 	    } else {
-		    var marker = cityMarkers[curCity] = new L.marker(e.latlng, {
+		    marker = cityMarkers[curCity] = new L.marker(e.latlng, {
             	draggable: 'true'
         	}).bindPopup().addTo(markers);
 	    }
