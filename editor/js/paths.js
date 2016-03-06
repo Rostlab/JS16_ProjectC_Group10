@@ -8,15 +8,23 @@
 */
 jQuery(function() {
 	var latlngs = [];
+	var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+	var dot = L.divIcon({className: 'point'});
 	
-	function addToPolyline(e) {
-		var c = e.latlng;
+	gotDB.getAll().map(function (place) {
+   		L.marker(place.coord, {
+	   		icon:dot
+   		}).on('click', function (e) {
+	    	addToPolyline(e.latlng)
+    	}).bindLabel(place.name, {direction:'auto'}).addTo(map);
+    });
+	
+	function addToPolyline(c) {
 		latlngs.push(c);
-		
-		L.polyline(latlngs, {color: 'red'}).addTo(map);
+		polyline.setLatLngs(latlngs);
 	}
 	
-	map.on("click", function(e) {addToPolyline(e)});
+	map.on("click", function(e) {addToPolyline(e.latlng)});
 });
 
 
