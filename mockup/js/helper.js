@@ -50,5 +50,12 @@ var mapHelpers = {
 		}).error(function () {
 			bEl.html("<span class='glyphicon glyphicon-alert glyph-big text-danger'></span>");
 		});
+	},
+	
+	characterPins: function (character)
+	{	
+		L.marker([Math.random()*45, Math.random() * 360 -180]).addTo(map);
+		L.marker([Math.random()*45, Math.random() * 360 -180]).addTo(map);
+		L.marker([Math.random()*45, Math.random() * 360 -180]).addTo(map);
 	}
 };
