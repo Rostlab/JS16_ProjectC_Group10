@@ -102,27 +102,48 @@ jQuery(function() {
 	    other: L.divIcon({className: 'got other'})
     };
     
-    gotDB.getAll().map(function (city) {
-   		L.marker(city.coord, {
-        	icon: labels[city.type || "other"]
+    gotDB.getAll().map(function (place) {
+   		L.marker(place.coord, {
+        	icon: labels[place.type || "other"]
     	}).on('click', function () {
     		$('#dynModal').modal('show');
     		var tEl = $('#dynModal .modal-header'); // Header Container
-			if (city.name && tEl.show()) { // Fill or Hide
-				$('#dynModalLabel').text(city.name);
-				tEl.addClass(city.type);
+			if (place.name && tEl.show()) { // Fill or Hide
+				$('#dynModalLabel').text(place.name);
+				tEl.addClass(place.type);
 			} else {
 				tEl.hide();
 			}
 			
 			var bEl = $('#dynModal .modal-body'); // Body Container
+			var fEl = $('#dynModal .modal-footer'); // Body Container
 			bEl.html("<span class='glyphicon glyphicon-cog glyph-spin'></span>").addClass('text-center'); // Spinner
-			bEl.load(city.link, function(r,c) {
+			jQuery.ajax({
+				url: place.link
+			}).success(function(x) {
+				var content = $(x).find("#bodyContent");
+				bEl.removeClass('text-center');
+				content.find("img").each(function (i, el) {
+					el.src = "http://awoiaf.westeros.org"+el.src.substr(el.src.indexOf("/i"));
+				});
+				content.find("a").each(function (i, el) {
+					el.href = "http://awoiaf.westeros.org"+el.href.substr(el.href.indexOf("/i"));
+					el.target = "_blank";
+				});
+				content.find(".catlinks li a").each(function (i, el) {
+					$(el).addClass("btn").addClass("btn-default").addClass("pull-left");
+					fEl.append(el);
+				});
+				bEl.html(content);
+			});
+			
+			/*
+			bEl.load(place.link, function(r,c) {
 			//TODO: funktion die es aus datenbank zieht muss noch geschrieben werden
 				if(c!='error'){bEl.removeClass('text-center');} else {
 					bEl.html("<span class='fa fa-exclamation-triangle fa-5x text-danger'></span>");
 				}
-			});// Load when URL
+			});// Load when URL*/
     	}).addTo(map);
     });
 
