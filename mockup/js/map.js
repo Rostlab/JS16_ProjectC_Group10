@@ -106,7 +106,30 @@ jQuery(function() {
 	    console.log(city.name+city.type);
    		L.marker(city.coord, {
         	icon: labels[city.type || "other"]
-    	}).bindPopup(city.name).addTo(map);
+    	}).bindPopup(city.name).on('click', function () {
+    		$('#dynModal').modal('show');
+    		var tEl = $('#dynModal .modal-header'); // Header Container
+			if (city.name && tEl.show()) { // Fill or Hide
+				$('#dynModalLabel').text(city.name);
+				tEl.addClass(city.type);
+			} else {
+				tEl.hide();
+			}
+			
+    	// Fill the modals
+		/*$('#dynModal').on('show.bs.modal', function (e) {
+			var a = $(e.relatedTarget); // Make Short for Caller
+			
+			var bEl = $('#dynModal .modal-body'); // Body Container
+			bEl.html("<span class='fa fa-spin fa-cog fa-5x'></span>").addClass('text-center'); // Spinner
+			bEl.load(a.attr('href'), function(r,c) {
+			//TODO: funktion die es aus datenbank zieht muss noch geschrieben werden
+				if(c!='error'){bEl.removeClass('text-center');} else {
+					bEl.html("<span class='fa fa-exclamation-triangle fa-5x text-danger'></span>");
+				}
+			});// Load when URL
+		});*/
+    	}).addTo(map);
     });
 
 	var marker;

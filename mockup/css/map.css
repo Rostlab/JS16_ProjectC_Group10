@@ -57,6 +57,36 @@
 	background-size: 16px;
 }
 
+.city #dynModalLabel {
+	background: transparent url("../img/labels/city.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.town #dynModalLabel {
+	background: transparent url("../img/labels/town.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.castle #dynModalLabel {
+	background: transparent url("../img/labels/castle.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.ruin #dynModalLabel {
+	background: transparent url("../img/labels/ruin.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.other #dynModalLabel {
+	background: transparent url("../img/labels/other.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
 .zoom5 .leaflet-marker-icon.got {
 	width: 32px !important;
 	height: 32px !important;
