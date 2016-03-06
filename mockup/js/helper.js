@@ -13,7 +13,7 @@ var mapHelpers = {
 		var bEl = $('#dynModal .modal-body'); // Body Container
 		
 		if (title) { // Fill or Hide
-			tEl.show()
+			tEl.show();
 			$('#dynModalLabel').text(title);
 			if(cssclass) {
 				tEl.addClass(cssclass);
@@ -48,4 +48,4 @@ var mapHelpers = {
 			bEl.html("<span class='glyphicon glyphicon-alert glyph-big text-danger'></span>");
 		});
 	}
-}
+};

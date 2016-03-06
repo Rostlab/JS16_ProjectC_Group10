@@ -106,7 +106,7 @@ jQuery(function() {
    		L.marker(place.coord, {
         	icon: labels[place.type || "other"]
     	}).on('click', function () {
-    		mapHelpers.wikiModal(place.link, place.name, place.type)
+    		mapHelpers.wikiModal(place.link, place.name, place.type);
     	}).bindLabel(place.name, { noHide: true, direction:'auto'}).addTo(map);
     });
 
