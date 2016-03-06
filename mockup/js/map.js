@@ -144,7 +144,7 @@ jQuery(function() {
 					bEl.html("<span class='fa fa-exclamation-triangle fa-5x text-danger'></span>");
 				}
 			});// Load when URL*/
-    	}).addTo(map);
+    	}).bindLabel(place.name, { noHide: true, direction:'auto'}).addTo(map);
     });
 
 	var marker;
@@ -152,16 +152,16 @@ jQuery(function() {
     	if(!marker) {
         	marker = new L.marker(e.latlng, {
         	    draggable: 'true'
-        	}).bindPopup().addTo(markers);
+        	}).bindLabel(undefined, {noHide: true}).addTo(markers);
         	marker.on('dragend', function(event) {
             	var position = marker.getLatLng();
-            	marker.setPopupContent("" + position).openPopup();
+            	marker.updateLabelContent("" + position).showLabel();
         	});
         } else {
         	marker.setLatLng(e.latlng);
         }
         var position = e.latlng;
-        marker.setPopupContent("" + position).openPopup();
+        marker.updateLabelContent("" + position).showLabel();
     }
     map.on('click', onMapClick);
 });
