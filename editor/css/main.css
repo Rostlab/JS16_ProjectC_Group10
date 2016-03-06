@@ -66,3 +66,24 @@
 	font-weight: bold;
 	text-align: center;
 }
+
+.point {
+	background: green;
+	border-radius: 6px;
+}
+
+.leaflet-label {
+	text-shadow: #FFF 0px 0px 5px;
+	color: #111;
+	display: block;
+	font-size: 12px;
+	font-weight: bold;
+	position: absolute;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
+	pointer-events: none;
+	white-space: nowrap;
+	z-index: 6;
+}
