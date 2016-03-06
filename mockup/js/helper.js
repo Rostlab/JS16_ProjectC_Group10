@@ -36,8 +36,11 @@ var mapHelpers = {
 				el.src = "http://awoiaf.westeros.org"+el.src.substr(el.src.indexOf("/i"));
 			});
 			content.find("a").each(function (i, el) {
-				el.href = "http://awoiaf.westeros.org"+el.href.substr(el.href.indexOf("/i"));
-				el.target = "_blank";
+				if(el.href.indexOf("/i") !== -1)
+				{
+					el.href = "http://awoiaf.westeros.org"+el.href.substr(el.href.indexOf("/i"));
+					el.target = "_blank";
+				}
 			});
 			content.find(".catlinks li a").each(function (i, el) {
 				$(el).addClass("btn").addClass("btn-default").addClass("pull-left");
