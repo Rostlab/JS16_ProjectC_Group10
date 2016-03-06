@@ -50,17 +50,23 @@ jQuery(function() {
    		L.marker(place.coord, {
 	   		icon:dot
    		}).on('click', function (e) {
-	    	addToPolyline(place.coord, place.name)
+	    	addToPolyline(place.coord, place.name);
     	}).bindLabel(place.name, {direction:'auto'}).addTo(map);
     });
 	
 	function addToPolyline(c, info) {
 		latlngs.push(c);
-		info ? path.push([c.lat,c.lng, info]) : path.push([c.lat,c.lng]);
+		if(info) {
+			path.push([c.lat,c.lng, info]);
+		} else {
+			path.push([c.lat,c.lng]);
+		}
 		polyline.setLatLngs(latlngs);
 	}
 	
-	map.on("click", function(e) {addToPolyline(e.latlng)});
+	map.on("click", function(e) {
+		addToPolyline(e.latlng);
+	});
 });
 
 
