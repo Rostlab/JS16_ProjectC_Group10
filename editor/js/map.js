@@ -128,7 +128,7 @@ jQuery(function() {
 		cityMarkers[i] = new L.marker(city.coord, {
             	draggable: 'true'
         }).bindPopup(function() {
-	        return makePopup(city, i)
+	        return makePopup(city, i);
         }).on('click', function() {
 	        gotDB.setCurrent(i);
         }).addTo(markers);
