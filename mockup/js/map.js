@@ -61,7 +61,7 @@ jQuery(function() {
     // Alex' Labeled Tiles
     var labelTiles = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/labels/{z}/y{y}x{x}.png", {
         maxZoom: zoomLevel.max,
-        minZoom: 3,//zoomLevel.min,
+        minZoom: zoomLevel.min,
         bounds: bounds,
         errorTileUrl: 'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png',
         noWrap: true

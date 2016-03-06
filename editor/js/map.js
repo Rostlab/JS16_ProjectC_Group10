@@ -45,7 +45,7 @@ jQuery(function() {
     map.addLayer(r);
     
     var labels = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/labels/{z}/y{y}x{x}.png", {
-        minZoom: 4,
+        minZoom: 0,
         maxZoom: 5,
         bounds: bounds,
         errorTileUrl: 'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png',
