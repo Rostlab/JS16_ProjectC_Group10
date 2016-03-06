@@ -7,43 +7,69 @@
                         :_;
 */
 jQuery(function() {
-    var mapOptions = {
-        defaultCoords: [0, 0],
-        mapMinZoom: 0,
-        mapMaxZoom: 5
+    // Basic Zoom Config (6 levels)
+    var zoomLevel = {
+        min: 0,
+        max: 5
     };
-    L.CRS.CustomZoom = L.extend({}, L.CRS.EPSG3857, {
-        scale: function(e) {
-            var t;
-            switch (e) {
+    
+    // Define a costum zoom handler because HBO did sth weird when scaling
+    L.CRS.HBOZoom = L.extend({}, L.CRS.EPSG3857, {
+        scale: function(zoom) {
+            var factor;
+            switch (zoom) {
                 case 4:
-                    t = 2.166;
+                    factor = 2.166;
                     break;
                 case 5:
-                    t = 2.0915;
+                    factor = 2.0915;
                     break;
                 default:
-                    t = 2;
+                    factor = 2;
             }
-            return 256 * Math.pow(t, e);
+            return 256 * Math.pow(factor, zoom);
         }
     });
-    var n = {
-        maxZoom: mapOptions.mapMaxZoom,
-        minZoom: mapOptions.mapMinZoom,
-        tapTolerance: 20,
-        crs: L.CRS.CustomZoom,
-        attributionControl: true
+    
+    // Maximum viewable angle
+    var bounds = new L.LatLngBounds(L.latLng(90,-180), L.latLng(-43.87, 171.37));
+	
+	// configure the map
+    var mapOptions = {
+        maxZoom: zoomLevel.max,
+        minZoom: zoomLevel.min,
+        crs: L.CRS.HBOZoom,
+        mapBounds: bounds
     };
-
-    var map = L.map(document.getElementById('map'), n);
-    var bounds = new L.LatLngBounds(L.latLng(85,-180), L.latLng(-43.85, 171.34));
-
-
-    map.options.mapBounds = bounds;
-    map.fitBounds(bounds);
+    
+    // Make the map and center it in the viewpoint
+    var map = L.map(document.getElementById('map'), mapOptions).fitBounds(bounds);
+    // Limit the display
     map.setMaxBounds(bounds);
-    map.on('zoomanim', function(e) { // Add a class to alter the labels
+	//map.zoomIn();
+	
+    // HBO BG Tiles
+    var bgTiles = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/{z}/y{y}x{x}.png", {
+        maxZoom: zoomLevel.max,
+        minZoom: zoomLevel.min,
+        bounds: bounds,
+        errorTileUrl: 'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png',
+        noWrap: true,
+        attribution: 'BG &copy; <a href="http://viewers-guide.hbo.com">HBO</a>'
+    });
+    map.addLayer(bgTiles);
+    // Alex' Labeled Tiles
+    var labelTiles = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/labels/{z}/y{y}x{x}.png", {
+        maxZoom: zoomLevel.max,
+        minZoom: 3,//zoomLevel.min,
+        bounds: bounds,
+        errorTileUrl: 'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png',
+        noWrap: true
+    });
+    map.addLayer(labelTiles);
+    
+    // Add a class to alter the labels
+    map.on('zoomanim', function(e) { 
         var el = document.getElementById('map');
         if (el.className[el.className.length - 2] != 'm') {
             el.className += " zoom" + e.zoom;
@@ -51,18 +77,8 @@ jQuery(function() {
             el.className = el.className.slice(0, -1) + e.zoom;
         }
     });
-    var r = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/{z}/y{y}x{x}.png", {
-        minZoom: mapOptions.mapMinZoom,
-        maxZoom: mapOptions.mapMaxZoom,
-        bounds: bounds,
-        errorTileUrl: 'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png',
-        noWrap: true,
-        attribution: 'Tiles &copy; <a href="http://viewers-guide.hbo.com">HBO</a>'
-    });
-    map.addLayer(r);
 	var markers = new L.layerGroup();
 	map.addLayer(markers);
-	//map.zoomIn();
 	// Delete Button
 	var delCtrl = L.Control.extend(
 	{
@@ -78,40 +94,20 @@ jQuery(function() {
 		},
 	});
 	map.addControl(new delCtrl());
-
-    var label = L.divIcon({
-        className: 'sealabel big',
-        html: 'The&nbsp;Shivening&nbsp;Sea'
-    });
-    L.marker([80, -30], {
-        icon: label
-    }).addTo(map);
-
-    label = L.divIcon({
-        className: 'sealabel big',
-        html: 'The&nbsp;Summer&nbsp;Sea'
-    });
-    L.marker([-23, -90], {
-        icon: label
-    }).addTo(map);
-    label = L.divIcon({
-        className: 'sealabel',
-        html: 'Sea&nbsp;of&nbsp;Dorne'
-    });
-    L.marker([17.5, -92], {
-        icon: label
-    }).addTo(map);
+    var labels = {
+	    city: L.divIcon({className: 'got city'}),
+	    town: L.divIcon({className: 'got town'}),
+	    castle: L.divIcon({className: 'got castle'}),
+	    ruin: L.divIcon({className: 'got ruin'}),
+	    other: L.divIcon({className: 'got other'})
+    };
     
-    
-    var fort = L.divIcon({
-        className: 'fort-label'
-    });
-    cityInfo.map(function (city) {
+    gotDB.getAll().map(function (city) {
+	    console.log(city.name+city.type);
    		L.marker(city.coord, {
-        	icon: fort
+        	icon: labels[city.type || "other"]
     	}).bindPopup(city.name).addTo(map);
     });
-
 
 	var marker;
     function onMapClick(e) {
