@@ -34,7 +34,7 @@ jQuery(function() {
     map.fitBounds(bounds);
     map.setMaxBounds(bounds);
     
-    var r = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/{z}/y{y}x{x}.png", {
+    var r = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/bg/{z}/y{y}x{x}.png", {
         minZoom: 0,
         maxZoom: 5,
         bounds: bounds,
@@ -44,7 +44,7 @@ jQuery(function() {
     });
     map.addLayer(r);
     
-    var labels = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/labels/{z}/y{y}x{x}.png", {
+    var labels = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/labels/{z}/y{y}x{x}.png", {
         minZoom: 0,
         maxZoom: 5,
         bounds: bounds,

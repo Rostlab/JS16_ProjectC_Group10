@@ -49,7 +49,7 @@ jQuery(function() {
 	//map.zoomIn();
 	
     // HBO BG Tiles
-    var bgTiles = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/{z}/y{y}x{x}.png", {
+    var bgTiles = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/bg/{z}/y{y}x{x}.png", {
         maxZoom: zoomLevel.max,
         minZoom: zoomLevel.min,
         bounds: bounds,
@@ -59,7 +59,7 @@ jQuery(function() {
     });
     map.addLayer(bgTiles);
     // Alex' Labeled Tiles
-    var labelTiles = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/labels/{z}/y{y}x{x}.png", {
+    var labelTiles = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/labels/{z}/y{y}x{x}.png", {
         maxZoom: zoomLevel.max,
         minZoom: zoomLevel.min,
         bounds: bounds,
