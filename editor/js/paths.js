@@ -22,6 +22,7 @@ jQuery(function() {
 			L.DomEvent.disableClickPropagation(c);
 			c.onclick = function(){
 				latlngs.pop();
+				path.pop();
 				polyline.setLatLngs(latlngs);
 			};
 			return c;
