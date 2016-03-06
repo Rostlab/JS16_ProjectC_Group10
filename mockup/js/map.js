@@ -43,7 +43,7 @@ jQuery(function() {
     };
     
     // Make the map and center it in the viewpoint
-    var map = L.map(document.getElementById('map'), mapOptions).fitBounds(bounds);
+    map = L.map(document.getElementById('map'), mapOptions).fitBounds(bounds);
     // Limit the display
     map.setMaxBounds(bounds);
 	//map.zoomIn();

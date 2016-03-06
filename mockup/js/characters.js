@@ -46,7 +46,10 @@ jQuery(function() {
 				$("#dynModal").modal("show");
 			}
 			el.toggleClass('disabled'); // Toggle the class name (de-)activate it
+			alert("Function reached");
+			mapHelpers.characterPins(el.find(".name").text());
 		});
 		$("#characters").append(item);// Add it to the list
+		
 	});	
 });
