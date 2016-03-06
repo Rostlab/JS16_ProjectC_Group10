@@ -1,0 +1,161 @@
+/*.--.     Alex Max Tobi          ,-. .--. 
+ : .--'   Project C - Map       .'  :: ,. :
+ : : _ .--.  .--. .-..-..---.    `: :: :: :
+ : :; :: ..'' .; :: :; :: .; `    : :: :; :
+ `.__.':_;  `.__.'`.__.': ._.'    :_;`.__.'
+                        : :                
+                        :_;
+*/
+
+
+/* @group Glyph for Modal */
+.glyph-big {
+	font-size: 6em;
+}
+
+.glyph-spin {
+    -webkit-animation: spin 3000ms infinite linear;
+    animation: spin 3000ms infinite linear;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+/* @end */
+
+/* @group dynModal wiki */
+
+#dynModal #contentSub, #dynModal #siteSub, #dynModal #jump-to-nav, #dynModal #mw-data-after-content, #dynModal .printfooter, #dynModal .navbox, #dynModal .references, #dynModal .references-small, #dynModal .catlinks {
+	display: none;
+}
+
+#dynModal h2:last-of-type {
+	display: none;
+} 
+
+/* @group Top Right Infobox */
+#dynModal .infobox {
+	border: 1px solid #aaa;
+	background-color: #f9f9f9;
+	color: black;
+	margin-bottom: 0.5em;
+	margin-left: 1em;
+	padding: 0.2em;
+	float: right;
+	clear: right
+}
+
+#dynModal .infobox.bordered {
+    border-collapse: collapse
+}
+
+#dynModal .infobox.bordered td, #dynModal .infobox.bordered th {
+    border: 1px solid #aaa
+}
+
+#dynModal .infobox.bordered .borderless td, #dynModal .infobox.bordered .borderless th {
+    border: 0
+}
+
+#dynModal .infobox th[scope="row"] {
+	padding-left: 0.5em;
+}
+/* @end */
+
+/* @group TOC */
+#dynModal .toc {
+     border: 1px solid #aaa;
+     background-color: #f9f9f9;
+     padding: .5em;
+     font-size: 95%;
+     display: table;
+}
+
+#dynModal #toctitle  {
+    text-align: center;
+}
+
+#dynModal .toc h2  {
+    display: inline;
+    border: none;
+    padding: 0;
+    font-size: 100%;
+    font-weight: bold;
+}
+
+#dynModal .toc ul {
+    list-style-type: none;
+    list-style-image: none;
+    margin-left: 0;
+    padding: 0;
+    text-align: left
+}
+
+#dynModal  .toc ul ul {
+    margin: 0 0 0 2em
+}
+
+#dynModal  .toc .toctoggle {
+    font-size: 94%
+}
+/* @end */
+
+/* @group Floats */
+#dynModal div.tright {
+    margin: .5em 0 1.5em 1.5em;
+    clear: right;
+    float: right;
+}
+
+#dynModal div.tleft {
+    margin: .5em 1.5em 1.5em 0;
+    float: left;
+    clear: left;
+}
+    
+#dynModal div.thumb {
+    margin-bottom: .5em;
+    width: auto;
+}
+    
+#dynModal div.thumbinner {
+    border: 1px solid #ccc;
+    padding: 3px;
+    background-color: #f9f9f9;
+    font-size: 94%;
+    text-align: center;
+    overflow: hidden
+}
+    
+#dynModal .thumbcaption {
+    border: none;
+    line-height: 1.4em;
+    padding: 3px;
+    font-size: 94%;
+    text-align: left;
+}
+/* @group @end */
+
+#dynModal .modal-footer {
+	clear: both;
+}
+
+/* @end */
