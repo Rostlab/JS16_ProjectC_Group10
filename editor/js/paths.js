@@ -11,7 +11,7 @@ jQuery(function() {
 	var path = [];
 	var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
 	var dot = L.divIcon({className: 'point'});
-	
+	var selected = [0,0];
 	
 	// Back Button
 	var backCtrl = L.Control.extend(
@@ -67,6 +67,26 @@ jQuery(function() {
 	map.on("click", function(e) {
 		addToPolyline(e.latlng);
 	});
+	
+	$( "#slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: 49,
+      values: [0, 1],
+      slide: function( event, ui ) {
+	      if(ui.values[0] ==  ui.values[1]) {
+		      ui.values[1]++; // Update slider
+		      return;
+	      }
+	      selected = [ui.values[0], ui.values[1]];
+        $( "#amount" ).text( getEpisodeInfo(ui.values[0]) + " - " + getEpisodeInfo(ui.values[1]) );
+      }
+    });
+    
+    function getEpisodeInfo(i) {
+	    var e = episodes[i];
+	    return "S"+e.season+"E"+e.episode+": "+e.title;
+    }
 });
 
 
