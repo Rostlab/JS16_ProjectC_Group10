@@ -19,3 +19,8 @@
 	background:#030912;
 	color:#fff;
 }
+
+#timeline .withtimeline.ui-corner-all,
+.withtimeline .ui-corner-all {
+  border-radius: 0;
+}
