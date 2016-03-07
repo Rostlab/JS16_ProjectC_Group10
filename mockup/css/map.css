@@ -95,17 +95,20 @@
 	background-size: 32px;
 }
 
+.zoom0 .prio6, .zoom1 .prio6, .zoom2 .prio6, .zoom3 .prio6, .zoom4 .prio6,
+.zoom0 .prio5, .zoom1 .prio5, .zoom2 .prio5, .zoom3 .prio5, .zoom4 .prio5,
+.zoom0 .prio4, .zoom1 .prio4, .zoom2 .prio4, .zoom3 .prio4, 
+.zoom0 .prio3, .zoom1 .prio3, .zoom2 .prio5,
+.zoom0 .prio2, .zoom1 .prio2,
+.zoom0 .prio1 {
+	display: none;
+}
+
+.prio6.gotlabel span {
+	transform: rotate(45deg);
+}
 
 .leaflet-label {
-	/*background: rgb(235, 235, 235);
-	background: rgba(235, 235, 235, 0.81);
-	background-clip: padding-box;
-	border-color: #777;
-	border-color: rgba(0,0,0,0.25);
-	border-radius: 4px;
-	border-style: solid;
-	border-width: 1px;
-	*/
 	text-shadow: #FFF 0px 0px 5px;
 	color: #111;
 	display: block;

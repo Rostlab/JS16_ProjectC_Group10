@@ -46,7 +46,7 @@ jQuery(function() {
     map = L.map(document.getElementById('map'), mapOptions).fitBounds(bounds);
     // Limit the display
     map.setMaxBounds(bounds);
-	//map.zoomIn();
+    document.getElementById('map').className += " zoom" + map.getZoom();
 	
     // HBO BG Tiles
     var bgTiles = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/bg/{z}/y{y}x{x}.png", {
@@ -94,20 +94,22 @@ jQuery(function() {
 		},
 	});
 	map.addControl(new delCtrl());
-    var labels = {
-	    city: L.divIcon({className: 'got city'}),
-	    town: L.divIcon({className: 'got town'}),
-	    castle: L.divIcon({className: 'got castle'}),
-	    ruin: L.divIcon({className: 'got ruin'}),
-	    other: L.divIcon({className: 'got other'})
-    };
-    
+	
+    // Add all Cities
     gotDB.getAll().map(function (place) {
+	    var type = place.type || "other";
+	    var prio = "prio"+place.prio;
    		L.marker(place.coord, {
-        	icon: labels[place.type || "other"]
+        	icon: L.divIcon({
+	        	className: 'got '+type+' '+prio
+	        })
     	}).on('click', function () {
     		mapHelpers.wikiModal(place.link, place.name, place.type);
-    	}).bindLabel(place.name, { noHide: true, direction:'auto'}).addTo(map);
+    	}).bindLabel(place.name, {
+	    	noHide: true, 
+	    	direction:'auto',
+	        className: 'gotlabel '+prio
+	    }).addTo(map);
     });
 
 	var marker;
