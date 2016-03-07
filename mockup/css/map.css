@@ -109,7 +109,7 @@
 }
 
 .leaflet-label {
-	text-shadow: #FFF 0px 0px 5px;
+	text-shadow: #FFF -1px 0px 0px, #FFF 1px 0px 0px, #FFF 0px 1px 0px, #FFF 0px -1px 0px, #FFF -1px -1px 0px,#FFF 1px 1px 0px,#FFF 1px -1px 0px,#FFF -1px 1px 0px;
 	color: #111;
 	display: block;
 	font: 12px/12px "Helvetica Neue", Arial, Helvetica, sans-serif;
