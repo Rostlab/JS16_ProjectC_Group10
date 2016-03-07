@@ -105,6 +105,10 @@
 }
 
 .prio6.gotlabel span {
+	margin-top: 24px; 
+	margin-left: -8px; 
+	transform-origin: top left;
+	display: inline-block;
 	transform: rotate(45deg);
 }
 
