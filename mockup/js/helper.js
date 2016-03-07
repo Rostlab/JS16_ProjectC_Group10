@@ -58,9 +58,6 @@ var mapHelpers = {
 	// Set Pins
 	characterPins: function (character) {
 		var marker = mapHelpers.colorMarker(character.color, character.img);
-		L.marker([Math.random()*120-35, Math.random() * 360 -180], {icon:marker}).addTo(map);
-		L.marker([Math.random()*120-35, Math.random() * 360 -180], {icon:marker}).addTo(map);
-		L.marker([Math.random()*120-35, Math.random() * 360 -180], {icon:marker}).addTo(map);
 	}, 
 	
 	// Make some colorful markers
@@ -102,7 +99,49 @@ var mapHelpers = {
 			mapHelpers.characterPins(c); // Show the character pins
 			$("#characters").append(item);// Add it to the list
 			c.el = item;
+			c.polyline =  L.polyline([], {color: c.color}).addTo(map);
+			var marker = mapHelpers.colorMarker(c.color, c.img);
+			c.startMarker = L.marker([0,0], {icon:marker}).addTo(map);
+			c.endMarker = L.marker([0,0], {icon:marker}).addTo(map);
 			this.characters[c.id] = c; // Save it
 		}
-	}	
+	},
+	
+	// display the selected paths
+	updatePaths: function(selection) {
+		var toArray = function(s) { // make e.g. "1-3" to [1,3]
+			if(typeof s == "number") {
+				return s;
+			}
+			s = s.split('-');
+			return [parseInt(s[0]), parseInt(s[s.length-1])];
+		};
+		selection = toArray(selection); // Perform it on the slider input
+		var displayIt = function(pathInfo) { // Check whether to display the path
+			var p = toArray(pathInfo);
+			if(p.length == 1 || p[1] === "") {
+				return (p[0] >= selection[0] && p[0] <= selection[1]);
+			}
+			return (p[0] >= selection[0] && p[1] <= selection[1]);
+		};
+	
+		var getC = function(p) { // get Coordinates
+			cs.push([p[0], p[1]]);
+		};
+		for(var k in this.characters) { // Check if path exists and display
+			var c = this.characters[k];
+			var cs = [];
+			if(paths[k]) {
+				for(var k2 in paths[k]) {
+					if(displayIt(k2)) {
+						paths[k][k2].map(getC);
+						}
+				}
+				c.polyline.setLatLngs(cs);
+				var start = cs.shift();
+				c.startMarker.setLatLng(start); // Display start Marker
+				c.endMarker.setLatLng(cs.length > 0 ? cs.pop() : start); // Display End Marker
+			}
+		}
+	}
 };
