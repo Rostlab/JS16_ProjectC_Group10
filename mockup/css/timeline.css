@@ -6,12 +6,16 @@
                         : :                
                         :_;
 */
+#map .withtimeline {
+	bottom:50px;
+}
+
 #timeline {
-	position: fixed;
+	position:fixed;
 	left:0;
-	right: 20%;
+	right:250px;
 	bottom:0;
-	height: 40px;
-	background: #455A64;
-	color: #fff;
+	height:40px;
+	background:#030912;
+	color:#fff;
 }
