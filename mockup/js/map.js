@@ -96,6 +96,7 @@ jQuery(function() {
 	map.addControl(new delCtrl());
 	
     // Add all Cities
+    /*
     gotDB.getAll().map(function (place) {
 	    var type = place.type || "other";
 	    var prio = "prio"+place.prio;
@@ -111,7 +112,28 @@ jQuery(function() {
 	        className: 'gotlabel '+prio
 	    }).addTo(map);
     });
-	
+    */
+    //GetCitiesFromDB
+    jQuery.get("https://got-api.bruck.me/api/cities", {},function (allCities){
+	    allCities.map(function (place) {
+	    var type = place.type || "other";
+	    var prio = "prio"+place.priority;
+	    if(place.coordY && place.coordX) {
+   			L.marker([parseFloat(place.coordY), parseFloat(place.coordX)], {
+        		icon: L.divIcon({
+	        		className: 'got '+type+' '+prio
+				})
+    		}).on('click', function () {
+    			mapHelpers.wikiModal(place.link, place.name, place.type);
+			}).bindLabel(place.name, {
+		    	noHide: true, 
+		    	direction:'auto',
+	    	    className: 'gotlabel '+prio
+	    	}).addTo(map);
+	    }
+    	});
+	});
+    	
 	var marker;
     function onMapClick(e) {
     	if(!marker) {
