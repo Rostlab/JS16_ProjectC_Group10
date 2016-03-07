@@ -30,6 +30,11 @@
 	color: #a00;
 }
 
+.colormarker span {
+	left: -16px;
+	top: -32px;
+}
+
 .colormarker img{
 	position: relative;
 	width: 16px;
@@ -39,8 +44,15 @@
 	left: -23px;
 }
 
+.zoom5 .colormarker span {
+	left: -32px;
+	top: -64px;
+}
+
 .zoom5 .colormarker {
 	font-size: 64px;
+	margin-left: 16px;
+	margin-top: 32px; 
 }
 
 .zoom5 .colormarker img {
