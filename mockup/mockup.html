@@ -12,6 +12,8 @@
 	<link rel="stylesheet" href="css/main.css" />
 	<!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    
     <!-- Bootstrap (depends on jQuery) -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 	<!-- Leaflet -->
@@ -24,6 +26,7 @@
 	<script src="js/filter.js"></script>
 	<script src="js/characters.js"></script>
 	<script src="js/timeline.js"></script>
+	<script src="js/episodes.js"></script>
 	
 	<!-- Labels-->
 	<script src="lib/label.js"></script>
@@ -44,6 +47,7 @@
       		<input type="text" class="form-control" placeholder="Search for...">
     <i class="glyphicon glyphicon-search form-control-feedback"></i>
 	  		<ul id="filter-dropdown" class="dropdown-menu">
+	  		<li class="dropdown-header">Nothing found</li>
   			</ul>
     	</div>
 		</form>
@@ -53,8 +57,11 @@
 			<!-- Filled in characters.js -->
 		</div>
 	</div>
+	
 	<div id="timeline">
-		<!-- Filled in timeline.js -->
+		<div id="slider-range"></div>
+		<p id="amount">
+		</p>
 	</div>
 	
 	<!-- Dynamisches Modal -->
@@ -74,7 +81,7 @@
 		</div>
 	</div>
 </div>
-	
+
 </body>
 </html>
 
