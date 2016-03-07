@@ -58,7 +58,6 @@ var mapHelpers = {
 	// Set Pins
 	characterPins: function (character) {
 		var marker = mapHelpers.colorMarker(character.color, character.img);
-		L.marker([Math.random()*120-35, Math.random() * 360 -180], {icon:marker}).addTo(map);
 	}, 
 	
 	// Make some colorful markers
@@ -100,6 +99,7 @@ var mapHelpers = {
 			c.el = item;
 			c.polyline =  L.polyline([], {color: c.color}).addTo(map);
 			var marker = mapHelpers.colorMarker(c.color, c.img);
+			c.startMarker = L.marker([0,0], {icon:marker}).addTo(map);
 			c.endMarker = L.marker([0,0], {icon:marker}).addTo(map);
 			this.characters[c.id] = c; // Save it
 		}
@@ -107,26 +107,26 @@ var mapHelpers = {
 	
 	// display the selected paths
 	updatePaths: function(selection) {
-		var toArray = function(s) {
+		var toArray = function(s) { // make e.g. "1-3" to [1,3]
 			if(typeof s == "number") {
 				return s;
 			}
 			s = s.split('-');
 			return [parseInt(s[0]), parseInt(s[s.length-1])];
-		}
-		selection = toArray(selection);
-		var displayIt = function(pathInfo) {
+		};
+		selection = toArray(selection); // Perform it on the slider input
+		var displayIt = function(pathInfo) { // Check whether to display the path
 			var p = toArray(pathInfo);
-			if(p.length == 1 || p[1] == "") {
+			if(p.length == 1 || p[1] === "") {
 				return (p[0] >= selection[0] && p[0] <= selection[1]);
 			}
 			return (p[0] >= selection[0] && p[1] <= selection[1]);
-		}
+		};
 	
-		var getC = function(p) {
+		var getC = function(p) { // get Coordinates
 			cs.push([p[0], p[1]]);
 		};
-		for(var k in this.characters) {
+		for(var k in this.characters) { // Check if path exists and display
 			var c = this.characters[k];
 			var cs = [];
 			if(paths[k]) {
@@ -136,7 +136,8 @@ var mapHelpers = {
 						}
 				}
 				c.polyline.setLatLngs(cs);
-				c.endMarker.setLatLng(cs.pop());
+				c.startMarker.setLatLng(cs.shift()); // Display start Marker
+				c.endMarker.setLatLng(cs.pop()); // Display End Marker
 			}
 		}
 	}
