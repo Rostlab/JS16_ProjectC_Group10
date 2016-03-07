@@ -12,6 +12,9 @@
 	<link rel="stylesheet" href="css/main.css" />
 	<!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/vader/jquery-ui.css" />
     <!-- Bootstrap (depends on jQuery) -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 	<!-- Leaflet -->
@@ -20,6 +23,7 @@
 	<script src="../data/mapData.js"></script>
 	<script src="js/map.js"></script>
 	<script src="js/paths.js"></script>
+	<script src="js/episodes.js"></script>
 	
 	
 	<!-- Alex-->
@@ -31,7 +35,7 @@
 	<script src="https://raw.githubusercontent.com/Leaflet/Leaflet.label/master/src/FeatureGroup.Label.js"></script>
 </head>
 <body>
-	<div id="map">
+	<div id="map" class="withtimeline">
 		<!-- Filled in map.js -->
 	</div>
 		<form id="filter">
@@ -42,6 +46,12 @@
 		</form>
 	<div id="sidebar">
 			<!-- Filled in filter.js -->
+	</div>
+	
+	<div id="timeline">
+		<div id="slider-range"></div>
+		<p id="amount">
+		</p>
 	</div>
 	
 <div class="modal fade" id="jsonModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
@@ -64,53 +74,6 @@
     </div>
   </div>
 </div>
-
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="modalLabel">Edit City Information</h4>
-      </div>
-      <div class="modal-body">
-        <form>
-  		  <div class="form-group">
-    		<label for="name">Name</label>
-    		<input type="text" class="form-control" id="name" placeholder="City Name" />
-  		  </div>
-  		  <div class="form-group">
-    		<label for="type">Type</label>
-    		<select name="type" id="type" class="form-control">
-    			<option value="city">City</option>
-    			<option value="town">Town</option>
-    			<option value="castle">Castle</option>
-    			<option value="ruin">Ruin</option>
-    			<option value="other">Other</option>
-    		</select>
-  		  </div>
-  		  <div class="form-group">
-    		<label for="prio">Priority</label>
-    		<select name="prio" id="prio" class="form-control">
-    			<option value="0">Zoom 0</option>
-    			<option value="1">Zoom 1</option>
-    			<option value="2">Zoom 2</option>
-    			<option value="3">Zoom 3</option>
-    			<option value="4">Zoom 4</option>
-    			<option value="5">Zoom 5</option>
-    			<option value="6">Zoom 6</option>
-    		</select>
-  		  </div>
-		</form>
-      </div>
-      <div class="modal-footer">
-        <!--<button type="button" class="btn btn-danger pull-left" data-dismiss="modal" id="deleteEditModal">Delete Point</button>-->
-        <button type="button" class="btn btn-warning" data-dismiss="modal">Don't Save</button>
-        <button type="button" class="btn btn-success" data-dismiss="modal" id="saveEditModal">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
 
