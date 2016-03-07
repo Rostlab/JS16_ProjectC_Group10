@@ -11,7 +11,7 @@ personList = [
 	{name:'Eddard Stark', img:'img/persons/eddard_stark.jpg', house:'House Stark', link:'http://awoiaf.westeros.org/index.php/Eddard_Stark'},
 	{name:'Robb Stark', img:'img/persons/robb_stark.jpg', house:'House Stark', link:'http://awoiaf.westeros.org/index.php/Robb_Stark'},
 	{name:'Sansa Stark', img:'img/persons/sansa_stark.jpg', house:'House Stark', link:'http://awoiaf.westeros.org/index.php/Sansa_Stark'},
-	{name:'Catelyn Stark', img:'img/persons/catelyn.jpg', house:'House Stark', link:'http://awoiaf.westeros.org/index.php/Catelyn_Stark'},
+	{name:'Catelyn Stark', img:'img/persons/catelyn_stark.jpg', house:'House Stark', link:'http://awoiaf.westeros.org/index.php/Catelyn_Stark'},
 	{name:'Arya Stark', img:'img/persons/arya_stark.png', house:'House Stark', link:'http://awoiaf.westeros.org/index.php/Arya_Stark'},
 	{name:'Brandon Stark', img:'img/persons/bran_stark.jpg', house:'House Stark', link:'http://awoiaf.westeros.org/index.php/Brandon_Stark'},
 	{name:'Rickon Stark', img:'img/persons/rickon_stark.jpg', house:'House Stark', link:'http://awoiaf.westeros.org/index.php/Rickon_Stark'},
