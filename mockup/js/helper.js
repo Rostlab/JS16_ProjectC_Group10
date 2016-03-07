@@ -14,7 +14,7 @@ var mapHelpers = {
 		var bEl = $('#dynModal .modal-body'); // Body Container
 		
 		if (title) { // If there is a title
-			tEl.show(); // Show the Bar and FIll it
+			tEl.show(); // Show the Bar and Fill it
 			$('#dynModalLabel').text(title);
 			if(cssclass) {
 				tEl.addClass(cssclass);
@@ -35,7 +35,7 @@ var mapHelpers = {
 		}).success(function(x) { // Show it
 			var content = $(x).find("#bodyContent");
 			bEl.removeClass('text-center'); // Make it left aligned
-			content.find("img").each(function (i, el) { // FIx the image URL
+			content.find("img").each(function (i, el) { // Fix the image URL
 				el.src = "http://awoiaf.westeros.org"+el.src.substr(el.src.indexOf("/i"));
 			});
 			content.find("a").each(function (i, el) { // Fix the links
@@ -71,6 +71,7 @@ var mapHelpers = {
 	    	html:'<span class="glyphicon glyphicon-map-marker" style="color:'+color+';">'+img+'</span>'
 		});
 	},
+	
 	characters: {},
 	
 	colors: ['#FFA000', '#F57C00', '#CDDC39', '#8BC34A', '#D32F2F', '#536DFE', '#512DA8', '#009688', 
