@@ -96,6 +96,8 @@ var mapHelpers = {
 				}
 				el.toggleClass('disabled'); // Toggle the class name (de-)activate it
 				mapHelpers.characterPins(c);
+				mapHelpers.wikiModal(c.link, c.name, c.house);
+
 			});
 			mapHelpers.characterPins(c); // Show the character pins
 			$("#characters").append(item);// Add it to the list
