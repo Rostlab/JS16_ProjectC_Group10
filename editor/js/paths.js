@@ -7,90 +7,110 @@
                         :_;
 */
 jQuery(function() {
-	var latlngs = [];
-	var path = [];
-	var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
-	var dot = L.divIcon({className: 'point'});
-	var selected = [0,0];
-	
-	// Back Button
-	var backCtrl = L.Control.extend(
-	{
-		options: {position: 'topright'},
-		onAdd: function (map) {
-			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-arrow-left');
-			L.DomEvent.disableClickPropagation(c);
-			c.onclick = function(){
-				latlngs.pop();
-				path.pop();
-				polyline.setLatLngs(latlngs);
-			};
-			return c;
-		},
-	});
-	map.addControl(new backCtrl());
-	
-	// Save to JSON Button
-	var jsonCtrl = L.Control.extend(
-	{
-		options: {position: 'topright'},
-		onAdd: function (map) {
-			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-share');
-			L.DomEvent.disableClickPropagation(c);
-			c.onclick = function(){
-				$('#jsonModal').modal('show');
-				$('#jsonArea').val(JSON.stringify(path));
-			};
-			return c;
-		},
-	});
-	map.addControl(new jsonCtrl());
-	
-	gotDB.getAll().map(function (place) {
-   		L.marker(place.coord, {
-	   		icon:dot
-   		}).on('click', function (e) {
-	    	addToPolyline(place.coord, place.name);
-    	}).bindLabel(place.name, {direction:'auto'}).addTo(map);
+    var path = {};
+    var polyline = L.polyline([], {
+        color: 'red'
+    }).addTo(map);
+    var dot = L.divIcon({
+        className: 'point'
     });
-	
-	function addToPolyline(c, info) {
-		latlngs.push(c);
-		if(info) {
-			path.push([c.lat,c.lng, info]);
-		} else {
-			path.push([c.lat,c.lng]);
+    var selected = "0-1";
+
+    // Back Button
+    var backCtrl = L.Control.extend({
+        options: {
+            position: 'topright'
+        },
+        onAdd: function(map) {
+            var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-arrow-left');
+            L.DomEvent.disableClickPropagation(c);
+            c.onclick = function() {
+                path[selected].pop();
+                polyline.setLatLngs(toCoords(path));
+            };
+            return c;
+        },
+    });
+    map.addControl(new backCtrl());
+
+    // Save to JSON Button
+    var jsonCtrl = L.Control.extend({
+        options: {
+            position: 'topright'
+        },
+        onAdd: function(map) {
+            var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-share');
+            L.DomEvent.disableClickPropagation(c);
+            c.onclick = function() {
+                $('#jsonModal').modal('show');
+                $('#jsonArea').val(JSON.stringify(path));
+            };
+            return c;
+        },
+    });
+    map.addControl(new jsonCtrl());
+
+    gotDB.getAll().map(function(place) {
+        L.marker(place.coord, {
+            icon: dot
+        }).on('click', function(e) {
+            addToPolyline(place.coord, place.name);
+        }).bindLabel(place.name, {
+            direction: 'auto'
+        }).addTo(map);
+    });
+
+    function addToPolyline(c, info) {
+        if(!path[selected]) {
+	        path[selected] = [];
+        }
+        if (info) {
+            path[selected].push([c.lat, c.lng, info]);
+        } else {
+            path[selected].push([c.lat, c.lng]);console.log(path[selected]);
+        }
+        polyline.setLatLngs(toCoords(path));
+    }
+
+    map.on("click", function(e) {
+        addToPolyline(e.latlng);
+    });
+
+    $("#slider-range").slider({
+        range: true,
+        min: 0,
+        max: 49,
+        values: [0, 1],
+        slide: function(event, ui) {
+            selected = [ui.values[0], ui.values[1]];
+            if (selected[0] == selected[1]) {
+                selected = selected[0];
+            } else {
+	            selected = selected[0] +"-"+ selected[1];
+            }
+            $("#amount").text(getEpisodeInfo(ui.values[0]) + " - " + getEpisodeInfo(ui.values[1]));
+        }
+    });
+
+	function toCoords(px) {
+		var cs = [];
+		var getC = function(p) {
+			cs.push([p[0], p[1]]);
+		};
+		for(var k in px) {
+			px[k].map(getC);
 		}
-		polyline.setLatLngs(latlngs);
+		return cs;
 	}
-	
-	map.on("click", function(e) {
-		addToPolyline(e.latlng);
-	});
-	
-	$( "#slider-range" ).slider({
-      range: true,
-      min: 0,
-      max: 49,
-      values: [0, 1],
-      slide: function( event, ui ) {
-	      if(ui.values[0] ==  ui.values[1]) {
-		      ui.values[1]++; // Update slider
-		      return;
-	      }
-	      selected = [ui.values[0], ui.values[1]];
-        $( "#amount" ).text( getEpisodeInfo(ui.values[0]) + " - " + getEpisodeInfo(ui.values[1]) );
-      }
-    });
-    
+
     function getEpisodeInfo(i) {
-	    var e = episodes[i];
-	    return "S"+e.season+"E"+e.episode+": "+e.title;
+        var e = episodes[i];
+        return "S" + e.season + "E" + e.episode + ": " + e.title;
     }
 });
 
 
-	/*
+/*
     function onMapClick(e) {
 	    if(curCity == -1) {
 		    return;
