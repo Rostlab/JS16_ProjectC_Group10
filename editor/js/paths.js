@@ -94,10 +94,11 @@ jQuery(function() {
 
 	function toCoords(px) {
 		var cs = [];
+		var getC = function(p) {
+			cs.push([p[0], p[1]]);
+		};
 		for(var k in px) {
-			px[k].map(function(p) {
-				cs.push([p[0], p[1]]);
-			});
+			px[k].map(getC);
 		}
 		return cs;
 	}
