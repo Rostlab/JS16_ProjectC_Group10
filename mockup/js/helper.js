@@ -56,8 +56,8 @@ var mapHelpers = {
 	},
 	
 	// Set Pins
-	characterPins: function (character, color) {
-		var marker = mapHelpers.colorMarker(color, character.img);
+	characterPins: function (character) {
+		var marker = mapHelpers.colorMarker(character.color, character.img);
 		L.marker([Math.random()*120-35, Math.random() * 360 -180], {icon:marker}).addTo(map);
 		L.marker([Math.random()*120-35, Math.random() * 360 -180], {icon:marker}).addTo(map);
 		L.marker([Math.random()*120-35, Math.random() * 360 -180], {icon:marker}).addTo(map);
@@ -72,12 +72,15 @@ var mapHelpers = {
 		});
 	},
 	characters: {},
+	
 	colors: ['#FFA000', '#F57C00', '#CDDC39', '#8BC34A', '#D32F2F', '#536DFE', '#512DA8', '#009688', 
 		'#03A9F4', '#795548', '#E91E63', '#FF5722'],
+		
 	// Add a character to the list
 	addCharacter: function(c) {
 		if(!this.characters[c.id]) { // If not in the list, add it
-			c.color = this.colors[this.characters.count%this.colors.count]; // Rotate the colors
+			var count = Object.keys(this.characters).length; // # of Characters
+			c.color = this.colors[count % this.colors.length]; // Rotate the colors
 			var img = c.img || defaultPersonImage; // Image defined or use default
 			// Make new elem
 			var item = $('<div class="character"><img src="'+img+'"'+
@@ -91,8 +94,9 @@ var mapHelpers = {
 					el = el.parents('.character'); // Get the container
 				}
 				el.toggleClass('disabled'); // Toggle the class name (de-)activate it
-				mapHelpers.characterPins(p, color);
+				mapHelpers.characterPins(c);
 			});
+			mapHelpers.characterPins(c); // Show the character pins
 			$("#characters").append(item);// Add it to the list
 			c.el = item;
 			this.characters[c.id] = c; // Save it
