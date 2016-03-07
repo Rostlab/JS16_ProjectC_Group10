@@ -19,10 +19,11 @@ jQuery(function () {
 		var s = search();
 		l.empty();
 		if(s.length) {
-		s.map(function(p) {
-			var img = p.img || defaultPersonImage;
-			var item = jQuery('<li><a href="#"><img src="'+img+'" class="img-circle"/>'+p.name+'</a></li>').click(function(e) {
-				$('#person'+p.index).trigger('click', {target:$('#person'+p.index)});
+		s.map(function(c) {
+			var img = c.img || defaultPersonImage;
+			var item = jQuery('<li><a href="#"><img src="'+img+'" class="img-circle"/>'+c.name+'</a></li>').click(function(e) {
+				// $('#person'+p.index).trigger('click', {target:$('#person'+p.index)});
+				mapHelpers.addCharacter(c);
 				l.fadeOut();
 				return false;
 			});
@@ -39,7 +40,7 @@ jQuery(function () {
 		personList.map(function(p,i) {
 			var pos = p.name.toLowerCase().indexOf(s);
 			if(pos != -1) {
-				p.index = i;
+				p.id = i;
 				(pos === 0 ? o1 : o2).push(p);
 			}
 		});

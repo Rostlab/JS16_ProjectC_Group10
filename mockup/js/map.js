@@ -127,7 +127,7 @@ jQuery(function() {
         	marker.setLatLng(e.latlng);
         }
         var position = e.latlng;
-        marker.updateLabelContent("" + position).showLabel();
+        //marker.updateLabelContent("" + position).showLabel();
     }
     map.on('click', onMapClick);
 });
