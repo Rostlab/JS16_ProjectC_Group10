@@ -25,10 +25,11 @@ jQuery(function() {
 	            selected = selected[0] +"-"+ selected[1];
             }
             $("#amount").text(getEpisodeInfo(ui.values[0]) + " - " + getEpisodeInfo(ui.values[1]));
+            mapHelpers.updatePaths(selected);
         }
     });
     
-        function getEpisodeInfo(i) {
+    function getEpisodeInfo(i) {
         var e = episodes[i];
         return "S" + e.season + "E" + e.episode + ": " + e.title;
     }

@@ -59,8 +59,6 @@ var mapHelpers = {
 	characterPins: function (character) {
 		var marker = mapHelpers.colorMarker(character.color, character.img);
 		L.marker([Math.random()*120-35, Math.random() * 360 -180], {icon:marker}).addTo(map);
-		L.marker([Math.random()*120-35, Math.random() * 360 -180], {icon:marker}).addTo(map);
-		L.marker([Math.random()*120-35, Math.random() * 360 -180], {icon:marker}).addTo(map);
 	}, 
 	
 	// Make some colorful markers
@@ -100,7 +98,46 @@ var mapHelpers = {
 			mapHelpers.characterPins(c); // Show the character pins
 			$("#characters").append(item);// Add it to the list
 			c.el = item;
+			c.polyline =  L.polyline([], {color: c.color}).addTo(map);
+			var marker = mapHelpers.colorMarker(c.color, c.img);
+			c.endMarker = L.marker([0,0], {icon:marker}).addTo(map);
 			this.characters[c.id] = c; // Save it
 		}
-	}	
+	},
+	
+	// display the selected paths
+	updatePaths: function(selection) {
+		var toArray = function(s) {
+			if(typeof s == "number") {
+				return s;
+			}
+			s = s.split('-');
+			return [parseInt(s[0]), parseInt(s[s.length-1])];
+		}
+		selection = toArray(selection);
+		var displayIt = function(pathInfo) {
+			var p = toArray(pathInfo);
+			if(p.length == 1 || p[1] == "") {
+				return (p[0] >= selection[0] && p[0] <= selection[1]);
+			}
+			return (p[0] >= selection[0] && p[1] <= selection[1]);
+		}
+	
+		var getC = function(p) {
+			cs.push([p[0], p[1]]);
+		};
+		for(var k in this.characters) {
+			var c = this.characters[k];
+			var cs = [];
+			if(paths[k]) {
+				for(var k2 in paths[k]) {
+					if(displayIt(k2)) {
+						paths[k][k2].map(getC);
+						}
+				}
+				c.polyline.setLatLngs(cs);
+				c.endMarker.setLatLng(cs.pop());
+			}
+		}
+	}
 };
