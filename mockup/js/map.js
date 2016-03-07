@@ -111,12 +111,13 @@ jQuery(function() {
 	        className: 'gotlabel '+prio
 	    }).addTo(map);
     });
-
+	
 	var marker;
     function onMapClick(e) {
     	if(!marker) {
         	marker = new L.marker(e.latlng, {
-        	    draggable: 'true'
+        	    draggable: 'true',
+        	    icon: mapHelpers.colorMarker('silver', defaultPersonImage)
         	}).bindLabel(undefined, {noHide: true}).addTo(markers);
         	marker.on('dragend', function(event) {
             	var position = marker.getLatLng();

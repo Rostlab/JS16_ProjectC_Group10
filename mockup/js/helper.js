@@ -7,6 +7,7 @@
                         :_;
 */
 var mapHelpers = {
+	// Launch wiki informations
 	wikiModal: function (link, title, cssclass) {
 		$('#dynModal').modal('show');
     	var tEl = $('#dynModal .modal-header'); // Header Container
@@ -52,10 +53,22 @@ var mapHelpers = {
 		});
 	},
 	
-	characterPins: function (character)
+	// Set Pins
+	characterPins: function (character, color)
 	{	
-		L.marker([Math.random()*45, Math.random() * 360 -180]).addTo(map);
-		L.marker([Math.random()*45, Math.random() * 360 -180]).addTo(map);
-		L.marker([Math.random()*45, Math.random() * 360 -180]).addTo(map);
+		var marker = mapHelpers.colorMarker(color, character.img);
+		L.marker([Math.random()*120-35, Math.random() * 360 -180], {icon:marker}).addTo(map);
+		L.marker([Math.random()*120-35, Math.random() * 360 -180], {icon:marker}).addTo(map);
+		L.marker([Math.random()*120-35, Math.random() * 360 -180], {icon:marker}).addTo(map);
+	}, 
+	
+	// Make some colorful markers
+	colorMarker: function(color, imgSrc) {
+		var img = imgSrc ? '<img src="'+imgSrc+'" />' : '';
+		return L.divIcon({
+			iconAnchor: [16,32],
+	    	className: 'colormarker',
+	    	html:'<span class="glyphicon glyphicon-map-marker" style="color:'+color+';">'+img+'</span>'
+		});
 	}
 };

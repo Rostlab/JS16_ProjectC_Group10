@@ -25,6 +25,32 @@
 }
 
 /* @group Labels */ 
+.colormarker {
+	font-size: 32px;
+	color: #a00;
+}
+
+.colormarker img{
+	position: relative;
+	width: 16px;
+	height: 16px;
+	border-radius: 8px;
+	top:-7px;
+	left: -23px;
+}
+
+.zoom5 .colormarker {
+	font-size: 64px;
+}
+
+.zoom5 .colormarker img {
+	width: 32px;
+	height: 32px;
+	border-radius: 16px;
+	top: -16px;
+	left: -45px;
+}
+	
 .leaflet-marker-icon.got {
 	width: 16px !important;
 	height: 16px !important;
