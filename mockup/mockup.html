@@ -14,7 +14,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/vader/jquery-ui.css" />
     <!-- Bootstrap (depends on jQuery) -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 	<!-- Leaflet -->
@@ -39,7 +38,7 @@
 	
 </head>
 <body>
-	<div id="map" class="withtimeline">
+	<div id="map">
 		<!-- Filled in map.js -->
 	</div>
 	<div id="sidebar">
@@ -48,6 +47,7 @@
       		<input type="text" class="form-control" placeholder="Search for...">
     <i class="glyphicon glyphicon-search form-control-feedback"></i>
 	  		<ul id="filter-dropdown" class="dropdown-menu">
+	  		<li class="dropdown-header">Nothing found</li>
   			</ul>
     	</div>
 		</form>
@@ -81,7 +81,7 @@
 		</div>
 	</div>
 </div>
-	
+
 </body>
 </html>
 

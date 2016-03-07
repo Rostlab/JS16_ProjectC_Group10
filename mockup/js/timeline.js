@@ -9,7 +9,7 @@
 jQuery(function() {
 	var selected = "0-1";
 	
-	$("#amount").text(getEpisodeInfo(ui.values[0]) + " - " + getEpisodeInfo(ui.values[1]));
+	$("#amount").text(getEpisodeInfo(0) + " - " + getEpisodeInfo(1));
 	
 	$("#slider-range").slider({
         range: true,
