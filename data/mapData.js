@@ -215,15 +215,6 @@ gotDB = {
     "type": "other",
     "prio": "4"
 }, {
-    "name": "Unnamed village",
-    "link": "http://awoiaf.westeros.org/index.php/Unnamed_Village",
-    "coord": {
-        "lat": 57.07854291449995,
-        "lng": -106.65498286695927
-    },
-    "type": "other",
-    "prio": "5"
-}, {
     "name": "Lord Lychester's Keep",
     "link": "http://awoiaf.westeros.org/index.php/House_Lychester",
     "coord": {
@@ -575,7 +566,7 @@ gotDB = {
     "type": "castle",
     "prio": "3"
 }, {
-    "name": "Heart's_Home",
+    "name": "Heart's Home",
     "link": "http://awoiaf.westeros.org/index.php/Heart%27s_Home",
     "coord": {
         "lat": 64.52016628147234,
@@ -926,7 +917,7 @@ gotDB = {
     "type": "other",
     "prio": "5"
 }, {
-    "name": "Tumbler's_Falls",
+    "name": "Tumbler's Falls",
     "link": "http://awoiaf.westeros.org/index.php/Tumbler%27s_Falls",
     "coord": {
         "lat": 51.77282992542892,
@@ -1187,7 +1178,7 @@ gotDB = {
     "type": "ruin",
     "prio": "3"
 }, {
-    "name": "Rook's_Rest",
+    "name": "Rook's Rest",
     "link": "http://awoiaf.westeros.org/index.php/Rook%27s_Rest",
     "coord": [39.06711226988301, -80.27734375],
     "type": "castle",
@@ -1355,7 +1346,7 @@ gotDB = {
     "type": "castle",
     "prio": "5"
 }, {
-    "name": "Cider_Hall",
+    "name": "Cider Hall",
     "link": "http://awoiaf.westeros.org/index.php/Cider_Hall",
     "coord": {
         "lat": 29.65378045790079,
@@ -1460,7 +1451,7 @@ gotDB = {
     "type": "castle",
     "prio": "4"
 }, {
-    "name": "Haystack_Hall",
+    "name": "Haystack Hall",
     "link": "http://awoiaf.westeros.org/index.php/Haystack_Hall",
     "coord": {
         "lat": 37.38686711776374,
@@ -1505,7 +1496,7 @@ gotDB = {
     "type": "castle",
     "prio": "5"
 }, {
-    "name": "Evenfall_Hall",
+    "name": "Evenfall Hall",
     "link": "http://awoiaf.westeros.org/index.php/Evenfall_Hall",
     "coord": {
         "lat": 33.40713086427778,
@@ -1808,7 +1799,7 @@ gotDB = {
     "type": "castle",
     "prio": "2"
 }, {
-    "name": "Water_Gardens",
+    "name": "Water Gardens",
     "link": "http://awoiaf.westeros.org/index.php/Water_Gardens",
     "coord": {
         "lat": 3.4661358803297615,
