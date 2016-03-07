@@ -7,7 +7,7 @@
                         :_;
 */
 gotDB = {
-	cityInfo: [{
+	cityInfo:[{
     "name": "Westwatch by the Bridge",
     "link": "http://awoiaf.westeros.org/index.php/Westwatch-by-the-Bridge",
     "coord": {
@@ -15,7 +15,7 @@ gotDB = {
         "lng": -103.97162858160415
     },
     "type": "other",
-    "prio": "4"
+    "prio": "6"
 }, {
     "name": "Shadow Tower",
     "link": "http://awoiaf.westeros.org/index.php/Shadow_Tower",
@@ -24,7 +24,7 @@ gotDB = {
         "lng": -102.3105045001938
     },
     "type": "castle",
-    "prio": "3"
+    "prio": "4"
 }, {
     "name": "Sentinel Stand",
     "link": "http://awoiaf.westeros.org/index.php/Sentinel_Stand",
@@ -213,7 +213,7 @@ gotDB = {
         "lng": -109.08277960132823
     },
     "type": "other",
-    "prio": "4"
+    "prio": "5"
 }, {
     "name": "Lord Lychester's Keep",
     "link": "http://awoiaf.westeros.org/index.php/House_Lychester",
@@ -318,7 +318,7 @@ gotDB = {
         "lng": -80.97144899284571
     },
     "type": "ruin",
-    "prio": "3"
+    "prio": "4"
 }, {
     "name": "Mole's Town",
     "link": "http://awoiaf.westeros.org/index.php/Mole%27s_Town",
@@ -477,7 +477,7 @@ gotDB = {
         "lng": -91.9604236852525
     },
     "type": "castle",
-    "prio": "6"
+    "prio": "5"
 }, {
     "name": "Flint's Finger",
     "link": "http://awoiaf.westeros.org/index.php/Flint%27s_Finger",
@@ -501,7 +501,7 @@ gotDB = {
         "lng": -104.35496490808343
     },
     "type": "other",
-    "prio": "3"
+    "prio": "4"
 }, {
     "name": "Crofters' village",
     "link": "http://awoiaf.westeros.org/index.php/Crofters%27_village",
@@ -627,7 +627,7 @@ gotDB = {
         "lng": -87.16871960426117
     },
     "type": "castle",
-    "prio": "3"
+    "prio": "4"
 }, {
     "name": "Redfort",
     "link": "http://awoiaf.westeros.org/index.php/Redfort",
@@ -636,7 +636,7 @@ gotDB = {
         "lng": -78.0964265442509
     },
     "type": "castle",
-    "prio": "6"
+    "prio": "5"
 }, {
     "name": "Gulltown",
     "link": "http://awoiaf.westeros.org/index.php/Gulltown",
@@ -708,7 +708,7 @@ gotDB = {
         "lng": -135.66076490389352
     },
     "type": "other",
-    "prio": "3"
+    "prio": "4"
 }, {
     "name": "Pyke",
     "link": "http://awoiaf.westeros.org/index.php/Pyke",
@@ -744,7 +744,7 @@ gotDB = {
         "lng": -85.57148491059739
     },
     "type": "town",
-    "prio": "3"
+    "prio": "4"
 }, {
     "name": "The Twins",
     "link": "http://awoiaf.westeros.org/index.php/Twins",
@@ -789,7 +789,7 @@ gotDB = {
         "lng": -94.77155674610076
     },
     "type": "other",
-    "prio": "4"
+    "prio": "5"
 }, {
     "name": "Riverrun",
     "link": "http://awoiaf.westeros.org/index.php/Riverrun",
@@ -1041,7 +1041,7 @@ gotDB = {
         "lng": -121.98843592613156
     },
     "type": "other",
-    "prio": "3"
+    "prio": "4"
 }, {
     "name": "Sarsfield",
     "link": "http://awoiaf.westeros.org/index.php/Sarsfield",
@@ -1113,7 +1113,7 @@ gotDB = {
         "lng": -136.81077388333145
     },
     "type": "ruin",
-    "prio": "3"
+    "prio": "4"
 }, {
     "name": "Clegane's Keep",
     "link": "http://awoiaf.westeros.org/index.php/Clegane%27s_Keep",
@@ -1362,7 +1362,7 @@ gotDB = {
         "lng": -108.95500082583514
     },
     "type": "castle",
-    "prio": "3"
+    "prio": "4"
 }, {
     "name": "Highgarden",
     "link": "http://awoiaf.westeros.org/index.php/Highgarden",
@@ -1503,7 +1503,7 @@ gotDB = {
         "lng": -67.59453385959468
     },
     "type": "castle",
-    "prio": "3"
+    "prio": "4"
 }, {
     "name": "Storm's End",
     "link": "http://awoiaf.westeros.org/index.php/Storm%27s_End",
@@ -1602,7 +1602,7 @@ gotDB = {
         "lng": -68.22701225613339
     },
     "type": "castle",
-    "prio": "6"
+    "prio": "5"
 }, {
     "name": "Weeping Tower",
     "link": "http://awoiaf.westeros.org/index.php/Weeping_Tower",
@@ -1806,7 +1806,7 @@ gotDB = {
         "lng": -66.8917800856628
     },
     "type": "other",
-    "prio": "3"
+    "prio": "4"
 }, {
     "name": "Port of Ibben",
     "link": "http://awoiaf.westeros.org/index.php/Port_of_Ibben",
@@ -1887,7 +1887,7 @@ gotDB = {
         "lng": -18.29595961347901
     },
     "type": "city",
-    "prio": "6"
+    "prio": "3"
 }, {
     "name": "Qohor",
     "link": "http://awoiaf.westeros.org/index.php/Qohor",
@@ -1932,7 +1932,7 @@ gotDB = {
         "lng": -9.223666553468732
     },
     "type": "town",
-    "prio": "6"
+    "prio": "4"
 }, {
     "name": "Valysar",
     "link": "http://awoiaf.westeros.org/index.php/Valysar",
@@ -2185,8 +2185,7 @@ gotDB = {
     },
     "type": "other",
     "prio": "2"
-}],
-	curCity: -1,
+}] ,curCity: -1,
 	setCurrent: function(i) {
 		gotDB.curCity = i;
 	},
