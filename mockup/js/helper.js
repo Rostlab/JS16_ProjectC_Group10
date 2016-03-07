@@ -136,8 +136,9 @@ var mapHelpers = {
 						}
 				}
 				c.polyline.setLatLngs(cs);
-				c.startMarker.setLatLng(cs.shift()); // Display start Marker
-				c.endMarker.setLatLng(cs.pop()); // Display End Marker
+				var start = cs.shift();
+				c.startMarker.setLatLng(start); // Display start Marker
+				c.endMarker.setLatLng(cs.length > 0 ? cs.pop() : start); // Display End Marker
 			}
 		}
 	}
