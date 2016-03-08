@@ -88,10 +88,10 @@ var mapHelpers = {
 		
 			mapHelpers.characterPins(c); // Show the character pins
 			$("#characters").append(item);// Add it to the list
-			c.polyline =  L.polyline([], {color: c.color}).addTo(map);
+			c.polyline =  L.polyline([], {color: c.color}).addTo(characterInfo);
 			var marker = mapHelpers.colorMarker(c.color, c.img);
-			c.startMarker = L.marker([0,0], {icon:marker}).addTo(map);
-			c.endMarker = L.marker([0,0], {icon:marker}).addTo(map);
+			c.startMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
+			c.endMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
 			
 			item.click(function (e) { // Bind the click listener
 				var el = $(e.target); // Clicked Element
@@ -100,9 +100,9 @@ var mapHelpers = {
 				}
 				if(el.hasClass('disabled')) { // Toggle the class name (de-)activate it
 					el.removeClass('disabled');
-					c.polyline.addTo(map);
-					c.startMarker.addTo(map);
-					c.endMarker.addTo(map);
+					c.polyline.addTo(characterInfo);
+					c.startMarker.addTo(characterInfo);
+					c.endMarker.addTo(characterInfo);
 				} else {
 					el.addClass('disabled');
 					c.polyline.remove();
