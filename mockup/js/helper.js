@@ -85,20 +85,31 @@ var mapHelpers = {
 			} else {
 				img = defaultPersonImage; 
 			}
+			
 			// Make new elem
-			var item = $('<div class="character"><img src="'+img+'"'+
-				'class="img-circle" style="border-color:'+c.color+'"/>'+
-				'<div class="characterinfo"><div class="name">'+c.name+'</div>'+
-				'<div class="house">'+c.title+'</div></div></div></div>');
+			var character = $('<div class="character"><img src="'+img+'"'+
+				'class="img-circle" style="border-color:'+c.color+'"/></div>');
+			var charInfo = $('<div class="characterinfo"></div>');
+			var name = $('<div class="name">'+c.name+'</div>');
+			var house = $('<div class="house">'+c.house+'</div>');
+			var moreInfo = $('<a>More info</a>');
 		
 			mapHelpers.characterPins(c); // Show the character pins
-			$("#characters").append(item);// Add it to the list
+			$("#characters").append(character);// Add it to the list
+			character.append(charInfo);
+			charInfo.append(name);
+			if(c.house){
+			charInfo.append(house);
+			}
+			if(c.link){
+			charInfo.append(moreInfo);
+			}
 			c.polyline =  L.polyline([], {color: c.color}).addTo(characterInfo);
 			var marker = mapHelpers.colorMarker(c.color, img);
 			c.startMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
 			c.endMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
 			
-			item.click(function (e) { // Bind the click listener
+			character.click(function (e) { // Bind the click listener
 				var el = $(e.target); // Clicked Element
 				if(!el.hasClass('character')) {
 					el = el.parents('.character'); // Get the container
@@ -115,10 +126,14 @@ var mapHelpers = {
 					c.endMarker.remove();
 				}
 				mapHelpers.characterPins(c);
-				//mapHelpers.wikiModal(c.link, c.name, c.house);
 			});
 			
-			c.el = item;
+			moreInfo.click(function (e) {
+				var el = $(e.target);
+				mapHelpers.wikiModal(c.link, c.name, c.house);
+			});
+			
+			c.el = character;
 			this.characters[c._id] = c; // Save it
 			this.updatePaths();
 		}
