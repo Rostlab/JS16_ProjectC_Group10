@@ -28,7 +28,8 @@
     "grunt": "^0.4.5",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-qunit": "^1.0.1",
-    "grunt-contrib-watch": "^0.6.1"
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-release-it": "^1.0.1"
   },
   "dependencies": {
     "bootstrap": "^3.3.6",

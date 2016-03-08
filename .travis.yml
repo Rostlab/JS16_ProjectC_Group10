@@ -1,12 +1,12 @@
 language: node_js
 node_js:
-    - "stable"
+- stable
 before_script:
-    - npm install -g grunt-cli
+- npm install -g grunt-cli
 deploy:
-  	provider: npm
-  	email: oleksii.moroz@tum.de
-  	api_key:
-    	secure: ea07ce5b-9110-41cb-bb9a-2527435ac3b8
-  	# on:
-   #  	tags: true
+  provider: npm
+  email: oleksii.moroz@tum.de
+  api_key:
+    secure: xyiGXSEE4ULg6+S/YuZqMxS4mU67tQKnVsdH6VbY8UfIBpMhaw2hjJrDxaQVXVcnoD1xUMYzZtMwUJpov6pATLWZX3FEIq0GjGan5iFTGxH9hPMhkmGFWVjW9Ve52D0lDonSQKQZ92cAyl/eGkYliJaYKi854W1eRD7NxROYRJe986p419q31suNsDv81dHHYZ3Me8Kjx51bj6HjpIVo34LGQ2WguH5akX3RYYhE9kxx8y99zK2X4xXLMQzynaaC/+jSwBETWUhfZ9dSVrsdfa49WSaFxKDPufjB7A9EIGyoR5rzFgZstC6U/cyl/Sce9xEUF6u08rQzf+kV6VGtQHHWICzlVST+3e8WEOueEtIEKqrsCYm69k8gTN5E9w6oA0qLVeoSHXch5GIrBqUdaTz3MapEkJT0lm9ymuDSKoTNKo6jOXOEhRU1hQdmHygLXc3RDRqbuJvlhtgwY/WPq8X+HGAcaX5cAGG4TBJL6VQESh8v9dc9NyupwqhFR3K5nRTqSqoGJy5dBdoBlDkza9qlg0WBsG5Wwo3rq3FYglE4/sino3xNdvDuUcsToDwwLPVip68FZiPXGvN7H3MOdMYKB5TVBYROju2awqraFVl8u+YS5cxZyOd5Og3n9FXGJUID3HpFz0f+31oZxLtTXC0/4MKE2SfTp+E5apMMWyM=
+  on:
+    repo: Rostlab/JS16_ProjectC_Group10
