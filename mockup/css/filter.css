@@ -14,3 +14,8 @@
 	height: 2em;
 	margin: 0 .5em 0 -1em;
 }
+#filter ul li.hover, #filter ul li:hover {
+	color: #262626;
+	text-decoration: none;
+	background-color: #d5d5d5;
+}

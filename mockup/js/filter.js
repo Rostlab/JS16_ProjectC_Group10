@@ -9,6 +9,9 @@
 jQuery(function () {
 	var f = $('#filter input'); // Filter Element
 	var l = $('#filter-dropdown'); // Dropdown
+	var selected = 0;
+	var inputVal = "";
+	var mouseOn = false;
 	var cs = {};
 	jQuery.get('https://got-api.bruck.me/api/characters/',null,function(data) {
 		cs = data;
@@ -17,35 +20,50 @@ jQuery(function () {
 	f.focusin(function () {
 		l.fadeIn();
 	});
-	f.focusout(function () {
-		// l.hide();
+	l.mouseenter(function() {
+		mouseOn = true;
 	});
-	f.keyup(function() {
-		var s = search();
-		l.empty();
-		if(s.length) {
-		s.map(function(c) {
-			var img;
-			if(personList[c._id]) {// Image defined or use default
-				img = personList[c._id].img;
-			} else {
-				img = defaultPersonImage; 
-			}
-			var item = jQuery('<li><a href="#"><img src="'+img+'" class="img-circle"/>'+c.name+'</a></li>').click(function(e) {
-				// $('#person'+p.index).trigger('click', {target:$('#person'+p.index)});
-				mapHelpers.addCharacter(c);
-				l.fadeOut();
-				return false;
-			});
-			l.append(item);
-		});
-		} else {
-			l.append('<li class="dropdown-header">Nothing found</li>');
+	l.mouseleave(function() {
+		mouseOn = false;
+	});
+	f.focusout(function () {
+		if(!mouseOn) {
+			l.fadeOut();
 		}
 	});
-	function search() {
-		var maxResults = 20;
+	f.keydown(function (e) {
+		var key = e.keyCode;
+		if(key == 13 || key == 38 || key == 40) {
+			var list = l.find("li");
+			e.preventDefault();
+			$(list[selected]).removeClass('hover');
+;			switch(key) {
+				case 13: // Return
+					$(list[selected]).trigger('click');
+					f.trigger('blur');
+					selected = 0;
+					return;
+				case 38: // Up
+					if(selected > 0) {
+						selected--;
+					}
+					break;
+				case 40: // Down
+					if(selected < list.length) {
+						selected++;
+					}
+			}
+			$(list[selected]).addClass('hover');
+		}
+	});
+	f.keyup(function(e) {
 		var s = f.val().toLowerCase();
+		if(s == inputVal) {
+			return;
+		} 
+		inputVal = s;
+		selected = 0;
+		var maxResults = 25;
 		var o1 = []; // Beginnt mit
 		var o2 = []; // Ist enthalten
 		var p;
@@ -54,11 +72,33 @@ jQuery(function () {
 			var pos = p.name.toLowerCase().indexOf(s);
 			if(pos != -1) {
 				(pos === 0 ? o1 : o2).push(p);
-				if((maxResults--) !== 0) {
+				if((maxResults--) === 0) {
 					break;
 				}
 			}
 		}
-		return o1.concat(o2);
-	}
+		var s = o1.concat(o2); // First beginning with e, then the rest
+		l.empty();
+		if(s.length) {
+		s.map(function(c,i) {
+			var img;
+			if(personList[c._id]) {// Image defined or use default
+				img = personList[c._id].img;
+			} else {
+				img = defaultPersonImage;
+			}
+			var item = jQuery('<li><a href="#"><img src="'+img+'" class="img-circle"/>'+c.name+'</a></li>').click(function(e) {
+				mapHelpers.addCharacter(c);
+				l.fadeOut();
+				return false;
+			});
+			if(i == 0) {
+				item.addClass('hover');
+			}
+			l.append(item);
+		});
+		} else {
+			l.append('<li class="dropdown-header">Nothing found</li>');
+		}
+	});
 });
