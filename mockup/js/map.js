@@ -13,6 +13,8 @@ jQuery(function() {
         max: 5
     };
     
+    var maxZoomLevel = -1;
+    
     // Define a costum zoom handler because HBO did sth weird when scaling
     L.CRS.HBOZoom = L.extend({}, L.CRS.EPSG3857, {
         scale: function(zoom) {
@@ -68,6 +70,64 @@ jQuery(function() {
     });
     map.addLayer(labelTiles);
     
+    //GetCitiesFromDB
+    
+    function loadPrioFromDB(priority)
+  	{
+  	  	    jQuery.post("https://got-api.bruck.me/api/cities/find", {"priority": priority}, 
+  	  	  		function (allCities){
+  	  	  			allCities.data.map(function (place) {
+  	  	  			var type = place.type || "other";
+  	  	  			var prio = "prio"+place.priority;
+  	  	  			if(place.coordY && place.coordX) {
+  	  	   				L.marker([parseFloat(place.coordY), parseFloat(place.coordX)], {
+  	  	 	   			icon: L.divIcon({
+  	  	   	    	   		className: 'got '+type+' '+prio
+  	  	   					})
+  	  	 				}).on('click', function () {
+  	  	 					mapHelpers.wikiModal(place.link, place.name, place.type);
+  	  	   				}).bindLabel(place.name, {
+  	  	   			    	noHide: true, 
+  	  	   			    	direction:'auto',
+  	  	   	   		    className: 'gotlabel '+prio
+  	  	   	   		}).addTo(map);
+  	  	   	   }
+  	  	 		});
+  	  	  	});
+  	}
+  	  	
+    function getZoomedCities(ezoom)
+    { 
+	  var curZoomLevel = map.getZoom();
+	  
+	  if(ezoom !== undefined)
+	  {
+		  curZoomLevel = ezoom;
+	  } 
+	 	
+	  if(maxZoomLevel < curZoomLevel) //only load new Zoomlevel, old ones are already stored
+  	  {	
+	  	 var padding = "";
+	  	 
+	  	 if(maxZoomLevel === -1)
+	  	 {
+		  	padding = "<=";
+	  	 }
+	  	 else
+	  	 {
+	  	 	if(curZoomLevel === 5)
+	  	 	{
+		  	 	padding = ">=";
+		 	}
+		 }
+		  	 
+		 maxZoomLevel = curZoomLevel; //adapt zoomed Level
+		 loadPrioFromDB(padding+maxZoomLevel);
+	  }
+	}  	
+	
+	getZoomedCities();	
+    
     // Add a class to alter the labels
     map.on('zoomanim', function(e) { 
         var el = document.getElementById('map');
@@ -76,9 +136,15 @@ jQuery(function() {
         } else {
             el.className = el.className.slice(0, -1) + e.zoom;
         }
+        getZoomedCities(e.zoom);
     });
+    
 	var markers = new L.layerGroup();
 	map.addLayer(markers);
+	
+	characterInfo = new L.layerGroup();
+	map.addLayer(characterInfo);
+
 	// Delete Button
 	var delCtrl = L.Control.extend(
 	{
@@ -94,46 +160,7 @@ jQuery(function() {
 		},
 	});
 	map.addControl(new delCtrl());
-	
-    // Add all Cities
-    /*
-    gotDB.getAll().map(function (place) {
-	    var type = place.type || "other";
-	    var prio = "prio"+place.prio;
-   		L.marker(place.coord, {
-        	icon: L.divIcon({
-	        	className: 'got '+type+' '+prio
-	        })
-    	}).on('click', function () {
-    		mapHelpers.wikiModal(place.link, place.name, place.type);
-    	}).bindLabel(place.name, {
-	    	noHide: true, 
-	    	direction:'auto',
-	        className: 'gotlabel '+prio
-	    }).addTo(map);
-    });
-    */
-    //GetCitiesFromDB
-    jQuery.get("https://got-api.bruck.me/api/cities", {},function (allCities){
-	    allCities.map(function (place) {
-	    var type = place.type || "other";
-	    var prio = "prio"+place.priority;
-	    if(place.coordY && place.coordX) {
-   			L.marker([parseFloat(place.coordY), parseFloat(place.coordX)], {
-        		icon: L.divIcon({
-	        		className: 'got '+type+' '+prio
-				})
-    		}).on('click', function () {
-    			mapHelpers.wikiModal(place.link, place.name, place.type);
-			}).bindLabel(place.name, {
-		    	noHide: true, 
-		    	direction:'auto',
-	    	    className: 'gotlabel '+prio
-	    	}).addTo(map);
-	    }
-    	});
-	});
-    	
+	 	
 	var marker;
     function onMapClick(e) {
     	if(!marker) {

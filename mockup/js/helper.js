@@ -76,36 +76,55 @@ var mapHelpers = {
 		
 	// Add a character to the list
 	addCharacter: function(c) {
-		if(!this.characters[c.id]) { // If not in the list, add it
+		if(!this.characters[c._id]) { // If not in the list, add it
 			var count = Object.keys(this.characters).length; // # of Characters
 			c.color = this.colors[count % this.colors.length]; // Rotate the colors
-			var img = c.img || defaultPersonImage; // Image defined or use default
+			var img;
+			if(personList[c._id]) {// Image defined or use default
+				img = personList[c._id].img;
+			} else {
+				img = defaultPersonImage; 
+			}
 			// Make new elem
 			var item = $('<div class="character"><img src="'+img+'"'+
 				'class="img-circle" style="border-color:'+c.color+'"/>'+
 				'<div class="characterinfo"><div class="name">'+c.name+'</div>'+
-				'<div class="house">'+c.house+'</div></div></div></div>');
+				'<div class="house">'+c.title+'</div></div></div></div>');
 		
+			mapHelpers.characterPins(c); // Show the character pins
+			$("#characters").append(item);// Add it to the list
+			c.polyline =  L.polyline([], {color: c.color}).addTo(characterInfo);
+			var marker = mapHelpers.colorMarker(c.color, img);
+			c.startMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
+			c.endMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
+			
 			item.click(function (e) { // Bind the click listener
 				var el = $(e.target); // Clicked Element
 				if(!el.hasClass('character')) {
 					el = el.parents('.character'); // Get the container
 				}
-				el.toggleClass('disabled'); // Toggle the class name (de-)activate it
+				if(el.hasClass('disabled')) { // Toggle the class name (de-)activate it
+					el.removeClass('disabled');
+					c.polyline.addTo(characterInfo);
+					c.startMarker.addTo(characterInfo);
+					c.endMarker.addTo(characterInfo);
+				} else {
+					el.addClass('disabled');
+					c.polyline.remove();
+					c.startMarker.remove();
+					c.endMarker.remove();
+				}
 				mapHelpers.characterPins(c);
-				mapHelpers.wikiModal(c.link, c.name, c.house);
-
+				//mapHelpers.wikiModal(c.link, c.name, c.house);
 			});
-			mapHelpers.characterPins(c); // Show the character pins
-			$("#characters").append(item);// Add it to the list
+			
 			c.el = item;
-			c.polyline =  L.polyline([], {color: c.color}).addTo(map);
-			var marker = mapHelpers.colorMarker(c.color, c.img);
-			c.startMarker = L.marker([0,0], {icon:marker}).addTo(map);
-			c.endMarker = L.marker([0,0], {icon:marker}).addTo(map);
-			this.characters[c.id] = c; // Save it
+			this.characters[c._id] = c; // Save it
+			this.updatePaths();
 		}
 	},
+	
+	selection: [0,1],
 	
 	// display the selected paths
 	updatePaths: function(selection) {
@@ -116,13 +135,14 @@ var mapHelpers = {
 			s = s.split('-');
 			return [parseInt(s[0]), parseInt(s[s.length-1])];
 		};
-		selection = toArray(selection); // Perform it on the slider input
+		var sel = this.selection = selection ? toArray(selection) : this.selection; // Perform it on the slider input
+		
 		var displayIt = function(pathInfo) { // Check whether to display the path
 			var p = toArray(pathInfo);
 			if(p.length == 1 || p[1] === "") {
-				return (p[0] >= selection[0] && p[0] <= selection[1]);
+				return (p[0] >= sel[0] && p[0] <= sel[1]);
 			}
-			return (p[0] >= selection[0] && p[1] <= selection[1]);
+			return (p[0] >= sel[0] && p[1] <= sel[1]);
 		};
 	
 		var getC = function(p) { // get Coordinates
@@ -130,15 +150,15 @@ var mapHelpers = {
 		};
 		for(var k in this.characters) { // Check if path exists and display
 			var c = this.characters[k];
-			var cs = [];
-			if(paths[k]) {
+			var cs = []; // Collect the Coordinates
+			if(paths[k]) { // If there is path info
 				for(var k2 in paths[k]) {
 					if(displayIt(k2)) {
 						paths[k][k2].map(getC);
 						}
 				}
 				c.polyline.setLatLngs(cs);
-				var start = cs.shift();
+				var start = cs.shift(); // Get the first
 				c.startMarker.setLatLng(start); // Display start Marker
 				c.endMarker.setLatLng(cs.length > 0 ? cs.pop() : start); // Display End Marker
 			}
