@@ -4,7 +4,6 @@ The known GoT world is vast and stretches over the three continents of Westeros,
     - Main wiki entry: https://rostlab.org/owiki/index.php/Javascript_technology_2016#Project_C
 
 # Dependencies
-    - Leaflet (+Label Plugin)
     - jQuery
     - Bootstrap
 
