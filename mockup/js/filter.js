@@ -9,6 +9,11 @@
 jQuery(function () {
 	var f = $('#filter input'); // Filter Element
 	var l = $('#filter-dropdown'); // Dropdown
+	var cs = {};
+	jQuery.get('https://got-api.bruck.me/api/characters/',null,function(data) {
+		cs = data;
+	});
+	
 	f.focusin(function () {
 		l.fadeIn();
 	});
@@ -20,7 +25,11 @@ jQuery(function () {
 		l.empty();
 		if(s.length) {
 		s.map(function(c) {
-			var img = c.img || defaultPersonImage;
+			if(personList[c._id]) {// Image defined or use default
+				var img = personList[c._id].img;
+			} else {
+				var img = defaultPersonImage; 
+			}
 			var item = jQuery('<li><a href="#"><img src="'+img+'" class="img-circle"/>'+c.name+'</a></li>').click(function(e) {
 				// $('#person'+p.index).trigger('click', {target:$('#person'+p.index)});
 				mapHelpers.addCharacter(c);
@@ -34,16 +43,21 @@ jQuery(function () {
 		}
 	});
 	function search() {
+		var maxResults = 20;
 		var s = f.val().toLowerCase();
 		var o1 = []; // Beginnt mit
 		var o2 = []; // Ist enthalten
-		personList.map(function(p,i) {
+		var p;
+		for(var i = 0;i<cs.length;i++) {
+			p=cs[i];
 			var pos = p.name.toLowerCase().indexOf(s);
 			if(pos != -1) {
-				p.id = i;
 				(pos === 0 ? o1 : o2).push(p);
+				if(!maxResults--) {
+					break;
+				}
 			}
-		});
+		}
 		return o1.concat(o2);
 	}
 });
