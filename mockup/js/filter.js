@@ -37,7 +37,7 @@ jQuery(function () {
 			var list = l.find("li");
 			e.preventDefault();
 			$(list[selected]).removeClass('hover');
-;			switch(key) {
+			switch(key) {
 				case 13: // Return
 					$(list[selected]).trigger('click');
 					f.trigger('blur');
@@ -77,26 +77,26 @@ jQuery(function () {
 				}
 			}
 		}
-		var s = o1.concat(o2); // First beginning with e, then the rest
-		l.empty();
-		if(s.length) {
-		s.map(function(c,i) {
-			var img;
-			if(personList[c._id]) {// Image defined or use default
-				img = personList[c._id].img;
-			} else {
-				img = defaultPersonImage;
-			}
-			var item = jQuery('<li><a href="#"><img src="'+img+'" class="img-circle"/>'+c.name+'</a></li>').click(function(e) {
-				mapHelpers.addCharacter(c);
-				l.fadeOut();
-				return false;
+		var out = o1.concat(o2); // First beginning with e, then the rest
+		l.empty(); // Delete the List
+		if(out.length) {
+			out.map(function(c,i) {
+				var img;
+				if(personList[c._id]) {// Image defined or use default
+					img = personList[c._id].img;
+				} else {
+					img = defaultPersonImage;
+				}
+				var item = jQuery('<li><a href="#"><img src="'+img+'" class="img-circle"/>'+c.name+'</a></li>').click(function(e) {
+					mapHelpers.addCharacter(c);
+					l.fadeOut();
+					return false;
+				});
+				if(i === 0) {
+					item.addClass('hover');
+				}
+				l.append(item);
 			});
-			if(i == 0) {
-				item.addClass('hover');
-			}
-			l.append(item);
-		});
 		} else {
 			l.append('<li class="dropdown-header">Nothing found</li>');
 		}
