@@ -3,3 +3,10 @@ node_js:
     - "stable"
 before_script:
     - npm install -g grunt-cli
+deploy:
+  	provider: npm
+  	email: oleksii.moroz@tum.de
+  	api_key:
+    	secure: ea07ce5b-9110-41cb-bb9a-2527435ac3b8
+  	# on:
+   #  	tags: true
