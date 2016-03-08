@@ -55,13 +55,13 @@ jQuery(function() {
 		console.log(cities);
 	 	cities.map(function(place) 
 	 	{
-		 	if(place.coordY && place.coordX) 
-		 	{
-        		L.marker([parseFloat(place.coordY), parseFloat(place.coordX)], {
+		 	if(place.coordY && place.coordX) {
+			 	var cx = parseFloat(place.coordX);
+			 	var cy = parseFloat(place.coordY);
+        		L.marker([cy, cx], {
             		icon: dot
-        		}).on('click', function(e) 
-				{
-            		addToPolyline([parseFloat(place.coordY), parseFloat(place.coordX)], place.name);
+        		}).on('click', function(e) {
+            		addToPolyline({lat:cy, lng:cx}, place._id);
         		}).bindLabel(place.name, 
         			{
 					direction: 'auto'
