@@ -41,8 +41,39 @@
 }
 /* @end */
 
-/* @group dynModal wiki */
+/* @group Modal Header Image */
+.city #dynModalLabel {
+	background: transparent url("../img/labels/city.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
 
+.town #dynModalLabel {
+	background: transparent url("../img/labels/town.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.castle #dynModalLabel {
+	background: transparent url("../img/labels/castle.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.ruin #dynModalLabel {
+	background: transparent url("../img/labels/ruin.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.other #dynModalLabel {
+	background: transparent url("../img/labels/other.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+/* @end */
+
+/* @group dynModal wiki */
 #dynModal #contentSub, #dynModal #siteSub, #dynModal #jump-to-nav, #dynModal #mw-data-after-content, #dynModal .printfooter, #dynModal .navbox, #dynModal .references, #dynModal .references-small, #dynModal .catlinks, #dynModal sup.reference {
 	display: none;
 }

@@ -12,5 +12,3 @@ main.css includes all different needed CSS files (and avoids merge conflicts)
 @import url("modal.css");
 @import url("timeline.css");
 @import url("sidebar.css");
-@import url("characters.css");
-@import url("filter.css");

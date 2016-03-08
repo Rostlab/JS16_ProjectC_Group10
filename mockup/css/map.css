@@ -6,6 +6,7 @@
                         : :                
                         :_;
 */
+/* @group Basics */
 #map {
 	background: #001;
 	position: fixed;
@@ -23,8 +24,11 @@
 	font-weight: bold;
 	text-align: center;
 }
+/* @end */
 
 /* @group Labels */ 
+	
+/* @group Colorful Character Marker */
 .colormarker {
 	font-size: 32px;
 	color: #a00;
@@ -62,7 +66,9 @@
 	top: -16px;
 	left: -45px;
 }
-	
+/* @end */
+
+/* @group Map Features */
 .leaflet-marker-icon.got {
 	width: 16px !important;
 	height: 16px !important;
@@ -95,36 +101,6 @@
 	background-size: 16px;
 }
 
-.city #dynModalLabel {
-	background: transparent url("../img/labels/city.png") no-repeat;
-	background-size: 32px;
-	padding-left: 40px;
-}
-
-.town #dynModalLabel {
-	background: transparent url("../img/labels/town.png") no-repeat;
-	background-size: 32px;
-	padding-left: 40px;
-}
-
-.castle #dynModalLabel {
-	background: transparent url("../img/labels/castle.png") no-repeat;
-	background-size: 32px;
-	padding-left: 40px;
-}
-
-.ruin #dynModalLabel {
-	background: transparent url("../img/labels/ruin.png") no-repeat;
-	background-size: 32px;
-	padding-left: 40px;
-}
-
-.other #dynModalLabel {
-	background: transparent url("../img/labels/other.png") no-repeat;
-	background-size: 32px;
-	padding-left: 40px;
-}
-
 .zoom5 .leaflet-marker-icon.got {
 	width: 32px !important;
 	height: 32px !important;
@@ -149,7 +125,9 @@
 	display: inline-block;
 	transform: rotate(45deg);
 }
+/* @end */
 
+/* @group Labels next to pins */
 .leaflet-label {
 	text-shadow: #FFF -1px 0px 0px, #FFF 1px 0px 0px, #FFF 0px 1px 0px, #FFF 0px -1px 0px, #FFF -1px -1px 0px,#FFF 1px 1px 0px,#FFF 1px -1px 0px,#FFF -1px 1px 0px;
 	color: #111;
@@ -171,5 +149,5 @@
 	cursor: pointer;
 	pointer-events: auto;
 }
-
+/* @end */
 /* @end */
