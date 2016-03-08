@@ -76,29 +76,34 @@ var mapHelpers = {
 		
 	// Add a character to the list
 	addCharacter: function(c) {
-		if(!this.characters[c._id]) { // If not in the list, add it
+		if(!this.characters[c.id]) { // If not in the list, add it
 			var count = Object.keys(this.characters).length; // # of Characters
 			c.color = this.colors[count % this.colors.length]; // Rotate the colors
-			var img;
-			if(personList[c._id]) {// Image defined or use default
-				img = personList[c._id].img;
-			} else {
-				img = defaultPersonImage; 
-			}
+			var img = c.img || defaultPersonImage; // Image defined or use default
 			// Make new elem
 			var item = $('<div class="character"><img src="'+img+'"'+
 				'class="img-circle" style="border-color:'+c.color+'"/>'+
 				'<div class="characterinfo"><div class="name">'+c.name+'</div>'+
-				'<div class="house">'+c.title+'</div></div></div></div>');
+				'<div class="house">'+c.house+'</div>'+
+				'<div class="container"><a>More info</a>'+ 
+				'</div></div></div>');
+			var character = $('<div class="character"><img src="'+img+'"'+
+				'class="img-circle" style="border-color:'+c.color+'"/></div>');
+			var name = $('<div class="name">'+c.name+'</div>');
+			var house = $('<div class="house">'+c.house+'</div>');
+			var moreInfo = $('<div class="container"><a>More info</a>');
 		
 			mapHelpers.characterPins(c); // Show the character pins
-			$("#characters").append(item);// Add it to the list
+			$("#characters").append(character);// Add it to the list
+			$("#characters").append(name);
+			$("#characters").append(house);
+			$("#characters").append(moreInfo);
 			c.polyline =  L.polyline([], {color: c.color}).addTo(characterInfo);
-			var marker = mapHelpers.colorMarker(c.color, img);
+			var marker = mapHelpers.colorMarker(c.color, c.img);
 			c.startMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
 			c.endMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
 			
-			item.click(function (e) { // Bind the click listener
+			character.click(function (e) { // Bind the click listener
 				var el = $(e.target); // Clicked Element
 				if(!el.hasClass('character')) {
 					el = el.parents('.character'); // Get the container
@@ -115,11 +120,15 @@ var mapHelpers = {
 					c.endMarker.remove();
 				}
 				mapHelpers.characterPins(c);
-				//mapHelpers.wikiModal(c.link, c.name, c.house);
+			});
+			
+			moreInfo.click(function (e) {
+				var el = $(e.target);
+				mapHelpers.wikiModal(c.link, c.name, c.house);
 			});
 			
 			c.el = item;
-			this.characters[c._id] = c; // Save it
+			this.characters[c.id] = c; // Save it
 			this.updatePaths();
 		}
 	},
