@@ -1,5 +1,5 @@
 paths = {};
-paths['56d912fb1e3cd5e6474a291c'] = { // Eddard
+paths['56df0e56d14319b30f5e2d96'] = { // Eddard
     "0": [
         [78.60937753613514, -105.31330572428169, "Winterfell"]
     ],
@@ -91,7 +91,7 @@ paths['56d912fb1e3cd5e6474a291c'] = { // Eddard
     ]
 };
 
-paths['56d912fb1e3cd5e6474a2d3f'] = { // Robb
+paths['56df0e56d14319b30f5e2ccf'] = { // Catelyn
     "0": [
         [78.60937753613514, -105.31330572428169, "Winterfell"]
     ],
