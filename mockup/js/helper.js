@@ -87,15 +87,23 @@ var mapHelpers = {
 				'<div class="house">'+c.house+'</div>'+
 				'<div class="container"><a>More info</a>'+ 
 				'</div></div></div>');
+			var character = $('<div class="character"><img src="'+img+'"'+
+				'class="img-circle" style="border-color:'+c.color+'"/></div>');
+			var name = $('<div class="name">'+c.name+'</div>');
+			var house = $('<div class="house">'+c.house+'</div>');
+			var moreInfo = $('<div class="container"><a>More info</a>');
 		
 			mapHelpers.characterPins(c); // Show the character pins
-			$("#characters").append(item);// Add it to the list
+			$("#characters").append(character);// Add it to the list
+			$("#characters").append(name);
+			$("#characters").append(house);
+			$("#characters").append(moreInfo);
 			c.polyline =  L.polyline([], {color: c.color}).addTo(characterInfo);
 			var marker = mapHelpers.colorMarker(c.color, c.img);
 			c.startMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
 			c.endMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
 			
-			item.click(function (e) { // Bind the click listener
+			character.click(function (e) { // Bind the click listener
 				var el = $(e.target); // Clicked Element
 				if(!el.hasClass('character')) {
 					el = el.parents('.character'); // Get the container
@@ -112,7 +120,11 @@ var mapHelpers = {
 					c.endMarker.remove();
 				}
 				mapHelpers.characterPins(c);
-				//mapHelpers.wikiModal(c.link, c.name, c.house);
+			});
+			
+			moreInfo.click(function (e) {
+				var el = $(e.target);
+				mapHelpers.wikiModal(c.link, c.name, c.house);
 			});
 			
 			c.el = item;
