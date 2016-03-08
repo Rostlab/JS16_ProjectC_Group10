@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet GOT Map - Group 10</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+	<!-- Leaflet CSS -->
+	<link rel="stylesheet" href="https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/master/leaflet.css" />
+	<!-- Our Code -->
+	<link rel="stylesheet" href="css/main.css" />
+	<!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap (depends on jQuery) -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+	<!-- Leaflet -->
+	<script src="https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/master/leaflet.js"></script>
+	<!-- Our Code -->
+	<script src="../data/mapData.js"></script>
+	<script src="js/map.js"></script>
+	<script src="js/cities.js"></script>
+</head>
+<body>
+	<div id="map">
+		<!-- Filled in map.js -->
+	</div>
+		<form id="filter">
+		<div class="input-group">
+      		<input type="text" class="form-control" placeholder="Search for..."><i class="glyphicon glyphicon-search form-control-feedback"></i>
+	  		
+    	</div>
+		</form>
+	<div id="sidebar">
+			<!-- Filled in filter.js -->
+	</div>
+	
+<div class="modal fade" id="jsonModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalLabel">Download JSON</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+	          <textarea id="jsonArea" class="form-control" rows="15"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalLabel">Edit City Information</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+  		  <div class="form-group">
+    		<label for="name">Name</label>
+    		<input type="text" class="form-control" id="name" placeholder="City Name" />
+  		  </div>
+  		  <div class="form-group">
+    		<label for="type">Type</label>
+    		<select name="type" id="type" class="form-control">
+    			<option value="city">City</option>
+    			<option value="town">Town</option>
+    			<option value="castle">Castle</option>
+    			<option value="ruin">Ruin</option>
+    			<option value="other">Other</option>
+    		</select>
+  		  </div>
+  		  <div class="form-group">
+    		<label for="prio">Priority</label>
+    		<select name="prio" id="prio" class="form-control">
+    			<option value="0">Zoom 0</option>
+    			<option value="1">Zoom 1</option>
+    			<option value="2">Zoom 2</option>
+    			<option value="3">Zoom 3</option>
+    			<option value="4">Zoom 4</option>
+    			<option value="5">Zoom 5</option>
+    			<option value="6">Zoom 6</option>
+    		</select>
+  		  </div>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <!--<button type="button" class="btn btn-danger pull-left" data-dismiss="modal" id="deleteEditModal">Delete Point</button>-->
+        <button type="button" class="btn btn-warning" data-dismiss="modal">Don't Save</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="saveEditModal">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+

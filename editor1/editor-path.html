@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet GOT Map - Group 10</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+	<!-- Leaflet CSS -->
+	<link rel="stylesheet" href="https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/master/leaflet.css" />
+	<!-- Our Code -->
+	<link rel="stylesheet" href="css/main.css" />
+	<!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/vader/jquery-ui.css" />
+    <!-- Bootstrap (depends on jQuery) -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+	<!-- Leaflet -->
+	<script src="https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/master/leaflet.js"></script>
+	<!-- Our Code -->
+	<script src="../data/mapData.js"></script>
+	<script src="js/map.js"></script>
+	<script src="js/paths.js"></script>
+	<script src="js/episodes.js"></script>
+	
+	
+	<!-- Alex-->
+	<script src="https://raw.githubusercontent.com/Leaflet/Leaflet.label/master/src/Label.js"></script>
+	<script src="https://raw.githubusercontent.com/Leaflet/Leaflet.label/master/src/BaseMarkerMethods.js"></script>
+	<script src="https://raw.githubusercontent.com/Leaflet/Leaflet.label/master/src/Marker.Label.js"></script>
+	<script src="https://raw.githubusercontent.com/Leaflet/Leaflet.label/master/src/Path.Label.js"></script>
+	<script src="https://raw.githubusercontent.com/Leaflet/Leaflet.label/master/src/Map.Label.js"></script>
+	<script src="https://raw.githubusercontent.com/Leaflet/Leaflet.label/master/src/FeatureGroup.Label.js"></script>
+</head>
+<body>
+	<div id="map" class="withtimeline">
+		<!-- Filled in map.js -->
+	</div>
+		<form id="filter">
+		<div class="input-group">
+      		<input type="text" class="form-control" placeholder="Search for..."><i class="glyphicon glyphicon-search form-control-feedback"></i>
+	  		
+    	</div>
+		</form>
+	<div id="sidebar">
+			<!-- Filled in filter.js -->
+	</div>
+	
+	<div id="timeline">
+		<div id="slider-range"></div>
+		<p id="amount">
+		</p>
+	</div>
+	
+<div class="modal fade" id="jsonModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalLabel">Download JSON</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+	          <textarea id="jsonArea" class="form-control" rows="15"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
