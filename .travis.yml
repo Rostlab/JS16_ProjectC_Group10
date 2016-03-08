@@ -1,7 +1,7 @@
 language: node_js
-deploy:
-	provider: npm
-	api_key: "ea07ce5b-9110-41cb-bb9a-2527435ac3b8"
+# deploy:
+# 	provider: npm
+# 	api_key: "ea07ce5b-9110-41cb-bb9a-2527435ac3b8"
 node_js:
     - "stable"
 before_script:
