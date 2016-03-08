@@ -71,8 +71,8 @@ var mapHelpers = {
 	
 	characters: {},
 	
-	colors: ['#FFA000', '#F57C00', '#CDDC39', '#8BC34A', '#D32F2F', '#536DFE', '#512DA8', '#009688', 
-		'#03A9F4', '#795548', '#E91E63', '#FF5722'],
+	colors: ['#F44336', '#2196F3', '#4CAF50', '#212121', '#7C4DFF', '#F8BBD0', '#FBC02D', '#795548', 
+		'#00796B', '#536DFE', '#B6B6B6', '#FF5722'],
 		
 	// Add a character to the list
 	addCharacter: function(c) {
