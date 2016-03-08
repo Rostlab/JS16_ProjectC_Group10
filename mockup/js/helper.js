@@ -84,7 +84,9 @@ var mapHelpers = {
 			var item = $('<div class="character"><img src="'+img+'"'+
 				'class="img-circle" style="border-color:'+c.color+'"/>'+
 				'<div class="characterinfo"><div class="name">'+c.name+'</div>'+
-				'<div class="house">'+c.house+'</div></div></div></div>');
+				'<div class="house">'+c.house+'</div>'+
+				'<div class="container"><a>More info</a>'+ 
+				'</div></div></div>');
 		
 			mapHelpers.characterPins(c); // Show the character pins
 			$("#characters").append(item);// Add it to the list
