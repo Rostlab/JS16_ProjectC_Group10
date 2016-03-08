@@ -71,11 +71,10 @@ jQuery(function() {
     map.addLayer(labelTiles);
     
     //GetCitiesFromDB
-    var getZommedCities = function()
-    { 
-  	 	function loadPrioFromDB(priority)
-  	  	{
-  	  	    jQuery.post("https://got-api.bruck.me/api/cities/find", {"priority": priority.toString()}, 
+    
+    function loadPrioFromDB(priority)
+  	{
+  	  	    jQuery.post("https://got-api.bruck.me/api/cities/find", {"priority": priority}, 
   	  	  		function (allCities){
   	  	  			allCities.data.map(function (place) {
   	  	  			var type = place.type || "other";
@@ -95,23 +94,39 @@ jQuery(function() {
   	  	   	   }
   	  	 		});
   	  	  	});
-  	  	}
-
-  	  
-  	  if(maxZoomLevel < map.getZoom()) //only load new Zoomlevel, old ones are already stored
+  	}
+  	  	
+    function getZoomedCities(ezoom)
+    { 
+	  var curZoomLevel = map.getZoom();
+	  
+	  if(ezoom !== undefined)
+	  {
+		  curZoomLevel = ezoom;
+	  } 
+	 	
+	  if(maxZoomLevel < curZoomLevel) //only load new Zoomlevel, old ones are already stored
   	  {	
-	  	 maxZoomLevel = map.getZoom(); //adapt zoomed Level
-	  	 loadPrioFromDB(maxZoomLevel);
+	  	 var padding = "";
 	  	 
-	  	 if(maxZoomLevel === 5)
+	  	 if(maxZoomLevel === -1)
 	  	 {
-		  	maxZoomLevel++;
-		  	loadPrioFromDB(maxZoomLevel);
-	  	}
+		  	padding = "<=";
+	  	 }
+	  	 else
+	  	 {
+	  	 	if(curZoomLevel === 5)
+	  	 	{
+		  	 	padding = ">=";
+		 	}
+		 }
+		  	 
+		 maxZoomLevel = curZoomLevel; //adapt zoomed Level
+		 loadPrioFromDB(padding+maxZoomLevel);
 	  }
 	}  	
 	
-	getZommedCities();	
+	getZoomedCities();	
     
     // Add a class to alter the labels
     map.on('zoomanim', function(e) { 
@@ -121,7 +136,7 @@ jQuery(function() {
         } else {
             el.className = el.className.slice(0, -1) + e.zoom;
         }
-        getZommedCities();
+        getZoomedCities(e.zoom);
     });
     
 	var markers = new L.layerGroup();
