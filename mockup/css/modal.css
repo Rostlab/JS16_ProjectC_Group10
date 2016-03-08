@@ -78,6 +78,28 @@
 #dynModal .infobox th[scope="row"] {
 	padding-left: 0.5em;
 }
+
+#dynModal .infobox caption {
+	font-size: larger;
+	margin-left: inherit;
+	color: #000;
+	padding: 0;
+	text-align: center;
+}
+
+#dynModal .floatleft {
+	margin: 0 .5em .5em 0;
+	border: 0;
+	float: left;
+	clear: left;
+}
+
+#dynModal .floatright {
+	margin: 0 0 .5em .5em;
+	border: 0;
+	float: right;
+	clear: right;
+}
 /* @end */
 
 /* @group TOC */
