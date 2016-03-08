@@ -4,20 +4,33 @@
 	<title>Leaflet GOT Map - Group 10</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 	<!-- Leaflet CSS -->
-	<link rel="stylesheet" href="https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/master/leaflet.css" />
+	<link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css" />
+
+	
 	<!-- Our Code -->
 	<link rel="stylesheet" href="css/main.css" />
+
+
+	
 	<!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-    
     <!-- Bootstrap (depends on jQuery) -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+	<script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 	<!-- Leaflet -->
-	<script src="https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/master/leaflet.js"></script>
+	<script src="../node_modules/leaflet/dist/leaflet.js"></script>
+	<!-- Labels-->
+	<script src="../node_modules/leaflet-label/src/Label.js"></script>
+	<script src="../node_modules/leaflet-label/src/BaseMarkerMethods.js"></script>
+	<script src="../node_modules/leaflet-label/src/Marker.Label.js"></script>
+	<script src="../node_modules/leaflet-label/src/Path.Label.js"></script>
+	<script src="../node_modules/leaflet-label/src/Map.Label.js"></script>
+	<script src="../node_modules/leaflet-label/src/FeatureGroup.Label.js"></script>
+
 	<!-- Our Code -->
 	<script src="../data/paths.js"></script>
 	<script src="../data//characters.js"></script>
@@ -26,14 +39,6 @@
 	<script src="js/filter.js"></script>
 	<script src="js/timeline.js"></script>
 	<script src="js/episodes.js"></script>
-	
-	<!-- Labels-->
-	<script src="lib/label.js"></script>
-	<script src="https://raw.githubusercontent.com/Leaflet/Leaflet.label/master/src/BaseMarkerMethods.js"></script>
-	<script src="https://raw.githubusercontent.com/Leaflet/Leaflet.label/master/src/Marker.Label.js"></script>
-	<script src="https://raw.githubusercontent.com/Leaflet/Leaflet.label/master/src/Path.Label.js"></script>
-	<script src="https://raw.githubusercontent.com/Leaflet/Leaflet.label/master/src/Map.Label.js"></script>
-	<script src="https://raw.githubusercontent.com/Leaflet/Leaflet.label/master/src/FeatureGroup.Label.js"></script>
 	
 </head>
 <body>
