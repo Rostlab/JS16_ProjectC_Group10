@@ -50,14 +50,24 @@ jQuery(function() {
     });
     map.addControl(new jsonCtrl());
 
-    gotDB.getAll().map(function(place) {
-        L.marker(place.coord, {
-            icon: dot
-        }).on('click', function(e) {
-            addToPolyline(place.coord, place.name);
-        }).bindLabel(place.name, {
-            direction: 'auto'
-        }).addTo(map);
+	jQuery.get("https://got-api.bruck.me/api/cities", {}, function(cities)
+	{
+		console.log(cities);
+	 	cities.map(function(place) 
+	 	{
+		 	if(place.coordY && place.coordX) {
+			 	var cx = parseFloat(place.coordX);
+			 	var cy = parseFloat(place.coordY);
+        		L.marker([cy, cx], {
+            		icon: dot
+        		}).on('click', function(e) {
+            		addToPolyline({lat:cy, lng:cx}, place._id);
+        		}).bindLabel(place.name, 
+        			{
+					direction: 'auto'
+        			}).addTo(map);
+        	}
+    	});
     });
 
     function addToPolyline(c, info) {
@@ -108,31 +118,3 @@ jQuery(function() {
         return "S" + e.season + "E" + e.episode + ": " + e.title;
     }
 });
-
-
-/*
-    function onMapClick(e) {
-	    if(curCity == -1) {
-		    return;
-	    }
-	    var city = cityInfo[curCity];
-	    var marker = cityMarkers[curCity];
-	    if(marker) {
-		    marker.setLatLng(e.latlng);
-	    } else {
-		    marker = cityMarkers[curCity] = new L.marker(e.latlng, {
-            	draggable: 'true'
-        	}).bindPopup().addTo(markers);
-	    }
-        var position = e.latlng;
-	    city.coord = [position.lat, position.lng];
-        marker.setPopupContent("<h4>"+city.name+'</h4><button type="button" class="btn btn-danger" '+
-        	'onclick="">Don\'t Save</button><button type="button" class="btn btn-success" '+
-        	'>Save</button>').openPopup();
-        marker.on('dragend', function(event) {
-            var position = marker.getLatLng();
-			city.coord = [position.lat, position.lng];
-			marker.openPopup();
-        });
-    }
-    map.on('click', onMapClick);*/
