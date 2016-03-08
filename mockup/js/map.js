@@ -79,6 +79,10 @@ jQuery(function() {
     });
 	var markers = new L.layerGroup();
 	map.addLayer(markers);
+	
+	characterInfo = new L.layerGroup();
+	map.addLayer(characterInfo);
+
 	// Delete Button
 	var delCtrl = L.Control.extend(
 	{
