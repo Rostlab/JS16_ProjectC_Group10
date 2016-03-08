@@ -1,6 +1,6 @@
 {
   "name": "rostlab-js16-c10",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Project C (Globetrotters) of Group 10, JavaScript Seminar 2016, RostLab",
   "main": "index.js",
   "scripts": {
