@@ -101,7 +101,7 @@
 }
 .ui-widget-content {
 	border: 1px solid #404040;
-	background: #121212 50% top repeat-x;
+	background: #121212;
 	color: #eeeeee;
 }
 .ui-widget-content a {
@@ -109,7 +109,7 @@
 }
 .ui-widget-header {
 	border: 1px solid #404040;
-	background: #888888 50% 50% repeat-x;
+	background: #888888;
 	color: #ffffff;
 	font-weight: bold;
 }
@@ -123,7 +123,7 @@
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
 	border: 1px solid #cccccc;
-	background: #adadad 50% 50% repeat-x;
+	background: #adadad;
 	font-weight: normal;
 	color: #333333;
 }
