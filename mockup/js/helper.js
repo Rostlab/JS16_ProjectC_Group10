@@ -98,8 +98,12 @@ var mapHelpers = {
 			$("#characters").append(character);// Add it to the list
 			character.append(charInfo);
 			charInfo.append(name);
+			if(c.house){
 			charInfo.append(house);
+			}
+			if(c.link){
 			charInfo.append(moreInfo);
+			}
 			c.polyline =  L.polyline([], {color: c.color}).addTo(characterInfo);
 			var marker = mapHelpers.colorMarker(c.color, img);
 			c.startMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
