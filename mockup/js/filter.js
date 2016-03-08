@@ -25,10 +25,11 @@ jQuery(function () {
 		l.empty();
 		if(s.length) {
 		s.map(function(c) {
+			var img;
 			if(personList[c._id]) {// Image defined or use default
-				var img = personList[c._id].img;
+				img = personList[c._id].img;
 			} else {
-				var img = defaultPersonImage; 
+				img = defaultPersonImage; 
 			}
 			var item = jQuery('<li><a href="#"><img src="'+img+'" class="img-circle"/>'+c.name+'</a></li>').click(function(e) {
 				// $('#person'+p.index).trigger('click', {target:$('#person'+p.index)});
@@ -53,7 +54,7 @@ jQuery(function () {
 			var pos = p.name.toLowerCase().indexOf(s);
 			if(pos != -1) {
 				(pos === 0 ? o1 : o2).push(p);
-				if(!maxResults--) {
+				if((maxResults--) !== 0) {
 					break;
 				}
 			}

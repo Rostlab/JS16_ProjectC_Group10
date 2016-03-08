@@ -79,10 +79,11 @@ var mapHelpers = {
 		if(!this.characters[c._id]) { // If not in the list, add it
 			var count = Object.keys(this.characters).length; // # of Characters
 			c.color = this.colors[count % this.colors.length]; // Rotate the colors
+			var img;
 			if(personList[c._id]) {// Image defined or use default
-				var img = personList[c._id].img;
+				img = personList[c._id].img;
 			} else {
-				var img = defaultPersonImage; 
+				img = defaultPersonImage; 
 			}
 			// Make new elem
 			var item = $('<div class="character"><img src="'+img+'"'+
