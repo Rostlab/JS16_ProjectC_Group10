@@ -13,6 +13,7 @@ jQuery(function() {
         max: 5
     };
     
+    // Minimum Layer of loaded Tiles
     var maxZoomLevel = -1;
     
     // Define a costum zoom handler because HBO did sth weird when scaling
@@ -70,10 +71,11 @@ jQuery(function() {
     });
     map.addLayer(labelTiles);
     
-    //GetCitiesFromDB
+	cities = new L.layerGroup();
+	map.addLayer(cities);
     
-    function loadPrioFromDB(priority)
-  	{
+    //GetCitiesFromDB
+    function loadCitiesByPrio(priority) {
   	  	    jQuery.post("https://got-api.bruck.me/api/cities/find", {"priority": priority}, 
   	  	  		function (allCities){
   	  	  			allCities.data.map(function (place) {
@@ -90,39 +92,27 @@ jQuery(function() {
   	  	   			    	noHide: true, 
   	  	   			    	direction:'auto',
   	  	   	   		    className: 'gotlabel '+prio
-  	  	   	   		}).addTo(map);
+  	  	   	   		}).addTo(cities);
   	  	   	   }
   	  	 		});
   	  	  	});
   	}
   	  	
-    function getZoomedCities(ezoom)
-    { 
-	  var curZoomLevel = map.getZoom();
-	  
-	  if(ezoom !== undefined)
-	  {
-		  curZoomLevel = ezoom;
-	  } 
+    function getZoomedCities(zoom) { 
+	  var curZoomLevel = zoom ? zoom : map.getZoom();
 	 	
 	  if(maxZoomLevel < curZoomLevel) //only load new Zoomlevel, old ones are already stored
-  	  {	
-	  	 var padding = "";
-	  	 
-	  	 if(maxZoomLevel === -1)
-	  	 {
-		  	padding = "<=";
-	  	 }
-	  	 else
-	  	 {
-	  	 	if(curZoomLevel === 5)
-	  	 	{
-		  	 	padding = ">=";
-		 	}
-		 }
+	{	
+		 var operator = "";
+		 
+		 if(maxZoomLevel === -1) { // Init State
+			operator = "<=";
+		} else if(curZoomLevel === 5) { // Load 5 and 6
+			operator = ">=";
+		}
 		  	 
 		 maxZoomLevel = curZoomLevel; //adapt zoomed Level
-		 loadPrioFromDB(padding+maxZoomLevel);
+		 loadCitiesByPrio(operator+maxZoomLevel);
 	  }
 	}  	
 	
@@ -138,45 +128,7 @@ jQuery(function() {
         }
         getZoomedCities(e.zoom);
     });
-    
-	var markers = new L.layerGroup();
-	map.addLayer(markers);
 	
 	characterInfo = new L.layerGroup();
 	map.addLayer(characterInfo);
-
-	// Delete Button
-	var delCtrl = L.Control.extend(
-	{
-		options: {position: 'topright'},
-		onAdd: function (map) {
-			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom deleteButton');
-			L.DomEvent.disableClickPropagation(c);
-			c.innerHTML = 'x';
-			c.onclick = function(){
-				markers.clearLayers();
-			};
-			return c;
-		},
-	});
-	map.addControl(new delCtrl());
-	 	
-	var marker;
-    function onMapClick(e) {
-    	if(!marker) {
-        	marker = new L.marker(e.latlng, {
-        	    draggable: 'true',
-        	    icon: mapHelpers.colorMarker('silver', defaultPersonImage)
-        	}).bindLabel(undefined, {noHide: true}).addTo(markers);
-        	marker.on('dragend', function(event) {
-            	var position = marker.getLatLng();
-            	marker.updateLabelContent("" + position).showLabel();
-        	});
-        } else {
-        	marker.setLatLng(e.latlng);
-        }
-        var position = e.latlng;
-        //marker.updateLabelContent("" + position).showLabel();
-    }
-    map.on('click', onMapClick);
 });
