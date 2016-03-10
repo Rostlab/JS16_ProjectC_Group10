@@ -8,7 +8,7 @@
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
 	<!-- Leaflet CSS -->
-	<link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/master/leaflet.css" />
 
 	
 	<!-- Our Code -->
@@ -27,17 +27,17 @@
 	<script src="lib/leaflet.label/BaseMarkerMethods.js"></script>
 	<script src="lib/leaflet.label/Marker.Label.js"></script>
 	<script src="lib/leaflet.label/Path.Label.js"></script>
-	<script src="lib/leaflet.label/src/Map.Label.js"></script>
+	<script src="lib/leaflet.label/Map.Label.js"></script>
 	<script src="lib/leaflet.label/FeatureGroup.Label.js"></script>
 
 	<!-- Our Code -->
 	<script src="../data/paths.js"></script>
-	<script src="../data/characters.js"></script>
-	<script src="../data/episodes.js"></script>
+	<script src="../data//characters.js"></script>
 	<script src="js/helper.js"></script>
 	<script src="js/map.js"></script>
 	<script src="js/filter.js"></script>
 	<script src="js/timeline.js"></script>
+	<script src="js/episodes.js"></script>
 	
 </head>
 <body>
@@ -55,15 +55,15 @@
     	</div>
 		</form>
 		<!-- /input-group -->
-		<hr/>
+		<hr />
 		<div id="characters">
-			<!-- Filled in character-data.js and helper.js -->
+			<!-- Filled in characters.js -->
 		</div>
 	</div>
 	
 	<div id="timeline">
-		<div id="episode-slider"></div>
-		<p id="episodes">
+		<div id="slider-range"></div>
+		<p id="amount">
 		</p>
 	</div>
 	
@@ -87,3 +87,4 @@
 
 </body>
 </html>
+
