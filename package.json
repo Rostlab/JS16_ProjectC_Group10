@@ -1,6 +1,6 @@
 {
-  "name": "globetrotters_group10",
-  "version": "0.0.1",
+  "name": "rostlab-js16-c10",
+  "version": "0.0.3",
   "description": "Project C (Globetrotters) of Group 10, JavaScript Seminar 2016, RostLab",
   "main": "index.js",
   "scripts": {
@@ -29,5 +29,9 @@
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-qunit": "^1.0.1",
     "grunt-contrib-watch": "^0.6.1"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.2.1"
   }
 }
