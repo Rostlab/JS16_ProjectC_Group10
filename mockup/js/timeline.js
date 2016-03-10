@@ -9,12 +9,14 @@
 jQuery(function() {
 	var selected = "0-1";
 	
-	$("#amount").text(getEpisodeInfo(0) + " - " + getEpisodeInfo(1));
+	var es = episodes; // Get them from the DB later
 	
-	$("#slider-range").slider({
+	$("#episodes").text(getEpisodeInfo(0) + " - " + getEpisodeInfo(1)); // Initialize it
+	
+	$("#episode-slider").slider({
         range: true,
         min: 0,
-        max: 49,
+        max: es.length-1,
         values: [0, 1],
         animate: "slow",
         slide: function(event, ui) {
@@ -24,13 +26,16 @@ jQuery(function() {
             } else {
 	            selected = selected[0] +"-"+ selected[1];
             }
-            $("#amount").text(getEpisodeInfo(ui.values[0]) + " - " + getEpisodeInfo(ui.values[1]));
+            $("#episodes").text(getEpisodeInfo(ui.values[0]) + " - " + getEpisodeInfo(ui.values[1]));
             mapHelpers.updatePaths(selected);
         }
     });
     
     function getEpisodeInfo(i) {
-        var e = episodes[i];
-        return "S" + e.season + "E" + e.episode + ": " + e.title;
+	    if(i < es.length) {
+        	return "S" + es[i].season + "E" + es[i].episode + ": " + es[i].title;
+        } else {
+	        return "No Episode found";
+        }
     }
 });
