@@ -102,11 +102,12 @@ var mapHelpers = {
 				charInfo.append(house);
 			}
 			charInfo.append(moreInfo);
-			
-			c.polyline =  L.polyline([], {color: c.color}).addTo(characterInfo);
-			var marker = mapHelpers.colorMarker(c.color, img);
-			c.startMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
-			c.endMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
+			c.layer = new L.layerGroup;
+			c.marker =  mapHelpers.colorMarker(c.color, img);
+			c.polyline =  L.polyline([], {color: c.color}).addTo(c.layer);
+			c.startMarker = L.marker([0,0], {icon:c.marker}).addTo(c.layer);
+			c.endMarker = L.marker([0,0], {icon:c.marker}).addTo(c.layer);
+			c.layer.addTo(map);
 			
 			character.click(function (e) { // Bind the click listener
 				var el = $(e.target); // Clicked Element
@@ -115,14 +116,10 @@ var mapHelpers = {
 				}
 				if(el.hasClass('disabled')) { // Toggle the class name (de-)activate it
 					el.removeClass('disabled');
-					c.polyline.addTo(characterInfo);
-					c.startMarker.addTo(characterInfo);
-					c.endMarker.addTo(characterInfo);
+					c.layer.addTo(map);
 				} else {
 					el.addClass('disabled');
-					c.polyline.remove();
-					c.startMarker.remove();
-					c.endMarker.remove();
+					c.layer.remove();
 				}
 				mapHelpers.characterPins(c);
 			});
@@ -179,7 +176,7 @@ var mapHelpers = {
 			} else {
 				jQuery.ajax({url:"http://awoiaf.westeros.org/index.php/"+c.name}
 				).success(function(data) {
-					var re = /index\.php\/([^"?]+)/g;
+					var re = /index\.php\/([^"?]+)/g; // Find Link
 					var all = [];
 					var m;
  
@@ -187,10 +184,11 @@ var mapHelpers = {
 						if (m.index === re.lastIndex) {
 							re.lastIndex++;
 						}
-						all.push(m[1]);
+						var place = cityList[m[1]];
+						if(place) {
+							L.marker([parseFloat(place.coordY), parseFloat(place.coordX)], {icon:c.marker}).addTo(c.layer);
+						}
 					}
-					
-					console.log(all);
 				});
 				// Set some points
 			}

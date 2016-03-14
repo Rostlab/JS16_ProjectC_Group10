@@ -72,6 +72,7 @@ jQuery(function() {
 	map.addLayer(labelTiles);
 	
 	cities = new L.layerGroup();
+	cityList = [];
 	map.addLayer(cities);
 	
 	//GetCitiesFromDB
@@ -79,6 +80,7 @@ jQuery(function() {
 		  jQuery.post("https://got-api.bruck.me/api/cities/find", {"priority": priority}, 
 			function (allCities){
 				allCities.data.map(function (place) {
+					cityList[place.name] = place;
 					var type = place.type || "other";
 					var prio = "prio"+place.priority;
 					if(place.coordY && place.coordX) {
@@ -132,7 +134,4 @@ jQuery(function() {
 		}
 		getZoomedCities(e);
 	});
-	
-	characterInfo = new L.layerGroup();
-	map.addLayer(characterInfo);
 });
