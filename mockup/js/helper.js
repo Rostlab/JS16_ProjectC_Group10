@@ -76,12 +76,12 @@ var mapHelpers = {
 		
 	// Add a character to the list
 	addCharacter: function(c) {
-		if(!this.characters[c._id]) { // If not in the list, add it
+		if(!this.characters[c.name]) { // If not in the list, add it
 			var count = Object.keys(this.characters).length; // # of Characters
 			c.color = this.colors[count % this.colors.length]; // Rotate the colors
 			var img;
-			if(personList[c._id]) {// Image defined or use default
-				img = personList[c._id].img;
+			if(personList[c.name]) {// Image defined or use default
+				img = personList[c.name].img;
 			} else {
 				img = defaultPersonImage; 
 			}
@@ -99,10 +99,10 @@ var mapHelpers = {
 			character.append(charInfo);
 			charInfo.append(name);
 			if(c.house){
-			charInfo.append(house);
+				charInfo.append(house);
 			}
-			if(c.link){
-			charInfo.append(moreInfo);
+			if(personList[c.name]){
+				charInfo.append(moreInfo);
 			}
 			c.polyline =  L.polyline([], {color: c.color}).addTo(characterInfo);
 			var marker = mapHelpers.colorMarker(c.color, img);
@@ -130,11 +130,12 @@ var mapHelpers = {
 			
 			moreInfo.click(function (e) {
 				var el = $(e.target);
-				mapHelpers.wikiModal(c.link, c.name, c.house);
+				mapHelpers.wikiModal(personList[c.name].link, c.name, c.house);
+				return false; // Prevent Default + Bubbling
 			});
 			
 			c.el = character;
-			this.characters[c._id] = c; // Save it
+			this.characters[c.name] = c; // Save it
 			this.updatePaths();
 		}
 	},
@@ -164,18 +165,20 @@ var mapHelpers = {
 			cs.push([p[0], p[1]]);
 		};
 		for(var k in this.characters) { // Check if path exists and display
-			var c = this.characters[k];
-			var cs = []; // Collect the Coordinates
 			if(paths[k]) { // If there is path info
+				var c = this.characters[k];
+				var cs = []; // Collect the Coordinates
 				for(var k2 in paths[k]) {
 					if(displayIt(k2)) {
 						paths[k][k2].map(getC);
-						}
+					}
 				}
 				c.polyline.setLatLngs(cs);
 				var start = cs.shift(); // Get the first
 				c.startMarker.setLatLng(start); // Display start Marker
 				c.endMarker.setLatLng(cs.length > 0 ? cs.pop() : start); // Display End Marker
+			} else {
+				// Set some points
 			}
 		}
 	}
