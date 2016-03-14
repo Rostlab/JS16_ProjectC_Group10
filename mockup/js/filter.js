@@ -96,8 +96,8 @@ jQuery(function () {
 		if(out.length) {
 			out.map(function(c,i) {
 				var img;
-				if(personList[c._id]) {// Image defined or use default
-					img = personList[c._id].img;
+				if(personList[c.name]) {// Image defined or use default
+					img = personList[c.name].img;
 				} else {
 					img = defaultPersonImage;
 				}
