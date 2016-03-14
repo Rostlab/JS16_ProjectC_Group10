@@ -101,9 +101,8 @@ var mapHelpers = {
 			if(c.house){
 				charInfo.append(house);
 			}
-			if(personList[c.name]){
-				charInfo.append(moreInfo);
-			}
+			charInfo.append(moreInfo);
+			
 			c.polyline =  L.polyline([], {color: c.color}).addTo(characterInfo);
 			var marker = mapHelpers.colorMarker(c.color, img);
 			c.startMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
@@ -130,7 +129,7 @@ var mapHelpers = {
 			
 			moreInfo.click(function (e) {
 				var el = $(e.target);
-				mapHelpers.wikiModal(personList[c.name].link, c.name, c.house);
+				mapHelpers.wikiModal("http://awoiaf.westeros.org/index.php/"+c.name, c.name, "person "+c.house);
 				return false; // Prevent Default + Bubbling
 			});
 			
@@ -165,8 +164,8 @@ var mapHelpers = {
 			cs.push([p[0], p[1]]);
 		};
 		for(var k in this.characters) { // Check if path exists and display
+			var c = this.characters[k];
 			if(paths[k]) { // If there is path info
-				var c = this.characters[k];
 				var cs = []; // Collect the Coordinates
 				for(var k2 in paths[k]) {
 					if(displayIt(k2)) {
@@ -178,6 +177,21 @@ var mapHelpers = {
 				c.startMarker.setLatLng(start); // Display start Marker
 				c.endMarker.setLatLng(cs.length > 0 ? cs.pop() : start); // Display End Marker
 			} else {
+				jQuery.ajax({url:"http://awoiaf.westeros.org/index.php/"+c.name}
+				).success(function(data) {
+					var re = /index\.php\/([^"?]+)/g;
+					var all = [];
+					var m;
+ 
+					while ((m = re.exec(data)) !== null) {
+						if (m.index === re.lastIndex) {
+							re.lastIndex++;
+						}
+						all.push(m[1]);
+					}
+					
+					console.log(all);
+				});
 				// Set some points
 			}
 		}
