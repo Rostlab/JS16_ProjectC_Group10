@@ -95,8 +95,9 @@ jQuery(function() {
 						}).addTo(cities);
 					}
 				});
-				if(e) {
-				//	L.Label.prototype._zoomAnimation.call(L.Label.prototype, e);
+				if(e) { // Fix the bug because the labels are also aligned in the zoomanim event
+					cities.remove();
+					map.addLayer(cities);
 				}
 		  });
 	}

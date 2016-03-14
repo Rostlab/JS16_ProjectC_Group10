@@ -12,6 +12,10 @@ L.Label = (L.Layer ? L.Layer : L.Class).extend({
 		opacity: 1,
 		zoomAnimation: true
 	},
+	
+	update: function() {
+		console.log(this);	
+	},
 
 	initialize: function (options, source) {
 		L.setOptions(this, options);
