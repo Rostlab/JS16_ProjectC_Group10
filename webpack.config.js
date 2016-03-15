@@ -1,5 +1,5 @@
 module.exports = {
-    entry:  './mockup/npm.js',
+    entry:  './mockup/entry.js',
     output: {
         path:     'builds',
         filename: 'bundle.js',

@@ -1,4 +1,5 @@
 module.exports = function() {
-require("../builds/bundle.js);
+
+require("../builds/bundle.js");
 
 }
