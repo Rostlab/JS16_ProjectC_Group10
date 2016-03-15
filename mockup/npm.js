@@ -1,5 +1,6 @@
-module.exports = function() {
+module.exports =  {
 
-require("../builds/bundle.js");
+script: function() {require("../builds/bundle.js");},
+html: function() {require("./map.html");}
 
 }
