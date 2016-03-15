@@ -1,6 +1,6 @@
 {
   "name": "gotmap",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Project C (Globetrotters) of Group 10, JavaScript Seminar 2016, RostLab",
   "main": "./mockup/npm.js",
   "scripts": {
