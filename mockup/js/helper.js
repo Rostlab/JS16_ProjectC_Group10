@@ -173,7 +173,7 @@ var mapHelpers = {
 					c.markers.push(L.marker([parseFloat(place.coordY), parseFloat(place.coordX)], {icon:c.markerStyle}).addTo(c.layer));
 				}
 			}
-		}
+		};
 		for(var k in this.characters) { // Check if path exists and display
 			var c = this.characters[k];
 			if(paths[k]) { // If there is path info

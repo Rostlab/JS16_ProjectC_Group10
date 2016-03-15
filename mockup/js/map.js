@@ -77,8 +77,10 @@ jQuery(function() {
 	
 	//GetCitiesFromDB
 	function loadCitiesByPrio(priority, e) {
-		  jQuery.post("https://got-api.bruck.me/api/cities/find", {"priority": priority}, 
+		 // jQuery.post("https://got-api.bruck.me/api/cities/find", {"priority": priority}, 
+		  jQuery.get("https://got-api.bruck.me/api/cities", {}, 
 			function (allCities){
+				allCities.map(function (place) {
 				allCities.data.map(function (place) {
 					cityList[place.name] = place;
 					var type = place.type || "other";
