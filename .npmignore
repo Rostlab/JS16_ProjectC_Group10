@@ -2,6 +2,7 @@
 logs
 *.log
 npm-debug.log*
+.npmignore
 
 # Runtime data
 pids
@@ -34,3 +35,15 @@ node_modules
 
 # OS X Files
 .DS_Store
+
+# git
+.git/
+
+# map
+tiles
+
+# editor 
+editor
+
+#Travis
+.travis.yml
