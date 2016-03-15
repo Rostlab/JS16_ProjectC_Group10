@@ -1,6 +1,6 @@
 {
-  "name": "rostlab-js16-c10",
-  "version": "0.0.3",
+  "name": "gotmap",
+  "version": "0.0.11",
   "description": "Project C (Globetrotters) of Group 10, JavaScript Seminar 2016, RostLab",
   "main": "index.js",
   "scripts": {
