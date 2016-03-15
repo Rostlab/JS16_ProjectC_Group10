@@ -1,5 +1,1 @@
-module.exports = function() {
-
-require("../builds/bundle.js");
-
-}
+module.exports = require("../builds/bundle.js");
