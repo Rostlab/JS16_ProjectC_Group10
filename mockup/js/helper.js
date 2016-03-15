@@ -102,7 +102,7 @@ var mapHelpers = {
 				charInfo.append(house);
 			}
 			charInfo.append(moreInfo);
-			c.layer = new L.layerGroup;
+			c.layer = new L.layerGroup();
 			c.markerStyle =  mapHelpers.colorMarker(c.color, img);
 			c.markers = [];
 			c.polyline =  L.polyline([], {color: c.color}).addTo(c.layer);
@@ -159,6 +159,21 @@ var mapHelpers = {
 		var getC = function(p) { // get Coordinates
 			cs.push([p[0], p[1]]);
 		};
+		
+		var callbackSuccess = function(data) {
+			var re = /index\.php\/([^"?]+)/g; // Find Link
+			var m;
+ 
+			while ((m = re.exec(data)) !== null) {
+				if (m.index === re.lastIndex) {
+					re.lastIndex++;
+				}
+				var place = cityList[m[1].replace('_', ' ')];
+				if(place) {
+					c.markers.push(L.marker([parseFloat(place.coordY), parseFloat(place.coordX)], {icon:c.markerStyle}).addTo(c.layer));
+				}
+			}
+		}
 		for(var k in this.characters) { // Check if path exists and display
 			var c = this.characters[k];
 			if(paths[k]) { // If there is path info
@@ -170,29 +185,14 @@ var mapHelpers = {
 				}
 				c.polyline.setLatLngs(cs);
 				var start = cs.shift(); // Get the first
-				if(c.markers.length == 0) {
+				if(c.markers.length === 0) {
 					c.markers.push(L.marker([0,0], {icon:c.markerStyle}).addTo(c.layer));
 					c.markers.push(L.marker([0,0], {icon:c.markerStyle}).addTo(c.layer));
 				}
 				c.markers[0].setLatLng(start); // Display start Marker
 				c.markers[1].setLatLng(cs.length > 0 ? cs.pop() : start); // Display End Marker
-			} else if(c.markers.length == 0) { // When nothing is there we have to set some 
-				jQuery.ajax({url:"http://awoiaf.westeros.org/index.php/"+c.name}
-				).success(function(data) {
-					var re = /index\.php\/([^"?]+)/g; // Find Link
-					var m;
- 
-					while ((m = re.exec(data)) !== null) {
-						if (m.index === re.lastIndex) {
-							re.lastIndex++;
-						}
-						var place = cityList[m[1].replace('_', ' ')];
-						if(place) {
-							c.markers.push(L.marker([parseFloat(place.coordY), parseFloat(place.coordX)], {icon:c.markerStyle}).addTo(c.layer));
-						}
-					}
-				});
-				// Set some points
+			} else if(c.markers.length === 0) { // When nothing is there we have to set some 
+				jQuery.ajax({url:"http://awoiaf.westeros.org/index.php/"+c.name}).success(callbackSuccess);
 			}
 		}
 	}
