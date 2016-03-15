@@ -2,7 +2,6 @@
 logs
 *.log
 npm-debug.log*
-.npmignore
 
 # Runtime data
 pids
