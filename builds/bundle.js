@@ -44,33 +44,32 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
-	__webpack_require__(1);
-	__webpack_require__(4);
-	__webpack_require__(13);
-	__webpack_require__(14);
+	__webpack_require__(1)
+	__webpack_require__(4)
+	__webpack_require__(13)
+	__webpack_require__(14)
 
 	//html
-	__webpack_require__(15);
+	__webpack_require__(15)
 
 	//include css files + images
-	__webpack_require__(16);
-	__webpack_require__(20);
+	__webpack_require__(16)
+	__webpack_require__(20)
 
 	//include libraries
-	__webpack_require__(31);
-	__webpack_require__(33);
-	__webpack_require__(34);
-	__webpack_require__(35);
-	__webpack_require__(36);
-	__webpack_require__(37);
-	__webpack_require__(38);
+	__webpack_require__(31)
+	__webpack_require__(33)
+	__webpack_require__(34)
+	__webpack_require__(35)
+	__webpack_require__(36)
+	__webpack_require__(37)
+	__webpack_require__(38)
 
 	// include js files
-	__webpack_require__(39);
-	__webpack_require__(40);
-	__webpack_require__(41);
-	__webpack_require__(42);
+	__webpack_require__(39)
+	__webpack_require__(40)
+	__webpack_require__(41)
+	__webpack_require__(42)
 
 /***/ },
 /* 1 */
