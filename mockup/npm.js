@@ -1,3 +1,5 @@
+module.exports = function() {
+
 require('expose?$!expose?jQuery!jquery')
 require("../node_modules/bootstrap/dist/css/bootstrap.min.css")
 require("./lib/jquery-ui.min.js")
@@ -24,3 +26,5 @@ require("./js/helper.js")
 require("./js/map.js")
 require("./js/filter.js")
 require("./js/timeline.js")
+
+}
