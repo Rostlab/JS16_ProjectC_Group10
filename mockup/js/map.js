@@ -75,57 +75,32 @@ jQuery(function() {
 	cityList = [];
 	map.addLayer(cities);
 	
-	//GetCitiesFromDB
-	function loadCitiesByPrio(priority, e) {
-		 // jQuery.post("https://got-api.bruck.me/api/cities/find", {"priority": priority}, 
-		  jQuery.get("https://got-api.bruck.me/api/cities", {}, 
-			function (allCities){
-				allCities.map(function (place) {
-				allCities.data.map(function (place) {
-					cityList[place.name] = place;
-					var type = place.type || "other";
-					var prio = "prio"+place.priority;
-					if(place.coordY && place.coordX) {
-						L.marker([parseFloat(place.coordY), parseFloat(place.coordX)], {
-							icon: L.divIcon({
-								className: 'got '+type+' '+prio
+	jQuery.get("https://got-api.bruck.me/api/cities", {}, 
+		function (allCities){
+			allCities.map(function (place) {
+				cityList[place.name] = place;
+				var type = place.type || "other";
+				var prio = "prio"+place.priority;
+				if(place.coordY && place.coordX) {
+					L.marker([parseFloat(place.coordY), parseFloat(place.coordX)], {
+						icon: L.divIcon({
+							className: 'got '+type+' '+prio
 							})
-						}).on('click', function () {
-							mapHelpers.wikiModal(place.link, place.name, place.type);
-						}).bindLabel(place.name, {
-							noHide: true, 
-							direction:'auto',
-							className: 'gotlabel '+prio
-						}).addTo(cities);
-					}
-				});
-				if(e) { // Fix the bug because the labels are also aligned in the zoomanim event
-					cities.remove();
-					map.addLayer(cities);
+					}).on('click', function () {
+						mapHelpers.wikiModal(place.link, place.name, place.type);
+					}).bindLabel(place.name, {
+						noHide: true, 
+						direction:'auto',
+						className: 'gotlabel '+prio
+					}).addTo(cities);
 				}
-		  });
-	}
-
-	function getZoomedCities(e) { 
-	  var curZoomLevel = e && e.zoom ? e.zoom : map.getZoom();
-	 	
-	  if(maxZoomLevel < curZoomLevel) //only load new Zoomlevel, old ones are already stored
-	{	
-		var operator = "";
-		
-		if(maxZoomLevel === -1) { // Init State
-			operator = "<=";
-		} else if(curZoomLevel === 5) { // Load 5 and 6
-			operator = ">=";
-		}
-		
-		maxZoomLevel = curZoomLevel; //adapt zoomed Level
-		loadCitiesByPrio(operator+maxZoomLevel, e);
-	  }
-	}
-
-	getZoomedCities();
-
+			});
+			if(e) { // Fix the bug because the labels are also aligned in the zoomanim event
+				cities.remove();
+				map.addLayer(cities);
+			}
+	});
+	
 	// Add a class to alter the labels
 	map.on('zoomanim', function(e) { 
 		var el = document.getElementById('map');
@@ -134,6 +109,5 @@ jQuery(function() {
 		} else {
 			el.className = el.className.slice(0, -1) + e.zoom;
 		}
-		getZoomedCities(e);
 	});
 });
