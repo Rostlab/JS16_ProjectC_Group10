@@ -2,7 +2,7 @@
   "name": "gotmap",
   "version": "0.0.3",
   "description": "Project C (Globetrotters) of Group 10, JavaScript Seminar 2016, RostLab",
-  "main": "index.js",
+  "main": "builds/bundle.js",
   "scripts": {
     "test": "grunt"
   },

@@ -17,5 +17,8 @@ module.exports = {
             {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file'},
             {test: /\.less$/,loader: "style!css!less"}
          ]
-    }
+    },
+    resolve: {
+        modulesDirectories: ['node_modules', 'bower_components'],
+    },
 };
