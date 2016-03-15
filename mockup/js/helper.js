@@ -101,13 +101,12 @@ var mapHelpers = {
 			if(c.house){
 				charInfo.append(house);
 			}
-			if(personList[c.name]){
-				charInfo.append(moreInfo);
-			}
-			c.polyline =  L.polyline([], {color: c.color}).addTo(characterInfo);
-			var marker = mapHelpers.colorMarker(c.color, img);
-			c.startMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
-			c.endMarker = L.marker([0,0], {icon:marker}).addTo(characterInfo);
+			charInfo.append(moreInfo);
+			c.layer = new L.layerGroup();
+			c.markerStyle =  mapHelpers.colorMarker(c.color, img);
+			c.markers = [];
+			c.polyline =  L.polyline([], {color: c.color}).addTo(c.layer);
+			c.layer.addTo(map);
 			
 			character.click(function (e) { // Bind the click listener
 				var el = $(e.target); // Clicked Element
@@ -116,21 +115,17 @@ var mapHelpers = {
 				}
 				if(el.hasClass('disabled')) { // Toggle the class name (de-)activate it
 					el.removeClass('disabled');
-					c.polyline.addTo(characterInfo);
-					c.startMarker.addTo(characterInfo);
-					c.endMarker.addTo(characterInfo);
+					c.layer.addTo(map);
 				} else {
 					el.addClass('disabled');
-					c.polyline.remove();
-					c.startMarker.remove();
-					c.endMarker.remove();
+					c.layer.remove();
 				}
 				mapHelpers.characterPins(c);
 			});
 			
 			moreInfo.click(function (e) {
 				var el = $(e.target);
-				mapHelpers.wikiModal(personList[c.name].link, c.name, c.house);
+				mapHelpers.wikiModal("http://awoiaf.westeros.org/index.php/"+c.name, c.name, "person "+c.house);
 				return false; // Prevent Default + Bubbling
 			});
 			
@@ -164,9 +159,24 @@ var mapHelpers = {
 		var getC = function(p) { // get Coordinates
 			cs.push([p[0], p[1]]);
 		};
+		
+		var callbackSuccess = function(data) {
+			var re = /index\.php\/([^"?]+)/g; // Find Link
+			var m;
+ 
+			while ((m = re.exec(data)) !== null) {
+				if (m.index === re.lastIndex) {
+					re.lastIndex++;
+				}
+				var place = cityList[m[1].replace('_', ' ')];
+				if(place) {
+					c.markers.push(L.marker([parseFloat(place.coordY), parseFloat(place.coordX)], {icon:c.markerStyle}).addTo(c.layer));
+				}
+			}
+		};
 		for(var k in this.characters) { // Check if path exists and display
+			var c = this.characters[k];
 			if(paths[k]) { // If there is path info
-				var c = this.characters[k];
 				var cs = []; // Collect the Coordinates
 				for(var k2 in paths[k]) {
 					if(displayIt(k2)) {
@@ -175,10 +185,14 @@ var mapHelpers = {
 				}
 				c.polyline.setLatLngs(cs);
 				var start = cs.shift(); // Get the first
-				c.startMarker.setLatLng(start); // Display start Marker
-				c.endMarker.setLatLng(cs.length > 0 ? cs.pop() : start); // Display End Marker
-			} else {
-				// Set some points
+				if(c.markers.length === 0) {
+					c.markers.push(L.marker([0,0], {icon:c.markerStyle}).addTo(c.layer));
+					c.markers.push(L.marker([0,0], {icon:c.markerStyle}).addTo(c.layer));
+				}
+				c.markers[0].setLatLng(start); // Display start Marker
+				c.markers[1].setLatLng(cs.length > 0 ? cs.pop() : start); // Display End Marker
+			} else if(c.markers.length === 0) { // When nothing is there we have to set some 
+				jQuery.ajax({url:"http://awoiaf.westeros.org/index.php/"+c.name}).success(callbackSuccess);
 			}
 		}
 	}
