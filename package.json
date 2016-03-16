@@ -1,9 +1,10 @@
 {
   "name": "gotmap",
-  "version": "0.0.11",
+  "version": "0.0.17",
   "description": "Project C (Globetrotters) of Group 10, JavaScript Seminar 2016, RostLab",
-  "main": "index.js",
+  "main": "./npm.js",
   "scripts": {
+    "build": "webpack --display-modules --display-chunks",
     "test": "grunt"
   },
   "repository": {
@@ -25,10 +26,19 @@
   },
   "homepage": "https://github.com/Rostlab/JS16_ProjectC_Group10#readme",
   "devDependencies": {
+    "css-loader": "^0.23.1",
+    "expose-loader": "^0.7.1",
     "grunt": "^0.4.5",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-qunit": "^1.0.1",
-    "grunt-contrib-watch": "^0.6.1"
+    "grunt-contrib-watch": "^0.6.1",
+    "html-loader": "^0.4.3",
+    "image-webpack-loader": "^1.6.3",
+    "less-loader": "^2.2.2",
+    "script-loader": "^0.6.1",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.12.14"
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
