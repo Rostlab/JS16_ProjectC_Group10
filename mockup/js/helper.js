@@ -209,8 +209,8 @@ var mapHelpers = {
 					c.markers.push(L.marker([0,0], {icon:c.markerStyle}).addTo(c.layer));
 					c.markers.push(L.marker([0,0], {icon:mapHelpers.colorMarker(c.color, deadImage)}).addTo(c.layer));
 				}
-				if(paths[k]['death']) {
-					var d = paths[k]['death'];
+				if(paths[k].death) {
+					var d = paths[k].death;
 					if(d[2] <= sel[1]) { // Last marker is dead
 						c.markers[1].remove();
 						c.markers[2].addTo(c.layer);
