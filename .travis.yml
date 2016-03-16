@@ -2,8 +2,7 @@ language: node_js
 node_js:
 - stable
 before_script:
-- npm install -g grunt-cli
-- npm run-script build
+- npm install -g grunt-cli && npm run-script build
 deploy:
   provider: npm
   email: oleksii.moroz@hotmail.com
