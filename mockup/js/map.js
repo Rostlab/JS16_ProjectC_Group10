@@ -81,7 +81,7 @@ jQuery(function() {
 				var prio = "prio"+place.priority;
 				var extra = "";
 				if(place.priority == 6 || place.name == "Shadow Tower" || place.name == "Castle Black" || place.name == "Eastwatch by the Sea" || place.name == "Nightfort") {
-					extra = " wall-label"
+					extra = " wall-label";
 				}
 				if(place.coordY && place.coordX) {
 					L.marker([parseFloat(place.coordY), parseFloat(place.coordX)], {
