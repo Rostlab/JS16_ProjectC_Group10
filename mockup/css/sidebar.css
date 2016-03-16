@@ -52,6 +52,14 @@
 	overflow: scroll;
 }
 
+#characters .character {
+	padding: .5em 0;
+	border-bottom: 1px solid #B6B6B6;
+	transition: all .3s;
+	position: relative;
+	width: 100%;
+}
+
 #characters .character.disabled {
 	opacity: 0.9;
 }
@@ -69,12 +77,6 @@
 #characters .character.disabled img:hover {
 	-webkit-filter: grayscale(0);
 	filter: grayscale(0);
-}
-
-#characters .character {
-	padding: .5em 0;
-	border-bottom: 1px solid #B6B6B6;
-	transition: all .3s;
 }
 
 #characters .character img {
@@ -98,6 +100,19 @@
 }
 
 #characters .character .house {
+	color: #727272;
+}
+
+#characters .character .delete {
+	color: #AAA;
+	position: absolute;
+	right: 14px;
+	top: 50%;
+	margin-top: -7px;
+	font-size: 14px;
+}
+
+#characters .character .delete:hover {
 	color: #727272;
 }
 /* @end */

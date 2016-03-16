@@ -13,9 +13,6 @@ jQuery(function() {
 		max: 5
 	};
 	
-	// Minimum Layer of loaded Tiles
-	var maxZoomLevel = -1;
-	
 	// Define a costum zoom handler because HBO did sth weird when scaling
 	L.CRS.HBOZoom = L.extend({}, L.CRS.EPSG3857, {
 		scale: function(zoom) {
@@ -75,9 +72,10 @@ jQuery(function() {
 	cityList = [];
 	map.addLayer(cities);
 	
-	jQuery.get("https://got-api.bruck.me/api/cities", {}, 
+	jQuery.get("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js", {},  // Static Link
+	// jQuery.get("https://got-api.bruck.me/api/cities", {},
 		function (allCities){
-			allCities.map(function (place) {
+			JSON.parse(allCities).map(function (place) {
 				cityList[place.name] = place;
 				var type = place.type || "other";
 				var prio = "prio"+place.priority;
@@ -95,10 +93,6 @@ jQuery(function() {
 					}).addTo(cities);
 				}
 			});
-			if(e) { // Fix the bug because the labels are also aligned in the zoomanim event
-				cities.remove();
-				map.addLayer(cities);
-			}
 	});
 	
 	// Add a class to alter the labels

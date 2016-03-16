@@ -51,7 +51,7 @@ jQuery(function() {
     
     $("#Load").click(function(){
 	    realm = JSON.parse($('#jsonArea').val());
-	    polygon.setLatLngs(realm);    
+	    polygon.setLatLngs(realm);     
     });
     
 
