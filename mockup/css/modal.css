@@ -71,6 +71,36 @@
 	background-size: 32px;
 	padding-left: 40px;
 }
+
+.person #dynModalLabel {
+	background: transparent url("../img/labels/person.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.house.stark #dynModalLabel {
+	background: transparent url("../img/houses/stark.png") no-repeat;
+	background-size: 26px;
+	padding-left: 40px;
+}
+
+.house.baratheon #dynModalLabel {
+	background: transparent url("../img/houses/baratheon.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.house.lannister #dynModalLabel {
+	background: transparent url("../img/houses/lannister.png") no-repeat;
+	background-size: 31px;
+	padding-left: 40px;
+}
+
+.house.targaryen #dynModalLabel {
+	background: transparent url("../img/houses/targaryen.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
 /* @end */
 
 /* @group dynModal wiki */
