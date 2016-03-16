@@ -75,7 +75,7 @@ jQuery(function() {
 	jQuery.get("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js", {},  // Static Link
 	// jQuery.get("https://got-api.bruck.me/api/cities", {},
 		function (allCities){
-			allCities.map(function (place) {
+			JSON.parse(allCities).map(function (place) {
 				cityList[place.name] = place;
 				var type = place.type || "other";
 				var prio = "prio"+place.priority;
