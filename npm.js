@@ -4,7 +4,7 @@ module.exports = {
 		apiToken = params.apiToken;
 	},
 	init: function() {
-		require("../builds/deploy.bundle.js");
+		require("./builds/deploy.bundle.js");
 	}
 }
 
