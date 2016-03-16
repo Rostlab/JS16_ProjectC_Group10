@@ -1,0 +1,2 @@
+var apiLocation = "";
+var apiToken = "";
