@@ -16,6 +16,7 @@ var mapHelpers = {
 		if (title) { // If there is a title
 			tEl.show(); // Show the Bar and Fill it
 			$('#dynModalLabel').text(title);
+			tEl[0].className="modal-header";
 			if(cssclass) {
 				tEl.addClass(cssclass);
 			}
@@ -132,7 +133,7 @@ var mapHelpers = {
 			
 			moreInfo.click(function (e) {
 				var el = $(e.target);
-				this2.wikiModal("http://awoiaf.westeros.org/index.php/"+c.name, c.name, "person "+c.house);
+				this2.wikiModal("http://awoiaf.westeros.org/index.php/"+c.name, c.name, "person "+(c.house ? c.house.toLowerCase() : ''));
 				return false; // Prevent Default + Bubbling
 			});
 			
