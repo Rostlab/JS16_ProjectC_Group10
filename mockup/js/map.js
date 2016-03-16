@@ -13,9 +13,6 @@ jQuery(function() {
 		max: 5
 	};
 	
-	// Minimum Layer of loaded Tiles
-	var maxZoomLevel = -1;
-	
 	// Define a costum zoom handler because HBO did sth weird when scaling
 	L.CRS.HBOZoom = L.extend({}, L.CRS.EPSG3857, {
 		scale: function(zoom) {
@@ -75,7 +72,8 @@ jQuery(function() {
 	cityList = [];
 	map.addLayer(cities);
 	
-	jQuery.get("https://got-api.bruck.me/api/cities", {}, 
+	jQuery.get("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js", {},  // Static Link
+	// jQuery.get("https://got-api.bruck.me/api/cities", {},
 		function (allCities){
 			allCities.map(function (place) {
 				cityList[place.name] = place;
