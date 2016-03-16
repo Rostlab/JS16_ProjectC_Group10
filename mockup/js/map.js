@@ -79,6 +79,10 @@ jQuery(function() {
 				cityList[place.name] = place;
 				var type = place.type || "other";
 				var prio = "prio"+place.priority;
+				var extra = "";
+				if(place.priority == 6 || place.name == "Shadow Tower" || place.name == "Castle Black" || place.name == "Eastwatch by the Sea" || place.name == "Nightfort") {
+					extra = " wall-label"
+				}
 				if(place.coordY && place.coordX) {
 					L.marker([parseFloat(place.coordY), parseFloat(place.coordX)], {
 						icon: L.divIcon({
@@ -88,8 +92,8 @@ jQuery(function() {
 						mapHelpers.wikiModal(place.link, place.name, place.type);
 					}).bindLabel(place.name, {
 						noHide: true, 
-						direction:'auto',
-						className: 'gotlabel '+prio
+						direction:'right',
+						className: 'gotlabel '+prio+' '+extra
 					}).addTo(cities);
 				}
 			});
