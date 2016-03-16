@@ -95,10 +95,6 @@ jQuery(function() {
 					}).addTo(cities);
 				}
 			});
-			if(e) { // Fix the bug because the labels are also aligned in the zoomanim event
-				cities.remove();
-				map.addLayer(cities);
-			}
 	});
 	
 	// Add a class to alter the labels

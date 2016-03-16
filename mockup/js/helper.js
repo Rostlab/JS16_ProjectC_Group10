@@ -93,6 +93,7 @@ var mapHelpers = {
 			var name = $('<div class="name">'+c.name+'</div>');
 			var house = $('<div class="house">'+c.house+'</div>');
 			var moreInfo = $('<a>More info</a>');
+			var deleteButton = $('<span class="delete glyphicon glyphicon-remove"></span>');
 		
 			mapHelpers.characterPins(c); // Show the character pins
 			$("#characters").append(character);// Add it to the list
@@ -102,6 +103,7 @@ var mapHelpers = {
 				charInfo.append(house);
 			}
 			charInfo.append(moreInfo);
+			charInfo.append(deleteButton);
 			c.layer = new L.layerGroup();
 			c.markerStyle =  mapHelpers.colorMarker(c.color, img);
 			c.markers = [];
@@ -122,10 +124,15 @@ var mapHelpers = {
 				}
 				mapHelpers.characterPins(c);
 			});
+			var this2= this;
+			deleteButton.click(function (e) {
+				this2.deleteCharacter(c.name);
+				return false;
+			});
 			
 			moreInfo.click(function (e) {
 				var el = $(e.target);
-				mapHelpers.wikiModal("http://awoiaf.westeros.org/index.php/"+c.name, c.name, "person "+c.house);
+				this2.wikiModal("http://awoiaf.westeros.org/index.php/"+c.name, c.name, "person "+c.house);
 				return false; // Prevent Default + Bubbling
 			});
 			
@@ -133,6 +140,17 @@ var mapHelpers = {
 			this.characters[c.name] = c; // Save it
 			this.updatePaths();
 		}
+	},
+	
+	deleteCharacter: function(n) {
+		if(this.characters[n]) {
+			var c = this.characters[n];
+			c.el.remove();
+			c.layer.remove();
+			delete this.characters[n];
+			return true;
+		}
+		return false;
 	},
 	
 	selection: [0,1],
