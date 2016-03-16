@@ -150,5 +150,15 @@
 	cursor: pointer;
 	pointer-events: auto;
 }
+
+#map .leaflet-control-custom {
+	width: 30px;
+	height: 30px;
+	background-color: #fff;
+	padding: 3px;
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+}
 /* @end */
 /* @end */
