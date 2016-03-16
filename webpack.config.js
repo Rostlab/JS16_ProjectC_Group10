@@ -1,17 +1,17 @@
 module.exports = {
-    entry:  './mockup/entry.js',
+    entry:  {
+        test: "./mockup/entry.js",
+        deploy: "./mockup/deploy.js"
+    },
     output: {
         path:     'builds',
-        filename: 'bundle.js',
+        filename: '[name].bundle.js',
         publicPath: 'builds/',
     },
     module: {
         loaders: [
-            { test: /\.css$/, loader: "style!css" },
-            {
-                test: /\.(png|jpg|svg|jpeg)/,
-                loaders: ['url', 'image-webpack'],
-            },
+            {test: /\.css$/, loader: "style!css"},
+            {test: /\.(png|jpg|svg|jpeg)/, loaders: ['url', 'image-webpack']},
             {test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff'},
             {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream'},
             {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file'},

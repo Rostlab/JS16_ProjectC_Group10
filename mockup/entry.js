@@ -1,10 +1,7 @@
 require('expose?$!expose?jQuery!jquery')
 		require("../node_modules/bootstrap/dist/css/bootstrap.min.css")
-		require("./lib/jquery-ui.min.js")
 		require("../node_modules/bootstrap/dist/js/bootstrap.min.js")
-
-		//html
-		require("html!../map.html")
+		require("./lib/jquery-ui.min.js")
 
 		//include css files + images
 		require("./css/leaflet.css")
@@ -18,6 +15,12 @@ require('expose?$!expose?jQuery!jquery')
 		require("./lib/leaflet.label/Map.Label.js")
 		require("./lib/leaflet.label/Marker.Label.js")
 		require("./lib/leaflet.label/Path.Label.js")
+
+		//data
+		require("../data/characters.js")
+		require("../data/cities.js")
+		require("../data/episodes.js")
+		require("../data/paths.js")
 
 		// include js files
 		require("./js/helper.js")

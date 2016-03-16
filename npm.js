@@ -1,1 +1,1 @@
-module.exports = require("../builds/bundle.js");
+module.exports = require("../builds/deploy.bundle.js");
