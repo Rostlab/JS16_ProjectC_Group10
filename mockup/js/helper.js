@@ -167,8 +167,9 @@ var mapHelpers = {
 		var sel = this.selection = selection ? toArray(selection) : this.selection; // Perform it on the slider input
 		
 		var displayIt = function(pathInfo) { // Check whether to display the path
+			if(pathInfo == "death") {return false;}
 			var p = toArray(pathInfo);
-			if(p.length == 1 || p[1] === "") {
+			if(p.length == 1) {
 				return (p[0] >= sel[0] && p[0] <= sel[1]);
 			}
 			return (p[0] >= sel[0] && p[1] <= sel[1]);
@@ -206,9 +207,26 @@ var mapHelpers = {
 				if(c.markers.length === 0) {
 					c.markers.push(L.marker([0,0], {icon:c.markerStyle}).addTo(c.layer));
 					c.markers.push(L.marker([0,0], {icon:c.markerStyle}).addTo(c.layer));
+					c.markers.push(L.marker([0,0], {icon:mapHelpers.colorMarker(c.color, deadImage)}).addTo(c.layer));
 				}
-				c.markers[0].setLatLng(start); // Display start Marker
-				c.markers[1].setLatLng(cs.length > 0 ? cs.pop() : start); // Display End Marker
+				if(paths[k]['death']) {
+					var d = paths[k]['death'];
+					if(d[2] <= sel[1]) { // Last marker is dead
+						c.markers[1].remove();
+						c.markers[2].addTo(c.layer);
+					} else {
+						c.markers[1].addTo(c.layer);
+						c.markers[2].remove();
+					}
+				}
+				
+				if(cs.length !== 0) {
+					c.markers[0].setLatLng(start).addTo(c.layer); // Display start Marker
+					c.markers[1].setLatLng(cs.length > 0 ? cs.pop() : start); // Display End Marker
+					c.markers[2].setLatLng(cs.length > 0 ? cs.pop() : start); // Display End Marker
+				} else {
+					c.markers[0].remove();
+				}
 			} else if(c.markers.length === 0) { // When nothing is there we have to set some 
 				jQuery.ajax({url:"http://awoiaf.westeros.org/index.php/"+c.name}).success(callbackSuccess);
 			}

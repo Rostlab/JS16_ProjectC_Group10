@@ -7,6 +7,7 @@
                         :_;
 */
 defaultPersonImage = 'img/persons/dummy.jpg';
+deadImage = 'img/persons/skull.png';
 personList = {
 	'Eddard Stark':{img:'img/persons/eddard_stark.jpg', link:'http://awoiaf.westeros.org/index.php/Eddard_Stark'},
 	'Robb Stark':{img:'img/persons/robb_stark.jpg', link:'http://awoiaf.westeros.org/index.php/Robb_Stark'},
