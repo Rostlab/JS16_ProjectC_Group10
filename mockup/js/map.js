@@ -144,5 +144,5 @@ jQuery(function() {
 			realmsLayer.remove();
 		}
 		showRealm = !showRealm;
-	}
+	};
 });
