@@ -108,4 +108,41 @@ jQuery(function() {
 			el.className = el.className.slice(0, -1) + e.zoom;
 		}
 	});
+	
+	var realmsLayer = new L.LayerGroup();
+	
+	for(var r in realm)
+	{
+		L.polygon(realm[r], {color: 'red', opacity : 0.2}).addTo(realmsLayer);
+	}
+	
+	//Realms Button
+	var showRealm = false;
+    var realmsCtr = L.Control.extend({
+        options: {
+            position: 'topright'
+        },
+        onAdd: function(map) {
+            var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-flag');
+            L.DomEvent.disableClickPropagation(c);
+            c.onclick = function() {
+                showRealms();
+            };
+            return c;
+        },
+    });
+    map.addControl(new realmsCtr());
+	
+	var showRealms = function()
+	{
+		if(showRealm)
+		{
+			realmsLayer.addTo(map);
+		}
+		else
+		{
+			realmsLayer.remove();
+		}
+		showRealm = !showRealm;
+	}
 });
