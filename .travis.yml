@@ -4,6 +4,7 @@ node_js:
 before_script:
 - npm install -g grunt-cli 
 - npm run-script deploy
+- npm run-script build
 deploy:
   provider: npm
   email: oleksii.moroz@hotmail.com
