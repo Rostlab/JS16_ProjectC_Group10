@@ -7,31 +7,12 @@
                         :_;
 */
 jQuery(function() {
-    var realm = [];
-    var polygon = L.polygon([], {
-        color: 'red'
-    }).addTo(map);
-    var dot = L.divIcon({
-        className: 'point'
-    });
-   
-    // Back Button
-    var backCtrl = L.Control.extend({
-        options: {
-            position: 'topright'
-        },
-        onAdd: function(map) {
-            var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-arrow-left');
-            L.DomEvent.disableClickPropagation(c);
-            c.onclick = function() {
-                realm.pop();
-                polygon.setLatLngs(realm);
-            };
-            return c;
-        },
-    });
-    map.addControl(new backCtrl());
-
+	
+	map.pm.enableDraw('Poly');	
+		
+	map.pm.addControls();
+	
+	
     // Save to JSON Button
     var jsonCtrl = L.Control.extend({
         options: {
@@ -41,48 +22,25 @@ jQuery(function() {
             var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-share');
             L.DomEvent.disableClickPropagation(c);
             c.onclick = function() {
+	            var latLngDirty = globalPolyline.getLatLngs();
+	            var latLngWanted = latLngDirty.map(function(curr)
+	            	{
+		            	return [curr.lat, curr.lng];
+		           	});
                 $('#jsonModal').modal('show');
-                $('#jsonArea').val(JSON.stringify(realm));
+                $('#jsonArea').val(JSON.stringify(latLngWanted));
             };
             return c;
         },
     });
     map.addControl(new jsonCtrl());
     
-    $("#Load").click(function(){
-	    realm = JSON.parse($('#jsonArea').val());
-	    polygon.setLatLngs(realm);     
-    });
-    
-
-	/*jQuery.get("https://got-api.bruck.me/api/cities", {}, function(cities)
-	{
-		console.log(cities);
-	 	cities.map(function(place) 
-	 	{
-		 	if(place.coordY && place.coordX) {
-			 	var cx = parseFloat(place.coordX);
-			 	var cy = parseFloat(place.coordY);
-        		L.marker([cy, cx], {
-            		icon: dot
-        		}).on('click', function(e) {
-            		addToPolygon({lat:cy, lng:cx}, place.name);
-        		}).bindLabel(place.name, 
-        			{
-					direction: 'auto'
-        			}).addTo(map);
-        	}
-    	});
+    /*$("#Load").click(function(){
+	    var coord = JSON.parse($('#jsonArea').val());
+	    globalPolyline.setLatLngs(coord).
+	    L.PM.Draw.Poly. _syncHintLine();    
     });
     */
-
-    function addToPolygon(c, info) {
-
-        realm.push([c.lat, c.lng]);
-        polygon.setLatLngs(realm);
-    }
-
-    map.on("click", function(e) {
-        addToPolygon(e.latlng);
-    });
 });
+
+
