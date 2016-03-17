@@ -34,12 +34,12 @@ npm install gotmap
 open node_modules/gotmap/mockup/mockup.html
 ```
 
-## run Editor
+## Run Editor
 ```shell
 open editor/editor.html
 ```
 
-## run the tests
+## Run the tests
 Install node modules:
 ```shell
 npm update
