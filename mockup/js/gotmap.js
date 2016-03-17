@@ -39,6 +39,9 @@ var gotmap = function(mapContainer, options) {
 	// Will be later returned
 	var publicFunctions = {};
 	
+	// Just to do internal Stuff
+	var internalHelpers = {};
+	
 	// All the containers
 	mapContainer = document.getElementById(mapContainer);
 	timelineContainer = document.getElementById('timeline');
@@ -174,7 +177,7 @@ var gotmap = function(mapContainer, options) {
 	
 	
 	// INIT Timeline
-	var episodeStore;
+	var episodeStore, prevSelected;;
 	(function () {
 		// Append the Containers
 		var sliderEl = jQuery('<div></div>').appendTo(timelineContainer);
@@ -182,6 +185,7 @@ var gotmap = function(mapContainer, options) {
 		
 		// Init List
 		episodeStore = [];
+		prevSelected = [1,2];
 		
 		// Fetch the Data
 		jQuery.get(options.episodeDataSource, {},
@@ -192,21 +196,25 @@ var gotmap = function(mapContainer, options) {
 					episode.showTitle = "S" + episode.season +"E"+episode.nr+": " + episode.name;
 					episodeStore[episode.totalNr]=episode;
 				});
-				infoEl.text(getEpisodeInfo(1) + " - " + getEpisodeInfo(2));
+				setInfoText(prevSelected);
 				sliderEl.slider({
 					range: true,
 					min: 1,
 					max: episodesCount,
-					values: [1, 2],
+					values: prevSelected,
 					animate: "slow",
 					slide: function(event, ui) {
-						selected = [ui.values[0], ui.values[1]];
-						infoEl.text(getEpisodeInfo(ui.values[0]) + " - " + getEpisodeInfo(ui.values[1]));
+						var selected = [ui.values[0], ui.values[1]];
+						setInfoText(selected);
 						publicFunctions.updateMap(selected);
 					}
 				});
 			}
 		);
+		
+		function setInfoText(range) {
+			infoEl.text(getEpisodeInfo(range[0]) + " - " + getEpisodeInfo(range[1]));
+		}
 		
 		// Helper for Episode Info
 		function getEpisodeInfo(i) {
@@ -368,6 +376,17 @@ var gotmap = function(mapContainer, options) {
 	var loadedCharacters = [];
 	var characterCurrentId = 0;
 	var characterLayer = new L.layerGroup().addTo(map);
+	
+	//########################################################//
+	//                                                        //
+	//                   Internal Functions                   //
+	//                                                        //
+	//########################################################//
+	
+	internalHelpers.loadWikiPage = function() {
+		console.log("TODO");
+	};
+	
 	
 	//########################################################//
 	//                                                        //
@@ -566,20 +585,67 @@ var gotmap = function(mapContainer, options) {
 	// Timeline Functions
 	
 	publicFunctions.updateMap = function (selected) {
-		characterLayer.clearLayers();
-		var markers = [];
-		var polygons = [];
-		for(var id in loadedCharacters) {
+		if(!selected) {
+			selected = prevSelected;
+		} else {
+			prevSelected = selected;
+		}
+		characterLayer.clearLayers(); // Clear the Pane
+		var markers = []; // Store All Markers
+		var polylines = []; // Store All Polylines
+		
+		var pathShown = function (path) {
+			if(!path.from) {
+				return selected[0] <= path.to;
+			}
+			if(!path.to) {
+				return selected[1] >= path.from;
+			}
+			return selected[0] <= path.from && selected[1] >= path.to;
+		};
+		
+		var combineCoords = function (paths) {
+			var coords = [];
+			for(var i = 0;i<paths.length;i++) {
+				coords = coords.concat(paths[i].path);
+			}
+			return coords;
+		}
+		
+		for(var id in loadedCharacters) { // Loop through every character
 			var character = loadedCharacters[id];
 			if(!character.shown) {
 				continue;
 			}
-			if(character.pathList) {
-				
-			} else {
-				character.points.map(function(p) {
+			if(character.pathInfo) {
+				var paths = character.path.filter(pathShown);
+				polylines.push({
+					path: combineCoords(paths),
+					color: character.color
+				});
+				var len = paths.length;
+				if(len != 0) {
+					var firstPath  = paths[0];
+					var firstPoint = firstPath.path[0];
 					markers.push({
-						'coords':p, 
+						'coords': firstPoint,
+						'style': firstPath.alive ? character.markerStyle : character.deadStyle,
+						'character':character
+					});
+				}
+				if(len != 1) {
+					var lastPath  = paths[len-1];
+					var lastPoint = lastPath.path[lastPath.path.length-1];	
+					markers.push({
+						'coords': lastPoint,
+						'style': lastPath.alive ? character.markerStyle : character.deadStyle,
+						'character':character
+					});
+				}
+			} else {
+				character.points.map(function(point) {
+					markers.push({
+						'coords':point, 
 						'style': character.markerStyle, 
 						'character':character
 					});
@@ -588,6 +654,9 @@ var gotmap = function(mapContainer, options) {
 		}
 		markers.map(function(marker) {
 			L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer);
+		});
+		polylines.map(function(polyline) {
+			L.polyline(polyline.path, {color:polyline.color}).addTo(characterLayer);
 		});
 	};
 	
@@ -649,7 +718,7 @@ var gotmap = function(mapContainer, options) {
 	};
 	
 	return publicFunctions;
-}
+};
 
 jQuery(function() {
 	mymap = gotmap('map', {
