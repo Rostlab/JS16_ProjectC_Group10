@@ -250,15 +250,13 @@ var gotmap = function(mapContainer, options) {
 			'Tyrion Lannister':'img/persons/tyrion_lannister.png'
 		};
 		
+		var pathList = ['Eddard Stark', 'Catelyn Stark'];
 		
 		jQuery.get(options.characterDataSource, {}, function(data) {
 			var allCharacters = (typeof data == "object") ? data : JSON.parse(data);
 			allCharacters.map(function (character) {
-				if(personList[character.name]) {
-					character.image = personList[character.name];
-				} else {
-					character.image = options.defaultPersonImg;
-				}
+				character.image = personList[character.name] || options.defaultPersonImg;
+				character.pathInfo = pathList.indexOf(character.name) != -1;
 				characterStore[character.name.toLowerCase()] = character;
 			});
 		});
@@ -337,9 +335,12 @@ var gotmap = function(mapContainer, options) {
 			var out = o1.concat(o2); // First beginning with e, then the rest
 			l.empty(); // Delete the HTML li Elements
 			if(out.length) {
-				out.map(function(c,i) {
-					var item = jQuery('<li><a href="#"><img src="'+c.image+'" class="img-circle"/>'+c.name+'</a></li>').click(function(e) {
-						publicFunctions.addCharacter(c);
+				out.map(function(character,i) {
+					var extra = character.pathInfo ? ' class="pathInfo"' : '';
+					var item = jQuery('<li'+extra+'><a href="#"><img src="'+character.image+'" class="img-circle"/>'+
+						character.name+'</a></li>'
+					).click(function(e) {
+						publicFunctions.addCharacter(character);
 						l.fadeOut();
 						return false;
 					});
@@ -437,6 +438,29 @@ var gotmap = function(mapContainer, options) {
 			var colors = options.characterColors;
 			character.color = colors[characterCurrentId % colors.length]; // Assign a color
 			characterCurrentId++; // # of Characters
+			// Load Additional Information
+			if(character.pathInfo) {
+				// TODO: Use the DB
+				character.path = {};
+			} else {
+				character.points = [];
+				// TODO: Use the DB
+				jQuery.ajax({url:"http://awoiaf.westeros.org/index.php/"+character.name}).success(function(data) {
+					var re = /index\.php\/([^"?]+)/g; // Find Link
+					var m;
+					
+					while ((m = re.exec(data)) !== null) {
+						if (m.index === re.lastIndex) {
+							re.lastIndex++;
+						}
+						
+						var place = cityStore[m[1].replace('_', ' ')];
+						if(place) {
+							character.points.push(place.coords);
+						}
+					}
+				}); 
+			}
 			
 			// Make new element
 			var characterElement = jQuery('<div class="character"><img src="'+character.image+'"'+
@@ -592,7 +616,7 @@ var gotmap = function(mapContainer, options) {
 	 *
 	 * @return ourNames
 	 */
-	publicFunctions.credit = function() {
+	publicFunctions.getCredits = function() {
 		return "GotMap by Maximilian Bandle @mbandle, Alexander Beischl @AlexBeischl, Tobias Piffrader @tpiffrader";
 	};
 	
