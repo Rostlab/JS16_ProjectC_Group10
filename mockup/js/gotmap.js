@@ -20,7 +20,7 @@ var gotmap = function(mapContainer, options) {
 		'characterDataSource':'https://got-api.bruck.me/api/characters/',
 		'bgTiles':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/bg/{z}/y{y}x{x}.png',
 		'labelTiles':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/labels/{z}/y{y}x{x}.png',
-		'errorTile':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png'
+		'errorTile':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png',
 		'characterColors':['#F44336', '#2196F3', '#4CAF50', '#212121', '#7C4DFF', '#F8BBD0', '#FBC02D', '#795548', 
 		'#00796B', '#536DFE', '#FFFFFF', '#FF5722']
 	};
@@ -39,9 +39,10 @@ var gotmap = function(mapContainer, options) {
 	// Will be later returned
 	var publicFunctions = {};
 	
-	
+	// All the containers
 	mapContainer = document.getElementById(mapContainer);
 	timelineContainer = document.getElementById('timeline');
+	characterContainer = jQuery('#characters');
 	
 	// INIT Leaflet Map
 	var map, cityStore, cityLayer, realmStore, realmsLayer, realmsShown;
@@ -201,7 +202,7 @@ var gotmap = function(mapContainer, options) {
 					slide: function(event, ui) {
 						selected = [ui.values[0], ui.values[1]];
 						infoEl.text(getEpisodeInfo(ui.values[0]) + " - " + getEpisodeInfo(ui.values[1]));
-						publicFunctions.updatePaths(selected);
+						publicFunctions.updateMap(selected);
 					}
 				});
 			}
@@ -255,6 +256,8 @@ var gotmap = function(mapContainer, options) {
 			allCharacters.map(function (character) {
 				if(personList[character.name]) {
 					character.image = personList[character.name];
+				} else {
+					character.image = options.defaultPersonImg;
 				}
 				characterStore[character.name.toLowerCase()] = character;
 			});
@@ -335,8 +338,7 @@ var gotmap = function(mapContainer, options) {
 			l.empty(); // Delete the HTML li Elements
 			if(out.length) {
 				out.map(function(c,i) {
-					var img = c.image || options.defaultPersonImg;
-					var item = jQuery('<li><a href="#"><img src="'+img+'" class="img-circle"/>'+c.name+'</a></li>').click(function(e) {
+					var item = jQuery('<li><a href="#"><img src="'+c.image+'" class="img-circle"/>'+c.name+'</a></li>').click(function(e) {
 						publicFunctions.addCharacter(c);
 						l.fadeOut();
 						return false;
@@ -353,16 +355,17 @@ var gotmap = function(mapContainer, options) {
 	})();
 	
 	// INIT Modal
-	var gotModal;
-	(function(){
-		gotModal = jQuery('<div class="modal fade gotmap-modal" tabindex="-1" role="dialog" aria-labelledby="dynModalLabel">'+
+	var	gotModal = jQuery('<div class="modal fade gotmap-modal" tabindex="-1" role="dialog" aria-labelledby="dynModalLabel">'+
 			'<div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header">'+
 			'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
 			'<h3 class="modal-title" id="dynModalLabel"></h3></div><div class="modal-body"></div><div class="modal-footer">'+
 			'<div class="pull-left classes"></div><a href="#" class="btn btn-warning wikilink" target="_blank">Show in Wiki</a>'+
 			'<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button></div></div></div></div>');
-		$('body').append(gotModal);
-	})();
+	$('body').append(gotModal);
+	
+	// INIT Characters
+	var loadedCharacters = [];
+	var characterCurrentId = 0;
 	
 	//########################################################//
 	//                                                        //
@@ -426,33 +429,113 @@ var gotmap = function(mapContainer, options) {
 	
 	// Character Functions
 	
-	publicFunctions.addCharacter = function () {
-		console.log('TODO addCharacter');
+	publicFunctions.addCharacter = function (character) {
+		var id = character.name;
+		if(loadedCharacters[id]) { // If  in the list, show it
+			return publicFunctions.showCharacter(id);
+		} else {
+			var colors = options.characterColors;
+			character.color = colors[characterCurrentId % colors.length]; // Assign a color
+			characterCurrentId++; // # of Characters
+			
+			// Make new element
+			var characterElement = jQuery('<div class="character"><img src="'+character.image+'"'+
+				'class="img-circle" style="border-color:'+character.color+'"/></div>');
+			var charInfo = jQuery('<div class="characterinfo"></div>');
+			charInfo.append('<div class="name">'+character.name+'</div>');
+			if(character.house){
+				charInfo.append('<div class="house">'+character.house+'</div>');
+			}
+			var moreInfo = jQuery('<a>More info</a>');
+			charInfo.append(moreInfo);
+			var deleteButton = jQuery('<span class="delete glyphicon glyphicon-remove"></span>');
+			charInfo.append(deleteButton);
+			characterElement.append(charInfo);
+			character.shown = true;
+			
+			// Bind events
+			characterElement.click(function () {
+				publicFunctions.toggleCharacter(id);
+			});
+			
+			deleteButton.click(function () {
+				publicFunctions.removeCharacter(id);
+				return false; // Prevent Default + Bubbling
+			});
+			
+			moreInfo.click(function () {
+				publicFunctions.showModal("http://awoiaf.westeros.org/index.php/"+character.name, character.name, "person "+(character.house ? character.house.toLowerCase() : ''));
+				return false; // Prevent Default + Bubbling
+			});
+			
+			// Append it to the characters list
+			characterContainer.append(characterElement);
+			character.el = characterElement; // Save it to be able to delete it later
+			
+			loadedCharacters[id] = character; // Save It
+			
+			publicFunctions.updateMap();
+			return id;
+			// TODO Delete
+			c.layer = new L.layerGroup();
+			
+			c.markerStyle =  mapHelpers.colorMarker(c.color, img);
+			c.markers = [];
+			c.polyline =  L.polyline([], {color: c.color}).addTo(c.layer);
+			c.layer.addTo(map);
+		}
 	};
 	
-	publicFunctions.removeCharacter = function () {
-		console.log('TODO removeCharacter');
+	publicFunctions.removeCharacter = function (id) {
+		if(loadedCharacters[id]) {
+			loadedCharacters[id].el.remove(); // Delete from DOM
+			delete loadedCharacters[id]; // Delete From List
+			publicFunctions.updateMap();
+			return true; // Sucess
+		}
+		return false; // Failed
 	};
 	
-	publicFunctions.showCharacter = function () {
-		console.log('TODO showCharacter');
+	publicFunctions.showCharacter = function (id) {
+		if(loadedCharacters[id]) {
+			var character = loadedCharacters[id]; // Shortcut
+			if(!character.shown) {
+				character.el.removeClass('disabled');
+				character.shown = true;
+				publicFunctions.updateMap();
+			}
+			return character.shown;
+		}
 	};
 	
-	publicFunctions.hideCharacter = function () {
-		console.log('TODO hideCharacter');
+	publicFunctions.hideCharacter = function (id) {
+		if(loadedCharacters[id]) {
+			var character = loadedCharacters[id]; // Shortcut
+			if(character.shown) {
+				character.el.addClass('disabled');
+				character.shown = false;
+				publicFunctions.updateMap();
+			}
+			return character.shown;
+		}
 	};
 	
-	publicFunctions.toggleCharacter = function () {
-		console.log('TODO toggleCharacter');
+	publicFunctions.toggleCharacter = function (id) {
+		if(loadedCharacters[id]) { 
+			// Just jump to the right function
+			return loadedCharacters[id].shown ? publicFunctions.hideCharacter(id) : publicFunctions.showCharacter(id);
+		}
 	};
 	
 	publicFunctions.removeAllCharacters = function () {
-		console.log('TODO removeAllCharacters');
+		for(var id in loadedCharacters) { // Iterate through all
+			publicFunctions.removeCharacter(id);
+		}
 	};
 	
 	// Timeline Functions
 	
-	publicFunctions.updatePaths = function (selected) {
+	publicFunctions.updateMap = function (selected) {
 		console.log('TODO update Paths');
 	};
 	
