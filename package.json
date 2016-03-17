@@ -1,10 +1,11 @@
 {
   "name": "gotmap",
-  "version": "0.0.17",
+  "version": "0.0.19",
   "description": "Project C (Globetrotters) of Group 10, JavaScript Seminar 2016, RostLab",
   "main": "./npm.js",
   "scripts": {
     "build": "webpack --display-modules --display-chunks",
+    "deploy": "webpack --config ./webpack.deploy.config.js  --display-modules --display-chunks",
     "test": "grunt"
   },
   "repository": {

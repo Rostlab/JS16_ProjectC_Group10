@@ -2,7 +2,7 @@ var webpack = require("webpack");
 
 module.exports = {
     entry:  {
-        test: "./mockup/entry.js"
+        deploy: "./mockup/deploy.js"
     },
     output: {
         path:     'builds',
@@ -21,5 +21,13 @@ module.exports = {
     },
     resolve: {
         modulesDirectories: ['node_modules', 'bower_components'],
-    }
+    },
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        }),
+
+    ]
 };
