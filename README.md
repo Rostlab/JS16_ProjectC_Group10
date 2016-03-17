@@ -68,50 +68,49 @@ hideModal()
 ```
 ## Characters in the map
 Add a character:
-
+```javascript
 addCharacter([string] id)
-
+```
 Remove a character:
-
+```javascript
 removeCharacter([string] id)
-
+```
 Show a character:
-
+```javascript
 showCharacter([string] id)
-
+```
 Hide a character:
-
+```javascript
 hideCharacter([string] id)
-
+```
 Toggle a character:
-
+```javascript
 toggleCharacter([string] id)
-
+```
 Delete all characters:
-
+```javascript
 deleteAllCharacters()
-
+```
 
 ## Paths
 Update paths:
-
+```javascript
 updateTimeline([array] range)
-
+```
 ## Realms
 Show realms:
-
+```javascript
 showRealms([bool] color, [double] opacity)
-
+```
 Hide realms:
-
+```javascript
 hideRealms()
-
+```
 Toggle realms:
-
+```javascript
 toggleRealms()
-
+```
 ## Credits:
-
+```javascript
 showTeamMembers()
-
-
+```
