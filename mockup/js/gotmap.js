@@ -218,7 +218,7 @@ var gotmap = function(mapContainer, options) {
 		// Init List
 		characterStore = {}; // Character Store
 		
-		var personList = { // Move it to DB later
+		var personList = { // TODO: Move it to DB later
 			'Eddard Stark':'img/persons/eddard_stark.jpg',
 			'Robb Stark':'img/persons/robb_stark.jpg',
 			'Sansa Stark':'img/persons/sansa_stark.jpg',
@@ -335,11 +335,70 @@ var gotmap = function(mapContainer, options) {
 				l.append('<li class="dropdown-header">Nothing found</li>');
 			}
 		});
-	
 	})();
 	
-	publicFunctions.showModal = function () {
-		console.log('TODO showModal');
+	// INIT Modal
+	var gotModal;
+	(function(){
+		gotModal = jQuery('<div class="modal fade gotmap-modal" tabindex="-1" role="dialog" aria-labelledby="dynModalLabel">'+
+			'<div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header">'+
+			'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+			'<h3 class="modal-title" id="dynModalLabel"></h3></div><div class="modal-body"></div><div class="modal-footer">'+
+			'<div class="pull-left classes"></div><a href="#" class="btn btn-warning wikilink" target="_blank">Show in Wiki</a>'+
+			'<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button></div></div></div></div>');
+		$('body').append(gotModal);
+	})();
+	
+	publicFunctions.showModal = function (link, title, cssclass) {
+		gotModal.modal('show'); // Show the Modal
+    	var headerEl = gotModal.find('.modal-header'); // Header Container
+		var bEl = gotModal.find('#dynModal .modal-body'); // Body Container
+		
+		if (title) { // If there is a title
+			headerEl.show(); // Show the Top Bar
+			$('#dynModalLabel').text(title); // Set the Title
+			headerEl[0].className = "modal-header"; // Reset Classnames
+			if(cssclass) { // Append classes when existing
+				headerEl.addClass(cssclass);
+			}
+		} else {
+			headerEl.hide(); // Hide it
+		}
+		
+		// Show Spinner
+		bEl.html("<span class='glyphicon glyphicon-cog glyph-spin glyph-big'></span>").addClass('text-center'); 
+		
+		var cEl = gotModal.find('.modal-footer .classes').empty(); // Classes Container
+		$('#dynModal .wikilink').attr('href', link); // Update the Wiki-Link
+		
+		// Get the wiki
+		jQuery.ajax({
+			url: link 
+		}).success(function(x) { // Show it
+			var content = $(x).find("#bodyContent");
+			bEl.removeClass('text-center'); // Make it left aligned
+			content.find("img").each(function (i, el) { // Fix the image URL
+				el.src = "http://awoiaf.westeros.org"+el.src.substr(el.src.indexOf("/i"));
+			});
+			content.find("a").each(function (i, el) { // Fix the links
+				if(el.href.indexOf("/i") !== -1)
+				{
+					el.href = "http://awoiaf.westeros.org"+el.href.substr(el.href.indexOf("/i"));
+					el.target = "_blank";
+				}
+			});
+			content.find(".catlinks li a").each(function (i, el) { // Pull the catlinks in the modal footer
+				$(el).addClass("btn").addClass("btn-default").addClass("pull-left");
+				cEl.append(el);
+			});
+			bEl.html(content);
+		}).error(function () { // Display Error Message
+			bEl.html("<span class='glyphicon glyphicon-alert glyph-big text-danger'></span>");
+		});
+	};
+	
+	publicFunctions.hideModal = function() {
+		gotModal.modal('hide'); // Show the Modal
 	};
 	
 	publicFunctions.addCharacter = function () {
