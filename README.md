@@ -13,7 +13,7 @@ map.config(object);
 // apiToken = token for post/put/delete request to api
 map.init();
 // create a map
-``
+
 
 # Dependencies
     * Leaflet@v0.7.7
