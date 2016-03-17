@@ -11,21 +11,25 @@ var gotmap = function(mapContainer, options) {
 		'filter':false,
 		'sidebar':false,
 		'timeline':false,
+		'defaultPersonImg':'img/persons/dummy.jpg',
+		'deadPersonImg':'img/persons/skull.png',
 		'cityDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js', // https://got-api.bruck.me/api/cities
 		'realmDataSource':'file:///Volumes/Max%20HD/Users/max/Documents/TUM/JavaScript/data/realms.js',
-		'episodeDataSource':'file:///Volumes/Max%20HD/Users/max/Documents/TUM/JavaScript/data/episodes.js',
-		'characterDataSource':false,
+		'pathDataSource':'file:///Volumes/Max%20HD/Users/max/Documents/TUM/JavaScript/data/paths.js',
+		'episodeDataSource':'https://got-api.bruck.me/api/episodes/',
+		'characterDataSource':'https://got-api.bruck.me/api/characters/',
 		'bgTiles':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/bg/{z}/y{y}x{x}.png',
 		'labelTiles':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/labels/{z}/y{y}x{x}.png',
 		'errorTile':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png'
 	};
 	var publicFunctions = {};
 	
-	mapContainer = document.getElementById(mapContainer);
 	
+	mapContainer = document.getElementById(mapContainer);
+	timelineContainer = document.getElementById('timeline');
 	
 	// INIT Leaflet Map
-	var map, cityList, cityLayer, realmsList, realmsLayer, realmsShown;
+	var map, cityStore, cityLayer, realmStore, realmsLayer, realmsShown;
 	(function () {
 		// Define a costum zoom handler because HBO did sth weird when scaling
 		var hboZoom = L.extend({}, L.CRS.EPSG3857, {
@@ -79,22 +83,23 @@ var gotmap = function(mapContainer, options) {
 		
 		// Init Layer + List
 		cityLayer = new L.layerGroup().addTo(map);
-		cityList = [];
+		cityStore = {};
 		
 		// Fetch the Data
 		jQuery.get(options.cityDataSource, {},
-			function (allCities){
-				JSON.parse(allCities).map(function (place) {
+			function (data) {
+				var allCities = (typeof data == "object") ? data : JSON.parse(data);
+				allCities.map(function (place) {
 					place.coords = [parseFloat(place.coordY), parseFloat(place.coordX)]; // 
-					cityList[place.name] = place;
+					cityStore[place.name] = place;
 					var type = place.type || "other"; // Add Type to display correct label
 					var prio = "prio"+place.priority; // Add priority to hide / show cities
-					var extra = (place.priority == 6 || jQuery.inArray(place.name, ['Shadow Tower', 'Castle Black', 'Eastwatch by the Sea', 'Nightfort'])) ? " wall-label" : ""; 
+					var extra = (place.priority == 6 || jQuery.inArray(place.name, ['Shadow Tower', 'Castle Black', 'Eastwatch by the Sea', 'Nightfort']) != -1) ? " wall-label" : ""; 
 					if(place.coordY && place.coordX) {
 						L.marker(place.coords, {
 							icon: L.divIcon({className: ['gotmarker', type, prio].join(' ')})
 						}).on('click', function () {
-							mapHelpers.wikiModal(place.link, place.name, place.type);
+							publicFunctions.showModal(place.link, place.name, place.type);
 						}).bindLabel(place.name, {
 							noHide: true, 
 							direction:'right',
@@ -117,19 +122,20 @@ var gotmap = function(mapContainer, options) {
 		
 		// Init Layer + List
 		realmsLayer = new L.LayerGroup();
-		realmsList = [];
+		realmStore = {};
 		realmsShown = false;
 		
 		jQuery.get(options.realmDataSource, {},
-			function (allRealms){
-				JSON.parse(allRealms).map(function (realm) {
+			function (data){
+				var allRealms = (typeof data == "object") ? data : JSON.parse(data);
+				allRealms.map(function (realm) {
 					realm.poly = L.polygon(realm.path, {
 						color: 'red', 
 						opacity : 0.2
 					}).bindLabel(realm.name, {
 						className: 'gotmarker'
 					}).addTo(realmsLayer);
-					realmsList[realm.name] = realm;	
+					realmStore[realm.name] = realm;	
 				});
 		});
 		
@@ -151,40 +157,198 @@ var gotmap = function(mapContainer, options) {
 	})();
 	
 	
-	// INIT Slider
+	// INIT Timeline
+	var episodeStore;
 	(function () {
-		var selected = "0-1";
+		// Append the Containers
+		var sliderEl = jQuery('<div></div>').appendTo(timelineContainer);
+		var infoEl = jQuery('<p></p>').appendTo(timelineContainer);
+		
+		// Init List
+		episodeStore = [];
+		
+		// Fetch the Data
+		jQuery.get(options.episodeDataSource, {},
+			function (data){
+				var allEpisodes = (typeof data == "object") ? data : JSON.parse(data);
+				var episodesCount = allEpisodes.length;
+				allEpisodes.map(function (episode) {
+					episode.showTitle = "S" + episode.season +"E"+episode.nr+": " + episode.name;
+					episodeStore[episode.totalNr]=episode;
+				});
+				infoEl.text(getEpisodeInfo(1) + " - " + getEpisodeInfo(2));
+				sliderEl.slider({
+					range: true,
+					min: 1,
+					max: episodesCount,
+					values: [1, 2],
+					animate: "slow",
+					slide: function(event, ui) {
+						selected = [ui.values[0], ui.values[1]];
+						infoEl.text(getEpisodeInfo(ui.values[0]) + " - " + getEpisodeInfo(ui.values[1]));
+						publicFunctions.updatePaths(selected);
+					}
+				});
+			}
+		);
+		
+		// Helper for Episode Info
+		function getEpisodeInfo(i) {
+			if(i < episodeStore.length) {
+				return episodeStore[i].showTitle;
+			} else {
+				return "No Episode found";
+			}
+		}
+	})();
 	
-		var es = episodes; // Get them from the DB later
-	
-		$("#episodes").text(getEpisodeInfo(0) + " - " + getEpisodeInfo(1)); // Initialize it
-	
-		$("#episode-slider").slider({
-			range: true,
-			min: 0,
-			max: es.length-1,
-			values: [0, 1],
-			animate: "slow",
-			slide: function(event, ui) {
-				selected = [ui.values[0], ui.values[1]];
-				if (selected[0] == selected[1]) {
-					selected = selected[0];
-				} else {
-					selected = selected[0] +"-"+ selected[1];
+	// INIT Filterbar and Characterlist
+	var characterStore;
+	(function () {
+		// Init Elements
+		var f = jQuery('#filter input'); // Filter Element
+		var l = jQuery('<ul class="dropdown-menu"><li class="dropdown-header">Nothing found</li></ul>').insertAfter(f); // Dropdown
+		
+		// Init private helper Vars
+		var selectedInDropdown = 0; // Index of highlighted Dropdown element
+		var inputVal = ""; // Last used input
+		var mouseOn = false; // Mouse over list?
+		var focusOn = false; // Cursor in input?
+		
+		// Init List
+		characterStore = {}; // Character Store
+		
+		var personList = { // Move it to DB later
+			'Eddard Stark':'img/persons/eddard_stark.jpg',
+			'Robb Stark':'img/persons/robb_stark.jpg',
+			'Sansa Stark':'img/persons/sansa_stark.jpg',
+			'Catelyn Stark':'img/persons/catelyn_stark.jpg',
+			'Arya Stark':'img/persons/arya_stark.png',
+			'Brandon Stark':'img/persons/bran_stark.jpg',
+			'Rickon Stark':'img/persons/rickon_stark.jpg',
+			'Jon Snow':'img/persons/jon_snow.jpg',
+			'Daenerys Targaryen':'img/persons/daenerys_targaryen.jpg',
+			'Tywin Lannister':'img/persons/tywin_lannister.png',
+			'Jaime Lannister':'img/persons/jaime_lannister.png',
+			'Cersei Lannister':'img/persons/cersei_lannister.jpeg',
+			'Tyrion Lannister':'img/persons/tyrion_lannister.png'
+		};
+		
+		
+		jQuery.get(options.characterDataSource, {}, function(data) {
+			var allCharacters = (typeof data == "object") ? data : JSON.parse(data);
+			allCharacters.map(function (character) {
+				if(personList[character.name]) {
+					character.image = personList[character.name];
 				}
-				$("#episodes").text(getEpisodeInfo(ui.values[0]) + " - " + getEpisodeInfo(ui.values[1]));
-				mapHelpers.updatePaths(selected);
+				characterStore[character.name.toLowerCase()] = character;
+			});
+		});
+		
+		// Set events to know where the mouse is and do fading
+		l.mouseenter(function() { // No need to fade in because it is already
+			mouseOn = true;
+		});
+		
+		l.mouseleave(function() {
+			mouseOn = false;
+			if(!focusOn) {
+				l.fadeOut();
 			}
 		});
-
-	function getEpisodeInfo(i) {
-	    if(i < es.length) {
-        	return "S" + es[i].season + "E" + es[i].episode + ": " + es[i].title;
-        } else {
-	        return "No Episode found";
-        }
-    }
+		
+		// Set events to know where the cursor is and fade the list in/out
+		f.focusin(function () {
+			focusOn = true;
+			l.fadeIn();
+		});
+		f.focusout(function () {
+			focusOn = false;
+			if(!mouseOn) {
+				l.fadeOut();
+			}
+		});
+		
+		// Get the Return / UP / Down Keys early to prevent default beahvior
+		f.keydown(function (event) {
+			var key = event.keyCode;
+			if(key == 13 || key == 38 || key == 40) {
+				var lEl = l.find("li"); // All list elements
+				event.preventDefault();
+				if(key == 13) { // Return
+						$(lEl[selectedInDropdown]).trigger('click'); // Click the Selected
+						f.trigger('blur'); // leave the input
+						selectedInDropdown = 0; // Delete Selection
+						return;
+				}
+				$(lEl[selectedInDropdown]).removeClass('hover');
+				if(key == 38) { // Up
+					if(selectedInDropdown > 0) {
+						selectedInDropdown--; // Move Selection Up
+					}
+				} else { // Down
+					if(selectedInDropdown < lEl.length) {
+						selectedInDropdown++; // Move Selection Down
+					}
+				}
+				$(lEl[selectedInDropdown]).addClass('hover'); // Add hover to the new el
+			}
+		});
+		
+		// Trigger the search 
+		f.keyup(function(event) {
+			var s = f.val().toLowerCase();
+			if(s == inputVal) { // Only when sth new happens
+				return;
+			} 
+			inputVal = s;
+			selectedInDropdown = 0;
+			var maxResults = 20;
+			var o1 = []; // Begins with
+			var o2 = []; // Contains
+			var p;
+			for(var cName in characterStore) {
+				var pos = cName.indexOf(s);
+				if(pos != -1) {
+					(pos === 0 ? o1 : o2).push(characterStore[cName]);
+					if((maxResults--) === 0) {
+						break;
+					}
+				}
+			}
+			var out = o1.concat(o2); // First beginning with e, then the rest
+			l.empty(); // Delete the HTML li Elements
+			if(out.length) {
+				out.map(function(c,i) {
+					var img = c.image || options.defaultPersonImg;
+					var item = jQuery('<li><a href="#"><img src="'+img+'" class="img-circle"/>'+c.name+'</a></li>').click(function(e) {
+						publicFunctions.addCharacter(c);
+						l.fadeOut();
+						return false;
+					});
+					if(i === 0) {
+						item.addClass('hover');
+					}
+					l.append(item);
+				});
+			} else {
+				l.append('<li class="dropdown-header">Nothing found</li>');
+			}
+		});
+	
 	})();
+	
+	publicFunctions.showModal = function () {
+		console.log('TODO showModal');
+	};
+	
+	publicFunctions.addCharacter = function () {
+		console.log('TODO addCharacter');
+	};
+	
+	publicFunctions.updatePaths = function (selected) {
+		console.log('TODO update Paths');
+	};
 	
 	/*
 	 * showRealms
@@ -197,9 +361,10 @@ var gotmap = function(mapContainer, options) {
 	publicFunctions.showRealms = function() {
 		if(!realmsShown) {
 			map.addLayer(realmsLayer);
-			return realmsShown = true;
+			realmsShown = true;
+			return realmsShown;
 		}
-	}
+	};
 	
 	/*
 	 * hideRealms
@@ -211,9 +376,10 @@ var gotmap = function(mapContainer, options) {
 	publicFunctions.hideRealms = function() {
 		if(realmsShown) {
 			map.removeLayer(realmsLayer);
-			return realmsShown = false;
+			realmsShown = false;
+			return realmsShown;
 		}
-	}
+	};
 	
 	/*
 	 * toggleRealms
@@ -224,7 +390,7 @@ var gotmap = function(mapContainer, options) {
 	 */
 	publicFunctions.toggleRealms = function() {
 		return realmsShown ? publicFunctions.hideRealms() : publicFunctions.showRealms();
-	}
+	};
 	
 	/*
 	 * credit
@@ -235,7 +401,7 @@ var gotmap = function(mapContainer, options) {
 	 */
 	publicFunctions.credit = function() {
 		return "GotMap by Maximilian Bandle @mbandle, Alexander Beischl @AlexBeischl, Tobias Piffrader @tobipiff";
-	}
+	};
 	
 	return publicFunctions;
 }
