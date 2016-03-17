@@ -18,9 +18,9 @@ require('expose?$!expose?jQuery!jquery')
 
 		//data
 		require("../data/characters.js")
-		require("../data/cities.js")
 		require("../data/episodes.js")
 		require("../data/paths.js")
+		require("../data/realms.js")
 
 		// include js files
 		require("./js/helper.js")
