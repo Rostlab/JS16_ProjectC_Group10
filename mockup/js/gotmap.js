@@ -177,7 +177,7 @@ var gotmap = function(mapContainer, options) {
 	
 	
 	// INIT Timeline
-	var episodeStore, prevSelected;;
+	var episodeStore, prevSelected;
 	(function () {
 		// Append the Containers
 		var sliderEl = jQuery('<div></div>').appendTo(timelineContainer);
@@ -610,7 +610,15 @@ var gotmap = function(mapContainer, options) {
 				coords = coords.concat(paths[i].path);
 			}
 			return coords;
-		}
+		};
+		
+		var generateMarker = function(point) {
+			markers.push({
+				'coords':point, 
+				'style': character.markerStyle, 
+				'character':character
+			});
+		};
 		
 		for(var id in loadedCharacters) { // Loop through every character
 			var character = loadedCharacters[id];
@@ -624,7 +632,7 @@ var gotmap = function(mapContainer, options) {
 					color: character.color
 				});
 				var len = paths.length;
-				if(len != 0) {
+				if(len !== 0) {
 					var firstPath  = paths[0];
 					var firstPoint = firstPath.path[0];
 					markers.push({
@@ -643,13 +651,7 @@ var gotmap = function(mapContainer, options) {
 					});
 				}
 			} else {
-				character.points.map(function(point) {
-					markers.push({
-						'coords':point, 
-						'style': character.markerStyle, 
-						'character':character
-					});
-				});
+				character.points.map(generateMarker);
 			}
 		}
 		markers.map(function(marker) {
@@ -723,7 +725,6 @@ var gotmap = function(mapContainer, options) {
 jQuery(function() {
 	mymap = gotmap('map', {
 		'cityDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js',
-		'realmDataSource':'file:///Volumes/Max%20HD/Users/max/Documents/TUM/JavaScript/data/realms.js',
-		'pathDataSource':'file:///Volumes/Max%20HD/Users/max/Documents/TUM/JavaScript/data/paths.js'
+		'realmDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/realms.js'
 	});
 });
