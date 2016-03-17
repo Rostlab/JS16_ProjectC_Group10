@@ -24,3 +24,16 @@ or
 ```
 npm test
 ```
+
+#Usage
+
+Example:
+```
+var map = require("gotmap");
+map.config(object);
+// object incluse two fields:
+// apiLocation = link to the api
+// apiToken = token for post/put/delete request to api
+map.init();
+// create a map
+```
