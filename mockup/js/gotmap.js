@@ -7,21 +7,36 @@
                         :_;
 */
 var gotmap = function(mapContainer, options) {
-	var options = {
+	var defaultOptions = {
 		'filter':false,
 		'sidebar':false,
 		'timeline':false,
 		'defaultPersonImg':'img/persons/dummy.jpg',
 		'deadPersonImg':'img/persons/skull.png',
-		'cityDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js', // https://got-api.bruck.me/api/cities
-		'realmDataSource':'file:///Volumes/Max%20HD/Users/max/Documents/TUM/JavaScript/data/realms.js',
-		'pathDataSource':'file:///Volumes/Max%20HD/Users/max/Documents/TUM/JavaScript/data/paths.js',
+		'cityDataSource':'https://got-api.bruck.me/api/cities',
+		'realmDataSource':'https://got-api.bruck.me/api/realms',
+		'pathDataSource':'https://got-api.bruck.me/api/paths',
 		'episodeDataSource':'https://got-api.bruck.me/api/episodes/',
 		'characterDataSource':'https://got-api.bruck.me/api/characters/',
 		'bgTiles':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/bg/{z}/y{y}x{x}.png',
 		'labelTiles':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/labels/{z}/y{y}x{x}.png',
 		'errorTile':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png'
+		'characterColors':['#F44336', '#2196F3', '#4CAF50', '#212121', '#7C4DFF', '#F8BBD0', '#FBC02D', '#795548', 
+		'#00796B', '#536DFE', '#FFFFFF', '#FF5722']
 	};
+	
+	// Merge User and Default Options
+	if(typeof options == 'object') {
+		for(var option in defaultOptions) {
+			if(!(option in options)) {
+				options[option] = defaultOptions[option];
+			}
+		}
+	} else {
+		options = defaultOptions;
+	}
+	
+	// Will be later returned
 	var publicFunctions = {};
 	
 	
@@ -349,10 +364,18 @@ var gotmap = function(mapContainer, options) {
 		$('body').append(gotModal);
 	})();
 	
+	//########################################################//
+	//                                                        //
+	//                    Public Functions                    //
+	//                                                        //
+	//########################################################//
+	
+	// Modal Functions
+	
 	publicFunctions.showModal = function (link, title, cssclass) {
 		gotModal.modal('show'); // Show the Modal
     	var headerEl = gotModal.find('.modal-header'); // Header Container
-		var bEl = gotModal.find('#dynModal .modal-body'); // Body Container
+		var bodyEl = gotModal.find('.modal-body'); // Body Container
 		
 		if (title) { // If there is a title
 			headerEl.show(); // Show the Top Bar
@@ -366,17 +389,17 @@ var gotmap = function(mapContainer, options) {
 		}
 		
 		// Show Spinner
-		bEl.html("<span class='glyphicon glyphicon-cog glyph-spin glyph-big'></span>").addClass('text-center'); 
+		bodyEl.html("<span class='glyphicon glyphicon-cog glyph-spin glyph-big'></span>").addClass('text-center'); 
 		
 		var cEl = gotModal.find('.modal-footer .classes').empty(); // Classes Container
-		$('#dynModal .wikilink').attr('href', link); // Update the Wiki-Link
+		gotModal.find('.wikilink').attr('href', link); // Update the Wiki-Link
 		
 		// Get the wiki
 		jQuery.ajax({
 			url: link 
 		}).success(function(x) { // Show it
-			var content = $(x).find("#bodyContent");
-			bEl.removeClass('text-center'); // Make it left aligned
+			var content = jQuery(x).find("#bodyContent");
+			bodyEl.removeClass('text-center'); // Make it left aligned
 			content.find("img").each(function (i, el) { // Fix the image URL
 				el.src = "http://awoiaf.westeros.org"+el.src.substr(el.src.indexOf("/i"));
 			});
@@ -391,9 +414,9 @@ var gotmap = function(mapContainer, options) {
 				$(el).addClass("btn").addClass("btn-default").addClass("pull-left");
 				cEl.append(el);
 			});
-			bEl.html(content);
+			bodyEl.html(content);
 		}).error(function () { // Display Error Message
-			bEl.html("<span class='glyphicon glyphicon-alert glyph-big text-danger'></span>");
+			bodyEl.html("<span class='glyphicon glyphicon-alert glyph-big text-danger'></span>");
 		});
 	};
 	
@@ -401,13 +424,39 @@ var gotmap = function(mapContainer, options) {
 		gotModal.modal('hide'); // Show the Modal
 	};
 	
+	// Character Functions
+	
 	publicFunctions.addCharacter = function () {
 		console.log('TODO addCharacter');
 	};
 	
+	publicFunctions.removeCharacter = function () {
+		console.log('TODO removeCharacter');
+	};
+	
+	publicFunctions.showCharacter = function () {
+		console.log('TODO showCharacter');
+	};
+	
+	publicFunctions.hideCharacter = function () {
+		console.log('TODO hideCharacter');
+	};
+	
+	publicFunctions.toggleCharacter = function () {
+		console.log('TODO toggleCharacter');
+	};
+	
+	publicFunctions.removeAllCharacters = function () {
+		console.log('TODO removeAllCharacters');
+	};
+	
+	// Timeline Functions
+	
 	publicFunctions.updatePaths = function (selected) {
 		console.log('TODO update Paths');
 	};
+	
+	// Realms Functions
 	
 	/*
 	 * showRealms
@@ -451,6 +500,8 @@ var gotmap = function(mapContainer, options) {
 		return realmsShown ? publicFunctions.hideRealms() : publicFunctions.showRealms();
 	};
 	
+	// Credits
+	
 	/*
 	 * credit
 	 * 
@@ -459,12 +510,16 @@ var gotmap = function(mapContainer, options) {
 	 * @return ourNames
 	 */
 	publicFunctions.credit = function() {
-		return "GotMap by Maximilian Bandle @mbandle, Alexander Beischl @AlexBeischl, Tobias Piffrader @tobipiff";
+		return "GotMap by Maximilian Bandle @mbandle, Alexander Beischl @AlexBeischl, Tobias Piffrader @tpiffrader";
 	};
 	
 	return publicFunctions;
 }
 
 jQuery(function() {
-	mymap = gotmap('map');
+	mymap = gotmap('map', {
+		'cityDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js',
+		'realmDataSource':'file:///Volumes/Max%20HD/Users/max/Documents/TUM/JavaScript/data/realms.js',
+		'pathDataSource':'file:///Volumes/Max%20HD/Users/max/Documents/TUM/JavaScript/data/paths.js'
+	});
 });
