@@ -10439,7 +10439,7 @@
 
 
 	// module
-	exports.push([module.id, "/*.--.     Alex Max Tobi          ,-. .--. \n : .--'   Project C - Map       .'  :: ,. :\n : : _ .--.  .--. .-..-..---.    `: :: :: :\n : :; :: ..'' .; :: :; :: .; `    : :: :; :\n `.__.':_;  `.__.'`.__.': ._.'    :_;`.__.'\n                        : :                \n                        :_;\n*/\n/* @group Basics */\n#map {\n\tbackground: #001;\n\tposition: fixed;\n\tleft:0;\n\tright: 250px;\n\ttop:0;\n\tbottom: 40px;\n}\n\n#map .deleteButton {\n\twidth: 30px;\n\theight: 30px;\n\tbackground-color: #fff;\n\tfont-size: 20px;\n\tfont-weight: bold;\n\ttext-align: center;\n}\n/* @end */\n\n/* @group Labels */ \n\t\n/* @group Colorful Character Marker */\n.colormarker {\n\tfont-size: 32px;\n\tcolor: #a00;\n}\n\n.colormarker span {\n\tleft: -16px;\n\ttop: -32px;\n}\n\n.colormarker img{\n\tposition: relative;\n\twidth: 16px;\n\theight: 16px;\n\tborder-radius: 8px;\n\ttop:-7px;\n\tleft: -23px;\n}\n\n.zoom5 .colormarker span {\n\tleft: -32px;\n\ttop: -64px;\n}\n\n.zoom5 .colormarker {\n\tfont-size: 64px;\n\tmargin-left: 16px;\n\tmargin-top: 32px; \n}\n\n.zoom5 .colormarker img {\n\twidth: 32px;\n\theight: 32px;\n\tborder-radius: 16px;\n\ttop: -16px;\n\tleft: -45px;\n}\n/* @end */\n\n/* @group Map Features */\n.leaflet-marker-icon.got {\n\twidth: 16px !important;\n\theight: 16px !important;\n\tmargin-left: -10px !important;\n\tmargin-top: -10px !important;\n}\n\n.leaflet-marker-icon.got.city {\n\tbackground: transparent url(" + __webpack_require__(22) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.leaflet-marker-icon.got.town {\n\tbackground: transparent url(" + __webpack_require__(23) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.leaflet-marker-icon.got.castle {\n\tbackground: transparent url(" + __webpack_require__(24) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.leaflet-marker-icon.got.ruin {\n\tbackground: transparent url(" + __webpack_require__(25) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.leaflet-marker-icon.got.other {\n\tbackground: transparent url(" + __webpack_require__(26) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.zoom5 .leaflet-marker-icon.got {\n\twidth: 32px !important;\n\theight: 32px !important;\n\tmargin-left: -19px !important;\n\tmargin-top: -19px !important;\n\tbackground-size: 32px;\n}\n\n.zoom0 .prio6, .zoom1 .prio6, .zoom2 .prio6, .zoom3 .prio6, .zoom4 .prio6,\n.zoom0 .prio5, .zoom1 .prio5, .zoom2 .prio5, .zoom3 .prio5, .zoom4 .prio5,\n.zoom0 .prio4, .zoom1 .prio4, .zoom2 .prio4, .zoom3 .prio4, \n.zoom0 .prio3, .zoom1 .prio3, .zoom2 .prio3,\n.zoom0 .prio2, .zoom1 .prio2,\n.zoom0 .prio1 {\n\tdisplay: none;\n}\n\n.zoom5 .wall-label span {\n\tpadding: 0;\n\tmargin-top: 24px; \n\tmargin-left: -8px; \n\ttransform-origin: top left;\n\tdisplay: inline-block;\n\ttransform: rotate(45deg);\n}\n/* @end */\n\n/* @group Labels next to pins */\n.leaflet-label {\n\ttext-shadow: #FFF -1px 0px 0px, #FFF 1px 0px 0px, #FFF 0px 1px 0px, #FFF 0px -1px 0px, #FFF -1px -1px 0px,#FFF 1px 1px 0px,#FFF 1px -1px 0px,#FFF -1px 1px 0px;\n\tcolor: #111;\n\tdisplay: block;\n\tfont: 12px/12px \"Helvetica Neue\", Arial, Helvetica, sans-serif;\n\tfont-weight: bold;\n\tpadding: 1px 6px;\n\tposition: absolute;\n\t-webkit-user-select: none;\n\t   -moz-user-select: none;\n\t    -ms-user-select: none;\n\t        user-select: none;\n\tpointer-events: none;\n\twhite-space: nowrap;\n\tz-index: 6;\n}\n\n.leaflet-label.leaflet-clickable {\n\tcursor: pointer;\n\tpointer-events: auto;\n}\n/* @end */\n/* @end */", ""]);
+	exports.push([module.id, "/*.--.     Alex Max Tobi          ,-. .--. \n : .--'   Project C - Map       .'  :: ,. :\n : : _ .--.  .--. .-..-..---.    `: :: :: :\n : :; :: ..'' .; :: :; :: .; `    : :: :; :\n `.__.':_;  `.__.'`.__.': ._.'    :_;`.__.'\n                        : :                \n                        :_;\n*/\n/* @group Basics */\n#map {\n\tbackground: #001;\n\tposition: fixed;\n\tleft:0;\n\tright: 250px;\n\ttop:0;\n\tbottom: 40px;\n}\n\n#map .deleteButton {\n\twidth: 30px;\n\theight: 30px;\n\tbackground-color: #fff;\n\tfont-size: 20px;\n\tfont-weight: bold;\n\ttext-align: center;\n}\n/* @end */\n\n/* @group Labels */ \n\t\n/* @group Colorful Character Marker */\n.colormarker {\n\tfont-size: 32px;\n\tcolor: #a00;\n}\n\n.colormarker span {\n\tleft: -16px;\n\ttop: -32px;\n}\n\n.colormarker img{\n\tposition: relative;\n\twidth: 16px;\n\theight: 16px;\n\tborder-radius: 8px;\n\ttop:-7px;\n\tleft: -23px;\n}\n\n.zoom5 .colormarker span {\n\tleft: -32px;\n\ttop: -64px;\n}\n\n.zoom5 .colormarker {\n\tfont-size: 64px;\n\tmargin-left: 16px;\n\tmargin-top: 32px; \n}\n\n.zoom5 .colormarker img {\n\twidth: 32px;\n\theight: 32px;\n\tborder-radius: 16px;\n\ttop: -16px;\n\tleft: -45px;\n}\n/* @end */\n\n/* @group Map Features */\n.leaflet-marker-icon.got {\n\twidth: 16px !important;\n\theight: 16px !important;\n\tmargin-left: -10px !important;\n\tmargin-top: -10px !important;\n}\n\n.leaflet-marker-icon.got.city {\n\tbackground: transparent url(" + __webpack_require__(22) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.leaflet-marker-icon.got.town {\n\tbackground: transparent url(" + __webpack_require__(23) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.leaflet-marker-icon.got.castle {\n\tbackground: transparent url(" + __webpack_require__(24) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.leaflet-marker-icon.got.ruin {\n\tbackground: transparent url(" + __webpack_require__(25) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.leaflet-marker-icon.got.other {\n\tbackground: transparent url(" + __webpack_require__(26) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.zoom5 .leaflet-marker-icon.got {\n\twidth: 32px !important;\n\theight: 32px !important;\n\tmargin-left: -19px !important;\n\tmargin-top: -19px !important;\n\tbackground-size: 32px;\n}\n\n.zoom0 .prio6, .zoom1 .prio6, .zoom2 .prio6, .zoom3 .prio6, .zoom4 .prio6,\n.zoom0 .prio5, .zoom1 .prio5, .zoom2 .prio5, .zoom3 .prio5, .zoom4 .prio5,\n.zoom0 .prio4, .zoom1 .prio4, .zoom2 .prio4, .zoom3 .prio4, \n.zoom0 .prio3, .zoom1 .prio3, .zoom2 .prio3,\n.zoom0 .prio2, .zoom1 .prio2,\n.zoom0 .prio1 {\n\tdisplay: none;\n}\n\n.zoom5 .wall-label span {\n\tpadding: 0;\n\tmargin-top: 24px; \n\tmargin-left: -8px; \n\ttransform-origin: top left;\n\tdisplay: inline-block;\n\ttransform: rotate(45deg);\n}\n/* @end */\n\n/* @group Labels next to pins */\n.leaflet-label {\n\ttext-shadow: #FFF -1px 0px 0px, #FFF 1px 0px 0px, #FFF 0px 1px 0px, #FFF 0px -1px 0px, #FFF -1px -1px 0px,#FFF 1px 1px 0px,#FFF 1px -1px 0px,#FFF -1px 1px 0px;\n\tcolor: #111;\n\tdisplay: block;\n\tfont: 12px/12px \"Helvetica Neue\", Arial, Helvetica, sans-serif;\n\tfont-weight: bold;\n\tpadding: 1px 6px;\n\tposition: absolute;\n\t-webkit-user-select: none;\n\t   -moz-user-select: none;\n\t    -ms-user-select: none;\n\t        user-select: none;\n\tpointer-events: none;\n\twhite-space: nowrap;\n\tz-index: 6;\n}\n\n.leaflet-label.leaflet-clickable {\n\tcursor: pointer;\n\tpointer-events: auto;\n}\n\n#map .leaflet-control-custom {\n\twidth: 30px;\n\theight: 30px;\n\tbackground-color: #fff;\n\tpadding: 3px;\n\tfont-size: 20px;\n\tfont-weight: bold;\n\ttext-align: center;\n}\n/* @end */\n/* @end */", ""]);
 
 	// exports
 
@@ -12225,7 +12225,45 @@
 				el.className = el.className.slice(0, -1) + e.zoom;
 			}
 		});
+		
+		var realmsLayer = new L.LayerGroup();
+		
+		for(var r in realm)
+		{
+			L.polygon(realm[r], {color: 'red', opacity : 0.2}).addTo(realmsLayer);
+		}
+		
+		//Realms Button
+		var showRealm = false;
+	    var realmsCtr = L.Control.extend({
+	        options: {
+	            position: 'topright'
+	        },
+	        onAdd: function(map) {
+	            var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-flag');
+	            L.DomEvent.disableClickPropagation(c);
+	            c.onclick = function() {
+	                showRealms();
+	            };
+	            return c;
+	        },
+	    });
+	    map.addControl(new realmsCtr());
+		
+		var showRealms = function()
+		{
+			if(showRealm)
+			{
+				realmsLayer.addTo(map);
+			}
+			else
+			{
+				realmsLayer.remove();
+			}
+			showRealm = !showRealm;
+		};
 	});
+
 
 /***/ },
 /* 49 */
