@@ -53,3 +53,65 @@ or
 npm test
 ```
 
+#
+Konstruktor([htmlEl] mapEl, [htmlEl] filterEl, [htmlEl] timelineEl, [htmlEl] sidebarEl)
+# Map API
+
+## Modal
+Show the modal:
+```javascript
+showModal([string] id, [string] title, [string] cssclass)
+```
+Hide the modal:
+```javascript
+hideModal()
+```
+## Characters in the map
+Add a character:
+
+addCharacter([string] id)
+
+Remove a character:
+
+removeCharacter([string] id)
+
+Show a character:
+
+showCharacter([string] id)
+
+Hide a character:
+
+hideCharacter([string] id)
+
+Toggle a character:
+
+toggleCharacter([string] id)
+
+Delete all characters:
+
+deleteAllCharacters()
+
+
+## Paths
+Update paths:
+
+updateTimeline([array] range)
+
+## Realms
+Show realms:
+
+showRealms([bool] color, [double] opacity)
+
+Hide realms:
+
+hideRealms()
+
+Toggle realms:
+
+toggleRealms()
+
+## Credits:
+
+showTeamMembers()
+
+
