@@ -367,6 +367,7 @@ var gotmap = function(mapContainer, options) {
 	// INIT Characters
 	var loadedCharacters = [];
 	var characterCurrentId = 0;
+	var characterLayer = new L.layerGroup().addTo(map);
 	
 	//########################################################//
 	//                                                        //
@@ -438,10 +439,21 @@ var gotmap = function(mapContainer, options) {
 			var colors = options.characterColors;
 			character.color = colors[characterCurrentId % colors.length]; // Assign a color
 			characterCurrentId++; // # of Characters
+			character.markerStyle = L.divIcon({
+				className: 'colormarker',
+				html:'<span class="glyphicon glyphicon-map-marker" style="color:'+character.color+';">'+
+				'<img src="'+character.image+'" /></span>'
+			});
+			character.deadStyle = L.divIcon({
+				className: 'colormarker',
+				html:'<span class="glyphicon glyphicon-map-marker" style="color:'+character.color+';">'+
+				'<img src="'+options.deadPersonImg+'" /></span>'
+			});
 			// Load Additional Information
 			if(character.pathInfo) {
 				// TODO: Use the DB
-				character.path = {};
+				character.path = paths[id];
+				publicFunctions.updateMap();
 			} else {
 				character.points = [];
 				// TODO: Use the DB
@@ -459,6 +471,7 @@ var gotmap = function(mapContainer, options) {
 							character.points.push(place.coords);
 						}
 					}
+					publicFunctions.updateMap();
 				}); 
 			}
 			
@@ -500,13 +513,6 @@ var gotmap = function(mapContainer, options) {
 			
 			publicFunctions.updateMap();
 			return id;
-			// TODO Delete
-			c.layer = new L.layerGroup();
-			
-			c.markerStyle =  mapHelpers.colorMarker(c.color, img);
-			c.markers = [];
-			c.polyline =  L.polyline([], {color: c.color}).addTo(c.layer);
-			c.layer.addTo(map);
 		}
 	};
 	
@@ -560,7 +566,29 @@ var gotmap = function(mapContainer, options) {
 	// Timeline Functions
 	
 	publicFunctions.updateMap = function (selected) {
-		console.log('TODO update Paths');
+		characterLayer.clearLayers();
+		var markers = [];
+		var polygons = [];
+		for(var id in loadedCharacters) {
+			var character = loadedCharacters[id];
+			if(!character.shown) {
+				continue;
+			}
+			if(character.pathList) {
+				
+			} else {
+				character.points.map(function(p) {
+					markers.push({
+						'coords':p, 
+						'style': character.markerStyle, 
+						'character':character
+					});
+				});
+			}
+		}
+		markers.map(function(marker) {
+			L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer);
+		});
 	};
 	
 	// Realms Functions
