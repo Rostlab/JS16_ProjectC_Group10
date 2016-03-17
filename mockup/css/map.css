@@ -69,34 +69,34 @@
 /* @end */
 
 /* @group Map Features */
-.leaflet-marker-icon.got {
+.leaflet-marker-icon.gotmarker {
 	width: 16px !important;
 	height: 16px !important;
 	margin-left: -10px !important;
 	margin-top: -10px !important;
 }
 
-.leaflet-marker-icon.got.city {
+.leaflet-marker-icon.gotmarker.city {
 	background: transparent url("../img/labels/city.png") no-repeat;
 	background-size: 16px;
 }
 
-.leaflet-marker-icon.got.town {
+.leaflet-marker-icon.gotmarker.town {
 	background: transparent url("../img/labels/town.png") no-repeat;
 	background-size: 16px;
 }
 
-.leaflet-marker-icon.got.castle {
+.leaflet-marker-icon.gotmarker.castle {
 	background: transparent url("../img/labels/castle.png") no-repeat;
 	background-size: 16px;
 }
 
-.leaflet-marker-icon.got.ruin {
+.leaflet-marker-icon.gotmarker.ruin {
 	background: transparent url("../img/labels/ruin.png") no-repeat;
 	background-size: 16px;
 }
 
-.leaflet-marker-icon.got.other {
+.leaflet-marker-icon.gotmarker.other {
 	background: transparent url("../img/labels/other.png") no-repeat;
 	background-size: 16px;
 }
