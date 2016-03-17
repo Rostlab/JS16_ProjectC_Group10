@@ -5,6 +5,7 @@
   "main": "./npm.js",
   "scripts": {
     "build": "webpack --display-modules --display-chunks",
+    "deploy": "webpack --config ./webpack.deploy.config.js  --display-modules --display-chunks",
     "test": "grunt"
   },
   "repository": {
