@@ -23,7 +23,7 @@ Dependencies
 
 # Work in progress
 
-    - Editor for map
+    - [] Editor for map
 
 # HOWTO
 ##run web page:
