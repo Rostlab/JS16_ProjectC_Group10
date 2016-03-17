@@ -69,23 +69,23 @@ hideModal()
 ## Characters in the map
 Add a character:
 ```javascript
-addCharacter([string] id)
+addCharacter([object] character)
 ```
 Remove a character:
 ```javascript
-removeCharacter([string] id)
+removeCharacter([object] character)
 ```
 Show a character:
 ```javascript
-showCharacter([string] id)
+showCharacter([object] character)
 ```
 Hide a character:
 ```javascript
-hideCharacter([string] id)
+hideCharacter([object] character)
 ```
 Toggle a character:
 ```javascript
-toggleCharacter([string] id)
+toggleCharacter([object] character)
 ```
 Delete all characters:
 ```javascript
@@ -93,9 +93,9 @@ deleteAllCharacters()
 ```
 
 ## Paths
-Update paths:
+Updates the map (by updating **paths**, characters, realms):
 ```javascript
-updateTimeline([array] range)
+updateMap([array] range)
 ```
 ## Realms
 Show realms:
@@ -112,5 +112,5 @@ toggleRealms()
 ```
 ## Credits:
 ```javascript
-showTeamMembers()
+getCredits()
 ```
