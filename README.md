@@ -9,29 +9,31 @@ The known GoT world is vast and stretches over the three continents of Westeros,
     * Bootstrap
 
 # WORK IN PROGRESS
-    - Editor for map
+    * Editor for map
 
-# HOWTO run web page:
-Install the gotmap and open node_modules/gotmap/map.html
-```
+# HOWTO
+##run web page:
+Install the gotmap and open the map:
+
+```shell
 npm install gotmap
-```
 open node_modules/gotmap/map.html
 ```
+
 ## run Editor
     - open editor/editor.html
 
-## How to run the tests
+## run the tests
 Install node modules:
-```
+```shell
 npm update
 ```
 Run tests:
-```
+```shell
 grunt
 ```
 or
-```
+```shell
 npm test
 ```
 
