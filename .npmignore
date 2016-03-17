@@ -39,13 +39,8 @@ node_modules
 # git
 .git/
 
-# map
+# tiles
 tiles
-mockup
-data
-
-# editor 
-editor
 
 #Travis
 .travis.yml
