@@ -1,4 +1,4 @@
-/**
+ /**
 *
 * A Leaflet Plugin For Editing Geometry Layers in Leaflet 1.0
 * by Sumit Kumar (@TweetsOfSumit)
@@ -6,7 +6,7 @@
 */
 
 var globalPolyline;
-var functionTrick;
+
 
 L.PM = L.PM || {
     initialize: function() {
@@ -192,7 +192,7 @@ L.PM.Draw.Poly = L.PM.Draw.extend({
     initialize: function(map) {
         this._map = map;
         this._shape = 'Poly';
-        functionTrick = this._finishPolygon;
+        
     },
     enable: function(options) {
         // enable draw mode
