@@ -172,10 +172,6 @@ var gotmap = function(mapContainer, options) {
 						className: 'gotmarker'
 					}).addTo(colorlessLayer);
 				});
-				
-				for(x in realmStore){
-						colorlessLayer.addLayer(L.polygon(realmStore[x].getLatLngs(), {color: "red"}));
-					}
 		});
 		
 		//Realms Button
