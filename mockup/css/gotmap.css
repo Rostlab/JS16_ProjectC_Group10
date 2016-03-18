@@ -1,14 +1,549 @@
-/*.--.     Alex Max Tobi          ,-. .--. 
- : .--'   Project C - Map       .'  :: ,. :
- : : _ .--.  .--. .-..-..---.    `: :: :: :
- : :; :: ..'' .; :: :; :: .; `    : :: :; :
- `.__.':_;  `.__.'`.__.': ._.'    :_;`.__.'
-                        : :                
-                        :_;
-main.css includes all different needed CSS files (and avoids merge conflicts)
+/*____     _____   __  __             
+ / ___| __|_   _| |  \/  | __ _ _ __  
+| |  _ / _ \| |   | |\/| |/ _` | '_ \ 
+| |_| | (_) | |   | |  | | (_| | |_) |
+ \____|\___/|_|   |_|  |_|\__,_| .__/ 
+ Maximilian Bandle @mbandle    |_|    
+ Alexander Beischl @AlexBeischl
+ Tobias Piffrader  @tpiffrader
+ 
+ Basic styles for the gotmap to work correctly
 */
 
-@import url("map.css");
-@import url("modal.css");
-@import url("timeline.css");
-@import url("sidebar.css");
+/* @group Map */ 
+.gotmap .deleteButton {
+	width: 30px;
+	height: 30px;
+	background-color: #fff;
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+}
+
+/* @group Colorful Character Marker */
+.gotmap .colormarker {
+	font-size: 32px;
+	color: #a00;
+}
+
+.gotmap .colormarker span {
+	left: -16px;
+	top: -32px;
+}
+
+.gotmap .colormarker img{
+	position: relative;
+	width: 16px;
+	height: 16px;
+	border-radius: 8px;
+	top:-7px;
+	left: -23px;
+}
+
+.gotmap.zoom5 .colormarker span {
+	left: -32px;
+	top: -64px;
+}
+
+.gotmap.zoom5 .colormarker {
+	font-size: 64px;
+	margin-left: 16px;
+	margin-top: 32px; 
+}
+
+.gotmap.zoom5 .colormarker img {
+	width: 32px;
+	height: 32px;
+	border-radius: 16px;
+	top: -16px;
+	left: -45px;
+}
+/* @end */
+
+/* @group Map Features */
+.gotmap .leaflet-marker-icon.gotmarker {
+	width: 16px !important;
+	height: 16px !important;
+	margin-left: -10px !important;
+	margin-top: -10px !important;
+}
+
+.gotmap .leaflet-marker-icon.gotmarker.city {
+	background: transparent url("../img/labels/city.png") no-repeat;
+	background-size: 16px;
+}
+
+.gotmap .leaflet-marker-icon.gotmarker.town {
+	background: transparent url("../img/labels/town.png") no-repeat;
+	background-size: 16px;
+}
+
+.gotmap .leaflet-marker-icon.gotmarker.castle {
+	background: transparent url("../img/labels/castle.png") no-repeat;
+	background-size: 16px;
+}
+
+.gotmap .leaflet-marker-icon.gotmarker.ruin {
+	background: transparent url("../img/labels/ruin.png") no-repeat;
+	background-size: 16px;
+}
+
+.gotmap .leaflet-marker-icon.gotmarker.other {
+	background: transparent url("../img/labels/other.png") no-repeat;
+	background-size: 16px;
+}
+
+.gotmap.zoom5 .leaflet-marker-icon.got {
+	width: 32px !important;
+	height: 32px !important;
+	margin-left: -19px !important;
+	margin-top: -19px !important;
+	background-size: 32px;
+}
+
+.gotmap.zoom0 .prio6, .gotmap.zoom1 .prio6, .gotmap.zoom2 .prio6, .gotmap.zoom3 .prio6, .gotmap.zoom4 .prio6,
+.gotmap.zoom0 .prio5, .gotmap.zoom1 .prio5, .gotmap.zoom2 .prio5, .gotmap.zoom3 .prio5, .gotmap.zoom4 .prio5,
+.gotmap.zoom0 .prio4, .gotmap.zoom1 .prio4, .gotmap.zoom2 .prio4, .gotmap.zoom3 .prio4, 
+.gotmap.zoom0 .prio3, .gotmap.zoom1 .prio3, .gotmap.zoom2 .prio3,
+.gotmap.zoom0 .prio2, .gotmap.zoom1 .prio2,
+.gotmap.zoom0 .prio1 {
+	display: none;
+}
+
+.gotmap.zoom5 .wall-label span {
+	padding: 0;
+	margin-top: 24px; 
+	margin-left: -8px; 
+	transform-origin: top left;
+	display: inline-block;
+	transform: rotate(45deg);
+}
+/* @end */
+
+/* @group Labels */
+.gotmap .leaflet-label {
+	text-shadow: #FFF -1px 0px 0px, #FFF 1px 0px 0px, #FFF 0px 1px 0px, #FFF 0px -1px 0px, #FFF -1px -1px 0px,#FFF 1px 1px 0px,#FFF 1px -1px 0px,#FFF -1px 1px 0px;
+	color: #111;
+	display: block;
+	font: 12px/12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	padding: 1px 6px;
+	position: absolute;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
+	pointer-events: none;
+	white-space: nowrap;
+	z-index: 6;
+}
+
+.gotmap .leaflet-label.leaflet-clickable {
+	cursor: pointer;
+	pointer-events: auto;
+}
+
+.gotmap .leaflet-control-custom {
+	width: 30px;
+	height: 30px;
+	background-color: #fff;
+	padding: 3px;
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+}
+/* @end */
+/* @end */
+
+
+/* @group Character List */
+.gotmap-character .character {
+	padding: .5em 0;
+	border-bottom: 1px solid #B6B6B6;
+	transition: all .3s;
+	position: relative;
+	width: 100%;
+}
+
+.gotmap-character .character.disabled {
+	opacity: 0.9;
+}
+
+.gotmap-character .character.disabled:hover {
+	opacity: 1;
+}
+
+.gotmap-character .character.disabled img {
+	border-color: #888 !important;
+	-webkit-filter: grayscale(1);
+	filter: grayscale(100%);
+}
+
+.gotmap-character .character.disabled img:hover {
+	-webkit-filter: grayscale(0);
+	filter: grayscale(0);
+}
+
+.gotmap-character .character img {
+	float: left;
+	width: 75px;
+	height: 75px;
+	margin-right: .5em;
+	border: 5px solid #FFA000;
+	transition: all .3s;
+}
+.gotmap-character .character .characterinfo {
+	padding: 1em 0;
+	vertical-align: middle;
+	height: 75px;
+}
+.gotmap-character .character .name {
+	font-weight: bold;
+	font-size: 1.25em;
+	overflow:hidden;
+	height: 1.25em;
+}
+
+.gotmap-character .character .house {
+	color: #727272;
+}
+
+.gotmap-character .character .delete {
+	color: #AAA;
+	position: absolute;
+	right: 14px;
+	top: 50%;
+	margin-top: -7px;
+	font-size: 14px;
+}
+
+.gotmap-character .character .delete:hover {
+	color: #727272;
+}
+/* @end */
+
+
+/* @group Filter */
+
+ul.gotmap-dropdown img {
+	height: 2em;
+	margin: 0 .5em 0 -1em;
+}
+
+ul.gotmap-dropdown .pathInfo {
+	border-left: 5px solid green;
+}
+
+ul.gotmap-dropdown li.hover, ul.gotmap-dropdown li:hover {
+	color: #262626;
+	text-decoration: none;
+	background-color: #d5d5d5;
+}
+/* @end */
+
+/* @group Timeline */
+.gotmap-timeline .ui-slider {
+	position: relative;
+	text-align: left;
+}
+
+.gotmap-timeline .ui-slider .ui-slider-handle {
+	position: absolute;
+	z-index: 2;
+	width: 20px;
+	height: 20px;
+	cursor: default;
+	-ms-touch-action: none;
+	touch-action: none;
+}
+
+.gotmap-timeline .ui-slider .ui-slider-range {
+	position: absolute;
+	z-index: 1;
+	display: block;
+	border: 0;
+}
+
+.gotmap-timeline .ui-slider-horizontal {
+	height: 10px;
+}
+
+.gotmap-timeline .ui-slider-horizontal .ui-slider-handle {
+	top: -.3em;
+	margin-left: -.6em;
+}
+
+.gotmap-timeline .ui-slider-horizontal .ui-slider-range {
+	top: 0;
+	height: 100%;
+}
+
+.gotmap-timeline .ui-slider-horizontal .ui-slider-range-min {
+	left: 0;
+}
+
+.gotmap-timeline .ui-slider-horizontal .ui-slider-range-max {
+	right: 0;
+}
+
+/* Component containers
+----------------------------------*/
+.gotmap-timeline .ui-widget-content {
+	border: 1px solid #404040;
+	background: #121212;
+}
+
+.gotmap-timeline .ui-widget-header {
+	border: 1px solid #404040;
+	background: #888888;
+}
+
+.gotmap-timeline .ui-state-default {
+	border: 1px solid #cccccc;
+	background: #adadad;
+}
+
+.gotmap-timeline .ui-corner-all {
+	border-radius: 8px;
+}
+/* @end */
+
+/* @group Modal */
+/* @group Glyph Stuff */
+.gotmap-modal .glyph-big {
+	font-size: 6em;
+}
+
+.gotmap-modal .glyph-spin {
+    -webkit-animation: gotmap-spin 3000ms infinite linear;
+    animation: gotmap-spin 3000ms infinite linear;
+}
+
+@-webkit-keyframes gotmap-spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+@keyframes gotmap-spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+/* @end */
+
+/* @group Header */
+.gotmap-modal .city .modal-title {
+	background: transparent url("../img/labels/city.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.gotmap-modal .town .modal-title {
+	background: transparent url("../img/labels/town.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.gotmap-modal .castle .modal-title {
+	background: transparent url("../img/labels/castle.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.gotmap-modal .ruin .modal-title {
+	background: transparent url("../img/labels/ruin.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.gotmap-modal .other .modal-title {
+	background: transparent url("../img/labels/other.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.gotmap-modal .person .modal-title {
+	background: transparent url("../img/labels/person.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.gotmap-modal .house.stark .modal-title {
+	background: transparent url("../img/houses/stark.png") no-repeat;
+	background-size: 26px;
+	padding-left: 40px;
+}
+
+.gotmap-modal .house.baratheon .modal-title {
+	background: transparent url("../img/houses/baratheon.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+
+.gotmap-modal .house.lannister .modal-title {
+	background: transparent url("../img/houses/lannister.png") no-repeat;
+	background-size: 31px;
+	padding-left: 40px;
+}
+
+.gotmap-modal .house.targaryen .modal-title {
+	background: transparent url("../img/houses/targaryen.png") no-repeat;
+	background-size: 32px;
+	padding-left: 40px;
+}
+/* @end */
+
+/* @group Footer */
+.gotmap-modal .modal-footer {
+	clear: both;
+}
+/* @end */
+
+/* @group dynModal wiki */
+.gotmap-modal #contentSub, .gotmap-modal #siteSub, .gotmap-modal #jump-to-nav, .gotmap-modal #mw-data-after-content, .gotmap-modal .printfooter, .gotmap-modal .navbox, .gotmap-modal .references, .gotmap-modal .references-small, .gotmap-modal .catlinks, .gotmap-modal sup.reference {
+	display: none;
+}
+
+.gotmap-modal h2:last-of-type {
+	display: none;
+} 
+
+/* @group Top Right Infobox */
+.gotmap-modal .infobox {
+	border: 1px solid #aaa;
+	background-color: #f9f9f9;
+	color: black;
+	margin-bottom: 0.5em;
+	margin-left: 1em;
+	padding: 0.2em;
+	float: right;
+	clear: right
+}
+
+.gotmap-modal .infobox.bordered {
+    border-collapse: collapse
+}
+
+.gotmap-modal .infobox.bordered td, .gotmap-modal .infobox.bordered th {
+    border: 1px solid #aaa
+}
+
+.gotmap-modal .infobox.bordered .borderless td, .gotmap-modal .infobox.bordered .borderless th {
+    border: 0
+}
+
+.gotmap-modal .infobox th[scope="row"] {
+	padding-left: 0.5em;
+}
+
+.gotmap-modal .infobox caption {
+	font-size: larger;
+	margin-left: inherit;
+	color: #000;
+	padding: 0;
+	text-align: center;
+}
+
+.gotmap-modal .floatleft {
+	margin: 0 .5em .5em 0;
+	border: 0;
+	float: left;
+	clear: left;
+}
+
+.gotmap-modal .floatright {
+	margin: 0 0 .5em .5em;
+	border: 0;
+	float: right;
+	clear: right;
+}
+/* @end */
+
+/* @group TOC */
+.gotmap-modal .toc {
+     border: 1px solid #aaa;
+     background-color: #f9f9f9;
+     padding: .5em;
+     font-size: 95%;
+     display: table;
+}
+
+.gotmap-modal #toctitle  {
+    text-align: center;
+}
+
+.gotmap-modal .toc h2  {
+    display: inline;
+    border: none;
+    padding: 0;
+    font-size: 100%;
+    font-weight: bold;
+}
+
+.gotmap-modal .toc ul {
+    list-style-type: none;
+    list-style-image: none;
+    margin-left: 0;
+    padding: 0;
+    text-align: left
+}
+
+.gotmap-modal  .toc ul ul {
+    margin: 0 0 0 2em
+}
+
+.gotmap-modal  .toc .toctoggle {
+    font-size: 94%
+}
+/* @end */
+
+/* @group Floats */
+.gotmap-modal div.tright {
+    margin: .5em 0 1.5em 1.5em;
+    clear: right;
+    float: right;
+}
+
+.gotmap-modal div.tleft {
+    margin: .5em 1.5em 1.5em 0;
+    float: left;
+    clear: left;
+}
+    
+.gotmap-modal div.thumb {
+    margin-bottom: .5em;
+    width: auto;
+}
+    
+.gotmap-modal div.thumbinner {
+    border: 1px solid #ccc;
+    padding: 3px;
+    background-color: #f9f9f9;
+    font-size: 94%;
+    text-align: center;
+    overflow: hidden
+}
+    
+.gotmap-modal .thumbcaption {
+    border: none;
+    line-height: 1.4em;
+    padding: 3px;
+    font-size: 94%;
+    text-align: left;
+}
+/* @group @end */
+
+/* @end */
+
+/* @end */

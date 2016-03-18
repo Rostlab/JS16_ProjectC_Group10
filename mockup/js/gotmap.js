@@ -1,16 +1,19 @@
-/*.--.     Alex Max Tobi          ,-. .--. 
- : .--'   Project C - Map       .'  :: ,. :
- : : _ .--.  .--. .-..-..---.    `: :: :: :
- : :; :: ..'' .; :: :; :: .; `    : :: :; :
- `.__.':_;  `.__.'`.__.': ._.'    :_;`.__.'
-                        : :                
-                        :_;
+/*____     _____   __  __
+ / ___| __|_   _| |  \/  | __ _ _ __
+| |  _ / _ \| |   | |\/| |/ _` | '_ \
+| |_| | (_) | |   | |  | | (_| | |_) |
+ \____|\___/|_|   |_|  |_|\__,_| .__/
+ Maximilian Bandle @mbandle    |_|
+ Alexander Beischl @AlexBeischl
+ Tobias Piffrader  @tpiffrader
 */
 var gotmap = function(mapContainer, options) {
 	var defaultOptions = {
 		'filter':false,
-		'sidebar':false,
 		'timeline':false,
+		'characterBox':false,
+		'cityDetails':function(a,b) {internalHelpers.loadWikiPage(a,b);},
+		'characterDetails':function(a,b) {internalHelpers.loadWikiPage(a,b);},
 		'defaultPersonImg':'img/persons/dummy.jpg',
 		'deadPersonImg':'img/persons/skull.png',
 		'cityDataSource':'https://got-api.bruck.me/api/cities',
@@ -43,9 +46,10 @@ var gotmap = function(mapContainer, options) {
 	var internalHelpers = {};
 	
 	// All the containers
-	mapContainer = document.getElementById(mapContainer);
-	timelineContainer = document.getElementById('timeline');
-	characterContainer = jQuery('#characters');
+	mapContainer = jQuery(mapContainer).addClass("gotmap");
+	var timelineContainer = jQuery(options.timeline).addClass("gotmap-timeline");
+	var characterContainer = jQuery(options.characterBox).addClass("gotmap-character");
+	var filterContainer = jQuery(options.filter).addClass("gotmap-filter");
 	
 	// INIT Leaflet Map
 	var map, cityStore, cityLayer, realmStore, realmsLayer, realmsShown;
@@ -80,7 +84,7 @@ var gotmap = function(mapContainer, options) {
 		};
 		
 		// Make the map and center it in the viewpoint
-		map = L.map(mapContainer, mapOptions).fitBounds(bounds);
+		map = L.map(mapContainer[0], mapOptions).fitBounds(bounds);
 		
 		// Limit the display
 		map.setMaxBounds(bounds);
@@ -118,7 +122,7 @@ var gotmap = function(mapContainer, options) {
 						L.marker(place.coords, {
 							icon: L.divIcon({className: ['gotmarker', type, prio].join(' ')})
 						}).on('click', function () {
-							publicFunctions.showModal(place.link, place.name, place.type);
+							publicFunctions.showModal(options.cityDetails, place.name, place.type);
 						}).bindLabel(place.name, {
 							noHide: true, 
 							direction:'right',
@@ -130,14 +134,14 @@ var gotmap = function(mapContainer, options) {
 		
 		// Add a class to alter the labels
 		map.on('zoomanim', function(e) { 
-			var el = document.getElementById('map');
+			var el = mapContainer[0];
 			if (el.className[el.className.length - 2] != 'm') {
 				el.className += " zoom" + e.zoom;
 			} else {
 				el.className = el.className.slice(0, -1) + e.zoom;
 			}
 		});
-		mapContainer.className += " zoom" + map.getZoom();
+		mapContainer.addClass(" zoom" + map.getZoom());
 		
 		// Init Layer + List
 		realmsLayer = new L.LayerGroup();
@@ -230,8 +234,8 @@ var gotmap = function(mapContainer, options) {
 	var characterStore;
 	(function () {
 		// Init Elements
-		var f = jQuery('#filter input'); // Filter Element
-		var l = jQuery('<ul class="dropdown-menu"><li class="dropdown-header">Nothing found</li></ul>').insertAfter(f); // Dropdown
+		var f = filterContainer; // Filter Element
+		var l = jQuery('<ul class="dropdown-menu gotmap-dropdown"><li class="dropdown-header">Nothing found</li></ul>').insertAfter(f); // Dropdown
 		
 		// Init private helper Vars
 		var selectedInDropdown = 0; // Index of highlighted Dropdown element
@@ -327,20 +331,9 @@ var gotmap = function(mapContainer, options) {
 			} 
 			inputVal = s;
 			selectedInDropdown = 0;
-			var maxResults = 20;
-			var o1 = []; // Begins with
-			var o2 = []; // Contains
-			var p;
-			for(var cName in characterStore) {
-				var pos = cName.indexOf(s);
-				if(pos != -1) {
-					(pos === 0 ? o1 : o2).push(characterStore[cName]);
-					if((maxResults--) === 0) {
-						break;
-					}
-				}
-			}
-			var out = o1.concat(o2); // First beginning with e, then the rest
+			
+			var out = publicFunctions.searchCharacter(inputVal, 20);
+			
 			l.empty(); // Delete the HTML li Elements
 			if(out.length) {
 				out.map(function(character,i) {
@@ -364,10 +357,10 @@ var gotmap = function(mapContainer, options) {
 	})();
 	
 	// INIT Modal
-	var	gotModal = jQuery('<div class="modal fade gotmap-modal" tabindex="-1" role="dialog" aria-labelledby="dynModalLabel">'+
+	var	gotModal = jQuery('<div class="modal fade gotmap-modal" tabindex="-1" role="dialog">'+
 			'<div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header">'+
 			'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-			'<h3 class="modal-title" id="dynModalLabel"></h3></div><div class="modal-body"></div><div class="modal-footer">'+
+			'<h3 class="modal-title"></h3></div><div class="modal-body"></div><div class="modal-footer">'+
 			'<div class="pull-left classes"></div><a href="#" class="btn btn-warning wikilink" target="_blank">Show in Wiki</a>'+
 			'<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button></div></div></div></div>');
 	$('body').append(gotModal);
@@ -383,35 +376,9 @@ var gotmap = function(mapContainer, options) {
 	//                                                        //
 	//########################################################//
 	
-	internalHelpers.loadWikiPage = function() {
-		console.log("TODO");
-	};
-	
-	
-	//########################################################//
-	//                                                        //
-	//                    Public Functions                    //
-	//                                                        //
-	//########################################################//
-	
-	// Modal Functions
-	
-	publicFunctions.showModal = function (link, title, cssclass) {
-		gotModal.modal('show'); // Show the Modal
-    	var headerEl = gotModal.find('.modal-header'); // Header Container
+	internalHelpers.loadWikiPage = function(gotModal, title) {
+		var link = "http://awoiaf.westeros.org/index.php/"+title;
 		var bodyEl = gotModal.find('.modal-body'); // Body Container
-		
-		if (title) { // If there is a title
-			headerEl.show(); // Show the Top Bar
-			$('#dynModalLabel').text(title); // Set the Title
-			headerEl[0].className = "modal-header"; // Reset Classnames
-			if(cssclass) { // Append classes when existing
-				headerEl.addClass(cssclass);
-			}
-		} else {
-			headerEl.hide(); // Hide it
-		}
-		
 		// Show Spinner
 		bodyEl.html("<span class='glyphicon glyphicon-cog glyph-spin glyph-big'></span>").addClass('text-center'); 
 		
@@ -442,6 +409,33 @@ var gotmap = function(mapContainer, options) {
 		}).error(function () { // Display Error Message
 			bodyEl.html("<span class='glyphicon glyphicon-alert glyph-big text-danger'></span>");
 		});
+	};
+	
+	
+	//########################################################//
+	//                                                        //
+	//                    Public Functions                    //
+	//                                                        //
+	//########################################################//
+	
+	// Modal Functions
+	
+	publicFunctions.showModal = function (callback, title, cssclass) {
+		gotModal.modal('show'); // Show the Modal
+    	var headerEl = gotModal.find('.modal-header'); // Header Container
+		
+		if (title) { // If there is a title
+			headerEl.show(); // Show the Top Bar
+			$('#dynModalLabel').text(title); // Set the Title
+			headerEl[0].className = "modal-header"; // Reset Classnames
+			if(cssclass) { // Append classes when existing
+				headerEl.addClass(cssclass);
+			}
+		} else {
+			headerEl.hide(); // Hide it
+		}
+		
+		callback(gotModal, title);
 	};
 	
 	publicFunctions.hideModal = function() {
@@ -476,15 +470,14 @@ var gotmap = function(mapContainer, options) {
 			} else {
 				character.points = [];
 				// TODO: Use the DB
-				jQuery.ajax({url:"http://awoiaf.westeros.org/index.php/"+character.name}).success(function(data) {
-					var re = /index\.php\/([^"?]+)/g; // Find Link
+				jQuery.ajax({url:"https://en.wikipedia.org/w/index.php?action=raw&title="+character.name}).success(function(data) {
+					var re = /\[\[([^\]]+)\]\]/g; // Find Link
 					var m;
 					
 					while ((m = re.exec(data)) !== null) {
 						if (m.index === re.lastIndex) {
 							re.lastIndex++;
 						}
-						
 						var place = cityStore[m[1].replace('_', ' ')];
 						if(place) {
 							character.points.push(place.coords);
@@ -520,7 +513,7 @@ var gotmap = function(mapContainer, options) {
 			});
 			
 			moreInfo.click(function () {
-				publicFunctions.showModal("http://awoiaf.westeros.org/index.php/"+character.name, character.name, "person "+(character.house ? character.house.toLowerCase() : ''));
+				publicFunctions.showModal(options.characterDetails, character.name, "person "+(character.house ? character.house.toLowerCase() : ''));
 				return false; // Prevent Default + Bubbling
 			});
 			
@@ -582,6 +575,22 @@ var gotmap = function(mapContainer, options) {
 		}
 	};
 	
+	publicFunctions.searchCharacter = function (search, maxResults) {
+		var o1 = []; // Begins with
+		var o2 = []; // Contains
+		var p;
+		for(var cName in characterStore) {
+			var pos = cName.indexOf(search);
+			if(pos != -1) {
+				(pos === 0 ? o1 : o2).push(characterStore[cName]);
+				if((maxResults--) === 0) {
+					break;
+				}
+			}
+		}
+		return o1.concat(o2); // First beginning with search, then the rest
+	};
+	
 	// Timeline Functions
 	
 	publicFunctions.updateMap = function (selected) {
@@ -641,7 +650,7 @@ var gotmap = function(mapContainer, options) {
 						'character':character
 					});
 				}
-				if(len != 1) {
+				if(len > 1) {
 					var lastPath  = paths[len-1];
 					var lastPoint = lastPath.path[lastPath.path.length-1];	
 					markers.push({
@@ -721,10 +730,3 @@ var gotmap = function(mapContainer, options) {
 	
 	return publicFunctions;
 };
-
-jQuery(function() {
-	mymap = gotmap('map', {
-		'cityDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js',
-		'realmDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/realms.js'
-	});
-});
