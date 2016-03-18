@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Leaflet GOT Map - Group 10</title>
+	<title>GoT Map</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="lib/leaflet.css" />
 	
-	<!-- Our Code -->
-	<link rel="stylesheet" href="css/leaflet.css" />
-	<link rel="stylesheet" href="css/main.css" />
-
+	<!-- GoT Map CSS -->
+	<link rel="stylesheet" href="css/gotmap.css" />
 
 	<!-- config -->
 	<script type="text/javascript" src="./js/config.js"></script>
@@ -30,15 +29,9 @@
 	<script src="lib/leaflet.label/Map.Label.js"></script>
 	<script src="lib/leaflet.label/FeatureGroup.Label.js"></script>
 
-	<!-- Our Code -->
+	<!-- GoT Map JS -->
 	<script src="../data/paths.js"></script>
-	<script src="../data/characters.js"></script>
-	<script src="../data/episodes.js"></script>
-	<script src="../data/realms.js"></script>
-	<script src="js/helper.js"></script>
-	<script src="js/map.js"></script>
-	<script src="js/filter.js"></script>
-	<script src="js/timeline.js"></script>
+	<script src="js/gotmap.js"></script>
 	
 </head>
 <body>
@@ -47,44 +40,17 @@
 	</div>
 	<div id="sidebar">
 		<form id="filter">
-		<div class="input-group">
-      		<input type="text" class="form-control" placeholder="Search for...">
-    <i class="glyphicon glyphicon-search form-control-feedback"></i>
-	  		<ul id="filter-dropdown" class="dropdown-menu">
-	  		<li class="dropdown-header">Nothing found</li>
-  			</ul>
-    	</div>
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Search for...">
+				<i class="glyphicon glyphicon-search form-control-feedback"></i>
+			</div>
 		</form>
 		<!-- /input-group -->
 		<hr />
-		<div id="characters">
-			<!-- Filled in characters.js -->
-		</div>
+		<div id="characters"><!-- Filled by gotmap.js --></div>
 	</div>
 	
-	<div id="timeline">
-		<div id="episode-slider"></div>
-		<p id="episodes"></p>
-	</div>
-	
-	<!-- Dynamisches Modal -->
-<div class="modal fade" id="dynModal" tabindex="-1" role="dialog" aria-labelledby="dynModalLabel">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h3 class="modal-title" id="dynModalLabel"></h3>
-			</div>
-			<div class="modal-body"></div>
-			<div class="modal-footer">
-				<div class="pull-left classes"></div>
-				<a href="#" class="btn btn-warning wikilink" target="_blank">Show in Wiki</a>
-				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-</div>
-
+	<div id="timeline"><!-- Filled by gotmap.js --></div>
 </body>
 </html>
 

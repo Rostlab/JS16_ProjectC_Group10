@@ -62,9 +62,11 @@ jQuery(function() {
 	
 	$('#sidebar').append('<ul></ul>');
 	ul = $('#sidebar ul');
-	gotDB.getAll().map(function(city, i) {
-		var x = "";
-		if(city.coord) {
+	jQuery.get("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js", {},  // Static Link
+	// jQuery.get("https://got-api.bruck.me/api/cities", {},
+		function (allCities){
+			JSON.parse(allCities).map(function (city,i) {var x = "";
+		if(city.coordX) {
 			addMarker(city, i);
         	x = ' class="onmap"';
 		}
@@ -72,10 +74,11 @@ jQuery(function() {
 			gotDB.setCurrent(i);
 		});
 		ul.append(li);
+			});
 	});
 	
 	function addMarker(city, i) {
-		cityMarkers[i] = new L.marker(city.coord, {
+		cityMarkers[i] = new L.marker([city.coordY, city.coordX], {
             	draggable: 'true'
         }).bindPopup(function() {
 	        return makePopup(city, i);
