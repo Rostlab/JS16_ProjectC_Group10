@@ -357,10 +357,10 @@ var gotmap = function(mapContainer, options) {
 	})();
 	
 	// INIT Modal
-	var	gotModal = jQuery('<div class="modal fade gotmap-modal" tabindex="-1" role="dialog" aria-labelledby="dynModalLabel">'+
+	var	gotModal = jQuery('<div class="modal fade gotmap-modal" tabindex="-1" role="dialog">'+
 			'<div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header">'+
 			'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-			'<h3 class="modal-title" id="dynModalLabel"></h3></div><div class="modal-body"></div><div class="modal-footer">'+
+			'<h3 class="modal-title"></h3></div><div class="modal-body"></div><div class="modal-footer">'+
 			'<div class="pull-left classes"></div><a href="#" class="btn btn-warning wikilink" target="_blank">Show in Wiki</a>'+
 			'<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button></div></div></div></div>');
 	$('body').append(gotModal);
