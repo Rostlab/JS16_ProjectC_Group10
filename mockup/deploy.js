@@ -1,8 +1,8 @@
 		require("./lib/jquery-ui.min.js")
 
 		//include css files + images
-		require("./css/leaflet.css")
-		require("./css/main.css")
+		require("./lib/leaflet.css")
+		require("./css/gotmap.css")
 
 		//include libraries
 		require("./lib/leaflet.js")
@@ -14,13 +14,13 @@
 		require("./lib/leaflet.label/Path.Label.js")
 
 		//data
-		require("../data/characters.js")
-		require("../data/episodes.js")
 		require("../data/paths.js")
-		require("../data/realms.js")
+
+
+		//css
+		require("./css/demo.css")
 
 		// include js files
-		require("./js/helper.js")
-		require("./js/map.js")
-		require("./js/filter.js")
-		require("./js/timeline.js")
+		require("./js/config.js")
+		require("./js/gotmap.js")
+		require("./js/demo.js")
