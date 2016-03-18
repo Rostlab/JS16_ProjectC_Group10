@@ -15,7 +15,7 @@ jQuery(function() {
 		'characterBox':'#characters',
 		'timeline':'#timeline',
 		'filter':'#filter input',
-		'cityDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js',
+		//'cityDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js',
 		'realmDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/realms.js'
 	});
 });

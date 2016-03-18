@@ -52,7 +52,8 @@ var gotmap = function(mapContainer, options) {
 	var filterContainer = jQuery(options.filter).addClass("gotmap-filter");
 	
 	// INIT Leaflet Map
-	var map, cityStore, cityLayer, realmStore, realmsLayer, realmsShown;
+	var map, cityStore, cityLayer, realmStore, realmsLayer, colorlessLayer, realmsShown, realmsColored;
+	
 	(function () {
 		// Define a costum zoom handler because HBO did sth weird when scaling
 		var hboZoom = L.extend({}, L.CRS.EPSG3857, {
@@ -145,21 +146,36 @@ var gotmap = function(mapContainer, options) {
 		
 		// Init Layer + List
 		realmsLayer = new L.LayerGroup();
+		colorlessLayer = new L.LayerGroup(); //TODO?
 		realmStore = {};
 		realmsShown = false;
-		
+		realmsColored = false;
+	
 		jQuery.get(options.realmDataSource, {},
 			function (data){
 				var allRealms = (typeof data == "object") ? data : JSON.parse(data);
 				allRealms.map(function (realm) {
+					//Initilizes the different realms
 					realm.poly = L.polygon(realm.path, {
-						color: 'red', 
-						opacity : 0.2
+						color: realm.color || 'red', 
+						opacity : 0.4
 					}).bindLabel(realm.name, {
 						className: 'gotmarker'
 					}).addTo(realmsLayer);
 					realmStore[realm.name] = realm;	
+					//Initilizes the political map, just showing boarders
+					L.polygon(realm.path, {
+						color:'red', 
+						opacity : 0.2,
+						fillOpacity: 0.0
+					}).bindLabel(realm.name, {
+						className: 'gotmarker'
+					}).addTo(colorlessLayer);
 				});
+				
+				for(x in realmStore){
+						colorlessLayer.addLayer(L.polygon(realmStore[x].getLatLngs(), {color: "red"}));
+					}
 		});
 		
 		//Realms Button
@@ -487,6 +503,7 @@ var gotmap = function(mapContainer, options) {
 				}); 
 			}
 			
+			
 			// Make new element
 			var characterElement = jQuery('<div class="character"><img src="'+character.image+'"'+
 				'class="img-circle" style="border-color:'+character.color+'"/></div>');
@@ -677,16 +694,23 @@ var gotmap = function(mapContainer, options) {
 	 * showRealms
 	 * 
 	 * Shows the realm layer
+	 * Switches betwenn the political map and the maps with the different colors
 	 * @TODO Options
 	 *
 	 * @return realmsShown
 	 */
+	 
 	publicFunctions.showRealms = function() {
-		if(!realmsShown) {
+		if(!realmsColored) {
+			map.addLayer(colorlessLayer);
+			realmsColored = true;
+		} else {
+			map.removeLayer(colorlessLayer);
 			map.addLayer(realmsLayer);
 			realmsShown = true;
-			return realmsShown;
+			realmsColored = false;
 		}
+		return realmsShown;
 	};
 	
 	/*
@@ -702,16 +726,17 @@ var gotmap = function(mapContainer, options) {
 			realmsShown = false;
 			return realmsShown;
 		}
-	};
-	
-	/*
+	};		
+				
+	/*	
 	 * toggleRealms
 	 * 
 	 * Invokes show/hide realm depending on realmsShown
 	 *
 	 * @return realmsShown
 	 */
-	publicFunctions.toggleRealms = function() {
+	publicFunctions.toggleRealms = function() 
+	{
 		return realmsShown ? publicFunctions.hideRealms() : publicFunctions.showRealms();
 	};
 	
