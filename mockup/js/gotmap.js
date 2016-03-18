@@ -503,7 +503,6 @@ var gotmap = function(mapContainer, options) {
 				}); 
 			}
 			
-			
 			// Make new element
 			var characterElement = jQuery('<div class="character"><img src="'+character.image+'"'+
 				'class="img-circle" style="border-color:'+character.color+'"/></div>');
@@ -699,7 +698,6 @@ var gotmap = function(mapContainer, options) {
 	 *
 	 * @return realmsShown
 	 */
-	 
 	publicFunctions.showRealms = function() {
 		if(!realmsColored) {
 			map.addLayer(colorlessLayer);
@@ -735,8 +733,7 @@ var gotmap = function(mapContainer, options) {
 	 *
 	 * @return realmsShown
 	 */
-	publicFunctions.toggleRealms = function() 
-	{
+	publicFunctions.toggleRealms = function() {
 		return realmsShown ? publicFunctions.hideRealms() : publicFunctions.showRealms();
 	};
 	
