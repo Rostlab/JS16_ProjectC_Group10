@@ -9,8 +9,10 @@
 var gotmap = function(mapContainer, options) {
 	var defaultOptions = {
 		'filter':false,
-		'sidebar':false,
 		'timeline':false,
+		'characterBox':false,
+		'cityDetails':function(a,b) {internalHelpers.loadWikiPage(a,b)},
+		'characterDetails':function(a,b) {internalHelpers.loadWikiPage(a,b)},
 		'defaultPersonImg':'img/persons/dummy.jpg',
 		'deadPersonImg':'img/persons/skull.png',
 		'cityDataSource':'https://got-api.bruck.me/api/cities',
@@ -43,9 +45,10 @@ var gotmap = function(mapContainer, options) {
 	var internalHelpers = {};
 	
 	// All the containers
-	mapContainer = document.getElementById(mapContainer);
-	timelineContainer = document.getElementById('timeline');
-	characterContainer = jQuery('#characters');
+	mapContainer = jQuery(mapContainer);
+	var timelineContainer = jQuery(options.timeline);
+	var characterContainer = jQuery(options.characterBox);
+	var filterContainer = jQuery(options.filter);
 	
 	// INIT Leaflet Map
 	var map, cityStore, cityLayer, realmStore, realmsLayer, realmsShown;
@@ -80,7 +83,7 @@ var gotmap = function(mapContainer, options) {
 		};
 		
 		// Make the map and center it in the viewpoint
-		map = L.map(mapContainer, mapOptions).fitBounds(bounds);
+		map = L.map(mapContainer[0], mapOptions).fitBounds(bounds);
 		
 		// Limit the display
 		map.setMaxBounds(bounds);
@@ -118,7 +121,7 @@ var gotmap = function(mapContainer, options) {
 						L.marker(place.coords, {
 							icon: L.divIcon({className: ['gotmarker', type, prio].join(' ')})
 						}).on('click', function () {
-							publicFunctions.showModal(place.link, place.name, place.type);
+							publicFunctions.showModal(options.cityDetails, place.name, place.type);
 						}).bindLabel(place.name, {
 							noHide: true, 
 							direction:'right',
@@ -130,14 +133,14 @@ var gotmap = function(mapContainer, options) {
 		
 		// Add a class to alter the labels
 		map.on('zoomanim', function(e) { 
-			var el = document.getElementById('map');
+			var el = mapContainer[0];
 			if (el.className[el.className.length - 2] != 'm') {
 				el.className += " zoom" + e.zoom;
 			} else {
 				el.className = el.className.slice(0, -1) + e.zoom;
 			}
 		});
-		mapContainer.className += " zoom" + map.getZoom();
+		mapContainer.addClass(" zoom" + map.getZoom());
 		
 		// Init Layer + List
 		realmsLayer = new L.LayerGroup();
@@ -230,7 +233,7 @@ var gotmap = function(mapContainer, options) {
 	var characterStore;
 	(function () {
 		// Init Elements
-		var f = jQuery('#filter input'); // Filter Element
+		var f = filterContainer; // Filter Element
 		var l = jQuery('<ul class="dropdown-menu"><li class="dropdown-header">Nothing found</li></ul>').insertAfter(f); // Dropdown
 		
 		// Init private helper Vars
@@ -327,20 +330,9 @@ var gotmap = function(mapContainer, options) {
 			} 
 			inputVal = s;
 			selectedInDropdown = 0;
-			var maxResults = 20;
-			var o1 = []; // Begins with
-			var o2 = []; // Contains
-			var p;
-			for(var cName in characterStore) {
-				var pos = cName.indexOf(s);
-				if(pos != -1) {
-					(pos === 0 ? o1 : o2).push(characterStore[cName]);
-					if((maxResults--) === 0) {
-						break;
-					}
-				}
-			}
-			var out = o1.concat(o2); // First beginning with e, then the rest
+			
+			var out = publicFunctions.searchCharacter(inputVal, 20);
+			
 			l.empty(); // Delete the HTML li Elements
 			if(out.length) {
 				out.map(function(character,i) {
@@ -383,35 +375,9 @@ var gotmap = function(mapContainer, options) {
 	//                                                        //
 	//########################################################//
 	
-	internalHelpers.loadWikiPage = function() {
-		console.log("TODO");
-	};
-	
-	
-	//########################################################//
-	//                                                        //
-	//                    Public Functions                    //
-	//                                                        //
-	//########################################################//
-	
-	// Modal Functions
-	
-	publicFunctions.showModal = function (link, title, cssclass) {
-		gotModal.modal('show'); // Show the Modal
-    	var headerEl = gotModal.find('.modal-header'); // Header Container
+	internalHelpers.loadWikiPage = function(gotModal, title) {
+		var link = "http://awoiaf.westeros.org/index.php/"+title
 		var bodyEl = gotModal.find('.modal-body'); // Body Container
-		
-		if (title) { // If there is a title
-			headerEl.show(); // Show the Top Bar
-			$('#dynModalLabel').text(title); // Set the Title
-			headerEl[0].className = "modal-header"; // Reset Classnames
-			if(cssclass) { // Append classes when existing
-				headerEl.addClass(cssclass);
-			}
-		} else {
-			headerEl.hide(); // Hide it
-		}
-		
 		// Show Spinner
 		bodyEl.html("<span class='glyphicon glyphicon-cog glyph-spin glyph-big'></span>").addClass('text-center'); 
 		
@@ -442,6 +408,33 @@ var gotmap = function(mapContainer, options) {
 		}).error(function () { // Display Error Message
 			bodyEl.html("<span class='glyphicon glyphicon-alert glyph-big text-danger'></span>");
 		});
+	};
+	
+	
+	//########################################################//
+	//                                                        //
+	//                    Public Functions                    //
+	//                                                        //
+	//########################################################//
+	
+	// Modal Functions
+	
+	publicFunctions.showModal = function (callback, title, cssclass) {
+		gotModal.modal('show'); // Show the Modal
+    	var headerEl = gotModal.find('.modal-header'); // Header Container
+		
+		if (title) { // If there is a title
+			headerEl.show(); // Show the Top Bar
+			$('#dynModalLabel').text(title); // Set the Title
+			headerEl[0].className = "modal-header"; // Reset Classnames
+			if(cssclass) { // Append classes when existing
+				headerEl.addClass(cssclass);
+			}
+		} else {
+			headerEl.hide(); // Hide it
+		}
+		
+		callback(gotModal, title);
 	};
 	
 	publicFunctions.hideModal = function() {
@@ -520,7 +513,7 @@ var gotmap = function(mapContainer, options) {
 			});
 			
 			moreInfo.click(function () {
-				publicFunctions.showModal("http://awoiaf.westeros.org/index.php/"+character.name, character.name, "person "+(character.house ? character.house.toLowerCase() : ''));
+				publicFunctions.showModal(options.characterDetails, character.name, "person "+(character.house ? character.house.toLowerCase() : ''));
 				return false; // Prevent Default + Bubbling
 			});
 			
@@ -582,6 +575,22 @@ var gotmap = function(mapContainer, options) {
 		}
 	};
 	
+	publicFunctions.searchCharacter = function (search, maxResults) {
+		var o1 = []; // Begins with
+		var o2 = []; // Contains
+		var p;
+		for(var cName in characterStore) {
+			var pos = cName.indexOf(search);
+			if(pos != -1) {
+				(pos === 0 ? o1 : o2).push(characterStore[cName]);
+				if((maxResults--) === 0) {
+					break;
+				}
+			}
+		}
+		return o1.concat(o2); // First beginning with search, then the rest
+	};
+	
 	// Timeline Functions
 	
 	publicFunctions.updateMap = function (selected) {
@@ -641,7 +650,7 @@ var gotmap = function(mapContainer, options) {
 						'character':character
 					});
 				}
-				if(len != 1) {
+				if(len > 1) {
 					var lastPath  = paths[len-1];
 					var lastPoint = lastPath.path[lastPath.path.length-1];	
 					markers.push({
@@ -723,7 +732,10 @@ var gotmap = function(mapContainer, options) {
 };
 
 jQuery(function() {
-	mymap = gotmap('map', {
+	mymap = gotmap('#map', {
+		'characterBox':'#characters',
+		'timeline':'#timeline',
+		'filter':'#filter input',
 		'cityDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js',
 		'realmDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/realms.js'
 	});
