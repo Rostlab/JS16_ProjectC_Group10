@@ -343,61 +343,61 @@ ul.gotmap-dropdown li.hover, ul.gotmap-dropdown li:hover {
 /* @end */
 
 /* @group Header */
-.gotmap-modal .city .label {
+.gotmap-modal .city .modal-title {
 	background: transparent url("../img/labels/city.png") no-repeat;
 	background-size: 32px;
 	padding-left: 40px;
 }
 
-.gotmap-modal .town .label {
+.gotmap-modal .town .modal-title {
 	background: transparent url("../img/labels/town.png") no-repeat;
 	background-size: 32px;
 	padding-left: 40px;
 }
 
-.gotmap-modal .castle .label {
+.gotmap-modal .castle .modal-title {
 	background: transparent url("../img/labels/castle.png") no-repeat;
 	background-size: 32px;
 	padding-left: 40px;
 }
 
-.gotmap-modal .ruin .label {
+.gotmap-modal .ruin .modal-title {
 	background: transparent url("../img/labels/ruin.png") no-repeat;
 	background-size: 32px;
 	padding-left: 40px;
 }
 
-.gotmap-modal .other .label {
+.gotmap-modal .other .modal-title {
 	background: transparent url("../img/labels/other.png") no-repeat;
 	background-size: 32px;
 	padding-left: 40px;
 }
 
-.gotmap-modal .person .label {
+.gotmap-modal .person .modal-title {
 	background: transparent url("../img/labels/person.png") no-repeat;
 	background-size: 32px;
 	padding-left: 40px;
 }
 
-.gotmap-modal .house.stark .label {
+.gotmap-modal .house.stark .modal-title {
 	background: transparent url("../img/houses/stark.png") no-repeat;
 	background-size: 26px;
 	padding-left: 40px;
 }
 
-.gotmap-modal .house.baratheon .label {
+.gotmap-modal .house.baratheon .modal-title {
 	background: transparent url("../img/houses/baratheon.png") no-repeat;
 	background-size: 32px;
 	padding-left: 40px;
 }
 
-.gotmap-modal .house.lannister .label {
+.gotmap-modal .house.lannister .modal-title {
 	background: transparent url("../img/houses/lannister.png") no-repeat;
 	background-size: 31px;
 	padding-left: 40px;
 }
 
-.gotmap-modal .house.targaryen .label {
+.gotmap-modal .house.targaryen .modal-title {
 	background: transparent url("../img/houses/targaryen.png") no-repeat;
 	background-size: 32px;
 	padding-left: 40px;
