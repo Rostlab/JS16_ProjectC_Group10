@@ -1,18 +1,19 @@
-/*.--.     Alex Max Tobi          ,-. .--. 
- : .--'   Project C - Map       .'  :: ,. :
- : : _ .--.  .--. .-..-..---.    `: :: :: :
- : :; :: ..'' .; :: :; :: .; `    : :: :; :
- `.__.':_;  `.__.'`.__.': ._.'    :_;`.__.'
-                        : :                
-                        :_;
+/*____     _____   __  __
+ / ___| __|_   _| |  \/  | __ _ _ __
+| |  _ / _ \| |   | |\/| |/ _` | '_ \
+| |_| | (_) | |   | |  | | (_| | |_) |
+ \____|\___/|_|   |_|  |_|\__,_| .__/
+ Maximilian Bandle @mbandle    |_|
+ Alexander Beischl @AlexBeischl
+ Tobias Piffrader  @tpiffrader
 */
 var gotmap = function(mapContainer, options) {
 	var defaultOptions = {
 		'filter':false,
 		'timeline':false,
 		'characterBox':false,
-		'cityDetails':function(a,b) {internalHelpers.loadWikiPage(a,b)},
-		'characterDetails':function(a,b) {internalHelpers.loadWikiPage(a,b)},
+		'cityDetails':function(a,b) {internalHelpers.loadWikiPage(a,b);},
+		'characterDetails':function(a,b) {internalHelpers.loadWikiPage(a,b);},
 		'defaultPersonImg':'img/persons/dummy.jpg',
 		'deadPersonImg':'img/persons/skull.png',
 		'cityDataSource':'https://got-api.bruck.me/api/cities',
@@ -45,10 +46,10 @@ var gotmap = function(mapContainer, options) {
 	var internalHelpers = {};
 	
 	// All the containers
-	mapContainer = jQuery(mapContainer);
-	var timelineContainer = jQuery(options.timeline);
-	var characterContainer = jQuery(options.characterBox);
-	var filterContainer = jQuery(options.filter);
+	mapContainer = jQuery(mapContainer).addClass("gotmap");
+	var timelineContainer = jQuery(options.timeline).addClass("gotmap-timeline");
+	var characterContainer = jQuery(options.characterBox).addClass("gotmap-character");
+	var filterContainer = jQuery(options.filter).addClass("gotmap-filter");
 	
 	// INIT Leaflet Map
 	var map, cityStore, cityLayer, realmStore, realmsLayer, realmsShown;
@@ -234,7 +235,7 @@ var gotmap = function(mapContainer, options) {
 	(function () {
 		// Init Elements
 		var f = filterContainer; // Filter Element
-		var l = jQuery('<ul class="dropdown-menu"><li class="dropdown-header">Nothing found</li></ul>').insertAfter(f); // Dropdown
+		var l = jQuery('<ul class="dropdown-menu gotmap-dropdown"><li class="dropdown-header">Nothing found</li></ul>').insertAfter(f); // Dropdown
 		
 		// Init private helper Vars
 		var selectedInDropdown = 0; // Index of highlighted Dropdown element
@@ -376,7 +377,7 @@ var gotmap = function(mapContainer, options) {
 	//########################################################//
 	
 	internalHelpers.loadWikiPage = function(gotModal, title) {
-		var link = "http://awoiaf.westeros.org/index.php/"+title
+		var link = "http://awoiaf.westeros.org/index.php/"+title;
 		var bodyEl = gotModal.find('.modal-body'); // Body Container
 		// Show Spinner
 		bodyEl.html("<span class='glyphicon glyphicon-cog glyph-spin glyph-big'></span>").addClass('text-center'); 
@@ -469,15 +470,14 @@ var gotmap = function(mapContainer, options) {
 			} else {
 				character.points = [];
 				// TODO: Use the DB
-				jQuery.ajax({url:"http://awoiaf.westeros.org/index.php/"+character.name}).success(function(data) {
-					var re = /index\.php\/([^"?]+)/g; // Find Link
+				jQuery.ajax({url:"https://en.wikipedia.org/w/index.php?action=raw&title="+character.name}).success(function(data) {
+					var re = /\[\[([^\]]+)\]\]/g; // Find Link
 					var m;
 					
 					while ((m = re.exec(data)) !== null) {
 						if (m.index === re.lastIndex) {
 							re.lastIndex++;
 						}
-						
 						var place = cityStore[m[1].replace('_', ' ')];
 						if(place) {
 							character.points.push(place.coords);
@@ -730,13 +730,3 @@ var gotmap = function(mapContainer, options) {
 	
 	return publicFunctions;
 };
-
-jQuery(function() {
-	mymap = gotmap('#map', {
-		'characterBox':'#characters',
-		'timeline':'#timeline',
-		'filter':'#filter input',
-		'cityDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js',
-		'realmDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/realms.js'
-	});
-});
