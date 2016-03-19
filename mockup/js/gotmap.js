@@ -465,7 +465,6 @@ var gotmap = function(mapContainer, options) {
 			if(character.pathInfo) {
 				// TODO: Use the DB
 				character.path = paths[id];
-				publicFunctions.updateMap();
 			} else {
 				character.points = [];
 				// TODO: Use the DB
@@ -483,6 +482,7 @@ var gotmap = function(mapContainer, options) {
 						}
 					}
 					publicFunctions.updateMap();
+					publicFunctions.focusOnCharacter(id);
 				}); 
 			}
 			
@@ -523,6 +523,8 @@ var gotmap = function(mapContainer, options) {
 			loadedCharacters[id] = character; // Save It
 			
 			publicFunctions.updateMap();
+			publicFunctions.focusOnCharacter(id);
+			
 			return id;
 		}
 	};
@@ -590,6 +592,27 @@ var gotmap = function(mapContainer, options) {
 		return o1.concat(o2); // First beginning with search, then the rest
 	};
 	
+	publicFunctions.focusOnCharacter = function (id) {
+		if(loadedCharacters[id]) { 
+		var points = characterLayer.getLayers().filter(function (obj) {
+			return obj.character.name == id;
+		}).reduce(function (init, obj) {
+			if(obj._latlng) {
+				init.push(obj._latlng);
+				return init;
+			} else {
+				return init.concat(obj._latlngs);
+				}
+		}, []);
+		if(points.length > 0) {
+			map.fitBounds(L.latLngBounds(points));
+			return true;
+		} else {
+			return false;
+		}
+		}
+	};
+	
 	// Timeline Functions
 	
 	publicFunctions.updateMap = function (selected) {
@@ -637,7 +660,8 @@ var gotmap = function(mapContainer, options) {
 				var paths = character.path.filter(pathShown);
 				polylines.push({
 					path: combineCoords(paths),
-					color: character.color
+					color: character.color,
+					character: character
 				});
 				var len = paths.length;
 				if(len !== 0) {
@@ -663,10 +687,10 @@ var gotmap = function(mapContainer, options) {
 			}
 		}
 		markers.map(function(marker) {
-			L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer);
+			L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer).character = marker.character;
 		});
 		polylines.map(function(polyline) {
-			L.polyline(polyline.path, {color:polyline.color}).addTo(characterLayer);
+			L.polyline(polyline.path, {color:polyline.color}).addTo(characterLayer).character = polyline.character;
 		});
 	};
 	
