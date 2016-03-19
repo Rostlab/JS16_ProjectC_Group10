@@ -13,7 +13,7 @@ Run It
 jQuery(function() {
 	mymap = gotmap('#map', {
 		'characterBox':'#characters',
-		'timeline':'',
+		'timeline':'#timeline',
 		'filter':'#filter input',
 		'characterDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/characters.js',
 		'episodeDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/episodes.js',
