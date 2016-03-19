@@ -12,18 +12,18 @@ var gotmap = function(mapContainer, options) {
 		'filter':false,
 		'timeline':false,
 		'characterBox':false,
-		'cityDetails':function(a,b) {internalHelpers.loadWikiPage(a,b);},
-		'characterDetails':function(a,b) {internalHelpers.loadWikiPage(a,b);},
-		'defaultPersonImg':'img/persons/dummy.jpg',
-		'deadPersonImg':'img/persons/skull.png',
+		'cityDetails':function(modal, city) {internalHelpers.loadWikiPage(modal,city);},
+		'characterDetails':function(modal, character) {internalHelpers.loadWikiPage(modal,character);},
+		'defaultPersonImg':'http://map.got.show/mockup/img/persons/dummy.jpg',
+		'deadPersonImg':'http://map.got.show/mockup/img/img/persons/skull.png',
 		'cityDataSource':'https://got-api.bruck.me/api/cities',
 		'realmDataSource':'https://got-api.bruck.me/api/realms',
 		'pathDataSource':'https://got-api.bruck.me/api/paths',
 		'episodeDataSource':'https://got-api.bruck.me/api/episodes/',
 		'characterDataSource':'https://got-api.bruck.me/api/characters/',
-		'bgTiles':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/bg/{z}/y{y}x{x}.png',
-		'labelTiles':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/labels/{z}/y{y}x{x}.png',
-		'errorTile':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png',
+		'bgTiles':'http://tiles.got.show/bg/{z}/y{y}x{x}.png',
+		'labelTiles':'http://tiles.got.show/labels/{z}/y{y}x{x}.png',
+		'errorTile':'http://tiles.got.show/blank.png',
 		'characterColors':['#F44336', '#2196F3', '#4CAF50', '#212121', '#7C4DFF', '#F8BBD0', '#FBC02D', '#795548', 
 		'#00796B', '#536DFE', '#FFFFFF', '#FF5722']
 	};
@@ -47,9 +47,9 @@ var gotmap = function(mapContainer, options) {
 	
 	// All the containers
 	mapContainer = jQuery(mapContainer).addClass("gotmap");
-	var timelineContainer = jQuery(options.timeline).addClass("gotmap-timeline");
-	var characterContainer = jQuery(options.characterBox).addClass("gotmap-character");
-	var filterContainer = jQuery(options.filter).addClass("gotmap-filter");
+	var timelineContainer = options.timeline ? jQuery(options.timeline).addClass("gotmap-timeline") : jQuery('<div></div>');
+	var characterContainer = options.characterBox ? jQuery(options.characterBox).addClass("gotmap-character") : jQuery('<div></div>');
+	var filterContainer = options.filter ? jQuery(options.filter).addClass("gotmap-filter") : jQuery('<div></div>');
 	
 	// INIT Leaflet Map
 	var map, cityStore, cityLayer, realmStore, realmsLayer, colorlessLayer, realmsShown, realmsColored;
@@ -123,7 +123,7 @@ var gotmap = function(mapContainer, options) {
 						L.marker(place.coords, {
 							icon: L.divIcon({className: ['gotmarker', type, prio].join(' ')})
 						}).on('click', function () {
-							publicFunctions.showModal(options.cityDetails, place.name, place.type);
+							publicFunctions.showModal(options.cityDetails, place, place.type);
 						}).bindLabel(place.name, {
 							noHide: true, 
 							direction:'right',
@@ -279,7 +279,7 @@ var gotmap = function(mapContainer, options) {
 		jQuery.get(options.characterDataSource, {}, function(data) {
 			var allCharacters = (typeof data == "object") ? data : JSON.parse(data);
 			allCharacters.map(function (character) {
-				character.image = personList[character.name] || options.defaultPersonImg;
+				character.image = "http://map.got.show/mockup/"+personList[character.name] || options.defaultPersonImg;
 				character.pathInfo = pathList.indexOf(character.name) != -1;
 				characterStore[character.name.toLowerCase()] = character;
 			});
@@ -388,7 +388,8 @@ var gotmap = function(mapContainer, options) {
 	//                                                        //
 	//########################################################//
 	
-	internalHelpers.loadWikiPage = function(gotModal, title) {
+	internalHelpers.loadWikiPage = function(gotModal, obj) {
+		var title = obj.name; 
 		var link = "http://awoiaf.westeros.org/index.php/"+title;
 		var bodyEl = gotModal.find('.modal-body'); // Body Container
 		// Show Spinner
@@ -432,13 +433,13 @@ var gotmap = function(mapContainer, options) {
 	
 	// Modal Functions
 	
-	publicFunctions.showModal = function (callback, title, cssclass) {
+	publicFunctions.showModal = function (callback, obj, cssclass) {
 		gotModal.modal('show'); // Show the Modal
+		var title = obj.name; 
     	var headerEl = gotModal.find('.modal-header'); // Header Container
-		
 		if (title) { // If there is a title
 			headerEl.show(); // Show the Top Bar
-			$('#dynModalLabel').text(title); // Set the Title
+			gotModal.find('h3').text(title); // Set the Title
 			headerEl[0].className = "modal-header"; // Reset Classnames
 			if(cssclass) { // Append classes when existing
 				headerEl.addClass(cssclass);
@@ -447,7 +448,7 @@ var gotmap = function(mapContainer, options) {
 			headerEl.hide(); // Hide it
 		}
 		
-		callback(gotModal, title);
+		callback(gotModal, obj);
 	};
 	
 	publicFunctions.hideModal = function() {
@@ -525,7 +526,7 @@ var gotmap = function(mapContainer, options) {
 			});
 			
 			moreInfo.click(function () {
-				publicFunctions.showModal(options.characterDetails, character.name, "person "+(character.house ? character.house.toLowerCase() : ''));
+				publicFunctions.showModal(options.characterDetails, character, "person "+(character.house ? character.house.toLowerCase() : ''));
 				return false; // Prevent Default + Bubbling
 			});
 			
