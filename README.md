@@ -5,7 +5,7 @@ The known GoT world is vast and stretches over the three continents of Westeros,
 
 # Links
   - Main wiki entry: https://rostlab.org/owiki/index.php/Javascript_technology_2016#Project_C 
-  - Live demo: http://map.got.show
+  - Live demo: http://rostlab.github.io/JS16_ProjectC_Group10/
   - How to use it: https://github.com/Rostlab/JS16_ProjectC_Group10/wiki/API
   - npm package: https://www.npmjs.com/package/gotmap
   
