@@ -1,11 +1,9 @@
 		require("./lib/jquery-ui.min.js")
 
 		//include css files + images
-		require("./lib/leaflet.css")
 		require("./css/gotmap.css")
 
 		//include libraries
-		require("./lib/leaflet.js")
 		require("./lib/label.js")
 		require("./lib/leaflet.label/BaseMarkerMethods.js")
 		require("./lib/leaflet.label/FeatureGroup.Label.js")

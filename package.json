@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
-    "jquery": "^2.2.1"
+    "jquery": "^2.2.1",
+    "leaflet": "^0.7.7"
   }
 }
