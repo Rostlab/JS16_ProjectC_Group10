@@ -2,7 +2,8 @@ var webpack = require("webpack");
 
 module.exports = {
     entry:  {
-        test: "./mockup/entry.js"
+        test: "./mockup/entry.js",
+        demo: "./mockup/demo.js"
     },
     output: {
         path:     'builds',

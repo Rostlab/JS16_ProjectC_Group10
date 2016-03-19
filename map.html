@@ -7,6 +7,8 @@
 
 	<script type="text/javascript" src="./mockup/js/config.js"></script>
 	<script type="text/javascript" src="./builds/test.bundle.js"></script>
+	<link rel="stylesheet" href="./mockup/css/demo.css" />
+	<script type="text/javascript" src="./mockup/js/demo.js"></script>
 
 	
 </head>
@@ -16,43 +18,16 @@
 	</div>
 	<div id="sidebar">
 		<form id="filter">
-		<div class="input-group">
-      		<input type="text" class="form-control" placeholder="Search for...">
-    <i class="glyphicon glyphicon-search form-control-feedback"></i>
-	  		<ul id="filter-dropdown" class="dropdown-menu">
-	  		<li class="dropdown-header">Nothing found</li>
-  			</ul>
-    	</div>
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Search for...">
+				<i class="glyphicon glyphicon-search form-control-feedback"></i>
+			</div>
 		</form>
 		<!-- /input-group -->
 		<hr />
-		<div id="characters">
-			<!-- Filled in characters.js -->
-		</div>
+		<div id="characters"><!-- Filled by gotmap.js --></div>
 	</div>
 	
-	<div id="timeline">
-		<div id="episode-slider"></div>
-		<p id="episodes"></p>
-	</div>
-	
-	<!-- Dynamisches Modal -->
-<div class="modal fade" id="dynModal" tabindex="-1" role="dialog" aria-labelledby="dynModalLabel">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h3 class="modal-title" id="dynModalLabel"></h3>
-			</div>
-			<div class="modal-body"></div>
-			<div class="modal-footer">
-				<div class="pull-left classes"></div>
-				<a href="#" class="btn btn-warning wikilink" target="_blank">Show in Wiki</a>
-				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-</div>
-
+	<div id="timeline"><!-- Filled by gotmap.js --></div>
 </body>
 </html>
