@@ -7,7 +7,7 @@
  Alexander Beischl @AlexBeischl
  Tobias Piffrader  @tpiffrader
 */
-var gotmap = function(mapContainer, options) {
+gotmap = function(mapContainer, options) {
 	var defaultOptions = {
 		'filter':false,
 		'timeline':false,
