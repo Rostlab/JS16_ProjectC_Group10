@@ -258,7 +258,9 @@ var gotmap = function(mapContainer, options) {
 		// Init List
 		characterStore = {}; // Character Store
 		
-		var pathList = ['Eddard Stark', 'Catelyn Stark'];
+		var pathList = ['Eddard Stark', 'Catelyn Stark', 'Tywin Lannister', 'Robb Stark', 'Sansa Stark', 
+		'Bran Stark', 'Arya Stark', 'Rickon Stark', 'Jon Snow', 'Daenerys Targaryen', 'Jaime Lannister', 
+		'Cersei Lannister', 'Tyrion Lannister'];
 		
 		jQuery.get(options.characterDataSource, {}, function(data) {
 			var allCharacters = (typeof data == "object") ? data : JSON.parse(data);
@@ -644,7 +646,7 @@ var gotmap = function(mapContainer, options) {
 			if(!path.to) {
 				return selected[1] >= path.from;
 			}
-			return selected[0] <= path.from && selected[1] >= path.to;
+			return selected[0] <= path.from && selected[1] >= path.to || path.from <= selected[0] && path.to >= selected[1];
 		};
 		
 		var combineCoords = function (paths) {
