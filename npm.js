@@ -5,6 +5,9 @@ module.exports = {
 	},
 	init: function() {
 		require("./builds/deploy.bundle.js");
+	},
+	demo: function() {
+		require("./mockup/js/demo.js");
 	}
 }
 

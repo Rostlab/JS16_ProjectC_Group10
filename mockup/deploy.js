@@ -14,11 +14,10 @@
 		//data
 		require("../data/paths.js")
 
-
-		//css
-		require("./css/demo.css")
-
 		// include js files
 		require("./js/config.js")
 		require("./js/gotmap.js")
-		require("./js/demo.js")
+
+		//demo, uncomment if needed
+		require("./css/demo.css")
+		//require("./js/demo.js")
