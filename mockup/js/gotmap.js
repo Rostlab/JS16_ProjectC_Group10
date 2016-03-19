@@ -258,7 +258,9 @@ gotmap = function(mapContainer, options) {
 		// Init List
 		characterStore = {}; // Character Store
 		
-		var pathList = ['Eddard Stark', 'Catelyn Stark'];
+		var pathList = ['Eddard Stark', 'Catelyn Stark', 'Tywin Lannister', 'Robb Stark', 'Sansa Stark', 
+		'Bran Stark', 'Arya Stark', 'Rickon Stark', 'Jon Snow', 'Daenerys Targaryen', 'Jaime Lannister', 
+		'Cersei Lannister', 'Tyrion Lannister'];
 		
 		jQuery.get(options.characterDataSource, {}, function(data) {
 			var allCharacters = (typeof data == "object") ? data : JSON.parse(data);
@@ -644,7 +646,7 @@ gotmap = function(mapContainer, options) {
 			if(!path.to) {
 				return selected[1] >= path.from;
 			}
-			return selected[0] <= path.from && selected[1] >= path.to;
+			return selected[0] <= path.from && selected[1] >= path.to || path.from <= selected[0] && path.to >= selected[1];
 		};
 		
 		var combineCoords = function (paths) {
@@ -697,9 +699,36 @@ gotmap = function(mapContainer, options) {
 			} else {
 				character.points.map(generateMarker);
 			}
-		}
+		}/*
+		markers.sort(function (marker1, marker2) {
+			var c1 = marker1.coords;
+			var c2 = marker2.coords;
+			var dif = c1[0] - c2[0];
+			if(dif == 0) {
+				return c1[1] - c2[1]
+			} else {
+				return dif;
+			}
+		});
+		var lastMarker = {coords:[0,0]};
+		markers = markers.filter(function (marker) {
+			var lastCoords = (typeof lastMarker[0] == "array") ? lastMarker[0].coords : lastMarker.coords;
+			if(lastMarker && marker.coords[0] == lastCoords[0] && marker.coords[1] == lastCoords[1]) {
+				if(typeof lastMarker != "array") {
+					lastMarker = [lastMarker];
+				}
+				lastMarker.push(marker);
+				return false;
+			}
+			lastMarker = marker;
+			return true;
+		});*/
 		markers.map(function(marker) {
-			L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer).character = marker.character;
+			if(typeof marker == "object") {
+				L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer).character = marker.character;
+			} else {
+				L.marker(marker[0].coords).addTo(characterLayer).character = marker[0].character;
+			}
 		});
 		polylines.map(function(polyline) {
 			L.polyline(polyline.path, {color:polyline.color}).addTo(characterLayer).character = polyline.character;
