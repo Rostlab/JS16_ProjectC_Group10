@@ -1,7 +1,10 @@
-# GOTMAP (JS16_ProjectC)
+# GoT Map (JS16_ProjectC)
 The known GoT world is vast and stretches over the three continents of Westeros, Essos and Sothorys. Readers of the Ice and Fire books will get acquainted and transported from King's Landing to the borders of the Seven Kingdoms, and further on across the Narrow Sea. Over two thousand characters mentioned in the books have been associated with multiple landmarks in the GoT world. Your mission is to find character-place associations and put those associations on an interactive GoT map. Such a tool will help us figure out where did Gregor “the hound” Clegane went on his travels and how are these travels coincide with the travels of Breanne of Tarth (hint: they never crossed paths in the books, however they had a deadly duel during the show).
 # Links
-    Main wiki entry: <https://rostlab.org/owiki/index.php/Javascript_technology_2016#Project_C>    
+  - Main wiki entry: https://rostlab.org/owiki/index.php/Javascript_technology_2016#Project_C 
+  - Live demo: http://map.got.show
+  - npm package: https://www.npmjs.com/package/gotmap
+  
 #Usage
 
 Example:
@@ -17,13 +20,13 @@ map.init();
 
 Dependencies
 ============
-    - Leaflet@v0.7.7
-    - jQuery
+    - Leaflet@v0.7.7 (+ Label Plugin)
+    - jQuery (+ UI)
     - Bootstrap
 
 # Work in progress
 
-    - [] Editor for map
+  - Editor for map
 
 # HOWTO
 ##run web page:
@@ -54,13 +57,13 @@ npm test
 ```
 
 #
-Konstruktor([htmlEl] mapEl, [htmlEl] filterEl, [htmlEl] timelineEl, [htmlEl] sidebarEl)
+Konstruktor([htmlEl] mapEl, [object] options)
 # Map API
 
 ## Modal
 Show the modal:
 ```javascript
-showModal([string] id, [string] title, [string] cssclass)
+showModal([callback] function, [object] information, [string] cssclass)
 ```
 Hide the modal:
 ```javascript
@@ -87,9 +90,13 @@ Toggle a character:
 ```javascript
 toggleCharacter([object] character)
 ```
-Delete all characters:
+Remove all characters:
 ```javascript
-deleteAllCharacters()
+removeAllCharacters()
+```
+Zoom in on character:
+```javascript
+focusOnCharacters()
 ```
 
 ## Paths
