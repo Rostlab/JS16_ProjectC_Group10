@@ -3,6 +3,9 @@
 		//include css files + images
 		require("./css/gotmap.css")
 
+		require("./lib/leaflet.css")
+		require("./lib/leaflet.js")
+
 		//include libraries
 		require("./lib/label.js")
 		require("./lib/leaflet.label/BaseMarkerMethods.js")
