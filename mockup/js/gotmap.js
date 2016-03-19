@@ -570,6 +570,18 @@ var gotmap = function(mapContainer, options) {
 		}
 	};
 	
+	publicFunctions.hideAllCharacters = function () {
+		for(var id in loadedCharacters) { // Iterate through all
+			publicFunctions.hideCharacter(id);
+		}
+	};
+	
+	publicFunctions.showAllCharacters = function () {
+		for(var id in loadedCharacters) { // Iterate through all
+			publicFunctions.showCharacter(id);
+		}
+	};
+	
 	publicFunctions.removeAllCharacters = function () {
 		for(var id in loadedCharacters) { // Iterate through all
 			publicFunctions.removeCharacter(id);
