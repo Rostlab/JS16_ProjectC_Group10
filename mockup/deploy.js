@@ -19,5 +19,5 @@
 		require("./js/gotmap.js")
 
 		//demo, uncomment if needed
-		require("./css/demo.css")
+		//require("./css/demo.css")
 		//require("./js/demo.js")
