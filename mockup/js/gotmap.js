@@ -12,18 +12,18 @@ gotmap = function(mapContainer, options) {
 		'filter':false,
 		'timeline':false,
 		'characterBox':false,
-		'cityDetails':function(a,b) {internalHelpers.loadWikiPage(a,b);},
-		'characterDetails':function(a,b) {internalHelpers.loadWikiPage(a,b);},
-		'defaultPersonImg':'img/persons/dummy.jpg',
-		'deadPersonImg':'img/persons/skull.png',
+		'cityDetails':function(modal, city) {internalHelpers.loadWikiPage(modal,city);},
+		'characterDetails':function(modal, character) {internalHelpers.loadWikiPage(modal,character);},
+		'defaultPersonImg':'http://map.got.show/mockup/img/persons/dummy.jpg',
+		'deadPersonImg':'http://map.got.show/mockup/img/persons/skull.png',
 		'cityDataSource':'https://got-api.bruck.me/api/cities',
 		'realmDataSource':'https://got-api.bruck.me/api/realms',
 		'pathDataSource':'https://got-api.bruck.me/api/paths',
 		'episodeDataSource':'https://got-api.bruck.me/api/episodes/',
 		'characterDataSource':'https://got-api.bruck.me/api/characters/',
-		'bgTiles':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/bg/{z}/y{y}x{x}.png',
-		'labelTiles':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/labels/{z}/y{y}x{x}.png',
-		'errorTile':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png',
+		'bgTiles':'http://tiles.got.show/bg/{z}/y{y}x{x}.png',
+		'labelTiles':'http://tiles.got.show/labels/{z}/y{y}x{x}.png',
+		'errorTile':'http://tiles.got.show/blank.png',
 		'characterColors':['#F44336', '#2196F3', '#4CAF50', '#212121', '#7C4DFF', '#F8BBD0', '#FBC02D', '#795548', 
 		'#00796B', '#536DFE', '#FFFFFF', '#FF5722']
 	};
@@ -47,9 +47,9 @@ gotmap = function(mapContainer, options) {
 	
 	// All the containers
 	mapContainer = jQuery(mapContainer).addClass("gotmap");
-	var timelineContainer = jQuery(options.timeline).addClass("gotmap-timeline");
-	var characterContainer = jQuery(options.characterBox).addClass("gotmap-character");
-	var filterContainer = jQuery(options.filter).addClass("gotmap-filter");
+	var timelineContainer = options.timeline ? jQuery(options.timeline).addClass("gotmap-timeline") : jQuery('<div></div>');
+	var characterContainer = options.characterBox ? jQuery(options.characterBox).addClass("gotmap-character") : jQuery('<div></div>');
+	var filterContainer = options.filter ? jQuery(options.filter).addClass("gotmap-filter") : jQuery('<div></div>');
 	
 	// INIT Leaflet Map
 	var map, cityStore, cityLayer, realmStore, realmsLayer, colorlessLayer, realmsShown, realmsColored;
@@ -123,7 +123,7 @@ gotmap = function(mapContainer, options) {
 						L.marker(place.coords, {
 							icon: L.divIcon({className: ['gotmarker', type, prio].join(' ')})
 						}).on('click', function () {
-							publicFunctions.showModal(options.cityDetails, place.name, place.type);
+							publicFunctions.showModal(options.cityDetails, place, place.type);
 						}).bindLabel(place.name, {
 							noHide: true, 
 							direction:'right',
@@ -258,30 +258,16 @@ gotmap = function(mapContainer, options) {
 		// Init List
 		characterStore = {}; // Character Store
 		
-		var personList = { // TODO: Move it to DB later
-			'Eddard Stark':'img/persons/eddard_stark.jpg',
-			'Robb Stark':'img/persons/robb_stark.jpg',
-			'Sansa Stark':'img/persons/sansa_stark.jpg',
-			'Catelyn Stark':'img/persons/catelyn_stark.jpg',
-			'Arya Stark':'img/persons/arya_stark.png',
-			'Brandon Stark':'img/persons/bran_stark.jpg',
-			'Rickon Stark':'img/persons/rickon_stark.jpg',
-			'Jon Snow':'img/persons/jon_snow.jpg',
-			'Daenerys Targaryen':'img/persons/daenerys_targaryen.jpg',
-			'Tywin Lannister':'img/persons/tywin_lannister.png',
-			'Jaime Lannister':'img/persons/jaime_lannister.png',
-			'Cersei Lannister':'img/persons/cersei_lannister.jpeg',
-			'Tyrion Lannister':'img/persons/tyrion_lannister.png'
-		};
-		
 		var pathList = ['Eddard Stark', 'Catelyn Stark'];
 		
 		jQuery.get(options.characterDataSource, {}, function(data) {
 			var allCharacters = (typeof data == "object") ? data : JSON.parse(data);
 			allCharacters.map(function (character) {
-				character.image = personList[character.name] || options.defaultPersonImg;
-				character.pathInfo = pathList.indexOf(character.name) != -1;
-				characterStore[character.name.toLowerCase()] = character;
+				if(character.name) {
+					character.imageLink = character.imageLink ? "http://awoiaf.westeros.org/"+character.imageLink : options.defaultPersonImg;
+					character.pathInfo = pathList.indexOf(character.name) != -1;
+					characterStore[character.name.toLowerCase()] = character;
+				}
 			});
 		});
 		
@@ -350,7 +336,7 @@ gotmap = function(mapContainer, options) {
 			if(out.length) {
 				out.map(function(character,i) {
 					var extra = character.pathInfo ? ' class="pathInfo"' : '';
-					var item = jQuery('<li'+extra+'><a href="#"><img src="'+character.image+'" class="img-circle"/>'+
+					var item = jQuery('<li'+extra+'><a href="#"><img src="'+character.imageLink+'" class="img-circle"/>'+
 						character.name+'</a></li>'
 					).click(function(e) {
 						publicFunctions.addCharacter(character);
@@ -388,7 +374,8 @@ gotmap = function(mapContainer, options) {
 	//                                                        //
 	//########################################################//
 	
-	internalHelpers.loadWikiPage = function(gotModal, title) {
+	internalHelpers.loadWikiPage = function(gotModal, obj) {
+		var title = obj.name; 
 		var link = "http://awoiaf.westeros.org/index.php/"+title;
 		var bodyEl = gotModal.find('.modal-body'); // Body Container
 		// Show Spinner
@@ -432,13 +419,13 @@ gotmap = function(mapContainer, options) {
 	
 	// Modal Functions
 	
-	publicFunctions.showModal = function (callback, title, cssclass) {
+	publicFunctions.showModal = function (callback, obj, cssclass) {
 		gotModal.modal('show'); // Show the Modal
+		var title = obj.name; 
     	var headerEl = gotModal.find('.modal-header'); // Header Container
-		
 		if (title) { // If there is a title
 			headerEl.show(); // Show the Top Bar
-			$('#dynModalLabel').text(title); // Set the Title
+			gotModal.find('h3').text(title); // Set the Title
 			headerEl[0].className = "modal-header"; // Reset Classnames
 			if(cssclass) { // Append classes when existing
 				headerEl.addClass(cssclass);
@@ -447,7 +434,7 @@ gotmap = function(mapContainer, options) {
 			headerEl.hide(); // Hide it
 		}
 		
-		callback(gotModal, title);
+		callback(gotModal, obj);
 	};
 	
 	publicFunctions.hideModal = function() {
@@ -467,7 +454,7 @@ gotmap = function(mapContainer, options) {
 			character.markerStyle = L.divIcon({
 				className: 'colormarker',
 				html:'<span class="glyphicon glyphicon-map-marker" style="color:'+character.color+';">'+
-				'<img src="'+character.image+'" /></span>'
+				'<img src="'+character.imageLink+'" /></span>'
 			});
 			character.deadStyle = L.divIcon({
 				className: 'colormarker',
@@ -478,11 +465,10 @@ gotmap = function(mapContainer, options) {
 			if(character.pathInfo) {
 				// TODO: Use the DB
 				character.path = paths[id];
-				publicFunctions.updateMap();
 			} else {
 				character.points = [];
 				// TODO: Use the DB
-				jQuery.ajax({url:"https://en.wikipedia.org/w/index.php?action=raw&title="+character.name}).success(function(data) {
+				jQuery.ajax({url:"https://awoiaf.westeros.org/index.php?action=raw&title="+character.name}).success(function(data) {
 					var re = /\[\[([^\]]+)\]\]/g; // Find Link
 					var m;
 					
@@ -496,11 +482,12 @@ gotmap = function(mapContainer, options) {
 						}
 					}
 					publicFunctions.updateMap();
+					publicFunctions.focusOnCharacter(id);
 				}); 
 			}
 			
 			// Make new element
-			var characterElement = jQuery('<div class="character"><img src="'+character.image+'"'+
+			var characterElement = jQuery('<div class="character"><img src="'+character.imageLink+'"'+
 				'class="img-circle" style="border-color:'+character.color+'"/></div>');
 			var charInfo = jQuery('<div class="characterinfo"></div>');
 			charInfo.append('<div class="name">'+character.name+'</div>');
@@ -525,7 +512,7 @@ gotmap = function(mapContainer, options) {
 			});
 			
 			moreInfo.click(function () {
-				publicFunctions.showModal(options.characterDetails, character.name, "person "+(character.house ? character.house.toLowerCase() : ''));
+				publicFunctions.showModal(options.characterDetails, character, "person "+(character.house ? character.house.toLowerCase() : ''));
 				return false; // Prevent Default + Bubbling
 			});
 			
@@ -536,6 +523,8 @@ gotmap = function(mapContainer, options) {
 			loadedCharacters[id] = character; // Save It
 			
 			publicFunctions.updateMap();
+			publicFunctions.focusOnCharacter(id);
+			
 			return id;
 		}
 	};
@@ -581,6 +570,18 @@ gotmap = function(mapContainer, options) {
 		}
 	};
 	
+	publicFunctions.hideAllCharacters = function () {
+		for(var id in loadedCharacters) { // Iterate through all
+			publicFunctions.hideCharacter(id);
+		}
+	};
+	
+	publicFunctions.showAllCharacters = function () {
+		for(var id in loadedCharacters) { // Iterate through all
+			publicFunctions.showCharacter(id);
+		}
+	};
+	
 	publicFunctions.removeAllCharacters = function () {
 		for(var id in loadedCharacters) { // Iterate through all
 			publicFunctions.removeCharacter(id);
@@ -601,6 +602,27 @@ gotmap = function(mapContainer, options) {
 			}
 		}
 		return o1.concat(o2); // First beginning with search, then the rest
+	};
+	
+	publicFunctions.focusOnCharacter = function (id) {
+		if(loadedCharacters[id]) { 
+		var points = characterLayer.getLayers().filter(function (obj) {
+			return obj.character.name == id;
+		}).reduce(function (init, obj) {
+			if(obj._latlng) {
+				init.push(obj._latlng);
+				return init;
+			} else {
+				return init.concat(obj._latlngs);
+				}
+		}, []);
+		if(points.length > 0) {
+			map.fitBounds(L.latLngBounds(points));
+			return true;
+		} else {
+			return false;
+		}
+		}
 	};
 	
 	// Timeline Functions
@@ -650,7 +672,8 @@ gotmap = function(mapContainer, options) {
 				var paths = character.path.filter(pathShown);
 				polylines.push({
 					path: combineCoords(paths),
-					color: character.color
+					color: character.color,
+					character: character
 				});
 				var len = paths.length;
 				if(len !== 0) {
@@ -676,10 +699,10 @@ gotmap = function(mapContainer, options) {
 			}
 		}
 		markers.map(function(marker) {
-			L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer);
+			L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer).character = marker.character;
 		});
 		polylines.map(function(polyline) {
-			L.polyline(polyline.path, {color:polyline.color}).addTo(characterLayer);
+			L.polyline(polyline.path, {color:polyline.color}).addTo(characterLayer).character = polyline.character;
 		});
 	};
 	
