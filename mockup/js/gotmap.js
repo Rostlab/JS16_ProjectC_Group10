@@ -15,7 +15,7 @@ var gotmap = function(mapContainer, options) {
 		'cityDetails':function(modal, city) {internalHelpers.loadWikiPage(modal,city);},
 		'characterDetails':function(modal, character) {internalHelpers.loadWikiPage(modal,character);},
 		'defaultPersonImg':'http://map.got.show/mockup/img/persons/dummy.jpg',
-		'deadPersonImg':'http://map.got.show/mockup/img/img/persons/skull.png',
+		'deadPersonImg':'http://map.got.show/mockup/img/persons/skull.png',
 		'cityDataSource':'https://got-api.bruck.me/api/cities',
 		'realmDataSource':'https://got-api.bruck.me/api/realms',
 		'pathDataSource':'https://got-api.bruck.me/api/paths',
@@ -258,30 +258,16 @@ var gotmap = function(mapContainer, options) {
 		// Init List
 		characterStore = {}; // Character Store
 		
-		var personList = { // TODO: Move it to DB later
-			'Eddard Stark':'img/persons/eddard_stark.jpg',
-			'Robb Stark':'img/persons/robb_stark.jpg',
-			'Sansa Stark':'img/persons/sansa_stark.jpg',
-			'Catelyn Stark':'img/persons/catelyn_stark.jpg',
-			'Arya Stark':'img/persons/arya_stark.png',
-			'Brandon Stark':'img/persons/bran_stark.jpg',
-			'Rickon Stark':'img/persons/rickon_stark.jpg',
-			'Jon Snow':'img/persons/jon_snow.jpg',
-			'Daenerys Targaryen':'img/persons/daenerys_targaryen.jpg',
-			'Tywin Lannister':'img/persons/tywin_lannister.png',
-			'Jaime Lannister':'img/persons/jaime_lannister.png',
-			'Cersei Lannister':'img/persons/cersei_lannister.jpeg',
-			'Tyrion Lannister':'img/persons/tyrion_lannister.png'
-		};
-		
 		var pathList = ['Eddard Stark', 'Catelyn Stark'];
 		
 		jQuery.get(options.characterDataSource, {}, function(data) {
 			var allCharacters = (typeof data == "object") ? data : JSON.parse(data);
 			allCharacters.map(function (character) {
-				character.image = "http://map.got.show/mockup/"+personList[character.name] || options.defaultPersonImg;
-				character.pathInfo = pathList.indexOf(character.name) != -1;
-				characterStore[character.name.toLowerCase()] = character;
+				if(character.name) {
+					character.imageLink = character.imageLink ? "http://awoiaf.westeros.org/"+character.imageLink : options.defaultPersonImg;
+					character.pathInfo = pathList.indexOf(character.name) != -1;
+					characterStore[character.name.toLowerCase()] = character;
+				}
 			});
 		});
 		
@@ -350,7 +336,7 @@ var gotmap = function(mapContainer, options) {
 			if(out.length) {
 				out.map(function(character,i) {
 					var extra = character.pathInfo ? ' class="pathInfo"' : '';
-					var item = jQuery('<li'+extra+'><a href="#"><img src="'+character.image+'" class="img-circle"/>'+
+					var item = jQuery('<li'+extra+'><a href="#"><img src="'+character.imageLink+'" class="img-circle"/>'+
 						character.name+'</a></li>'
 					).click(function(e) {
 						publicFunctions.addCharacter(character);
@@ -468,7 +454,7 @@ var gotmap = function(mapContainer, options) {
 			character.markerStyle = L.divIcon({
 				className: 'colormarker',
 				html:'<span class="glyphicon glyphicon-map-marker" style="color:'+character.color+';">'+
-				'<img src="'+character.image+'" /></span>'
+				'<img src="'+character.imageLink+'" /></span>'
 			});
 			character.deadStyle = L.divIcon({
 				className: 'colormarker',
@@ -483,7 +469,7 @@ var gotmap = function(mapContainer, options) {
 			} else {
 				character.points = [];
 				// TODO: Use the DB
-				jQuery.ajax({url:"https://en.wikipedia.org/w/index.php?action=raw&title="+character.name}).success(function(data) {
+				jQuery.ajax({url:"https://awoiaf.westeros.org/index.php?action=raw&title="+character.name}).success(function(data) {
 					var re = /\[\[([^\]]+)\]\]/g; // Find Link
 					var m;
 					
@@ -501,7 +487,7 @@ var gotmap = function(mapContainer, options) {
 			}
 			
 			// Make new element
-			var characterElement = jQuery('<div class="character"><img src="'+character.image+'"'+
+			var characterElement = jQuery('<div class="character"><img src="'+character.imageLink+'"'+
 				'class="img-circle" style="border-color:'+character.color+'"/></div>');
 			var charInfo = jQuery('<div class="characterinfo"></div>');
 			charInfo.append('<div class="name">'+character.name+'</div>');
