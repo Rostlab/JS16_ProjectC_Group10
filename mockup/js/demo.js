@@ -15,9 +15,8 @@ jQuery(function() {
 		'characterBox':'#characters',
 		'timeline':'#timeline',
 		'filter':'#filter input',
-		'realmDataSource':'file:///Users/max/Documents/TUM/JavaScript/data/cities.js',
-		'characterDataSource':'file:///Users/max/Documents/TUM/JavaScript/data/characters.js',
-		'episodeDataSource':'file:///Users/max/Documents/TUM/JavaScript/data/episodes.js',
+		'characterDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/characters.js',
+		'episodeDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/episodes.js',
 		'cityDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js',
 		'realmDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/realms.js'
 	});
