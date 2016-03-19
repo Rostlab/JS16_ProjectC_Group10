@@ -50,10 +50,10 @@ jQuery(function() {
     });
     map.addControl(new jsonCtrl());
 
-	jQuery.get("https://got-api.bruck.me/api/cities", {}, function(cities)
+	jQuery.get("../data/cities.js", {}, function(data)
 	{
-		console.log(cities);
-	 	cities.map(function(place) 
+		var cities = (typeof data == "object") ? data : JSON.parse(data);
+		cities.map(function(place) 
 	 	{
 		 	if(place.coordY && place.coordX) {
 			 	var cx = parseFloat(place.coordX);
@@ -88,9 +88,9 @@ jQuery(function() {
 
     $("#slider-range").slider({
         range: true,
-        min: 0,
-        max: 49,
-        values: [0, 1],
+        min: 1,
+        max: 50,
+        values: [1, 2],
         slide: function(event, ui) {
             selected = [ui.values[0], ui.values[1]];
             if (selected[0] == selected[1]) {
@@ -113,8 +113,21 @@ jQuery(function() {
 		return cs;
 	}
 
+	var episodes = [];
+	
+	jQuery.get("../data/episodes.js", {},
+			function (data){
+				var allEpisodes = (typeof data == "object") ? data : JSON.parse(data);
+				var episodesCount = allEpisodes.length;
+				allEpisodes.map(function (episode) {
+					episode.showTitle = "S" + episode.season +"E"+episode.nr+": " + episode.name;
+					episodes[episode.totalNr]=episode;
+				});
+	});
+
+
     function getEpisodeInfo(i) {
         var e = episodes[i];
-        return "S" + e.season + "E" + e.episode + ": " + e.title;
+        return e.showTitle;
     }
 });
