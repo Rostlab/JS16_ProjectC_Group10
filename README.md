@@ -3,6 +3,7 @@ The known GoT world is vast and stretches over the three continents of Westeros,
 # Links
   - Main wiki entry: https://rostlab.org/owiki/index.php/Javascript_technology_2016#Project_C 
   - Live demo: http://map.got.show
+  - How to use it: https://github.com/Rostlab/JS16_ProjectC_Group10/wiki/API
   - npm package: https://www.npmjs.com/package/gotmap
   
 #Usage
@@ -20,9 +21,9 @@ map.init();
 
 Dependencies
 ============
-    - Leaflet@v0.7.7 (+ Label Plugin)
-    - jQuery (+ UI)
-    - Bootstrap
+  - Leaflet@v0.7.7 (+ Label Plugin)
+  - jQuery (+ UI)
+  - Bootstrap
 
 # Work in progress
 
@@ -54,70 +55,4 @@ grunt
 or
 ```shell
 npm test
-```
-
-#
-Konstruktor([htmlEl] mapEl, [object] options)
-# Map API
-
-## Modal
-Show the modal:
-```javascript
-showModal([callback] function, [object] information, [string] cssclass)
-```
-Hide the modal:
-```javascript
-hideModal()
-```
-## Characters in the map
-Add a character:
-```javascript
-addCharacter([object] character)
-```
-Remove a character:
-```javascript
-removeCharacter([object] character)
-```
-Show a character:
-```javascript
-showCharacter([object] character)
-```
-Hide a character:
-```javascript
-hideCharacter([object] character)
-```
-Toggle a character:
-```javascript
-toggleCharacter([object] character)
-```
-Remove all characters:
-```javascript
-removeAllCharacters()
-```
-Zoom in on character:
-```javascript
-focusOnCharacters()
-```
-
-## Paths
-Updates the map (by updating **paths**, characters, realms):
-```javascript
-updateMap([array] range)
-```
-## Realms
-Show realms:
-```javascript
-showRealms([bool] color, [double] opacity)
-```
-Hide realms:
-```javascript
-hideRealms()
-```
-Toggle realms:
-```javascript
-toggleRealms()
-```
-## Credits:
-```javascript
-getCredits()
 ```
