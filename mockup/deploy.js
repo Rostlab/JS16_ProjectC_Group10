@@ -1,10 +1,10 @@
-		require("./lib/jquery-ui.min.js")
+		
 
 		//include css files + images
 		require("./css/gotmap.css")
 
-		require("./lib/leaflet.css")
-		require("./lib/leaflet.js")
+		require("../node_modules/dist/leaflet.css")
+		require("../node_modules/dist/leaflet.js")
 
 		//include libraries
 		require("./lib/label.js")
