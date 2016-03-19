@@ -3,8 +3,8 @@
 		//include css files + images
 		require("./css/gotmap.css")
 
-		require("../node_modules/dist/leaflet.css")
-		require("../node_modules/dist/leaflet.js")
+		require("../node_modules/leaflet/dist/leaflet.css")
+		require("../node_modules/leaflet/dist/leaflet.js")
 
 		//include libraries
 		require("./lib/label.js")
