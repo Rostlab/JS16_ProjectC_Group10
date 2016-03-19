@@ -7,7 +7,7 @@ module.exports = {
 		require("./builds/deploy.bundle.js");
 	},
 	demo: function() {
-		require("./mockup/js/demo.js");
+		require("./builds.demo.bundle.js");
 	}
 }
 
