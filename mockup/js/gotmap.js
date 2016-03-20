@@ -25,7 +25,8 @@ gotmap = function(mapContainer, options) {
 		'labelTiles':'http://tiles.got.show/labels/{z}/y{y}x{x}.png',
 		'errorTile':'http://tiles.got.show/blank.png',
 		'characterColors':['#F44336', '#2196F3', '#4CAF50', '#212121', '#7C4DFF', '#F8BBD0', '#FBC02D', '#795548', 
-		'#00796B', '#536DFE', '#FFFFFF', '#FF5722']
+		'#00796B', '#536DFE', '#FFFFFF', '#FF5722'],
+		'episodesRange': [1,2]
 	};
 	
 	// Merge User and Default Options
@@ -201,7 +202,7 @@ gotmap = function(mapContainer, options) {
 		
 		// Init List
 		episodeStore = [];
-		prevSelected = [1,2];
+		prevSelected = options.episodesRange;
 		
 		// Fetch the Data
 		jQuery.get(options.episodeDataSource, {},
