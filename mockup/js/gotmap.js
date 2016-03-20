@@ -260,7 +260,8 @@ gotmap = function(mapContainer, options) {
 		
 		var pathList = ['Eddard Stark', 'Catelyn Stark', 'Tywin Lannister', 'Robb Stark', 'Sansa Stark', 
 		'Bran Stark', 'Arya Stark', 'Rickon Stark', 'Jon Snow', 'Daenerys Targaryen', 'Jaime Lannister', 
-		'Cersei Lannister', 'Tyrion Lannister'];
+		'Cersei Lannister', 'Tyrion Lannister', 'Drogo', 'Viserys Targaryen', 'Joffrey Baratheon', 'Myrcella Baratheon', 'Tommen Baratheon', 'Robert Baratheon',
+		'Stannis Baratheon','Renly Baratheon','Theon Greyjoy', 'Asha Greyjoy','Victorian Greyjoy','Brienne of Tarth', 'Davos Seaworth', 'Samwell Tarly', 'Petyr Baelish'];
 		
 		jQuery.get(options.characterDataSource, {}, function(data) {
 			var allCharacters = (typeof data == "object") ? data : JSON.parse(data);
