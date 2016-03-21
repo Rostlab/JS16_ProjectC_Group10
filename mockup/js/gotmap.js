@@ -16,6 +16,7 @@ gotmap = function(mapContainer, options) {
 		'characterDetails':function(modal, character) {internalHelpers.loadWikiPage(modal,character);},
 		'defaultPersonImg':'http://map.got.show/mockup/img/persons/dummy.jpg',
 		'deadPersonImg':'http://map.got.show/mockup/img/persons/skull.png',
+		'personImageBaseUrl':'https://got-api.bruck.me',
 		'cityDataSource':'https://got-api.bruck.me/api/cities',
 		'realmDataSource':'https://got-api.bruck.me/api/realms',
 		'pathDataSource':'https://got-api.bruck.me/api/paths',
@@ -267,7 +268,7 @@ gotmap = function(mapContainer, options) {
 			var allCharacters = (typeof data == "object") ? data : JSON.parse(data);
 			allCharacters.map(function (character) {
 				if(character.name) {
-					character.imageLink = character.imageLink ? "http://awoiaf.westeros.org/"+character.imageLink : options.defaultPersonImg;
+					character.imageLink = character.imageLink ? options.personImageBaseUrl+character.imageLink : options.defaultPersonImg;
 					character.pathInfo = pathList.indexOf(character.name) != -1;
 					characterStore[character.name.toLowerCase()] = character;
 				}
@@ -660,6 +661,28 @@ gotmap = function(mapContainer, options) {
 			});
 		};
 		
+		var nicePopup = function(characters) {
+			characters.sort(function (c1, c2) {
+				return (c1.name == c2.name) ? 0 : ( (c1.name > c2.name) ? 1 : -1 );
+			});
+			var html = "<div class=\"popupCharacterList\">"
+			var lastCharacter = false;
+			characters.filter(function (character) {
+				if(lastCharacter && lastCharacter == character) {
+					return false;
+				} else {
+					lastCharacter = character;
+					return true;
+				}
+			}).map(function(character) {
+				html += "<div class=\"character\">";
+				html += "<img src=\""+character.imageLink+"\" class=\"img-circle\" style=\"border-color:"+character.color+"\"/>";
+				html += "<span class=\"name\">"+character.name+"</span>";
+				html += "</div>";
+			});
+			return html + "</div>";
+		};
+		
 		for(var id in loadedCharacters) { // Loop through every character
 			var character = loadedCharacters[id];
 			if(!character.shown) {
@@ -724,7 +747,7 @@ gotmap = function(mapContainer, options) {
 			if(!("multi" in marker)) {
 				L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer);
 			} else {
-				L.marker(marker.coords).addTo(characterLayer).bindPopup(marker.multi.join(", "));
+				L.marker(marker.coords).addTo(characterLayer).bindPopup(nicePopup(marker.multi));
 			}
 		});
 		polylines.map(function(polyline) {
