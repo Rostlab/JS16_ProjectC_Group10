@@ -375,14 +375,13 @@ L.PM.Edit.Poly = L.Class.extend({
 
         if(!this.enabled()) {
             this._enabled = true;
-
             if(!this._markerGroup) {
                 this._markerGroup = new L.LayerGroup();
 
                 // init dragable markers
                 this._initMarkers();
             }
-
+			globalPolyline = this._poly._latlngs[0];
             this._poly._map.addLayer(this._markerGroup);
 
             this._poly.on('remove', function() {
@@ -547,6 +546,9 @@ L.PM.Edit.Poly = L.Class.extend({
     },
 
     _onMarkerDrag: function(e) {
+
+		
+			globalPolyline = this._poly._latlngs[0];
 
         // dragged marker
         var marker = e.target;
