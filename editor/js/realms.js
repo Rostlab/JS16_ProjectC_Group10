@@ -22,10 +22,11 @@ jQuery(function() {
             var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-share');
             L.DomEvent.disableClickPropagation(c);
             c.onclick = function() {
+	            var latLngDirty;
 	            if("length" in globalPolyline) {
-	            	var latLngDirty = globalPolyline;
+	            	latLngDirty = globalPolyline;
 				} else {
-					var latLngDirty = globalPolyline.getLatLngs();
+					latLngDirty = globalPolyline.getLatLngs();
 				}
 	            var latLngWanted = latLngDirty.map(function(curr)
 	            	{
