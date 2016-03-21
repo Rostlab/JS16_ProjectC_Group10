@@ -12,8 +12,8 @@ gotmap = function(mapContainer, options) {
 		'filter':false,
 		'timeline':false,
 		'characterBox':false,
-		'cityDetails':function(modal, city) {internalHelpers.loadWikiPage(modal,city);},
-		'characterDetails':function(modal, character) {internalHelpers.loadWikiPage(modal,character);},
+		'cityDetails':function(modal, city) {modal.find('.modal-body').text("Fill this modal by passing the cityDetails Callback Function");},
+		'characterDetails':function(modal, character) {modal.find('.modal-body').text("Fill this modal by passing the characterDetails Callback Function");},
 		'defaultPersonImg':'http://map.got.show/mockup/img/persons/dummy.jpg',
 		'deadPersonImg':'http://map.got.show/mockup/img/persons/skull.png',
 		'personImageBaseUrl':'https://got-api.bruck.me',
@@ -424,6 +424,9 @@ gotmap = function(mapContainer, options) {
 	// Modal Functions
 	
 	publicFunctions.showModal = function (callback, obj, cssclass) {
+		if(typeof callback != "function") {
+			return;
+		}
 		gotModal.modal('show'); // Show the Modal
 		var title = obj.name; 
     	var headerEl = gotModal.find('.modal-header'); // Header Container
