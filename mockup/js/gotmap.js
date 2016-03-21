@@ -189,6 +189,25 @@ gotmap = function(mapContainer, options) {
 		    },
 		});
 		map.addControl(new realmsCtrl());
+		
+		//Characters Button
+		var charCtrl = L.Control.extend({
+		    options: {
+		        position: 'topright'
+		    },
+		    onAdd: function(map) {
+		        var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-user');
+		        L.DomEvent.disableClickPropagation(c);
+		        c.onclick = function() {
+			        jQuery("#characters").fadeIn();
+		        };
+		        return c;
+		    },
+		});
+		jQuery("<div class=\"closeOverlay\">Close Character Overlay</div>").click(function () {
+			jQuery("#characters").fadeOut();
+		}).appendTo("#characters");
+		map.addControl(new charCtrl());
 	})();
 	
 	
@@ -420,6 +439,10 @@ gotmap = function(mapContainer, options) {
 	//                                                        //
 	//########################################################//
 	
+	publicFunctions.getMap = function() {
+		return map;
+	}
+	
 	// Modal Functions
 	
 	publicFunctions.showModal = function (callback, obj, cssclass) {
@@ -647,6 +670,7 @@ gotmap = function(mapContainer, options) {
 			if(!path.to) {
 				return selected[1] >= path.from;
 			}
+			// As long as the ranges colide, it will show
 			return selected[0] <= path.from && selected[1] >= path.to || path.from <= selected[0] && path.to >= selected[1] || path.from >= selected[0] && path.from <= selected[1] || path.to >= selected[0] && path.to <= selected[1];
 		};
 		
