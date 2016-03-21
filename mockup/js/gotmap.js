@@ -665,7 +665,7 @@ gotmap = function(mapContainer, options) {
 			characters.sort(function (c1, c2) {
 				return (c1.name == c2.name) ? 0 : ( (c1.name > c2.name) ? 1 : -1 );
 			});
-			var html = "<div class=\"popupCharacterList\">"
+			var html = "<div class=\"popupCharacterList\">";
 			var lastCharacter = false;
 			characters.filter(function (character) {
 				if(lastCharacter && lastCharacter == character) {
@@ -724,8 +724,8 @@ gotmap = function(mapContainer, options) {
 			var c1 = marker1.coords;
 			var c2 = marker2.coords;
 			var dif = c1[0] - c2[0];
-			if(dif == 0) {
-				return c1[1] - c2[1]
+			if(dif === 0) {
+				return c1[1] - c2[1];
 			} else {
 				return dif;
 			}
