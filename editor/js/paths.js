@@ -61,7 +61,7 @@ jQuery(function() {
         		L.marker([cy, cx], {
             		icon: dot
         		}).on('click', function(e) {
-            		addToPolyline({lat:cy, lng:cx}, place._id);
+            		addToPolyline({lat:cy, lng:cx}, place.name);
         		}).bindLabel(place.name, 
         			{
 					direction: 'auto'
