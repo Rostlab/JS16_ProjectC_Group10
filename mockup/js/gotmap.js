@@ -421,6 +421,10 @@ gotmap = function(mapContainer, options) {
 	//                                                        //
 	//########################################################//
 	
+	publicFunctions.getMap = function() {
+		return map;
+	};
+	
 	// Modal Functions
 	
 	publicFunctions.showModal = function (callback, obj, cssclass) {
@@ -648,7 +652,8 @@ gotmap = function(mapContainer, options) {
 			if(!path.to) {
 				return selected[1] >= path.from;
 			}
-			return selected[0] <= path.from && selected[1] >= path.to || path.from <= selected[0] && path.to >= selected[1];
+			// As long as the ranges colide, it will show
+			return selected[0] <= path.from && selected[1] >= path.to || path.from <= selected[0] && path.to >= selected[1] || path.from >= selected[0] && path.from <= selected[1] || path.to >= selected[0] && path.to <= selected[1];
 		};
 		
 		var combineCoords = function (paths) {

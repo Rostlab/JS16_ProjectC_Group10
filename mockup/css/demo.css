@@ -57,4 +57,80 @@
 	color:#fff;
 	padding: 5px 15px 0;
 }
+
+#characters .closeOverlay, #map .glyphicon-user {
+	display:none;
+}
+
+/* @end */
+
+/* @group Responsive */
+@media (max-width: 550px) {
+#map {
+	background: #001;
+	position: fixed;
+	left:0;
+	right: 0;
+	top:40px;
+	bottom: 40px;
+}
+
+#map .glyphicon-user {
+	display:block;
+}
+
+#sidebar {
+	position: static;
+	width: auto;
+	height : auto;
+}
+
+#sidebar hr{
+	display: none;
+}
+
+#characters {
+	position: fixed;
+	right: 0;
+	top:40px;
+	bottom: 0;
+	left:0;
+	width: auto;
+	background: #CFD8DC;
+	padding: 0.5em;
+	z-index: 10;
+	margin:0;
+	overflow: scroll;
+	display: none;
+}
+
+#characters .closeOverlay {
+	display:block;
+	position: absolute;
+	background: darkred;
+	text-align:center;
+	color: #FFF;
+	bottom: 0;
+	height: 30px;
+	left:0;
+	right:0;
+}
+
+#filter {
+	position: fixed;
+	background: #CFD8DC;
+	top:0;
+	right:0;
+	left:0;
+	height:40px;
+	z-index:20;
+}
+#filter .input-group {
+	width: 100%;
+}
+
+#timeline {
+	right:0;
+}
+}
 /* @end */
