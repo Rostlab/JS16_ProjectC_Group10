@@ -12,10 +12,11 @@ gotmap = function(mapContainer, options) {
 		'filter':false,
 		'timeline':false,
 		'characterBox':false,
-		'cityDetails':function(modal, city) {internalHelpers.loadWikiPage(modal,city);},
-		'characterDetails':function(modal, character) {internalHelpers.loadWikiPage(modal,character);},
+		'cityDetails':function(modal, city) {modal.find('.modal-body').text("Fill this modal by passing the cityDetails Callback Function");},
+		'characterDetails':function(modal, character) {modal.find('.modal-body').text("Fill this modal by passing the characterDetails Callback Function");},
 		'defaultPersonImg':'http://map.got.show/mockup/img/persons/dummy.jpg',
 		'deadPersonImg':'http://map.got.show/mockup/img/persons/skull.png',
+		'personImageBaseUrl':'https://got-api.bruck.me',
 		'cityDataSource':'https://got-api.bruck.me/api/cities',
 		'realmDataSource':'https://got-api.bruck.me/api/realms',
 		'pathDataSource':'https://got-api.bruck.me/api/paths',
@@ -25,7 +26,8 @@ gotmap = function(mapContainer, options) {
 		'labelTiles':'http://tiles.got.show/labels/{z}/y{y}x{x}.png',
 		'errorTile':'http://tiles.got.show/blank.png',
 		'characterColors':['#F44336', '#2196F3', '#4CAF50', '#212121', '#7C4DFF', '#F8BBD0', '#FBC02D', '#795548', 
-		'#00796B', '#536DFE', '#FFFFFF', '#FF5722']
+		'#00796B', '#536DFE', '#FFFFFF', '#FF5722'],
+		'episodesRange': [1,2]
 	};
 	
 	// Merge User and Default Options
@@ -114,12 +116,12 @@ gotmap = function(mapContainer, options) {
 			function (data) {
 				var allCities = (typeof data == "object") ? data : JSON.parse(data);
 				allCities.map(function (place) {
-					place.coords = [parseFloat(place.coordY), parseFloat(place.coordX)]; // 
-					cityStore[place.name] = place;
-					var type = place.type || "other"; // Add Type to display correct label
-					var prio = "prio"+place.priority; // Add priority to hide / show cities
-					var extra = (place.priority == 6 || jQuery.inArray(place.name, ['Shadow Tower', 'Castle Black', 'Eastwatch by the Sea', 'Nightfort']) != -1) ? " wall-label" : ""; 
 					if(place.coordY && place.coordX) {
+						cityStore[place.name] = place;
+						var type = place.type || "other"; // Add Type to display correct label
+						var prio = "prio"+place.priority; // Add priority to hide / show cities
+						var extra = (place.priority == 6 || jQuery.inArray(place.name, ['Shadow Tower', 'Castle Black', 'Eastwatch by the Sea', 'Nightfort']) != -1) ? " wall-label" : ""; 
+						place.coords = L.latLng(parseFloat(place.coordY), parseFloat(place.coordX));
 						L.marker(place.coords, {
 							icon: L.divIcon({className: ['gotmarker', type, prio].join(' ')})
 						}).on('click', function () {
@@ -201,7 +203,7 @@ gotmap = function(mapContainer, options) {
 		
 		// Init List
 		episodeStore = [];
-		prevSelected = [1,2];
+		prevSelected = options.episodesRange;
 		
 		// Fetch the Data
 		jQuery.get(options.episodeDataSource, {},
@@ -267,7 +269,7 @@ gotmap = function(mapContainer, options) {
 			var allCharacters = (typeof data == "object") ? data : JSON.parse(data);
 			allCharacters.map(function (character) {
 				if(character.name) {
-					character.imageLink = character.imageLink ? "http://awoiaf.westeros.org/"+character.imageLink : options.defaultPersonImg;
+					character.imageLink = character.imageLink ? options.personImageBaseUrl+character.imageLink : options.defaultPersonImg;
 					character.pathInfo = pathList.indexOf(character.name) != -1;
 					characterStore[character.name.toLowerCase()] = character;
 				}
@@ -427,6 +429,9 @@ gotmap = function(mapContainer, options) {
 	// Modal Functions
 	
 	publicFunctions.showModal = function (callback, obj, cssclass) {
+		if(typeof callback != "function") {
+			return;
+		}
 		gotModal.modal('show'); // Show the Modal
 		var title = obj.name; 
     	var headerEl = gotModal.find('.modal-header'); // Header Container
@@ -472,6 +477,8 @@ gotmap = function(mapContainer, options) {
 			if(character.pathInfo) {
 				// TODO: Use the DB
 				character.path = paths[id];
+				console.log(character.path);
+				character.bounds = false;
 			} else {
 				character.points = [];
 				// TODO: Use the DB
@@ -488,6 +495,7 @@ gotmap = function(mapContainer, options) {
 							character.points.push(place.coords);
 						}
 					}
+					character.bounds = L.latLngBounds(character.points);
 					publicFunctions.updateMap();
 					publicFunctions.focusOnCharacter(id);
 				}); 
@@ -612,23 +620,14 @@ gotmap = function(mapContainer, options) {
 	};
 	
 	publicFunctions.focusOnCharacter = function (id) {
-		if(loadedCharacters[id]) { 
-		var points = characterLayer.getLayers().filter(function (obj) {
-			return obj.character.name == id;
-		}).reduce(function (init, obj) {
-			if(obj._latlng) {
-				init.push(obj._latlng);
-				return init;
+		if(loadedCharacters[id]) {
+			var bounds = loadedCharacters[id].bounds;
+			if(typeof bounds == "object" && bounds.isValid()) {
+				map.fitBounds(bounds);
+				return true;
 			} else {
-				return init.concat(obj._latlngs);
-				}
-		}, []);
-		if(points.length > 0) {
-			map.fitBounds(L.latLngBounds(points));
-			return true;
-		} else {
-			return false;
-		}
+				return false;
+			}
 		}
 	};
 	
@@ -671,6 +670,28 @@ gotmap = function(mapContainer, options) {
 			});
 		};
 		
+		var nicePopup = function(characters) {
+			characters.sort(function (c1, c2) {
+				return (c1.name == c2.name) ? 0 : ( (c1.name > c2.name) ? 1 : -1 );
+			});
+			var html = "<div class=\"popupCharacterList\">";
+			var lastCharacter = false;
+			characters.filter(function (character) {
+				if(lastCharacter && lastCharacter == character) {
+					return false;
+				} else {
+					lastCharacter = character;
+					return true;
+				}
+			}).map(function(character) {
+				html += "<div class=\"character\">";
+				html += "<img src=\""+character.imageLink+"\" class=\"img-circle\" style=\"border-color:"+character.color+"\"/>";
+				html += "<span class=\"name\">"+character.name+"</span>";
+				html += "</div>";
+			});
+			return html + "</div>";
+		};
+		
 		for(var id in loadedCharacters) { // Loop through every character
 			var character = loadedCharacters[id];
 			if(!character.shown) {
@@ -678,8 +699,10 @@ gotmap = function(mapContainer, options) {
 			}
 			if(character.pathInfo) {
 				var paths = character.path.filter(pathShown);
+				var polyline = combineCoords(paths);
+				character.bounds = L.latLngBounds(polyline);
 				polylines.push({
-					path: combineCoords(paths),
+					path: polyline,
 					color: character.color,
 					character: character
 				});
@@ -705,39 +728,39 @@ gotmap = function(mapContainer, options) {
 			} else {
 				character.points.map(generateMarker);
 			}
-		}/*
+		}
 		markers.sort(function (marker1, marker2) {
 			var c1 = marker1.coords;
 			var c2 = marker2.coords;
 			var dif = c1[0] - c2[0];
-			if(dif == 0) {
-				return c1[1] - c2[1]
+			if(dif === 0) {
+				return c1[1] - c2[1];
 			} else {
 				return dif;
 			}
 		});
-		var lastMarker = {coords:[0,0]};
+		var lastMarker = false;
 		markers = markers.filter(function (marker) {
-			var lastCoords = (typeof lastMarker[0] == "array") ? lastMarker[0].coords : lastMarker.coords;
+			var lastCoords = lastMarker.coords;
 			if(lastMarker && marker.coords[0] == lastCoords[0] && marker.coords[1] == lastCoords[1]) {
-				if(typeof lastMarker != "array") {
-					lastMarker = [lastMarker];
+				if(!("multi" in lastMarker)) {
+					lastMarker.multi = [lastMarker.character];
 				}
-				lastMarker.push(marker);
+				lastMarker.multi.push(marker.character);
 				return false;
 			}
 			lastMarker = marker;
 			return true;
-		});*/
+		});
 		markers.map(function(marker) {
-			if(typeof marker == "object") {
-				L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer).character = marker.character;
+			if(!("multi" in marker)) {
+				L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer);
 			} else {
-				L.marker(marker[0].coords).addTo(characterLayer).character = marker[0].character;
+				L.marker(marker.coords).addTo(characterLayer).bindPopup(nicePopup(marker.multi));
 			}
 		});
 		polylines.map(function(polyline) {
-			L.polyline(polyline.path, {color:polyline.color}).addTo(characterLayer).character = polyline.character;
+			L.polyline(polyline.path, {color:polyline.color}).addTo(characterLayer);
 		});
 	};
 	
