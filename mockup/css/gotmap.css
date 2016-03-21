@@ -153,6 +153,28 @@
 	text-align: center;
 }
 /* @end */
+
+/* @group Multi Markers */
+.popupCharacterList .character {
+	clear: both;
+	height: 3em;
+	overflow: hidden;
+	margin: .25em;
+}
+	
+.popupCharacterList img {
+	width: 3em;
+	height: 3em;
+	border: 4px solid gray;
+}
+
+.popupCharacterList .name {
+	padding: .5em;
+	font-weight: bold;
+}
+	
+/* @end */
+
 /* @end */
 
 
