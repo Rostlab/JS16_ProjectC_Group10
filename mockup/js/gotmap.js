@@ -647,7 +647,7 @@ gotmap = function(mapContainer, options) {
 			if(!path.to) {
 				return selected[1] >= path.from;
 			}
-			return selected[0] <= path.from && selected[1] >= path.to || path.from <= selected[0] && path.to >= selected[1];
+			return selected[0] <= path.from && selected[1] >= path.to || path.from <= selected[0] && path.to >= selected[1] || path.from >= selected[0] && path.from <= selected[1] || path.to >= selected[0] && path.to <= selected[1];
 		};
 		
 		var combineCoords = function (paths) {
