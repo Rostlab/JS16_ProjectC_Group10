@@ -22,7 +22,11 @@ jQuery(function() {
             var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-share');
             L.DomEvent.disableClickPropagation(c);
             c.onclick = function() {
-	            var latLngDirty = globalPolyline.getLatLngs();
+	            if("length" in globalPolyline) {
+	            	var latLngDirty = globalPolyline;
+				} else {
+					var latLngDirty = globalPolyline.getLatLngs();
+				}
 	            var latLngWanted = latLngDirty.map(function(curr)
 	            	{
 		            	return [curr.lat, curr.lng];
@@ -35,12 +39,13 @@ jQuery(function() {
     });
     map.addControl(new jsonCtrl());
     
-    /*$("#Load").click(function(){
+    $("#Load").click(function(){
 	    var coord = JSON.parse($('#jsonArea').val());
-	    globalPolyline.setLatLngs(coord).
-	    L.PM.Draw.Poly. _syncHintLine();    
+	    var polygonLayer = L.polygon(coord).addTo(map);
+		polygonLayer.pm.toggleEdit();
+	    //p = new L.PM.Draw["Poly"](map);
+	    //globalPolyline.setLatLngs(coord);
     });
-    */
 });
 
 

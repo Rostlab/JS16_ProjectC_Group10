@@ -63,7 +63,7 @@
 	border-left: 3px solid #d00;
 }
 
-#sidebar li.onmap {
+#sidebar .onmap {
 	border-left: 3px solid #0d0;
 }
 

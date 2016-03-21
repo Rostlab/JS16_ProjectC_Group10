@@ -24,7 +24,7 @@ jQuery(function() {
 		    options: {
 		        position: 'topright'
 		    },
-		    onAdd: function(map) {
+		    onAdd: function() {
 		        var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-user');
 		        L.DomEvent.disableClickPropagation(c);
 		        c.onclick = function() {
