@@ -422,7 +422,7 @@ gotmap = function(mapContainer, options) {
 	
 	publicFunctions.getMap = function() {
 		return map;
-	}
+	};
 	
 	// Modal Functions
 	
