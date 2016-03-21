@@ -189,25 +189,6 @@ gotmap = function(mapContainer, options) {
 		    },
 		});
 		map.addControl(new realmsCtrl());
-		
-		//Characters Button
-		var charCtrl = L.Control.extend({
-		    options: {
-		        position: 'topright'
-		    },
-		    onAdd: function(map) {
-		        var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-user');
-		        L.DomEvent.disableClickPropagation(c);
-		        c.onclick = function() {
-			        jQuery("#characters").fadeIn();
-		        };
-		        return c;
-		    },
-		});
-		jQuery("<div class=\"closeOverlay\">Close Character Overlay</div>").click(function () {
-			jQuery("#characters").fadeOut();
-		}).appendTo("#characters");
-		map.addControl(new charCtrl());
 	})();
 	
 	

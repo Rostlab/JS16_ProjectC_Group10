@@ -39,5 +39,5 @@ jQuery(function() {
 		jQuery("<div class=\"closeOverlay\">Close Character Overlay</div>").click(function () {
 			jQuery("#characters").fadeOut();
 		}).appendTo("#characters");
-		map.addControl(new charCtrl());
+		lmap.addControl(new charCtrl());
 });
