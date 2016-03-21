@@ -690,7 +690,7 @@ gotmap = function(mapContainer, options) {
 					var firstPoint = firstPath.path[0];
 					markers.push({
 						'coords': firstPoint,
-						'style': firstPath.alive ? character.markerStyle : character.deadStyle,
+						'style': firstPath.alive===false ? character.deadStyle : character.markerStyle,
 						'character':character
 					});
 				}
