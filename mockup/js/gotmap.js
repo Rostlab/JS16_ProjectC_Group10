@@ -1,28 +1,33 @@
-/*.--.     Alex Max Tobi          ,-. .--. 
- : .--'   Project C - Map       .'  :: ,. :
- : : _ .--.  .--. .-..-..---.    `: :: :: :
- : :; :: ..'' .; :: :; :: .; `    : :: :; :
- `.__.':_;  `.__.'`.__.': ._.'    :_;`.__.'
-                        : :                
-                        :_;
+/*____     _____   __  __
+ / ___| __|_   _| |  \/  | __ _ _ __
+| |  _ / _ \| |   | |\/| |/ _` | '_ \
+| |_| | (_) | |   | |  | | (_| | |_) |
+ \____|\___/|_|   |_|  |_|\__,_| .__/
+ Maximilian Bandle @mbandle    |_|
+ Alexander Beischl @AlexBeischl
+ Tobias Piffrader  @tpiffrader
 */
-var gotmap = function(mapContainer, options) {
+gotmap = function(mapContainer, options) {
 	var defaultOptions = {
 		'filter':false,
-		'sidebar':false,
 		'timeline':false,
-		'defaultPersonImg':'img/persons/dummy.jpg',
-		'deadPersonImg':'img/persons/skull.png',
+		'characterBox':false,
+		'cityDetails':function(modal, city) {modal.find('.modal-body').text("Fill this modal by passing the cityDetails Callback Function"+JSON.stringify(city));},
+		'characterDetails':function(modal, character) {modal.find('.modal-body').text("Fill this modal by passing the characterDetails Callback Function"+JSON.stringify(character));},
+		'defaultPersonImg':'http://map.got.show/mockup/img/persons/dummy.jpg',
+		'deadPersonImg':'http://map.got.show/mockup/img/persons/skull.png',
+		'personImageBaseUrl':'https://got-api.bruck.me',
 		'cityDataSource':'https://got-api.bruck.me/api/cities',
 		'realmDataSource':'https://got-api.bruck.me/api/realms',
 		'pathDataSource':'https://got-api.bruck.me/api/paths',
 		'episodeDataSource':'https://got-api.bruck.me/api/episodes/',
 		'characterDataSource':'https://got-api.bruck.me/api/characters/',
-		'bgTiles':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/bg/{z}/y{y}x{x}.png',
-		'labelTiles':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/labels/{z}/y{y}x{x}.png',
-		'errorTile':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png',
+		'bgTiles':'http://tiles.got.show/bg/{z}/y{y}x{x}.png',
+		'labelTiles':'http://tiles.got.show/labels/{z}/y{y}x{x}.png',
+		'errorTile':'http://tiles.got.show/blank.png',
 		'characterColors':['#F44336', '#2196F3', '#4CAF50', '#212121', '#7C4DFF', '#F8BBD0', '#FBC02D', '#795548', 
-		'#00796B', '#536DFE', '#FFFFFF', '#FF5722']
+		'#00796B', '#536DFE', '#FFFFFF', '#FF5722'],
+		'episodesRange': [1,2]
 	};
 	
 	// Merge User and Default Options
@@ -43,12 +48,14 @@ var gotmap = function(mapContainer, options) {
 	var internalHelpers = {};
 	
 	// All the containers
-	mapContainer = document.getElementById(mapContainer);
-	timelineContainer = document.getElementById('timeline');
-	characterContainer = jQuery('#characters');
+	mapContainer = jQuery(mapContainer).addClass("gotmap");
+	var timelineContainer = options.timeline ? jQuery(options.timeline).addClass("gotmap-timeline") : jQuery('<div></div>');
+	var characterContainer = options.characterBox ? jQuery(options.characterBox).addClass("gotmap-character") : jQuery('<div></div>');
+	var filterContainer = options.filter ? jQuery(options.filter).addClass("gotmap-filter") : jQuery('<div></div>');
 	
 	// INIT Leaflet Map
-	var map, cityStore, cityLayer, realmStore, realmsLayer, realmsShown;
+	var map, cityStore, cityLayer, realmStore, realmsLayer, colorlessLayer, realmsShown, realmsColored;
+	
 	(function () {
 		// Define a costum zoom handler because HBO did sth weird when scaling
 		var hboZoom = L.extend({}, L.CRS.EPSG3857, {
@@ -80,7 +87,7 @@ var gotmap = function(mapContainer, options) {
 		};
 		
 		// Make the map and center it in the viewpoint
-		map = L.map(mapContainer, mapOptions).fitBounds(bounds);
+		map = L.map(mapContainer[0], mapOptions).fitBounds(bounds);
 		
 		// Limit the display
 		map.setMaxBounds(bounds);
@@ -109,16 +116,16 @@ var gotmap = function(mapContainer, options) {
 			function (data) {
 				var allCities = (typeof data == "object") ? data : JSON.parse(data);
 				allCities.map(function (place) {
-					place.coords = [parseFloat(place.coordY), parseFloat(place.coordX)]; // 
-					cityStore[place.name] = place;
-					var type = place.type || "other"; // Add Type to display correct label
-					var prio = "prio"+place.priority; // Add priority to hide / show cities
-					var extra = (place.priority == 6 || jQuery.inArray(place.name, ['Shadow Tower', 'Castle Black', 'Eastwatch by the Sea', 'Nightfort']) != -1) ? " wall-label" : ""; 
 					if(place.coordY && place.coordX) {
+						cityStore[place.name] = place;
+						var type = place.type || "other"; // Add Type to display correct label
+						var prio = "prio"+place.priority; // Add priority to hide / show cities
+						var extra = (place.priority == 6 || jQuery.inArray(place.name, ['Shadow Tower', 'Castle Black', 'Eastwatch by the Sea', 'Nightfort']) != -1) ? " wall-label" : ""; 
+						place.coords = L.latLng(parseFloat(place.coordY), parseFloat(place.coordX));
 						L.marker(place.coords, {
 							icon: L.divIcon({className: ['gotmarker', type, prio].join(' ')})
 						}).on('click', function () {
-							publicFunctions.showModal(place.link, place.name, place.type);
+							publicFunctions.showModal(options.cityDetails, place, place.type);
 						}).bindLabel(place.name, {
 							noHide: true, 
 							direction:'right',
@@ -130,31 +137,42 @@ var gotmap = function(mapContainer, options) {
 		
 		// Add a class to alter the labels
 		map.on('zoomanim', function(e) { 
-			var el = document.getElementById('map');
+			var el = mapContainer[0];
 			if (el.className[el.className.length - 2] != 'm') {
 				el.className += " zoom" + e.zoom;
 			} else {
 				el.className = el.className.slice(0, -1) + e.zoom;
 			}
 		});
-		mapContainer.className += " zoom" + map.getZoom();
+		mapContainer.addClass(" zoom" + map.getZoom());
 		
 		// Init Layer + List
 		realmsLayer = new L.LayerGroup();
+		colorlessLayer = new L.LayerGroup(); //TODO?
 		realmStore = {};
 		realmsShown = false;
-		
+		realmsColored = false;
+	
 		jQuery.get(options.realmDataSource, {},
 			function (data){
 				var allRealms = (typeof data == "object") ? data : JSON.parse(data);
 				allRealms.map(function (realm) {
+					//Initilizes the different realms
 					realm.poly = L.polygon(realm.path, {
-						color: 'red', 
-						opacity : 0.2
+						color: realm.color || 'red', 
+						opacity : 0.4
 					}).bindLabel(realm.name, {
 						className: 'gotmarker'
 					}).addTo(realmsLayer);
 					realmStore[realm.name] = realm;	
+					//Initilizes the political map, just showing boarders
+					L.polygon(realm.path, {
+						color:'red', 
+						opacity : 0.2,
+						fillOpacity: 0.0
+					}).bindLabel(realm.name, {
+						className: 'gotmarker'
+					}).addTo(colorlessLayer);
 				});
 		});
 		
@@ -185,7 +203,7 @@ var gotmap = function(mapContainer, options) {
 		
 		// Init List
 		episodeStore = [];
-		prevSelected = [1,2];
+		prevSelected = options.episodesRange;
 		
 		// Fetch the Data
 		jQuery.get(options.episodeDataSource, {},
@@ -230,8 +248,8 @@ var gotmap = function(mapContainer, options) {
 	var characterStore;
 	(function () {
 		// Init Elements
-		var f = jQuery('#filter input'); // Filter Element
-		var l = jQuery('<ul class="dropdown-menu"><li class="dropdown-header">Nothing found</li></ul>').insertAfter(f); // Dropdown
+		var f = filterContainer; // Filter Element
+		var l = jQuery('<ul class="dropdown-menu gotmap-dropdown"><li class="dropdown-header">Nothing found</li></ul>').insertAfter(f); // Dropdown
 		
 		// Init private helper Vars
 		var selectedInDropdown = 0; // Index of highlighted Dropdown element
@@ -242,30 +260,19 @@ var gotmap = function(mapContainer, options) {
 		// Init List
 		characterStore = {}; // Character Store
 		
-		var personList = { // TODO: Move it to DB later
-			'Eddard Stark':'img/persons/eddard_stark.jpg',
-			'Robb Stark':'img/persons/robb_stark.jpg',
-			'Sansa Stark':'img/persons/sansa_stark.jpg',
-			'Catelyn Stark':'img/persons/catelyn_stark.jpg',
-			'Arya Stark':'img/persons/arya_stark.png',
-			'Brandon Stark':'img/persons/bran_stark.jpg',
-			'Rickon Stark':'img/persons/rickon_stark.jpg',
-			'Jon Snow':'img/persons/jon_snow.jpg',
-			'Daenerys Targaryen':'img/persons/daenerys_targaryen.jpg',
-			'Tywin Lannister':'img/persons/tywin_lannister.png',
-			'Jaime Lannister':'img/persons/jaime_lannister.png',
-			'Cersei Lannister':'img/persons/cersei_lannister.jpeg',
-			'Tyrion Lannister':'img/persons/tyrion_lannister.png'
-		};
-		
-		var pathList = ['Eddard Stark', 'Catelyn Stark'];
+		var pathList = ['Eddard Stark', 'Catelyn Stark', 'Tywin Lannister', 'Robb Stark', 'Sansa Stark', 
+		'Bran Stark', 'Arya Stark', 'Rickon Stark', 'Jon Snow', 'Daenerys Targaryen', 'Jaime Lannister', 
+		'Cersei Lannister', 'Tyrion Lannister', 'Drogo', 'Viserys Targaryen', 'Joffrey Baratheon', 'Myrcella Baratheon', 'Tommen Baratheon', 'Robert Baratheon',
+		'Stannis Baratheon','Renly Baratheon','Theon Greyjoy', 'Asha Greyjoy','Victorian Greyjoy','Brienne of Tarth', 'Davos Seaworth', 'Samwell Tarly', 'Petyr Baelish'];
 		
 		jQuery.get(options.characterDataSource, {}, function(data) {
 			var allCharacters = (typeof data == "object") ? data : JSON.parse(data);
 			allCharacters.map(function (character) {
-				character.image = personList[character.name] || options.defaultPersonImg;
-				character.pathInfo = pathList.indexOf(character.name) != -1;
-				characterStore[character.name.toLowerCase()] = character;
+				if(character.name) {
+					character.imageLink = character.imageLink ? options.personImageBaseUrl+character.imageLink : options.defaultPersonImg;
+					character.pathInfo = pathList.indexOf(character.name) != -1;
+					characterStore[character.name.toLowerCase()] = character;
+				}
 			});
 		});
 		
@@ -327,25 +334,14 @@ var gotmap = function(mapContainer, options) {
 			} 
 			inputVal = s;
 			selectedInDropdown = 0;
-			var maxResults = 20;
-			var o1 = []; // Begins with
-			var o2 = []; // Contains
-			var p;
-			for(var cName in characterStore) {
-				var pos = cName.indexOf(s);
-				if(pos != -1) {
-					(pos === 0 ? o1 : o2).push(characterStore[cName]);
-					if((maxResults--) === 0) {
-						break;
-					}
-				}
-			}
-			var out = o1.concat(o2); // First beginning with e, then the rest
+			
+			var out = publicFunctions.searchCharacter(inputVal, 20);
+			
 			l.empty(); // Delete the HTML li Elements
 			if(out.length) {
 				out.map(function(character,i) {
 					var extra = character.pathInfo ? ' class="pathInfo"' : '';
-					var item = jQuery('<li'+extra+'><a href="#"><img src="'+character.image+'" class="img-circle"/>'+
+					var item = jQuery('<li'+extra+'><a href="#"><img src="'+character.imageLink+'" class="img-circle"/>'+
 						character.name+'</a></li>'
 					).click(function(e) {
 						publicFunctions.addCharacter(character);
@@ -364,10 +360,10 @@ var gotmap = function(mapContainer, options) {
 	})();
 	
 	// INIT Modal
-	var	gotModal = jQuery('<div class="modal fade gotmap-modal" tabindex="-1" role="dialog" aria-labelledby="dynModalLabel">'+
+	var	gotModal = jQuery('<div class="modal fade gotmap-modal" tabindex="-1" role="dialog">'+
 			'<div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header">'+
 			'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-			'<h3 class="modal-title" id="dynModalLabel"></h3></div><div class="modal-body"></div><div class="modal-footer">'+
+			'<h3 class="modal-title"></h3></div><div class="modal-body"></div><div class="modal-footer">'+
 			'<div class="pull-left classes"></div><a href="#" class="btn btn-warning wikilink" target="_blank">Show in Wiki</a>'+
 			'<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button></div></div></div></div>');
 	$('body').append(gotModal);
@@ -383,35 +379,10 @@ var gotmap = function(mapContainer, options) {
 	//                                                        //
 	//########################################################//
 	
-	internalHelpers.loadWikiPage = function() {
-		console.log("TODO");
-	};
-	
-	
-	//########################################################//
-	//                                                        //
-	//                    Public Functions                    //
-	//                                                        //
-	//########################################################//
-	
-	// Modal Functions
-	
-	publicFunctions.showModal = function (link, title, cssclass) {
-		gotModal.modal('show'); // Show the Modal
-    	var headerEl = gotModal.find('.modal-header'); // Header Container
+	internalHelpers.loadWikiPage = function(gotModal, obj) {
+		var title = obj.name; 
+		var link = "http://awoiaf.westeros.org/index.php/"+title;
 		var bodyEl = gotModal.find('.modal-body'); // Body Container
-		
-		if (title) { // If there is a title
-			headerEl.show(); // Show the Top Bar
-			$('#dynModalLabel').text(title); // Set the Title
-			headerEl[0].className = "modal-header"; // Reset Classnames
-			if(cssclass) { // Append classes when existing
-				headerEl.addClass(cssclass);
-			}
-		} else {
-			headerEl.hide(); // Hide it
-		}
-		
 		// Show Spinner
 		bodyEl.html("<span class='glyphicon glyphicon-cog glyph-spin glyph-big'></span>").addClass('text-center'); 
 		
@@ -444,6 +415,40 @@ var gotmap = function(mapContainer, options) {
 		});
 	};
 	
+	
+	//########################################################//
+	//                                                        //
+	//                    Public Functions                    //
+	//                                                        //
+	//########################################################//
+	
+	publicFunctions.getMap = function() {
+		return map;
+	};
+	
+	// Modal Functions
+	
+	publicFunctions.showModal = function (callback, obj, cssclass) {
+		if(typeof callback != "function") {
+			return;
+		}
+		gotModal.modal('show'); // Show the Modal
+		var title = obj.name; 
+    	var headerEl = gotModal.find('.modal-header'); // Header Container
+		if (title) { // If there is a title
+			headerEl.show(); // Show the Top Bar
+			gotModal.find('h3').text(title); // Set the Title
+			headerEl[0].className = "modal-header"; // Reset Classnames
+			if(cssclass) { // Append classes when existing
+				headerEl.addClass(cssclass);
+			}
+		} else {
+			headerEl.hide(); // Hide it
+		}
+		
+		callback(gotModal, obj);
+	};
+	
 	publicFunctions.hideModal = function() {
 		gotModal.modal('hide'); // Show the Modal
 	};
@@ -461,7 +466,7 @@ var gotmap = function(mapContainer, options) {
 			character.markerStyle = L.divIcon({
 				className: 'colormarker',
 				html:'<span class="glyphicon glyphicon-map-marker" style="color:'+character.color+';">'+
-				'<img src="'+character.image+'" /></span>'
+				'<img src="'+character.imageLink+'" /></span>'
 			});
 			character.deadStyle = L.divIcon({
 				className: 'colormarker',
@@ -472,30 +477,32 @@ var gotmap = function(mapContainer, options) {
 			if(character.pathInfo) {
 				// TODO: Use the DB
 				character.path = paths[id];
-				publicFunctions.updateMap();
+				console.log(character.path);
+				character.bounds = false;
 			} else {
 				character.points = [];
 				// TODO: Use the DB
-				jQuery.ajax({url:"http://awoiaf.westeros.org/index.php/"+character.name}).success(function(data) {
-					var re = /index\.php\/([^"?]+)/g; // Find Link
+				jQuery.ajax({url:"https://awoiaf.westeros.org/index.php?action=raw&title="+character.name}).success(function(data) {
+					var re = /\[\[([^\]]+)\]\]/g; // Find Link
 					var m;
 					
 					while ((m = re.exec(data)) !== null) {
 						if (m.index === re.lastIndex) {
 							re.lastIndex++;
 						}
-						
 						var place = cityStore[m[1].replace('_', ' ')];
 						if(place) {
 							character.points.push(place.coords);
 						}
 					}
+					character.bounds = L.latLngBounds(character.points);
 					publicFunctions.updateMap();
+					publicFunctions.focusOnCharacter(id);
 				}); 
 			}
 			
 			// Make new element
-			var characterElement = jQuery('<div class="character"><img src="'+character.image+'"'+
+			var characterElement = jQuery('<div class="character"><img src="'+character.imageLink+'"'+
 				'class="img-circle" style="border-color:'+character.color+'"/></div>');
 			var charInfo = jQuery('<div class="characterinfo"></div>');
 			charInfo.append('<div class="name">'+character.name+'</div>');
@@ -520,7 +527,7 @@ var gotmap = function(mapContainer, options) {
 			});
 			
 			moreInfo.click(function () {
-				publicFunctions.showModal("http://awoiaf.westeros.org/index.php/"+character.name, character.name, "person "+(character.house ? character.house.toLowerCase() : ''));
+				publicFunctions.showModal(options.characterDetails, character, "person "+(character.house ? character.house.toLowerCase() : ''));
 				return false; // Prevent Default + Bubbling
 			});
 			
@@ -531,6 +538,8 @@ var gotmap = function(mapContainer, options) {
 			loadedCharacters[id] = character; // Save It
 			
 			publicFunctions.updateMap();
+			publicFunctions.focusOnCharacter(id);
+			
 			return id;
 		}
 	};
@@ -576,9 +585,49 @@ var gotmap = function(mapContainer, options) {
 		}
 	};
 	
+	publicFunctions.hideAllCharacters = function () {
+		for(var id in loadedCharacters) { // Iterate through all
+			publicFunctions.hideCharacter(id);
+		}
+	};
+	
+	publicFunctions.showAllCharacters = function () {
+		for(var id in loadedCharacters) { // Iterate through all
+			publicFunctions.showCharacter(id);
+		}
+	};
+	
 	publicFunctions.removeAllCharacters = function () {
 		for(var id in loadedCharacters) { // Iterate through all
 			publicFunctions.removeCharacter(id);
+		}
+	};
+	
+	publicFunctions.searchCharacter = function (search, maxResults) {
+		var o1 = []; // Begins with
+		var o2 = []; // Contains
+		var p;
+		for(var cName in characterStore) {
+			var pos = cName.indexOf(search);
+			if(pos != -1) {
+				(pos === 0 ? o1 : o2).push(characterStore[cName]);
+				if((maxResults--) === 0) {
+					break;
+				}
+			}
+		}
+		return o1.concat(o2); // First beginning with search, then the rest
+	};
+	
+	publicFunctions.focusOnCharacter = function (id) {
+		if(loadedCharacters[id]) {
+			var bounds = loadedCharacters[id].bounds;
+			if(typeof bounds == "object" && bounds.isValid()) {
+				map.fitBounds(bounds);
+				return true;
+			} else {
+				return false;
+			}
 		}
 	};
 	
@@ -601,7 +650,8 @@ var gotmap = function(mapContainer, options) {
 			if(!path.to) {
 				return selected[1] >= path.from;
 			}
-			return selected[0] <= path.from && selected[1] >= path.to;
+			// As long as the ranges colide, it will show
+			return selected[0] <= path.from && selected[1] >= path.to || path.from <= selected[0] && path.to >= selected[1] || path.from >= selected[0] && path.from <= selected[1] || path.to >= selected[0] && path.to <= selected[1];
 		};
 		
 		var combineCoords = function (paths) {
@@ -620,6 +670,28 @@ var gotmap = function(mapContainer, options) {
 			});
 		};
 		
+		var nicePopup = function(characters) {
+			characters.sort(function (c1, c2) {
+				return (c1.name == c2.name) ? 0 : ( (c1.name > c2.name) ? 1 : -1 );
+			});
+			var html = "<div class=\"popupCharacterList\">";
+			var lastCharacter = false;
+			characters.filter(function (character) {
+				if(lastCharacter && lastCharacter == character) {
+					return false;
+				} else {
+					lastCharacter = character;
+					return true;
+				}
+			}).map(function(character) {
+				html += "<div class=\"character\">";
+				html += "<img src=\""+character.imageLink+"\" class=\"img-circle\" style=\"border-color:"+character.color+"\"/>";
+				html += "<span class=\"name\">"+character.name+"</span>";
+				html += "</div>";
+			});
+			return html + "</div>";
+		};
+		
 		for(var id in loadedCharacters) { // Loop through every character
 			var character = loadedCharacters[id];
 			if(!character.shown) {
@@ -627,9 +699,12 @@ var gotmap = function(mapContainer, options) {
 			}
 			if(character.pathInfo) {
 				var paths = character.path.filter(pathShown);
+				var polyline = combineCoords(paths);
+				character.bounds = L.latLngBounds(polyline);
 				polylines.push({
-					path: combineCoords(paths),
-					color: character.color
+					path: polyline,
+					color: character.color,
+					character: character
 				});
 				var len = paths.length;
 				if(len !== 0) {
@@ -637,11 +712,11 @@ var gotmap = function(mapContainer, options) {
 					var firstPoint = firstPath.path[0];
 					markers.push({
 						'coords': firstPoint,
-						'style': firstPath.alive ? character.markerStyle : character.deadStyle,
+						'style': firstPath.alive===false ? character.deadStyle : character.markerStyle,
 						'character':character
 					});
 				}
-				if(len != 1) {
+				if(len > 1) {
 					var lastPath  = paths[len-1];
 					var lastPoint = lastPath.path[lastPath.path.length-1];	
 					markers.push({
@@ -654,8 +729,35 @@ var gotmap = function(mapContainer, options) {
 				character.points.map(generateMarker);
 			}
 		}
+		markers.sort(function (marker1, marker2) {
+			var c1 = marker1.coords;
+			var c2 = marker2.coords;
+			var dif = c1[0] - c2[0];
+			if(dif === 0) {
+				return c1[1] - c2[1];
+			} else {
+				return dif;
+			}
+		});
+		var lastMarker = false;
+		markers = markers.filter(function (marker) {
+			var lastCoords = lastMarker.coords;
+			if(lastMarker && marker.coords[0] == lastCoords[0] && marker.coords[1] == lastCoords[1]) {
+				if(!("multi" in lastMarker)) {
+					lastMarker.multi = [lastMarker.character];
+				}
+				lastMarker.multi.push(marker.character);
+				return false;
+			}
+			lastMarker = marker;
+			return true;
+		});
 		markers.map(function(marker) {
-			L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer);
+			if(!("multi" in marker)) {
+				L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer);
+			} else {
+				L.marker(marker.coords).addTo(characterLayer).bindPopup(nicePopup(marker.multi));
+			}
 		});
 		polylines.map(function(polyline) {
 			L.polyline(polyline.path, {color:polyline.color}).addTo(characterLayer);
@@ -668,16 +770,22 @@ var gotmap = function(mapContainer, options) {
 	 * showRealms
 	 * 
 	 * Shows the realm layer
+	 * Switches betwenn the political map and the maps with the different colors
 	 * @TODO Options
 	 *
 	 * @return realmsShown
 	 */
 	publicFunctions.showRealms = function() {
-		if(!realmsShown) {
+		if(!realmsColored) {
+			map.addLayer(colorlessLayer);
+			realmsColored = true;
+		} else {
+			map.removeLayer(colorlessLayer);
 			map.addLayer(realmsLayer);
 			realmsShown = true;
-			return realmsShown;
+			realmsColored = false;
 		}
+		return realmsShown;
 	};
 	
 	/*
@@ -693,9 +801,9 @@ var gotmap = function(mapContainer, options) {
 			realmsShown = false;
 			return realmsShown;
 		}
-	};
-	
-	/*
+	};		
+				
+	/*	
 	 * toggleRealms
 	 * 
 	 * Invokes show/hide realm depending on realmsShown
@@ -721,10 +829,3 @@ var gotmap = function(mapContainer, options) {
 	
 	return publicFunctions;
 };
-
-jQuery(function() {
-	mymap = gotmap('map', {
-		'cityDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js',
-		'realmDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/realms.js'
-	});
-});

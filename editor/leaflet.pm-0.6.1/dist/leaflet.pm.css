@@ -16,6 +16,7 @@
 
 .leaflet-buttons-control-button img {
   width: 100%;
+  margin-top: -8px;
 }
 
 .leaflet-buttons-control-button:hover {

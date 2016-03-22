@@ -60,6 +60,16 @@ jQuery(function() {
 		});
 	});
 	
+	function addMarker(city, i) {
+		cityMarkers[i] = new L.marker([city.coordY, city.coordX], {
+            	draggable: 'true'
+        }).bindPopup(function() {
+	        return makePopup(city, i);
+        }).on('click', function() {
+	        gotDB.setCurrent(i);
+        }).addTo(markers);
+	}
+	
 	$('#sidebar').append('<ul></ul>');
 	ul = $('#sidebar ul');
 	jQuery.get("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js", {},  // Static Link
@@ -76,16 +86,6 @@ jQuery(function() {
 		ul.append(li);
 			});
 	});
-	
-	function addMarker(city, i) {
-		cityMarkers[i] = new L.marker([city.coordY, city.coordX], {
-            	draggable: 'true'
-        }).bindPopup(function() {
-	        return makePopup(city, i);
-        }).on('click', function() {
-	        gotDB.setCurrent(i);
-        }).addTo(markers);
-	}
 	
 	function makePopup(city, i) {
 		var c = $('<div><h4>'+city.name+'</h4></div>');

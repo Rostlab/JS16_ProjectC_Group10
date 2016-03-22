@@ -1,4 +1,4 @@
-/**
+ /**
 *
 * A Leaflet Plugin For Editing Geometry Layers in Leaflet 1.0
 * by Sumit Kumar (@TweetsOfSumit)
@@ -6,7 +6,7 @@
 */
 
 var globalPolyline;
-var functionTrick;
+
 
 L.PM = L.PM || {
     initialize: function() {
@@ -192,7 +192,7 @@ L.PM.Draw.Poly = L.PM.Draw.extend({
     initialize: function(map) {
         this._map = map;
         this._shape = 'Poly';
-        functionTrick = this._finishPolygon;
+        
     },
     enable: function(options) {
         // enable draw mode
@@ -375,14 +375,13 @@ L.PM.Edit.Poly = L.Class.extend({
 
         if(!this.enabled()) {
             this._enabled = true;
-
             if(!this._markerGroup) {
                 this._markerGroup = new L.LayerGroup();
 
                 // init dragable markers
                 this._initMarkers();
             }
-
+			globalPolyline = this._poly._latlngs[0];
             this._poly._map.addLayer(this._markerGroup);
 
             this._poly.on('remove', function() {
@@ -547,6 +546,9 @@ L.PM.Edit.Poly = L.Class.extend({
     },
 
     _onMarkerDrag: function(e) {
+
+		
+			globalPolyline = this._poly._latlngs[0];
 
         // dragged marker
         var marker = e.target;

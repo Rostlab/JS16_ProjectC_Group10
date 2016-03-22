@@ -1,0 +1,136 @@
+/*____     _____   __  __             
+ / ___| __|_   _| |  \/  | __ _ _ __  
+| |  _ / _ \| |   | |\/| |/ _` | '_ \ 
+| |_| | (_) | |   | |  | | (_| | |_) |
+ \____|\___/|_|   |_|  |_|\__,_| .__/ 
+ Maximilian Bandle @mbandle    |_|    
+ Alexander Beischl @AlexBeischl
+ Tobias Piffrader  @tpiffrader
+ 
+ These styles are needed to make the demo look aweseome :)
+*/
+/* @group Demo */
+#map {
+	background: #001;
+	position: fixed;
+	left:0;
+	right: 250px;
+	top:0;
+	bottom: 40px;
+}
+
+#sidebar {
+	background: #CFD8DC;
+	padding: 0.5em;
+	position: fixed;
+	width: 250px;
+	right: 0;
+	top:0;
+	bottom: 0;
+}
+
+#sidebar hr{
+	margin: 0.5em 0;
+	border: 2px solid #B6B6B6;
+}
+
+#characters {
+	position: absolute;
+	width: 250px;
+	margin-top:3.5em;
+	top: 0;
+	bottom: 0;
+	overflow: scroll;
+}
+
+#filter .input-group {
+	width: 100%;
+}
+
+#timeline {
+	position:fixed;
+	left:0;
+	right:250px;
+	bottom:0;
+	height:40px;
+	background:#030912;
+	color:#fff;
+	padding: 5px 15px 0;
+}
+
+#characters .closeOverlay, #map .glyphicon-user {
+	display:none;
+}
+
+/* @end */
+
+/* @group Responsive */
+@media (max-width: 550px) {
+#map {
+	background: #001;
+	position: fixed;
+	left:0;
+	right: 0;
+	top:40px;
+	bottom: 40px;
+}
+
+#map .glyphicon-user {
+	display:block;
+}
+
+#sidebar {
+	position: static;
+	width: auto;
+	height : auto;
+}
+
+#sidebar hr{
+	display: none;
+}
+
+#characters {
+	position: fixed;
+	right: 0;
+	top:40px;
+	bottom: 0;
+	left:0;
+	width: auto;
+	background: #CFD8DC;
+	padding: 0.5em;
+	z-index: 10;
+	margin:0;
+	overflow: scroll;
+	display: none;
+}
+
+#characters .closeOverlay {
+	display:block;
+	position: absolute;
+	background: darkred;
+	text-align:center;
+	color: #FFF;
+	bottom: 0;
+	height: 30px;
+	left:0;
+	right:0;
+}
+
+#filter {
+	position: fixed;
+	background: #CFD8DC;
+	top:0;
+	right:0;
+	left:0;
+	height:40px;
+	z-index:20;
+}
+#filter .input-group {
+	width: 100%;
+}
+
+#timeline {
+	right:0;
+}
+}
+/* @end */

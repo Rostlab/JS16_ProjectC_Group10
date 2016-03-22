@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GoT Map</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="mockup/lib/leaflet.css" />
+	
+	<!-- GoT Map CSS -->
+	<link rel="stylesheet" href="mockup/css/gotmap.css" />
+
+	<!-- config -->
+	<script type="text/javascript" src="mockup/js/config.js"></script>
+	
+	<!-- jQuery -->
+    <script src="http://code.jquery.com/jquery-2.2.2.min.js"></script>
+    <script src="mockup/lib/jquery-ui.min.js"></script>
+    <!-- Bootstrap (depends on jQuery) -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<!-- Leaflet -->
+	<script src="mockup/lib/leaflet.js"></script>
+	<script src="mockup/lib/label.js"></script>
+	<script src="mockup/lib/leaflet.label/BaseMarkerMethods.js"></script>
+	<script src="mockup/lib/leaflet.label/Marker.Label.js"></script>
+	<script src="mockup/lib/leaflet.label/Path.Label.js"></script>
+	<script src="mockup/lib/leaflet.label/Map.Label.js"></script>
+	<script src="mockup/lib/leaflet.label/FeatureGroup.Label.js"></script>
+
+	<!-- GoT Map JS -->
+	<script src="data/paths.js"></script>
+	<script src="mockup/js/gotmap.js"></script>
+	
+	<!-- Get the Demo Running -->
+	<link rel="stylesheet" href="mockup/css/demo.css" />
+	<script src="mockup/js/demo.js"></script>
+	
+</head>
+<body>
+	<div id="map">
+		<!-- Filled in gotmap.js -->
+	</div>
+	<div id="sidebar">
+		<form id="filter">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Search for...">
+				<i class="glyphicon glyphicon-search form-control-feedback"></i>
+			</div>
+		</form>
+		<!-- /input-group -->
+		<hr />
+		<div id="characters"><!-- Filled by gotmap.js --></div>
+	</div>
+	
+	<div id="timeline"><!-- Filled by gotmap.js --></div>
+</body>
+</html>
+
