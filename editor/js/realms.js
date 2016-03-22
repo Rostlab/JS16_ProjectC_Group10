@@ -12,6 +12,10 @@ jQuery(function() {
 		
 	map.pm.addControls();
 	
+	var imageUrl = './Essos-Realms-HD%20copy.jpg',
+    imageBounds = new L.LatLngBounds(L.latLng(90,-155), L.latLng(-43.85, 171.34));
+    
+    L.imageOverlay(imageUrl, imageBounds, {opacity: 0.5}).addTo(map);
 	
     // Save to JSON Button
     var jsonCtrl = L.Control.extend({
