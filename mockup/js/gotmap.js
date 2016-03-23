@@ -12,8 +12,8 @@ gotmap = function(mapContainer, options) {
 		'filter':false,
 		'timeline':false,
 		'characterBox':false,
-		'cityDetails':function(modal, city) {modal.find('.modal-body').text("Fill this modal by passing the cityDetails Callback Function");},
-		'characterDetails':function(modal, character) {modal.find('.modal-body').text("Fill this modal by passing the characterDetails Callback Function");},
+		'cityDetails':function(modal, city) {modal.find('.modal-body').text("Fill this modal by passing the cityDetails Callback Function"+JSON.stringify(city));},
+		'characterDetails':function(modal, character) {modal.find('.modal-body').text("Fill this modal by passing the characterDetails Callback Function"+JSON.stringify(character));},
 		'defaultPersonImg':'http://map.got.show/mockup/img/persons/dummy.jpg',
 		'deadPersonImg':'http://map.got.show/mockup/img/persons/skull.png',
 		'personImageBaseUrl':'https://got-api.bruck.me',
@@ -651,7 +651,7 @@ gotmap = function(mapContainer, options) {
 				return selected[1] >= path.from;
 			}
 			// As long as the ranges colide, it will show
-			return selected[0] <= path.from && selected[1] >= path.to || path.from <= selected[0] && path.to >= selected[1] || path.from >= selected[0] && path.from <= selected[1] || path.to >= selected[0] && path.to <= selected[1];
+			return selected[0] <= path.from && selected[1] >= path.to || path.from <= selected[0] && path.to > selected[1] || path.from >= selected[0] && path.from <= selected[1] || path.to > selected[0] && path.to < selected[1];
 		};
 		
 		var combineCoords = function (paths) {

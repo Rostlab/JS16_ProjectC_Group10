@@ -12,12 +12,12 @@ var fs = require('fs');
 
 fs.readdir('.', function(err, dir) {
     dir.map(function(file) {
-        if (file.substr(-4) == ".png") {
+        if (file.substr(-4) === ".png") {
             console.log(file);
             lwip.open(file, function(err, image) {
                 if (err) throw err;
 
-                if (image.width() != 256 || image.height() != 256) {
+                if (image.width() !== 256 || image.height() !== 256) {
 
                     image.pad(0, 0, (256 - image.width()), (256 - image.height()), {
                         r: 0,

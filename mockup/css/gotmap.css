@@ -68,27 +68,27 @@
 	margin-top: -10px !important;
 }
 
-.gotmap .leaflet-marker-icon.gotmarker.city {
+.gotmap .leaflet-marker-icon.gotmarker.city, .gotmap-modal .city .modal-title {
 	background: transparent url("../img/labels/city.png") no-repeat;
 	background-size: 16px;
 }
 
-.gotmap .leaflet-marker-icon.gotmarker.town {
+.gotmap .leaflet-marker-icon.gotmarker.town, .gotmap-modal .town .modal-title {
 	background: transparent url("../img/labels/town.png") no-repeat;
 	background-size: 16px;
 }
 
-.gotmap .leaflet-marker-icon.gotmarker.castle {
+.gotmap .leaflet-marker-icon.gotmarker.castle, .gotmap-modal .castle .modal-title {
 	background: transparent url("../img/labels/castle.png") no-repeat;
 	background-size: 16px;
 }
 
-.gotmap .leaflet-marker-icon.gotmarker.ruin {
+.gotmap .leaflet-marker-icon.gotmarker.ruin, .gotmap-modal .ruin .modal-title {
 	background: transparent url("../img/labels/ruin.png") no-repeat;
 	background-size: 16px;
 }
 
-.gotmap .leaflet-marker-icon.gotmarker.other {
+.gotmap .leaflet-marker-icon.gotmarker.other, .gotmap-modal .other .modal-title {
 	background: transparent url("../img/labels/other.png") no-repeat;
 	background-size: 16px;
 }
@@ -257,7 +257,7 @@ ul.gotmap-dropdown .pathInfo {
 	border-left: 5px solid green;
 }
 
-ul.gotmap-dropdown li.hover, ul.gotmap-dropdown li:hover {
+ul.gotmap-dropdown .hover, ul.gotmap-dropdown li:hover {
 	color: #262626;
 	text-decoration: none;
 	background-color: #d5d5d5;
@@ -339,6 +339,7 @@ ul.gotmap-dropdown li.hover, ul.gotmap-dropdown li:hover {
 
 .gotmap-modal .glyph-spin {
     -webkit-animation: gotmap-spin 3000ms infinite linear;
+    -moz-animation: gotmap-spin 3000ms infinite linear;
     animation: gotmap-spin 3000ms infinite linear;
 }
 
@@ -367,31 +368,26 @@ ul.gotmap-dropdown li.hover, ul.gotmap-dropdown li:hover {
 
 /* @group Header */
 .gotmap-modal .city .modal-title {
-	background: transparent url("../img/labels/city.png") no-repeat;
 	background-size: 32px;
 	padding-left: 40px;
 }
 
 .gotmap-modal .town .modal-title {
-	background: transparent url("../img/labels/town.png") no-repeat;
 	background-size: 32px;
 	padding-left: 40px;
 }
 
 .gotmap-modal .castle .modal-title {
-	background: transparent url("../img/labels/castle.png") no-repeat;
 	background-size: 32px;
 	padding-left: 40px;
 }
 
 .gotmap-modal .ruin .modal-title {
-	background: transparent url("../img/labels/ruin.png") no-repeat;
 	background-size: 32px;
 	padding-left: 40px;
 }
 
 .gotmap-modal .other .modal-title {
-	background: transparent url("../img/labels/other.png") no-repeat;
 	background-size: 32px;
 	padding-left: 40px;
 }
@@ -434,7 +430,7 @@ ul.gotmap-dropdown li.hover, ul.gotmap-dropdown li:hover {
 /* @end */
 
 /* @group dynModal wiki */
-.gotmap-modal #contentSub, .gotmap-modal #siteSub, .gotmap-modal #jump-to-nav, .gotmap-modal #mw-data-after-content, .gotmap-modal .printfooter, .gotmap-modal .navbox, .gotmap-modal .references, .gotmap-modal .references-small, .gotmap-modal .catlinks, .gotmap-modal sup.reference {
+.gotmap-modal #contentSub, .gotmap-modal #siteSub, .gotmap-modal #jump-to-nav, .gotmap-modal #mw-data-after-content, .gotmap-modal .printfooter, .gotmap-modal .navbox, .gotmap-modal .references, .gotmap-modal .references-small, .gotmap-modal .catlinks, .gotmap-modal .reference {
 	display: none;
 }
 
@@ -532,19 +528,19 @@ ul.gotmap-dropdown li.hover, ul.gotmap-dropdown li:hover {
 /* @end */
 
 /* @group Floats */
-.gotmap-modal div.tright {
+.gotmap-modal .tright {
     margin: .5em 0 1.5em 1.5em;
     clear: right;
     float: right;
 }
 
-.gotmap-modal div.tleft {
+.gotmap-modal .tleft {
     margin: .5em 1.5em 1.5em 0;
     float: left;
     clear: left;
 }
     
-.gotmap-modal div.thumb {
+.gotmap-modal .thumb {
     margin-bottom: .5em;
     width: auto;
 }

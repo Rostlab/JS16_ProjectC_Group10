@@ -12,6 +12,10 @@ jQuery(function() {
 		
 	map.pm.addControls();
 	
+	var imageUrl = './Essos-Realms-HD%20copy.jpg',
+    imageBounds = new L.LatLngBounds(L.latLng(90,-155), L.latLng(-43.85, 171.34));
+    
+    L.imageOverlay(imageUrl, imageBounds, {opacity: 0.5}).addTo(map);
 	
     // Save to JSON Button
     var jsonCtrl = L.Control.extend({
@@ -22,7 +26,12 @@ jQuery(function() {
             var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-share');
             L.DomEvent.disableClickPropagation(c);
             c.onclick = function() {
-	            var latLngDirty = globalPolyline.getLatLngs();
+	            var latLngDirty;
+	            if("length" in globalPolyline) {
+	            	latLngDirty = globalPolyline;
+				} else {
+					latLngDirty = globalPolyline.getLatLngs();
+				}
 	            var latLngWanted = latLngDirty.map(function(curr)
 	            	{
 		            	return [curr.lat, curr.lng];
@@ -35,12 +44,13 @@ jQuery(function() {
     });
     map.addControl(new jsonCtrl());
     
-    /*$("#Load").click(function(){
+    $("#Load").click(function(){
 	    var coord = JSON.parse($('#jsonArea').val());
-	    globalPolyline.setLatLngs(coord).
-	    L.PM.Draw.Poly. _syncHintLine();    
+	    var polygonLayer = L.polygon(coord).addTo(map);
+		polygonLayer.pm.toggleEdit();
+	    //p = new L.PM.Draw["Poly"](map);
+	    //globalPolyline.setLatLngs(coord);
     });
-    */
 });
 
 
