@@ -264,6 +264,7 @@ gotmap = function(mapContainer, options) {
 		// Init List
 		characterStore = {}; // Character Store
 		
+		// Delete when DB ready
 		var pathList = ['Eddard Stark', 'Catelyn Stark', 'Tywin Lannister', 'Robb Stark', 'Sansa Stark', 
 		'Bran Stark', 'Arya Stark', 'Rickon Stark', 'Jon Snow', 'Daenerys Targaryen', 'Jaime Lannister', 
 		'Cersei Lannister', 'Tyrion Lannister', 'Drogo', 'Viserys Targaryen', 'Joffrey Baratheon', 'Myrcella Baratheon', 'Tommen Baratheon', 'Robert Baratheon',
@@ -274,7 +275,7 @@ gotmap = function(mapContainer, options) {
 			allCharacters.map(function (character) {
 				if(character.name) {
 					character.imageLink = character.imageLink ? options.personImageBaseUrl+character.imageLink : options.defaultPersonImg;
-					character.pathInfo = pathList.indexOf(character.name) != -1;
+					character.hasPath = pathList.indexOf(character.name) != -1; // Delete when DB ready
 					characterStore[character.name.toLowerCase()] = character;
 				}
 			});
@@ -344,7 +345,7 @@ gotmap = function(mapContainer, options) {
 			l.empty(); // Delete the HTML li Elements
 			if(out.length) {
 				out.map(function(character,i) {
-					var extra = character.pathInfo ? ' class="pathInfo"' : '';
+					var extra = character.hasPath ? ' class="pathInfo"' : '';
 					var item = jQuery('<li'+extra+'><a href="#"><img src="'+character.imageLink+'" class="img-circle"/>'+
 						character.name+'</a></li>'
 					).click(function(e) {
@@ -478,11 +479,19 @@ gotmap = function(mapContainer, options) {
 				'<img src="'+options.deadPersonImg+'" /></span>'
 			});
 			// Load Additional Information
-			if(character.pathInfo) {
-				// TODO: Use the DB
-				character.path = paths[id];
-				console.log(character.path);
+			if(character.hasPath) {
+				/*character.path = []; // Uncomment when DB is ready
+				jQuery.get(options.pathDataSource+"getByName/"+character.name, {}, function (data) {
+					character.path = (typeof data == "object") ? data : JSON.parse(data);
 				character.bounds = false;
+					publicFunctions.updateMap(); 
+					publicFunctions.focusOnCharacter(id);
+				});*/
+				// Delete when DB is ready
+				character.path = paths[id];
+				character.bounds = false;
+				publicFunctions.updateMap(); 
+				publicFunctions.focusOnCharacter(id);
 			} else {
 				character.points = [];
 				// Fetch the Data
@@ -534,9 +543,6 @@ gotmap = function(mapContainer, options) {
 			character.el = characterElement; // Save it to be able to delete it later
 			
 			loadedCharacters[id] = character; // Save It
-			
-			publicFunctions.updateMap();
-			publicFunctions.focusOnCharacter(id);
 			
 			return id;
 		}
@@ -704,7 +710,7 @@ gotmap = function(mapContainer, options) {
 			if(!character.shown) {
 				continue;
 			}
-			if(character.pathInfo) {
+			if(character.hasPath) {
 				var paths = character.path.filter(pathShown);
 				var polyline = combineCoords(paths);
 				character.bounds = L.latLngBounds(polyline);
