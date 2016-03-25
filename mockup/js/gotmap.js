@@ -679,14 +679,18 @@ gotmap = function(mapContainer, options) {
 			});
 			var html = "<div class=\"popupCharacterList\">";
 			var lastCharacter = false;
-			characters.filter(function (character) {
+			var clist = characters.filter(function (character) {
 				if(lastCharacter && lastCharacter == character) {
 					return false;
 				} else {
 					lastCharacter = character;
 					return true;
 				}
-			}).map(function(character) {
+			});
+			if(clist.length <= 1) { // Only one character
+				return false;
+			}
+			clist.map(function(character) {
 				html += "<div class=\"character\">";
 				html += "<img src=\""+character.imageLink+"\" class=\"img-circle\" style=\"border-color:"+character.color+"\"/>";
 				html += "<span class=\"name\">"+character.name+"</span>";
@@ -755,11 +759,12 @@ gotmap = function(mapContainer, options) {
 			lastMarker = marker;
 			return true;
 		});
+		var popUpString;
 		markers.map(function(marker) {
-			if(!("multi" in marker)) {
-				L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer);
+			if("multi" in marker && (popUpString = nicePopup(marker.multi)) !== false) {
+				L.marker(marker.coords).addTo(characterLayer).bindPopup(popUpString);
 			} else {
-				L.marker(marker.coords).addTo(characterLayer).bindPopup(nicePopup(marker.multi));
+				L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer);
 			}
 		});
 		polylines.map(function(polyline) {
