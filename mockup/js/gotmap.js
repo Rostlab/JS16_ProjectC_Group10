@@ -18,10 +18,11 @@ gotmap = function(mapContainer, options) {
 		'deadPersonImg':'http://map.got.show/mockup/img/persons/skull.png',
 		'personImageBaseUrl':'https://got-api.bruck.me',
 		'cityDataSource':'https://got-api.bruck.me/api/cities',
-		'realmDataSource':'https://got-api.bruck.me/api/realms',
+		'realmDataSource':'https://got-api.bruck.me/api/regions',
 		'pathDataSource':'https://got-api.bruck.me/api/paths',
 		'episodeDataSource':'https://got-api.bruck.me/api/episodes/',
 		'characterDataSource':'https://got-api.bruck.me/api/characters/',
+		'pinDataSource':'https://got-api.bruck.me/api/characters/locations/',
 		'bgTiles':'http://tiles.got.show/bg/{z}/y{y}x{x}.png',
 		'labelTiles':'http://tiles.got.show/labels/{z}/y{y}x{x}.png',
 		'errorTile':'http://tiles.got.show/blank.png',
@@ -157,8 +158,11 @@ gotmap = function(mapContainer, options) {
 			function (data){
 				var allRealms = (typeof data == "object") ? data : JSON.parse(data);
 				allRealms.map(function (realm) {
+					if(!realm.borders) { // Skip missing borders
+						return;
+					}
 					//Initilizes the different realms
-					realm.poly = L.polygon(realm.path, {
+					realm.poly = L.polygon(realm.borders, {
 						color: realm.color || 'red', 
 						opacity : 0.4
 					}).bindLabel(realm.name, {
@@ -166,7 +170,7 @@ gotmap = function(mapContainer, options) {
 					}).addTo(realmsLayer);
 					realmStore[realm.name] = realm;	
 					//Initilizes the political map, just showing boarders
-					L.polygon(realm.path, {
+					L.polygon(realm.borders, {
 						color:'red', 
 						opacity : 0.2,
 						fillOpacity: 0.0
@@ -335,7 +339,7 @@ gotmap = function(mapContainer, options) {
 			inputVal = s;
 			selectedInDropdown = 0;
 			
-			var out = publicFunctions.searchCharacter(inputVal, 20);
+			var out = publicFunctions.searchCharacter(inputVal, 40);
 			
 			l.empty(); // Delete the HTML li Elements
 			if(out.length) {
@@ -481,24 +485,18 @@ gotmap = function(mapContainer, options) {
 				character.bounds = false;
 			} else {
 				character.points = [];
-				// TODO: Use the DB
-				jQuery.ajax({url:"https://awoiaf.westeros.org/index.php?action=raw&title="+character.name}).success(function(data) {
-					var re = /\[\[([^\]]+)\]\]/g; // Find Link
-					var m;
-					
-					while ((m = re.exec(data)) !== null) {
-						if (m.index === re.lastIndex) {
-							re.lastIndex++;
+				// Fetch the Data
+				jQuery.get(options.pinDataSource+"getByName/"+character.name, {}, function (data) {
+					var allCities = (typeof data == "object") ? data : JSON.parse(data);
+					allCities.map(function (place) { // Add points to character
+						if(place.coordY && place.coordX) {
+							character.points.push(L.latLng(parseFloat(place.coordY), parseFloat(place.coordX)));
 						}
-						var place = cityStore[m[1].replace('_', ' ')];
-						if(place) {
-							character.points.push(place.coords);
-						}
-					}
-					character.bounds = L.latLngBounds(character.points);
-					publicFunctions.updateMap();
+					});
+					character.bounds = L.latLngBounds(character.points); // Calc bounds for view
+					publicFunctions.updateMap(); 
 					publicFunctions.focusOnCharacter(id);
-				}); 
+				});
 			}
 			
 			// Make new element
@@ -604,19 +602,24 @@ gotmap = function(mapContainer, options) {
 	};
 	
 	publicFunctions.searchCharacter = function (search, maxResults) {
+		var o0 = []; // Exact match
 		var o1 = []; // Begins with
 		var o2 = []; // Contains
 		var p;
+		var counter = maxResults*3;
 		for(var cName in characterStore) {
 			var pos = cName.indexOf(search);
 			if(pos != -1) {
-				(pos === 0 ? o1 : o2).push(characterStore[cName]);
-				if((maxResults--) === 0) {
+				(pos === 0 ? (cName.length == search.length ? o0 : o1) : o2).push(characterStore[cName]);
+				if((counter--) === 0) {
 					break;
 				}
 			}
 		}
-		return o1.concat(o2); // First beginning with search, then the rest
+		var out = o1.concat(o2).sort(function(c1, c2) { // Sort it
+				return (c1.name == c2.name) ? 0 : ( (c1.name > c2.name) ? 1 : -1 );
+		});
+		return o0.concat(out).slice(0, maxResults); // Add the exact match in the beginning
 	};
 	
 	publicFunctions.focusOnCharacter = function (id) {
