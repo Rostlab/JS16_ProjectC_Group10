@@ -1,14 +1,7 @@
 //delivery tests for gotmap package
 var expect = require('expect.js');
+//node-phantom is used to emulate the browser
 var phantom = require("node-phantom");
-phantom.create(function (error, ph) {
-    ph.createPage(function (err, page) {
-        page.open("../builds/test.bundle.js", function (err, status) {
-
-
-        });
-    });
-});
 
 
 describe("gotmap tests", function() {
