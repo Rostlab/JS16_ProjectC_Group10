@@ -609,21 +609,22 @@ gotmap = function(mapContainer, options) {
 	
 	publicFunctions.searchCharacter = function (search, maxResults) {
 		var o0 = []; // Exact match
-		var o1 = []; // Begins with
-		var o2 = []; // Contains
+		var o1 = []; // Contains
 		var p;
 		var counter = maxResults*3;
 		for(var cName in characterStore) {
 			var pos = cName.indexOf(search);
 			if(pos != -1) {
-				(pos === 0 ? (cName.length == search.length ? o0 : o1) : o2).push(characterStore[cName]);
+				(cName.length == search.length ? o0 : o1).push(characterStore[cName]);
 				if((counter--) === 0) {
-					break;
+				//	break;
 				}
 			}
 		}
-		var out = o1.concat(o2).sort(function(c1, c2) { // Sort it
-				return (c1.name == c2.name) ? 0 : ( (c1.name > c2.name) ? 1 : -1 );
+		var out = o1.sort(function(c1, c2) { // Sort it
+				var p1 = c1.pageRank || -1;
+				var p2 = c2.pageRank || -1;
+				return p2 - p1;
 		});
 		return o0.concat(out).slice(0, maxResults); // Add the exact match in the beginning
 	};
