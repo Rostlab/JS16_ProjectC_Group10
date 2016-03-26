@@ -82,7 +82,7 @@
 
 
 	// module
-	exports.push([module.id, "/*____     _____   __  __             \n / ___| __|_   _| |  \\/  | __ _ _ __  \n| |  _ / _ \\| |   | |\\/| |/ _` | '_ \\ \n| |_| | (_) | |   | |  | | (_| | |_) |\n \\____|\\___/|_|   |_|  |_|\\__,_| .__/ \n Maximilian Bandle @mbandle    |_|    \n Alexander Beischl @AlexBeischl\n Tobias Piffrader  @tpiffrader\n \n These styles are needed to make the demo look aweseome :)\n*/\n/* @group Demo */\n#map {\n\tbackground: #001;\n\tposition: fixed;\n\tleft:0;\n\tright: 250px;\n\ttop:0;\n\tbottom: 40px;\n}\n\n#sidebar {\n\tbackground: #CFD8DC;\n\tpadding: 0.5em;\n\tposition: fixed;\n\twidth: 250px;\n\tright: 0;\n\ttop:0;\n\tbottom: 0;\n}\n\n#sidebar hr{\n\tmargin: 0.5em 0;\n\tborder: 2px solid #B6B6B6;\n}\n\n#characters {\n\tposition: absolute;\n\twidth: 250px;\n\tmargin-top:3.5em;\n\ttop: 0;\n\tbottom: 0;\n\toverflow: scroll;\n}\n\n#filter .input-group {\n\twidth: 100%;\n}\n\n#timeline {\n\tposition:fixed;\n\tleft:0;\n\tright:250px;\n\tbottom:0;\n\theight:40px;\n\tbackground:#030912;\n\tcolor:#fff;\n\tpadding: 5px 15px 0;\n}\n/* @end */\n", ""]);
+	exports.push([module.id, "/*____     _____   __  __             \n / ___| __|_   _| |  \\/  | __ _ _ __  \n| |  _ / _ \\| |   | |\\/| |/ _` | '_ \\ \n| |_| | (_) | |   | |  | | (_| | |_) |\n \\____|\\___/|_|   |_|  |_|\\__,_| .__/ \n Maximilian Bandle @mbandle    |_|    \n Alexander Beischl @AlexBeischl\n Tobias Piffrader  @tpiffrader\n \n These styles are needed to make the demo look aweseome :)\n*/\n/* @group Demo */\n#map {\n\tbackground: #001;\n\tposition: fixed;\n\tleft:0;\n\tright: 250px;\n\ttop:0;\n\tbottom: 40px;\n}\n\n#sidebar {\n\tbackground: #CFD8DC;\n\tpadding: 0.5em;\n\tposition: fixed;\n\twidth: 250px;\n\tright: 0;\n\ttop:0;\n\tbottom: 0;\n}\n\n#sidebar hr{\n\tmargin: 0.5em 0;\n\tborder: 2px solid #B6B6B6;\n}\n\n#characters {\n\tposition: absolute;\n\twidth: 250px;\n\tmargin-top:3.5em;\n\ttop: 0;\n\tbottom: 0;\n\toverflow: scroll;\n}\n\n#filter .input-group {\n\twidth: 100%;\n}\n\n#timeline {\n\tposition:fixed;\n\tleft:0;\n\tright:250px;\n\tbottom:0;\n\theight:40px;\n\tbackground:#030912;\n\tcolor:#fff;\n\tpadding: 5px 15px 0;\n}\n\n#characters .closeOverlay, #map .glyphicon-user {\n\tdisplay:none;\n}\n\n/* @end */\n\n/* @group Responsive */\n@media (max-width: 550px) {\n#map {\n\tbackground: #001;\n\tposition: fixed;\n\tleft:0;\n\tright: 0;\n\ttop:40px;\n\tbottom: 40px;\n}\n\n#map .glyphicon-user {\n\tdisplay:block;\n}\n\n#sidebar {\n\tposition: static;\n\twidth: auto;\n\theight : auto;\n}\n\n#sidebar hr{\n\tdisplay: none;\n}\n\n#characters {\n\tposition: fixed;\n\tright: 0;\n\ttop:40px;\n\tbottom: 0;\n\tleft:0;\n\twidth: auto;\n\tbackground: #CFD8DC;\n\tpadding: 0.5em;\n\tz-index: 10;\n\tmargin:0;\n\toverflow: scroll;\n\tdisplay: none;\n}\n\n#characters .closeOverlay {\n\tdisplay:block;\n\tposition: absolute;\n\tbackground: darkred;\n\ttext-align:center;\n\tcolor: #FFF;\n\tbottom: 0;\n\theight: 30px;\n\tleft:0;\n\tright:0;\n}\n\n#filter {\n\tposition: fixed;\n\tbackground: #CFD8DC;\n\ttop:0;\n\tright:0;\n\tleft:0;\n\theight:40px;\n\tz-index:20;\n}\n#filter .input-group {\n\twidth: 100%;\n}\n\n#timeline {\n\tright:0;\n}\n}\n/* @end */", ""]);
 
 	// exports
 
@@ -417,12 +417,28 @@
 		mymap = gotmap('#map', {
 			'characterBox':'#characters',
 			'timeline':'#timeline',
-			'filter':'#filter input',
-			'characterDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/characters.js',
-			'episodeDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/episodes.js',
-			'cityDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/cities.js',
-			'realmDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/realms.js'
+			'filter':'#filter input'
 		});
+		var lmap = mymap.getMap();
+			
+			//Characters Button
+			var charCtrl = L.Control.extend({
+			    options: {
+			        position: 'topright'
+			    },
+			    onAdd: function() {
+			        var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-user');
+			        L.DomEvent.disableClickPropagation(c);
+			        c.onclick = function() {
+				        jQuery("#characters").fadeIn();
+			        };
+			        return c;
+			    },
+			});
+			jQuery("<div class=\"closeOverlay\">Close Character Overlay</div>").click(function () {
+				jQuery("#characters").fadeOut();
+			}).appendTo("#characters");
+			lmap.addControl(new charCtrl());
 	});
 
 /***/ }
