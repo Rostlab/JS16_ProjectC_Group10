@@ -14,8 +14,7 @@ jQuery(function() {
 	mymap = gotmap('#map', {
 		'characterBox':'#characters',
 		'timeline':'#timeline',
-		'filter':'#filter input',
-		'realmDataSource':'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/data/realms.js'
+		'filter':'#filter input'
 	});
 	var lmap = mymap.getMap();
 		
