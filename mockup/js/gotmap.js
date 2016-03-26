@@ -156,11 +156,16 @@ gotmap = function(mapContainer, options) {
 	
 		jQuery.get(options.realmDataSource, {},
 			function (data){
+				var toCoords = function(str) {
+					var str = str.split(",");
+					return [parseFloat(str[0]), parseFloat(str[1])];
+				}
 				var allRealms = (typeof data == "object") ? data : JSON.parse(data);
 				allRealms.map(function (realm) {
 					if(!realm.borders) { // Skip missing borders
 						return;
 					}
+					realm.borders = realm.borders.map(toCoords);
 					//Initilizes the different realms
 					realm.poly = L.polygon(realm.borders, {
 						color: realm.color || 'red', 
