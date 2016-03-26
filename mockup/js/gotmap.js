@@ -9,6 +9,7 @@
 */
 gotmap = function(mapContainer, options) {
 	var defaultOptions = {
+		'apiLocation':'http://api.got.show',
 		'filter':false,
 		'timeline':false,
 		'characterBox':false,
@@ -16,13 +17,13 @@ gotmap = function(mapContainer, options) {
 		'characterDetails':function(modal, character) {modal.find('.modal-body').text("Fill this modal by passing the characterDetails Callback Function"+JSON.stringify(character));},
 		'defaultPersonImg':'http://map.got.show/mockup/img/persons/dummy.jpg',
 		'deadPersonImg':'http://map.got.show/mockup/img/persons/skull.png',
-		'personImageBaseUrl':'https://got-api.bruck.me',
-		'cityDataSource':'https://got-api.bruck.me/api/cities',
-		'realmDataSource':'https://got-api.bruck.me/api/regions',
-		'pathDataSource':'https://got-api.bruck.me/api/characters/paths',
-		'episodeDataSource':'https://got-api.bruck.me/api/episodes',
-		'characterDataSource':'https://got-api.bruck.me/api/characters',
-		'pinDataSource':'https://got-api.bruck.me/api/characters/locations',
+		'personImageBaseUrl':'http://images.got.show',
+		'cityDataSource':'/cities',
+		'realmDataSource':'/regions',
+		'pathDataSource':'/characters/paths',
+		'episodeDataSource':'/episodes',
+		'characterDataSource':'/characters',
+		'pinDataSource':'/characters/locations',
 		'bgTiles':'http://tiles.got.show/bg/{z}/y{y}x{x}.png',
 		'labelTiles':'http://tiles.got.show/labels/{z}/y{y}x{x}.png',
 		'errorTile':'http://tiles.got.show/blank.png',
@@ -36,6 +37,9 @@ gotmap = function(mapContainer, options) {
 		for(var option in defaultOptions) {
 			if(!(option in options)) {
 				options[option] = defaultOptions[option];
+			}
+			if(option.indexOf("Source") !== -1) {
+				options[option] = options.apiLocation + options[option];
 			}
 		}
 	} else {
