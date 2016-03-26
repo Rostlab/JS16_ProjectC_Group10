@@ -18,10 +18,11 @@ gotmap = function(mapContainer, options) {
 		'deadPersonImg':'http://map.got.show/mockup/img/persons/skull.png',
 		'personImageBaseUrl':'https://got-api.bruck.me',
 		'cityDataSource':'https://got-api.bruck.me/api/cities',
-		'realmDataSource':'https://got-api.bruck.me/api/realms',
-		'pathDataSource':'https://got-api.bruck.me/api/paths',
-		'episodeDataSource':'https://got-api.bruck.me/api/episodes/',
-		'characterDataSource':'https://got-api.bruck.me/api/characters/',
+		'realmDataSource':'https://got-api.bruck.me/api/regions',
+		'pathDataSource':'https://got-api.bruck.me/api/characters/paths',
+		'episodeDataSource':'https://got-api.bruck.me/api/episodes',
+		'characterDataSource':'https://got-api.bruck.me/api/characters',
+		'pinDataSource':'https://got-api.bruck.me/api/characters/locations',
 		'bgTiles':'http://tiles.got.show/bg/{z}/y{y}x{x}.png',
 		'labelTiles':'http://tiles.got.show/labels/{z}/y{y}x{x}.png',
 		'errorTile':'http://tiles.got.show/blank.png',
@@ -155,10 +156,18 @@ gotmap = function(mapContainer, options) {
 	
 		jQuery.get(options.realmDataSource, {},
 			function (data){
+				var toCoords = function(str) {
+					str = str.split(",");
+					return [parseFloat(str[0]), parseFloat(str[1])];
+				};
 				var allRealms = (typeof data == "object") ? data : JSON.parse(data);
 				allRealms.map(function (realm) {
+					if(!realm.borders) { // Skip missing borders
+						return;
+					}
+					realm.borders = realm.borders.map(toCoords);
 					//Initilizes the different realms
-					realm.poly = L.polygon(realm.path, {
+					realm.poly = L.polygon(realm.borders, {
 						color: realm.color || 'red', 
 						opacity : 0.4
 					}).bindLabel(realm.name, {
@@ -166,7 +175,7 @@ gotmap = function(mapContainer, options) {
 					}).addTo(realmsLayer);
 					realmStore[realm.name] = realm;	
 					//Initilizes the political map, just showing boarders
-					L.polygon(realm.path, {
+					L.polygon(realm.borders, {
 						color:'red', 
 						opacity : 0.2,
 						fillOpacity: 0.0
@@ -205,6 +214,19 @@ gotmap = function(mapContainer, options) {
 		episodeStore = [];
 		prevSelected = options.episodesRange;
 		
+		// Helper for Episode Info
+		function getEpisodeInfo(i) {
+			if(i < episodeStore.length) {
+				return episodeStore[i].showTitle;
+			} else {
+				return "No Episode found";
+			}
+		}
+		
+		function setInfoText(range) {
+			infoEl.text(getEpisodeInfo(range[0]) + " - " + getEpisodeInfo(range[1]));
+		}
+		
 		// Fetch the Data
 		jQuery.get(options.episodeDataSource, {},
 			function (data){
@@ -229,19 +251,6 @@ gotmap = function(mapContainer, options) {
 				});
 			}
 		);
-		
-		function setInfoText(range) {
-			infoEl.text(getEpisodeInfo(range[0]) + " - " + getEpisodeInfo(range[1]));
-		}
-		
-		// Helper for Episode Info
-		function getEpisodeInfo(i) {
-			if(i < episodeStore.length) {
-				return episodeStore[i].showTitle;
-			} else {
-				return "No Episode found";
-			}
-		}
 	})();
 	
 	// INIT Filterbar and Characterlist
@@ -260,17 +269,11 @@ gotmap = function(mapContainer, options) {
 		// Init List
 		characterStore = {}; // Character Store
 		
-		var pathList = ['Eddard Stark', 'Catelyn Stark', 'Tywin Lannister', 'Robb Stark', 'Sansa Stark', 
-		'Bran Stark', 'Arya Stark', 'Rickon Stark', 'Jon Snow', 'Daenerys Targaryen', 'Jaime Lannister', 
-		'Cersei Lannister', 'Tyrion Lannister', 'Drogo', 'Viserys Targaryen', 'Joffrey Baratheon', 'Myrcella Baratheon', 'Tommen Baratheon', 'Robert Baratheon',
-		'Stannis Baratheon','Renly Baratheon','Theon Greyjoy', 'Asha Greyjoy','Victorian Greyjoy','Brienne of Tarth', 'Davos Seaworth', 'Samwell Tarly', 'Petyr Baelish'];
-		
 		jQuery.get(options.characterDataSource, {}, function(data) {
 			var allCharacters = (typeof data == "object") ? data : JSON.parse(data);
 			allCharacters.map(function (character) {
 				if(character.name) {
 					character.imageLink = character.imageLink ? options.personImageBaseUrl+character.imageLink : options.defaultPersonImg;
-					character.pathInfo = pathList.indexOf(character.name) != -1;
 					characterStore[character.name.toLowerCase()] = character;
 				}
 			});
@@ -335,12 +338,12 @@ gotmap = function(mapContainer, options) {
 			inputVal = s;
 			selectedInDropdown = 0;
 			
-			var out = publicFunctions.searchCharacter(inputVal, 20);
+			var out = publicFunctions.searchCharacter(inputVal, 40);
 			
 			l.empty(); // Delete the HTML li Elements
 			if(out.length) {
 				out.map(function(character,i) {
-					var extra = character.pathInfo ? ' class="pathInfo"' : '';
+					var extra = character.hasPath ? ' class="pathInfo"' : '';
 					var item = jQuery('<li'+extra+'><a href="#"><img src="'+character.imageLink+'" class="img-circle"/>'+
 						character.name+'</a></li>'
 					).click(function(e) {
@@ -474,31 +477,31 @@ gotmap = function(mapContainer, options) {
 				'<img src="'+options.deadPersonImg+'" /></span>'
 			});
 			// Load Additional Information
-			if(character.pathInfo) {
-				// TODO: Use the DB
-				character.path = paths[id];
-				console.log(character.path);
+			if(character.hasPath) {
+				character.path = [];
+				jQuery.get(options.pathDataSource+"/"+character.name, {'strict':true}, function (data) {
+					var pathData = (typeof data == "object") ? data : JSON.parse(data);
+					character.path = pathData.data[0].path;
 				character.bounds = false;
+					publicFunctions.updateMap(); 
+					publicFunctions.focusOnCharacter(id);
+				});
 			} else {
 				character.points = [];
-				// TODO: Use the DB
-				jQuery.ajax({url:"https://awoiaf.westeros.org/index.php?action=raw&title="+character.name}).success(function(data) {
-					var re = /\[\[([^\]]+)\]\]/g; // Find Link
-					var m;
-					
-					while ((m = re.exec(data)) !== null) {
-						if (m.index === re.lastIndex) {
-							re.lastIndex++;
+				// Fetch the Data
+				console.log(options.pinDataSource+"/"+character.name);
+				jQuery.get(options.pinDataSource+"/"+character.name, {'strict':true}, function (data) {
+					var locData = (typeof data == "object") ? data : JSON.parse(data);
+					var allCities = locData.data[0].locations;
+					allCities.map(function (place) { // Add points to character
+						if(cityStore[place]) {
+							character.points.push(cityStore[place].coords);
 						}
-						var place = cityStore[m[1].replace('_', ' ')];
-						if(place) {
-							character.points.push(place.coords);
-						}
-					}
-					character.bounds = L.latLngBounds(character.points);
-					publicFunctions.updateMap();
+					});
+					character.bounds = L.latLngBounds(character.points); // Calc bounds for view
+					publicFunctions.updateMap(); 
 					publicFunctions.focusOnCharacter(id);
-				}); 
+				});
 			}
 			
 			// Make new element
@@ -536,9 +539,6 @@ gotmap = function(mapContainer, options) {
 			character.el = characterElement; // Save it to be able to delete it later
 			
 			loadedCharacters[id] = character; // Save It
-			
-			publicFunctions.updateMap();
-			publicFunctions.focusOnCharacter(id);
 			
 			return id;
 		}
@@ -604,19 +604,25 @@ gotmap = function(mapContainer, options) {
 	};
 	
 	publicFunctions.searchCharacter = function (search, maxResults) {
-		var o1 = []; // Begins with
-		var o2 = []; // Contains
+		var o0 = []; // Exact match
+		var o1 = []; // Contains
 		var p;
+		var counter = maxResults*3;
 		for(var cName in characterStore) {
 			var pos = cName.indexOf(search);
 			if(pos != -1) {
-				(pos === 0 ? o1 : o2).push(characterStore[cName]);
-				if((maxResults--) === 0) {
-					break;
+				(cName.length == search.length ? o0 : o1).push(characterStore[cName]);
+				if((counter--) === 0) {
+				//	break;
 				}
 			}
 		}
-		return o1.concat(o2); // First beginning with search, then the rest
+		var out = o1.sort(function(c1, c2) { // Sort it
+				var p1 = c1.pageRank || -1;
+				var p2 = c2.pageRank || -1;
+				return p2 - p1;
+		});
+		return o0.concat(out).slice(0, maxResults); // Add the exact match in the beginning
 	};
 	
 	publicFunctions.focusOnCharacter = function (id) {
@@ -666,26 +672,39 @@ gotmap = function(mapContainer, options) {
 			markers.push({
 				'coords':point, 
 				'style': character.markerStyle, 
-				'character':character
+				'character':character,
+				'alive':true
 			});
 		};
 		
-		var nicePopup = function(characters) {
-			characters.sort(function (c1, c2) {
-				return (c1.name == c2.name) ? 0 : ( (c1.name > c2.name) ? 1 : -1 );
+		var nicePopup = function(markers) {
+			markers.sort(function (m1, m2) {
+				return (m1.character.name == m2.character.name) ? 0 : ( (m1.character.name > m2.character.name) ? 1 : -1 );
 			});
 			var html = "<div class=\"popupCharacterList\">";
 			var lastCharacter = false;
-			characters.filter(function (character) {
+			var mlist = markers.filter(function (marker) {
+				var character = marker.character;
 				if(lastCharacter && lastCharacter == character) {
 					return false;
 				} else {
 					lastCharacter = character;
 					return true;
 				}
-			}).map(function(character) {
+			});
+			if(mlist.length <= 1) { // Only one character
+				return false;
+			}
+			mlist.map(function(marker) {
+				var character = marker.character;
 				html += "<div class=\"character\">";
-				html += "<img src=\""+character.imageLink+"\" class=\"img-circle\" style=\"border-color:"+character.color+"\"/>";
+				if(marker.alive) {
+					html += "<img src=\""+character.imageLink+"\" class=\"img-circle\" "+
+						"style=\"border-color:"+character.color+"\"/>";
+				} else {
+					html += "<img src=\""+options.deadPersonImg+"\" class=\"img-circle\" "+
+					"style=\"border-color:"+character.color+";background-color:"+character.color+"\"/>";
+				}
 				html += "<span class=\"name\">"+character.name+"</span>";
 				html += "</div>";
 			});
@@ -697,7 +716,7 @@ gotmap = function(mapContainer, options) {
 			if(!character.shown) {
 				continue;
 			}
-			if(character.pathInfo) {
+			if(character.hasPath) {
 				var paths = character.path.filter(pathShown);
 				var polyline = combineCoords(paths);
 				character.bounds = L.latLngBounds(polyline);
@@ -711,52 +730,57 @@ gotmap = function(mapContainer, options) {
 					var firstPath  = paths[0];
 					var firstPoint = firstPath.path[0];
 					markers.push({
-						'coords': firstPoint,
-						'style': firstPath.alive===false ? character.deadStyle : character.markerStyle,
-						'character':character
+						'coords': L.latLng(firstPoint[0], firstPoint[1]),
+						'character':character,
+						'alive':firstPath.alive
 					});
 				}
 				if(len > 1) {
 					var lastPath  = paths[len-1];
 					var lastPoint = lastPath.path[lastPath.path.length-1];	
 					markers.push({
-						'coords': lastPoint,
-						'style': lastPath.alive ? character.markerStyle : character.deadStyle,
-						'character':character
+						'coords': L.latLng(lastPoint[0], lastPoint[1]),
+						'character':character,
+						'alive':lastPath.alive
 					});
 				}
 			} else {
 				character.points.map(generateMarker);
 			}
 		}
+		console.log(markers);
 		markers.sort(function (marker1, marker2) {
 			var c1 = marker1.coords;
 			var c2 = marker2.coords;
-			var dif = c1[0] - c2[0];
+			var dif = c1.lat - c2.lat;
 			if(dif === 0) {
-				return c1[1] - c2[1];
+				return c1.lng - c2.lng;
 			} else {
 				return dif;
 			}
 		});
 		var lastMarker = false;
+		console.log(markers);
 		markers = markers.filter(function (marker) {
-			var lastCoords = lastMarker.coords;
-			if(lastMarker && marker.coords[0] == lastCoords[0] && marker.coords[1] == lastCoords[1]) {
+			if(lastMarker && lastMarker.coords.equals(marker.coords)) {
 				if(!("multi" in lastMarker)) {
-					lastMarker.multi = [lastMarker.character];
+					lastMarker.multi = [lastMarker];
 				}
-				lastMarker.multi.push(marker.character);
+				lastMarker.multi.push(marker);
 				return false;
 			}
 			lastMarker = marker;
 			return true;
 		});
+		
+		console.log(markers);
+		var popUpString;
 		markers.map(function(marker) {
-			if(!("multi" in marker)) {
-				L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer);
+			if("multi" in marker && (popUpString = nicePopup(marker.multi)) !== false) {
+				L.marker(marker.coords).addTo(characterLayer).bindPopup(popUpString);
 			} else {
-				L.marker(marker.coords).addTo(characterLayer).bindPopup(nicePopup(marker.multi));
+				var style = marker.alive ? marker.character.markerStyle : marker.character.deadStyle;
+				L.marker(marker.coords, {icon:style}).addTo(characterLayer);
 			}
 		});
 		polylines.map(function(polyline) {
