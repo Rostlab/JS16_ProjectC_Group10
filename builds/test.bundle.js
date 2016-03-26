@@ -10421,12 +10421,9 @@
 			__webpack_require__(41)
 			__webpack_require__(42)
 
-			//data
-			__webpack_require__(43)
-
 			// include js files
+			__webpack_require__(43)
 			__webpack_require__(44)
-			__webpack_require__(45)
 
 			//demo, uncomment if needed
 			//require("./css/demo.css")
@@ -10467,7 +10464,7 @@
 
 
 	// module
-	exports.push([module.id, "/*____     _____   __  __             \n / ___| __|_   _| |  \\/  | __ _ _ __  \n| |  _ / _ \\| |   | |\\/| |/ _` | '_ \\ \n| |_| | (_) | |   | |  | | (_| | |_) |\n \\____|\\___/|_|   |_|  |_|\\__,_| .__/ \n Maximilian Bandle @mbandle    |_|    \n Alexander Beischl @AlexBeischl\n Tobias Piffrader  @tpiffrader\n \n Basic styles for the gotmap to work correctly\n*/\n\n/* @group Map */ \n.gotmap .deleteButton {\n\twidth: 30px;\n\theight: 30px;\n\tbackground-color: #fff;\n\tfont-size: 20px;\n\tfont-weight: bold;\n\ttext-align: center;\n}\n\n/* @group Colorful Character Marker */\n.gotmap .colormarker {\n\tfont-size: 32px;\n\tcolor: #a00;\n}\n\n.gotmap .colormarker span {\n\tleft: -16px;\n\ttop: -32px;\n}\n\n.gotmap .colormarker img{\n\tposition: relative;\n\twidth: 16px;\n\theight: 16px;\n\tborder-radius: 8px;\n\ttop:-7px;\n\tleft: -23px;\n}\n\n.gotmap.zoom5 .colormarker span {\n\tleft: -32px;\n\ttop: -64px;\n}\n\n.gotmap.zoom5 .colormarker {\n\tfont-size: 64px;\n\tmargin-left: 16px;\n\tmargin-top: 32px; \n}\n\n.gotmap.zoom5 .colormarker img {\n\twidth: 32px;\n\theight: 32px;\n\tborder-radius: 16px;\n\ttop: -16px;\n\tleft: -45px;\n}\n/* @end */\n\n/* @group Map Features */\n.gotmap .leaflet-marker-icon.gotmarker {\n\twidth: 16px !important;\n\theight: 16px !important;\n\tmargin-left: -10px !important;\n\tmargin-top: -10px !important;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.city {\n\tbackground: transparent url(" + __webpack_require__(27) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.town {\n\tbackground: transparent url(" + __webpack_require__(28) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.castle {\n\tbackground: transparent url(" + __webpack_require__(29) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.ruin {\n\tbackground: transparent url(" + __webpack_require__(30) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.other {\n\tbackground: transparent url(" + __webpack_require__(31) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap.zoom5 .leaflet-marker-icon.got {\n\twidth: 32px !important;\n\theight: 32px !important;\n\tmargin-left: -19px !important;\n\tmargin-top: -19px !important;\n\tbackground-size: 32px;\n}\n\n.gotmap.zoom0 .prio6, .gotmap.zoom1 .prio6, .gotmap.zoom2 .prio6, .gotmap.zoom3 .prio6, .gotmap.zoom4 .prio6,\n.gotmap.zoom0 .prio5, .gotmap.zoom1 .prio5, .gotmap.zoom2 .prio5, .gotmap.zoom3 .prio5, .gotmap.zoom4 .prio5,\n.gotmap.zoom0 .prio4, .gotmap.zoom1 .prio4, .gotmap.zoom2 .prio4, .gotmap.zoom3 .prio4, \n.gotmap.zoom0 .prio3, .gotmap.zoom1 .prio3, .gotmap.zoom2 .prio3,\n.gotmap.zoom0 .prio2, .gotmap.zoom1 .prio2,\n.gotmap.zoom0 .prio1 {\n\tdisplay: none;\n}\n\n.gotmap.zoom5 .wall-label span {\n\tpadding: 0;\n\tmargin-top: 24px; \n\tmargin-left: -8px; \n\ttransform-origin: top left;\n\tdisplay: inline-block;\n\ttransform: rotate(45deg);\n}\n/* @end */\n\n/* @group Labels */\n.gotmap .leaflet-label {\n\ttext-shadow: #FFF -1px 0px 0px, #FFF 1px 0px 0px, #FFF 0px 1px 0px, #FFF 0px -1px 0px, #FFF -1px -1px 0px,#FFF 1px 1px 0px,#FFF 1px -1px 0px,#FFF -1px 1px 0px;\n\tcolor: #111;\n\tdisplay: block;\n\tfont: 12px/12px \"Helvetica Neue\", Arial, Helvetica, sans-serif;\n\tfont-weight: bold;\n\tpadding: 1px 6px;\n\tposition: absolute;\n\t-webkit-user-select: none;\n\t   -moz-user-select: none;\n\t    -ms-user-select: none;\n\t        user-select: none;\n\tpointer-events: none;\n\twhite-space: nowrap;\n\tz-index: 6;\n}\n\n.gotmap .leaflet-label.leaflet-clickable {\n\tcursor: pointer;\n\tpointer-events: auto;\n}\n\n.gotmap .leaflet-control-custom {\n\twidth: 30px;\n\theight: 30px;\n\tbackground-color: #fff;\n\tpadding: 3px;\n\tfont-size: 20px;\n\tfont-weight: bold;\n\ttext-align: center;\n}\n/* @end */\n/* @end */\n\n\n/* @group Character List */\n.gotmap-character .character {\n\tpadding: .5em 0;\n\tborder-bottom: 1px solid #B6B6B6;\n\ttransition: all .3s;\n\tposition: relative;\n\twidth: 100%;\n}\n\n.gotmap-character .character.disabled {\n\topacity: 0.9;\n}\n\n.gotmap-character .character.disabled:hover {\n\topacity: 1;\n}\n\n.gotmap-character .character.disabled img {\n\tborder-color: #888 !important;\n\t-webkit-filter: grayscale(1);\n\tfilter: grayscale(100%);\n}\n\n.gotmap-character .character.disabled img:hover {\n\t-webkit-filter: grayscale(0);\n\tfilter: grayscale(0);\n}\n\n.gotmap-character .character img {\n\tfloat: left;\n\twidth: 75px;\n\theight: 75px;\n\tmargin-right: .5em;\n\tborder: 5px solid #FFA000;\n\ttransition: all .3s;\n}\n.gotmap-character .character .characterinfo {\n\tpadding: 1em 0;\n\tvertical-align: middle;\n\theight: 75px;\n}\n.gotmap-character .character .name {\n\tfont-weight: bold;\n\tfont-size: 1.25em;\n\toverflow:hidden;\n\theight: 1.25em;\n}\n\n.gotmap-character .character .house {\n\tcolor: #727272;\n}\n\n.gotmap-character .character .delete {\n\tcolor: #AAA;\n\tposition: absolute;\n\tright: 14px;\n\ttop: 50%;\n\tmargin-top: -7px;\n\tfont-size: 14px;\n}\n\n.gotmap-character .character .delete:hover {\n\tcolor: #727272;\n}\n/* @end */\n\n\n/* @group Filter */\n\nul.gotmap-dropdown img {\n\theight: 2em;\n\twidth: 2em;\n\tmargin: 0 .5em 0 -1em;\n}\n\nul.gotmap-dropdown .pathInfo {\n\tborder-left: 5px solid green;\n}\n\nul.gotmap-dropdown li.hover, ul.gotmap-dropdown li:hover {\n\tcolor: #262626;\n\ttext-decoration: none;\n\tbackground-color: #d5d5d5;\n}\n/* @end */\n\n/* @group Timeline */\n.gotmap-timeline .ui-slider {\n\tposition: relative;\n\ttext-align: left;\n}\n\n.gotmap-timeline .ui-slider .ui-slider-handle {\n\tposition: absolute;\n\tz-index: 2;\n\twidth: 20px;\n\theight: 20px;\n\tcursor: default;\n\t-ms-touch-action: none;\n\ttouch-action: none;\n}\n\n.gotmap-timeline .ui-slider .ui-slider-range {\n\tposition: absolute;\n\tz-index: 1;\n\tdisplay: block;\n\tborder: 0;\n}\n\n.gotmap-timeline .ui-slider-horizontal {\n\theight: 10px;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-handle {\n\ttop: -.3em;\n\tmargin-left: -.6em;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-range {\n\ttop: 0;\n\theight: 100%;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-range-min {\n\tleft: 0;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-range-max {\n\tright: 0;\n}\n\n/* Component containers\n----------------------------------*/\n.gotmap-timeline .ui-widget-content {\n\tborder: 1px solid #404040;\n\tbackground: #121212;\n}\n\n.gotmap-timeline .ui-widget-header {\n\tborder: 1px solid #404040;\n\tbackground: #888888;\n}\n\n.gotmap-timeline .ui-state-default {\n\tborder: 1px solid #cccccc;\n\tbackground: #adadad;\n}\n\n.gotmap-timeline .ui-corner-all {\n\tborder-radius: 8px;\n}\n/* @end */\n\n/* @group Modal */\n/* @group Glyph Stuff */\n.gotmap-modal .glyph-big {\n\tfont-size: 6em;\n}\n\n.gotmap-modal .glyph-spin {\n    -webkit-animation: gotmap-spin 3000ms infinite linear;\n    animation: gotmap-spin 3000ms infinite linear;\n}\n\n@-webkit-keyframes gotmap-spin {\n    0% {\n        -webkit-transform: rotate(0deg);\n        transform: rotate(0deg);\n    }\n    100% {\n        -webkit-transform: rotate(359deg);\n        transform: rotate(359deg);\n    }\n}\n\n@keyframes gotmap-spin {\n    0% {\n        -webkit-transform: rotate(0deg);\n        transform: rotate(0deg);\n    }\n    100% {\n        -webkit-transform: rotate(359deg);\n        transform: rotate(359deg);\n    }\n}\n/* @end */\n\n/* @group Header */\n.gotmap-modal .city .modal-title {\n\tbackground: transparent url(" + __webpack_require__(27) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .town .modal-title {\n\tbackground: transparent url(" + __webpack_require__(28) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .castle .modal-title {\n\tbackground: transparent url(" + __webpack_require__(29) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .ruin .modal-title {\n\tbackground: transparent url(" + __webpack_require__(30) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .other .modal-title {\n\tbackground: transparent url(" + __webpack_require__(31) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .person .modal-title {\n\tbackground: transparent url(" + __webpack_require__(32) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.stark .modal-title {\n\tbackground: transparent url(" + __webpack_require__(33) + ") no-repeat;\n\tbackground-size: 26px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.baratheon .modal-title {\n\tbackground: transparent url(" + __webpack_require__(34) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.lannister .modal-title {\n\tbackground: transparent url(" + __webpack_require__(35) + ") no-repeat;\n\tbackground-size: 31px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.targaryen .modal-title {\n\tbackground: transparent url(" + __webpack_require__(36) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n/* @end */\n\n/* @group Footer */\n.gotmap-modal .modal-footer {\n\tclear: both;\n}\n/* @end */\n\n/* @group dynModal wiki */\n.gotmap-modal #contentSub, .gotmap-modal #siteSub, .gotmap-modal #jump-to-nav, .gotmap-modal #mw-data-after-content, .gotmap-modal .printfooter, .gotmap-modal .navbox, .gotmap-modal .references, .gotmap-modal .references-small, .gotmap-modal .catlinks, .gotmap-modal sup.reference {\n\tdisplay: none;\n}\n\n.gotmap-modal h2:last-of-type {\n\tdisplay: none;\n} \n\n/* @group Top Right Infobox */\n.gotmap-modal .infobox {\n\tborder: 1px solid #aaa;\n\tbackground-color: #f9f9f9;\n\tcolor: black;\n\tmargin-bottom: 0.5em;\n\tmargin-left: 1em;\n\tpadding: 0.2em;\n\tfloat: right;\n\tclear: right\n}\n\n.gotmap-modal .infobox.bordered {\n    border-collapse: collapse\n}\n\n.gotmap-modal .infobox.bordered td, .gotmap-modal .infobox.bordered th {\n    border: 1px solid #aaa\n}\n\n.gotmap-modal .infobox.bordered .borderless td, .gotmap-modal .infobox.bordered .borderless th {\n    border: 0\n}\n\n.gotmap-modal .infobox th[scope=\"row\"] {\n\tpadding-left: 0.5em;\n}\n\n.gotmap-modal .infobox caption {\n\tfont-size: larger;\n\tmargin-left: inherit;\n\tcolor: #000;\n\tpadding: 0;\n\ttext-align: center;\n}\n\n.gotmap-modal .floatleft {\n\tmargin: 0 .5em .5em 0;\n\tborder: 0;\n\tfloat: left;\n\tclear: left;\n}\n\n.gotmap-modal .floatright {\n\tmargin: 0 0 .5em .5em;\n\tborder: 0;\n\tfloat: right;\n\tclear: right;\n}\n/* @end */\n\n/* @group TOC */\n.gotmap-modal .toc {\n     border: 1px solid #aaa;\n     background-color: #f9f9f9;\n     padding: .5em;\n     font-size: 95%;\n     display: table;\n}\n\n.gotmap-modal #toctitle  {\n    text-align: center;\n}\n\n.gotmap-modal .toc h2  {\n    display: inline;\n    border: none;\n    padding: 0;\n    font-size: 100%;\n    font-weight: bold;\n}\n\n.gotmap-modal .toc ul {\n    list-style-type: none;\n    list-style-image: none;\n    margin-left: 0;\n    padding: 0;\n    text-align: left\n}\n\n.gotmap-modal  .toc ul ul {\n    margin: 0 0 0 2em\n}\n\n.gotmap-modal  .toc .toctoggle {\n    font-size: 94%\n}\n/* @end */\n\n/* @group Floats */\n.gotmap-modal div.tright {\n    margin: .5em 0 1.5em 1.5em;\n    clear: right;\n    float: right;\n}\n\n.gotmap-modal div.tleft {\n    margin: .5em 1.5em 1.5em 0;\n    float: left;\n    clear: left;\n}\n    \n.gotmap-modal div.thumb {\n    margin-bottom: .5em;\n    width: auto;\n}\n    \n.gotmap-modal div.thumbinner {\n    border: 1px solid #ccc;\n    padding: 3px;\n    background-color: #f9f9f9;\n    font-size: 94%;\n    text-align: center;\n    overflow: hidden\n}\n    \n.gotmap-modal .thumbcaption {\n    border: none;\n    line-height: 1.4em;\n    padding: 3px;\n    font-size: 94%;\n    text-align: left;\n}\n/* @group @end */\n\n/* @end */\n\n/* @end */", ""]);
+	exports.push([module.id, "/*____     _____   __  __             \n / ___| __|_   _| |  \\/  | __ _ _ __  \n| |  _ / _ \\| |   | |\\/| |/ _` | '_ \\ \n| |_| | (_) | |   | |  | | (_| | |_) |\n \\____|\\___/|_|   |_|  |_|\\__,_| .__/ \n Maximilian Bandle @mbandle    |_|    \n Alexander Beischl @AlexBeischl\n Tobias Piffrader  @tpiffrader\n \n Basic styles for the gotmap to work correctly\n*/\n\n/* @group Map */ \n.gotmap .deleteButton {\n\twidth: 30px;\n\theight: 30px;\n\tbackground-color: #fff;\n\tfont-size: 20px;\n\tfont-weight: bold;\n\ttext-align: center;\n}\n\n/* @group Colorful Character Marker */\n.gotmap .colormarker {\n\tfont-size: 32px;\n\tcolor: #a00;\n}\n\n.gotmap .colormarker span {\n\tleft: -16px;\n\ttop: -32px;\n}\n\n.gotmap .colormarker img{\n\tposition: relative;\n\twidth: 16px;\n\theight: 16px;\n\tborder-radius: 8px;\n\ttop:-7px;\n\tleft: -23px;\n}\n\n.gotmap.zoom5 .colormarker span {\n\tleft: -32px;\n\ttop: -64px;\n}\n\n.gotmap.zoom5 .colormarker {\n\tfont-size: 64px;\n\tmargin-left: 16px;\n\tmargin-top: 32px; \n}\n\n.gotmap.zoom5 .colormarker img {\n\twidth: 32px;\n\theight: 32px;\n\tborder-radius: 16px;\n\ttop: -16px;\n\tleft: -45px;\n}\n/* @end */\n\n/* @group Map Features */\n.gotmap .leaflet-marker-icon.gotmarker {\n\twidth: 16px !important;\n\theight: 16px !important;\n\tmargin-left: -10px !important;\n\tmargin-top: -10px !important;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.city, .gotmap-modal .city .modal-title {\n\tbackground: transparent url(" + __webpack_require__(27) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.town, .gotmap-modal .town .modal-title {\n\tbackground: transparent url(" + __webpack_require__(28) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.castle, .gotmap-modal .castle .modal-title {\n\tbackground: transparent url(" + __webpack_require__(29) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.ruin, .gotmap-modal .ruin .modal-title {\n\tbackground: transparent url(" + __webpack_require__(30) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.other, .gotmap-modal .other .modal-title {\n\tbackground: transparent url(" + __webpack_require__(31) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap.zoom5 .leaflet-marker-icon.got {\n\twidth: 32px !important;\n\theight: 32px !important;\n\tmargin-left: -19px !important;\n\tmargin-top: -19px !important;\n\tbackground-size: 32px;\n}\n\n.gotmap.zoom0 .prio6, .gotmap.zoom1 .prio6, .gotmap.zoom2 .prio6, .gotmap.zoom3 .prio6, .gotmap.zoom4 .prio6,\n.gotmap.zoom0 .prio5, .gotmap.zoom1 .prio5, .gotmap.zoom2 .prio5, .gotmap.zoom3 .prio5, .gotmap.zoom4 .prio5,\n.gotmap.zoom0 .prio4, .gotmap.zoom1 .prio4, .gotmap.zoom2 .prio4, .gotmap.zoom3 .prio4, \n.gotmap.zoom0 .prio3, .gotmap.zoom1 .prio3, .gotmap.zoom2 .prio3,\n.gotmap.zoom0 .prio2, .gotmap.zoom1 .prio2,\n.gotmap.zoom0 .prio1 {\n\tdisplay: none;\n}\n\n.gotmap.zoom5 .wall-label span {\n\tpadding: 0;\n\tmargin-top: 24px; \n\tmargin-left: -8px; \n\ttransform-origin: top left;\n\tdisplay: inline-block;\n\ttransform: rotate(45deg);\n}\n/* @end */\n\n/* @group Labels */\n.gotmap .leaflet-label {\n\ttext-shadow: #FFF -1px 0px 0px, #FFF 1px 0px 0px, #FFF 0px 1px 0px, #FFF 0px -1px 0px, #FFF -1px -1px 0px,#FFF 1px 1px 0px,#FFF 1px -1px 0px,#FFF -1px 1px 0px;\n\tcolor: #111;\n\tdisplay: block;\n\tfont: 12px/12px \"Helvetica Neue\", Arial, Helvetica, sans-serif;\n\tfont-weight: bold;\n\tpadding: 1px 6px;\n\tposition: absolute;\n\t-webkit-user-select: none;\n\t   -moz-user-select: none;\n\t    -ms-user-select: none;\n\t        user-select: none;\n\tpointer-events: none;\n\twhite-space: nowrap;\n\tz-index: 6;\n}\n\n.gotmap .leaflet-label.leaflet-clickable {\n\tcursor: pointer;\n\tpointer-events: auto;\n}\n\n.gotmap .leaflet-control-custom {\n\twidth: 30px;\n\theight: 30px;\n\tbackground-color: #fff;\n\tpadding: 3px;\n\tfont-size: 20px;\n\tfont-weight: bold;\n\ttext-align: center;\n}\n/* @end */\n\n/* @group Multi Markers */\n.popupCharacterList .character {\n\tclear: both;\n\theight: 3em;\n\toverflow: hidden;\n\tmargin: .25em;\n}\n\t\n.popupCharacterList img {\n\twidth: 3em;\n\theight: 3em;\n\tborder: 4px solid gray;\n}\n\n.popupCharacterList .name {\n\tpadding: .5em;\n\tfont-weight: bold;\n}\n\t\n/* @end */\n\n/* @end */\n\n\n/* @group Character List */\n.gotmap-character .character {\n\tpadding: .5em 0;\n\tborder-bottom: 1px solid #B6B6B6;\n\ttransition: all .3s;\n\tposition: relative;\n\twidth: 100%;\n}\n\n.gotmap-character .character.disabled {\n\topacity: 0.9;\n}\n\n.gotmap-character .character.disabled:hover {\n\topacity: 1;\n}\n\n.gotmap-character .character.disabled img {\n\tborder-color: #888 !important;\n\t-webkit-filter: grayscale(1);\n\tfilter: grayscale(100%);\n}\n\n.gotmap-character .character.disabled img:hover {\n\t-webkit-filter: grayscale(0);\n\tfilter: grayscale(0);\n}\n\n.gotmap-character .character img {\n\tfloat: left;\n\twidth: 75px;\n\theight: 75px;\n\tmargin-right: .5em;\n\tborder: 5px solid #FFA000;\n\ttransition: all .3s;\n}\n.gotmap-character .character .characterinfo {\n\tpadding: 1em 0;\n\tvertical-align: middle;\n\theight: 75px;\n}\n.gotmap-character .character .name {\n\tfont-weight: bold;\n\tfont-size: 1.25em;\n\toverflow:hidden;\n\theight: 1.25em;\n}\n\n.gotmap-character .character .house {\n\tcolor: #727272;\n}\n\n.gotmap-character .character .delete {\n\tcolor: #AAA;\n\tposition: absolute;\n\tright: 14px;\n\ttop: 50%;\n\tmargin-top: -7px;\n\tfont-size: 14px;\n}\n\n.gotmap-character .character .delete:hover {\n\tcolor: #727272;\n}\n/* @end */\n\n\n/* @group Filter */\n\nul.gotmap-dropdown img {\n\theight: 2em;\n\twidth: 2em;\n\tmargin: 0 .5em 0 -1em;\n}\n\nul.gotmap-dropdown .pathInfo {\n\tborder-left: 5px solid green;\n}\n\nul.gotmap-dropdown .hover, ul.gotmap-dropdown li:hover {\n\tcolor: #262626;\n\ttext-decoration: none;\n\tbackground-color: #d5d5d5;\n}\n/* @end */\n\n/* @group Timeline */\n.gotmap-timeline .ui-slider {\n\tposition: relative;\n\ttext-align: left;\n}\n\n.gotmap-timeline .ui-slider .ui-slider-handle {\n\tposition: absolute;\n\tz-index: 2;\n\twidth: 20px;\n\theight: 20px;\n\tcursor: default;\n\t-ms-touch-action: none;\n\ttouch-action: none;\n}\n\n.gotmap-timeline .ui-slider .ui-slider-range {\n\tposition: absolute;\n\tz-index: 1;\n\tdisplay: block;\n\tborder: 0;\n}\n\n.gotmap-timeline .ui-slider-horizontal {\n\theight: 10px;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-handle {\n\ttop: -.3em;\n\tmargin-left: -.6em;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-range {\n\ttop: 0;\n\theight: 100%;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-range-min {\n\tleft: 0;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-range-max {\n\tright: 0;\n}\n\n/* Component containers\n----------------------------------*/\n.gotmap-timeline .ui-widget-content {\n\tborder: 1px solid #404040;\n\tbackground: #121212;\n}\n\n.gotmap-timeline .ui-widget-header {\n\tborder: 1px solid #404040;\n\tbackground: #888888;\n}\n\n.gotmap-timeline .ui-state-default {\n\tborder: 1px solid #cccccc;\n\tbackground: #adadad;\n}\n\n.gotmap-timeline .ui-corner-all {\n\tborder-radius: 8px;\n}\n/* @end */\n\n/* @group Modal */\n/* @group Glyph Stuff */\n.gotmap-modal .glyph-big {\n\tfont-size: 6em;\n}\n\n.gotmap-modal .glyph-spin {\n    -webkit-animation: gotmap-spin 3000ms infinite linear;\n    -moz-animation: gotmap-spin 3000ms infinite linear;\n    animation: gotmap-spin 3000ms infinite linear;\n}\n\n@-webkit-keyframes gotmap-spin {\n    0% {\n        -webkit-transform: rotate(0deg);\n        transform: rotate(0deg);\n    }\n    100% {\n        -webkit-transform: rotate(359deg);\n        transform: rotate(359deg);\n    }\n}\n\n@keyframes gotmap-spin {\n    0% {\n        -webkit-transform: rotate(0deg);\n        transform: rotate(0deg);\n    }\n    100% {\n        -webkit-transform: rotate(359deg);\n        transform: rotate(359deg);\n    }\n}\n/* @end */\n\n/* @group Header */\n.gotmap-modal .city .modal-title {\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .town .modal-title {\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .castle .modal-title {\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .ruin .modal-title {\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .other .modal-title {\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .person .modal-title {\n\tbackground: transparent url(" + __webpack_require__(32) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.stark .modal-title {\n\tbackground: transparent url(" + __webpack_require__(33) + ") no-repeat;\n\tbackground-size: 26px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.baratheon .modal-title {\n\tbackground: transparent url(" + __webpack_require__(34) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.lannister .modal-title {\n\tbackground: transparent url(" + __webpack_require__(35) + ") no-repeat;\n\tbackground-size: 31px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.targaryen .modal-title {\n\tbackground: transparent url(" + __webpack_require__(36) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n/* @end */\n\n/* @group Footer */\n.gotmap-modal .modal-footer {\n\tclear: both;\n}\n/* @end */\n\n/* @group dynModal wiki */\n.gotmap-modal #contentSub, .gotmap-modal #siteSub, .gotmap-modal #jump-to-nav, .gotmap-modal #mw-data-after-content, .gotmap-modal .printfooter, .gotmap-modal .navbox, .gotmap-modal .references, .gotmap-modal .references-small, .gotmap-modal .catlinks, .gotmap-modal .reference {\n\tdisplay: none;\n}\n\n.gotmap-modal h2:last-of-type {\n\tdisplay: none;\n} \n\n/* @group Top Right Infobox */\n.gotmap-modal .infobox {\n\tborder: 1px solid #aaa;\n\tbackground-color: #f9f9f9;\n\tcolor: black;\n\tmargin-bottom: 0.5em;\n\tmargin-left: 1em;\n\tpadding: 0.2em;\n\tfloat: right;\n\tclear: right\n}\n\n.gotmap-modal .infobox.bordered {\n    border-collapse: collapse\n}\n\n.gotmap-modal .infobox.bordered td, .gotmap-modal .infobox.bordered th {\n    border: 1px solid #aaa\n}\n\n.gotmap-modal .infobox.bordered .borderless td, .gotmap-modal .infobox.bordered .borderless th {\n    border: 0\n}\n\n.gotmap-modal .infobox th[scope=\"row\"] {\n\tpadding-left: 0.5em;\n}\n\n.gotmap-modal .infobox caption {\n\tfont-size: larger;\n\tmargin-left: inherit;\n\tcolor: #000;\n\tpadding: 0;\n\ttext-align: center;\n}\n\n.gotmap-modal .floatleft {\n\tmargin: 0 .5em .5em 0;\n\tborder: 0;\n\tfloat: left;\n\tclear: left;\n}\n\n.gotmap-modal .floatright {\n\tmargin: 0 0 .5em .5em;\n\tborder: 0;\n\tfloat: right;\n\tclear: right;\n}\n/* @end */\n\n/* @group TOC */\n.gotmap-modal .toc {\n     border: 1px solid #aaa;\n     background-color: #f9f9f9;\n     padding: .5em;\n     font-size: 95%;\n     display: table;\n}\n\n.gotmap-modal #toctitle  {\n    text-align: center;\n}\n\n.gotmap-modal .toc h2  {\n    display: inline;\n    border: none;\n    padding: 0;\n    font-size: 100%;\n    font-weight: bold;\n}\n\n.gotmap-modal .toc ul {\n    list-style-type: none;\n    list-style-image: none;\n    margin-left: 0;\n    padding: 0;\n    text-align: left\n}\n\n.gotmap-modal  .toc ul ul {\n    margin: 0 0 0 2em\n}\n\n.gotmap-modal  .toc .toctoggle {\n    font-size: 94%\n}\n/* @end */\n\n/* @group Floats */\n.gotmap-modal .tright {\n    margin: .5em 0 1.5em 1.5em;\n    clear: right;\n    float: right;\n}\n\n.gotmap-modal .tleft {\n    margin: .5em 1.5em 1.5em 0;\n    float: left;\n    clear: left;\n}\n    \n.gotmap-modal .thumb {\n    margin-bottom: .5em;\n    width: auto;\n}\n    \n.gotmap-modal div.thumbinner {\n    border: 1px solid #ccc;\n    padding: 3px;\n    background-color: #f9f9f9;\n    font-size: 94%;\n    text-align: center;\n    overflow: hidden\n}\n    \n.gotmap-modal .thumbcaption {\n    border: none;\n    line-height: 1.4em;\n    padding: 3px;\n    font-size: 94%;\n    text-align: left;\n}\n/* @group @end */\n\n/* @end */\n\n/* @end */", ""]);
 
 	// exports
 
@@ -11087,574 +11084,11 @@
 /* 43 */
 /***/ function(module, exports) {
 
-	paths = {};
-	paths['Eddard Stark'] = [ // Eddard
-	    {
-		    "to":1,
-	        "path":[[78.60937753613514, -105.31330572428169, "Winterfell"]],
-	        "alive":true
-	    },
-	    {
-		    "from":1,
-		    "to":2,
-	        "path":[[78.60937753613514, -105.31330572428169, "Winterfell"],
-	        [78.87133549569842, -104.35496490808343, "Holdfast"],
-	        [78.60937753613514, -105.31330572428169, "Winterfell"]],
-	        "alive":true
-	    },
-	    {	"from":2,
-		    "to":3,
-	        "path":[[78.60937753613514, -105.31330572428169, "Winterfell"],
-	        [78.43946295335057, -104.73507081189491],
-	        [78.34756239292874, -104.2431431701426],
-	        [78.20476835491463, -103.71607783969368],
-	        [77.97270210184809, -103.22415019794136],
-	        [77.86237795731759, -103.96204166056982],
-	        [77.64625095425868, -104.13773010405282],
-	        [77.42633638920293, -104.55938236841193],
-	        [77.10883731688408, -104.9458969440745],
-	        [76.91138563995128, -105.36754920843362],
-	        [76.6461937436962, -105.36754920843362],
-	        [76.3342825123057, -105.15672307625407],
-	        [76.07454465402115, -104.84048387798471],
-	        [75.80135332863686, -104.84048387798471],
-	        [75.39942393805171, -104.66479543450174],
-	        [75.14033486597062, -104.38369392492899],
-	        [74.7663544750569, -104.55938236841193],
-	        [74.44926762459832, -104.38369392492899],
-	        [74.18331153405968, -104.10259241535623],
-	        [73.61823182655083, -104.10259241535623],
-	        [73.32837430187344, -104.03231703796301],
-	        [72.93069892184147, -103.75121552839026],
-	        [72.52382650081954, -103.92690397187323],
-	        [72.1927801389041, -103.84384980611101, "Moat Cailin"],
-	        [71.8247461402687, -103.5755270849073],
-	        [71.42601083011967, -103.18901250924476],
-	        [70.98452688448991, -102.76736024488565],
-	        [70.57973288301969, -102.80249793358223],
-	        [70.14280400427137, -103.04846175445839],
-	        [69.59868503933274, -103.18901250924476],
-	        [69.05287415607201, -103.25928788663795],
-	        [68.51888328575492, -102.83763562227882],
-	        [67.95875682124, -102.52139642400947],
-	        [67.51950755179831, -102.24029491443672],
-	        [67.03086611293615, -102.41598335791971],
-	        [66.54617957036815, -102.83763562227882],
-	        [65.96613425453658, -103.25928788663795],
-	        [65.240502178439, -103.5755270849073],
-	        [64.58501309470624, -103.5755270849073],
-	        [63.990501595499815, -103.39983864142432],
-	        [63.35157074645357, -102.76736024488565],
-	        [62.665867663004526, -101.99433109356055],
-	        [62.09575188334764, -100.94020043266273],
-	        [61.53147258681095, -99.99148283785469],
-	        [61.00788875533814, -99.39414213001257],
-	        [60.64822109641328, -98.26973609172157],
-	        [60.127359421054365, -97.53184462909309],
-	        [59.5625391561233, -96.68854010037482],
-	        [59.0604190384844, -95.70468481687017],
-	        [58.64171437619993, -94.77155674610076, "Crossroads Inn"]],
-	        "alive":true
-	    },
-	    {
-		    "from":3,
-		    "to":4,
-	        "path":[[58.64171437619993, -94.77155674610076, "Crossroads Inn"],
-	        [57.95927171801536, -93.91266269334386],
-	        [56.974227069508494, -93.30210082793006, "Darry"],
-	        [56.08541762346779, -93.24504660810857],
-	        [55.11272602316825, -92.85853203244604],
-	        [54.115761925794686, -92.40174207939029],
-	        [53.367658252516286, -92.12064056981752],
-	        [52.627516553003176, -92.12064056981752],
-	        [51.98297832147753, -91.69898830545841],
-	        [51.43867715836525, -90.78540839934695],
-	        [50.86563995634066, -89.80155311584232],
-	        [50.449300964910904, -89.468737563137, "Ivy Inn"],
-	        [49.720865815714234, -88.95824858712405],
-	        [48.751826833236564, -88.06317103271289, "Brindlewood"],
-	        [48.2685522445431, -87.58787872795688],
-	        [47.798629017284384, -86.92026264272158],
-	        [47.29916873132517, -86.52982572679565, "Hayford"],
-	        [46.72561004602613, -86.35805962357607],
-	        [46.70151802939272, -85.44447971746462],
-	        [46.36310024474359, -84.81200132092593],
-	        [45.805474068515245, -84.48536531890602, "King's Landing"]],
-	        "alive":true
-	    },
-	    {
-	        "from":4,
-		    "to":8,
-	        "path":[[45.805474068515245, -84.48536531890602, "King's Landing"]],
-	        "alive":true
-	    },
-	    {
-	        "from":8,
-	        "path":[[45.805474068515245, -84.48536531890602, "King's Landing"]],
-	        "alive":false
-	    }
-	];
-
-	paths['Catelyn Stark'] = [ // Catelyn
-	   {
-		    "to":1,
-	        "path":[[78.60937753613514, -105.31330572428169, "Winterfell"]],
-	        "alive":true
-	    },
-	    {
-	        "from":1,
-		    "to":2,
-	        "path":[[78.60937753613514, -105.31330572428169, "Winterfell"]],
-	        "alive":true
-	    },
-	    {
-	        "from":2,
-		    "to":3,
-	        "path":[
-	        [78.60937753613514, -105.31330572428169, "Winterfell"],
-	        [78.39286732127543, -104.48274368357653],
-	        [78.08028069871692, -103.39662409188519],
-	        [77.94760059391382, -103.4605134796317],
-	        [77.73228013559743, -104.22718613259033],
-	        [77.26207200191342, -104.67441184681618],
-	        [76.8905822557817, -105.37719511202823],
-	        [76.41872894674265, -105.37719511202823],
-	        [75.97674231570153, -104.80219062230928],
-	        [75.47266876006286, -104.80219062230928],
-	        [75.13227860922962, -103.4605134796317],
-	        [74.81759711142072, -101.73550001047484],
-	        [74.7505241895224, -100.2021547045576],
-	        [74.68316201279913, -98.02991552117486],
-	        [74.5134835003353, -96.49657021525763, "White Harbor"],
-	        [73.83405206441113, -94.8354461338473],
-	        [73.16269311560526, -94.64377797060769],
-	        [72.63671559554774, -94.5798885828611],
-	        [72.13407165317136, -93.87710531764904],
-	        [71.85761459078662, -91.9604236852525],
-	        [72.03580786600004, -88.63817552243187],
-	        [72.13407165317136, -83.27146695172154],
-	        [72.13407165317136, -79.75755062566124],
-	        [71.917201356009, -73.4963906264992],
-	        [71.67771379654204, -70.04636368818545],
-	        [71.12762023348188, -66.14911103564583],
-	        [70.32639192804095, -64.4879869542355],
-	        [69.19959722090293, -63.01853103606482],
-	        [67.79498498091245, -61.357406954654486],
-	        [66.78383398406991, -61.42129634240105],
-	        [65.30567894306087, -61.42129634240105],
-	        [63.82434459806071, -61.293517566907944],
-	        [62.556680798735854, -60.97407062817519],
-	        [60.4859755562631, -60.526844913949326],
-	        [58.6084512692481, -61.1018494036683],
-	        [56.869618235780614, -61.99630083212],
-	        [54.78894829383813, -63.27408858705104],
-	        [51.73327907021632, -64.8713232807148],
-	        [50.16366766995667, -67.74634572930961],
-	        [48.625296874726764, -72.2186028715682],
-	        [47.16902527213997, -75.4769616466423],
-	        [45.62704089694391, -79.24643552368882],
-	        [44.04144208873176, -84.22980776791981],
-	        [44.21276370339456, -85.23365358528505],
-	        [44.888835591584325, -85.44447971746462],
-	        [45.805474068515245, -84.48536531890602, "King's Landing"]],
-	        "alive":true
-	    },
-	    {
-	        "from":3,
-		    "to":4,
-	        "path":[
-	        [45.805474068515245, -84.48536531890602, "King's Landing"],
-	        [46.241725610959875, -84.67145056613955],
-	        [46.58089660439545, -85.09310283049867],
-	        [46.70151802939272, -86.42833500096926],
-	        [47.609459152700985, -86.7445741992386],
-	        [48.12802521113999, -87.37705259577731],
-	        [49.103629980463225, -88.43118325667515],
-	        [49.74357743877172, -88.88797320973086],
-	        [50.776848187440265, -89.73127773844912],
-	        [51.08688116325605, -90.29348075759462],
-	        [51.52620572975286, -91.06650990891971],
-	        [52.198867317493104, -92.08550288112095],
-	        [52.94627396255311, -92.19091594721073],
-	        [53.743374862368825, -92.33146670199712],
-	        [54.72904602731885, -92.71798127765962],
-	        [55.57229934494554, -93.10449585332219],
-	        [56.494933060738305, -93.52614811768132],
-	        [57.37671944733015, -93.7018365611643],
-	        [58.03375948701079, -94.01807575943364],
-	        [58.64171437619993, -94.77155674610076, "Crossroads Inn"]],
-	        "alive":true
-	    },
-	    {
-	        "from":4,
-		    "to":5,
-	        "path":[
-	        [58.64171437619993, -94.77155674610076, "Crossroads Inn"],
-	        [58.897444505306446, -94.19376420291661],
-	        [59.096530991232974, -93.56128580637791],
-	        [59.096530991232974, -92.75311896635623],
-	        [59.02426907551543, -91.80440137154821],
-	        [58.8792886098917, -90.609719955864],
-	        [58.95185501653978, -89.94210387062867],
-	        [59.15062770728055, -89.52045160626956],
-	        [59.49126115236459, -89.59072698366276],
-	        [59.82849215383125, -89.37990085148317],
-	        [59.82849215383125, -88.81769783233766],
-	        [59.79315371475768, -88.07980636970919],
-	        [60.14485592781906, -87.62301641665347],
-	        [60.492836739963856, -87.41219028447391],
-	        [60.99085332893873, -86.99053802011478],
-	        [61.19467624070807, -86.1823711800931],
-	        [61.39718901208474, -85.62016816094759],
-	        [61.81490856027152, -85.51475509485782],
-	        [62.04637893922015, -85.05796514180209],
-	        [62.12862261260111, -84.14438523569062],
-	        [62.243389832129935, -83.12539226348939],
-	        [62.260772776184744, -81.41867470707156, "Eyrie"]],
-	        "alive":true
-	    },
-	    {
-	        "from":5,
-		    "to":8,
-	        "path":[
-	        [62.260772776184744, -81.41867470707156, "Eyrie"]],
-	        "alive":true
-	    },
-	    {
-	        "from":8,
-		    "to":9,
-	        "path":[
-	        [62.260772776184744, -81.41867470707156, "Eyrie"],
-	        [62.243389832129935, -82.98484150870301],
-	        [62.12862261260111, -84.56603750004975],
-	        [61.94739204625996, -85.26879127398163],
-	        [61.71516925506352, -85.51475509485782],
-	        [61.38036284390839, -85.51475509485782],
-	        [61.31296753083122, -86.00668273661013],
-	        [61.09292892052717, -86.77971188793519],
-	        [60.440875811699776, -87.30677721838411],
-	        [60.10985360741351, -87.65815410535006],
-	        [59.863793140896234, -88.1149440584058],
-	        [59.899056702258555, -88.85283552103425],
-	        [59.75777779739873, -89.55558929496617],
-	        [59.34825253189831, -89.69614004975253],
-	        [58.969972805902344, -89.87182849323551],
-	        [58.861123180003, -91.06650990891971],
-	        [59.006179832196175, -92.36660439069371],
-	        [59.1686409686464, -93.17477123071538],
-	        [58.95185501653978, -93.63156118377111],
-	        [58.64171437619993, -94.77155674610076, "Crossroads Inn"],
-	        [58.98808107672349, -95.52899637338719],
-	        [59.31240593103349, -96.1966124586225],
-	        [59.68691342286392, -96.96964160994756],
-	        [60.10985360741351, -97.53184462909309],
-	        [60.51013857118985, -98.02377227084541],
-	        [60.80285971563594, -98.86707679956368],
-	        [61.07593913840188, -99.56983057349555],
-	        [61.48118406372459, -99.92120746046149],
-	        [61.79830779073197, -100.51854816830361],
-	        [62.32509992131303, -101.36185269702186],
-	        [62.74643027764486, -102.17001953704354],
-	        [63.241040513189596, -102.76736024488565],
-	        [63.773947515895195, -103.18901250924476],
-	        [64.0674384339599, -103.82149090578345],
-	        [64.40344954283546, -104.59452005710853],
-	        [64.64526667272538, -105.22699845364724],
-	        [64.76537379557995, -106.38654218063485],
-	        [65.21105373315051, -107.12443364326336],
-	        [65.56227785588344, -107.4055351528361],
-	        [65.82262531882361, -107.93260048328501],
-	        [65.86576237596427, -108.60021656852031],
-	        [66.10884164336055, -109.1272818989692],
-	        [66.43404632972327, -109.65434722941812],
-	        [66.63225698514907, -110.36056735625922, "The Twins"],
-	        [66.25075108183655, -110.49765175813639],
-	        [65.96613425453658, -110.35710100335001],
-	        [65.76499650574951, -109.93544873899089],
-	        [65.5477371979212, -109.37324571984539],
-	        [65.18157247811916, -108.74076732330667],
-	        [64.81027675098451, -108.28397737025092],
-	        [64.38826475750828, -107.75691203980203],
-	        [63.959667437201716, -106.80819444499399],
-	        [63.6182415087585, -106.0351652936689],
-	        [63.17768986973945, -105.47296227452341],
-	        [62.681997751803614, -104.8756215666813],
-	        [62.3414153348455, -104.73507081189491],
-	        [61.897777910095144, -104.55938236841193],
-	        [61.10937910830387, -104.67441184681618, "Fairmarket"],
-	        [60.52743116890307, -105.33241151973702],
-	        [60.40618896388694, -105.96488991627571],
-	        [60.162343131024805, -106.98388288847697],
-	        [59.81082761743852, -108.10828892676797],
-	        [59.419832346889706, -109.05700652157603],
-	        [59.15062770728055, -109.93544873899089],
-	        [58.62410351037153, -111.0598547772819],
-	        [58.23780297644281, -111.41123166424786],
-	        [57.80059042486263, -111.83002327442992, "Riverrun"]],
-	        "alive":true
-	    },
-	    {
-	        "from":9,
-		    "to":12,
-	        "path":[
-	        [57.80059042486263, -111.83002327442992, "Riverrun"]],
-	        "alive":true
-	    },
-	    {
-	        "from":12,
-		    "to":13,
-	        "path":[
-	        [57.80059042486263, -111.83002327442992, "Riverrun"],
-	        [57.28188114751502, -112.8870145895048],
-	        [56.59179104261696, -113.13297841038097],
-	        [55.84943487110565, -113.83573218431286],
-	        [55.27318258279569, -114.43307289215495],
-	        [54.321210038867584, -114.88986284521066],
-	        [53.66017050229305, -114.92500053390727],
-	        [52.86150026481791, -116.50619652525403],
-	        [51.83123401604371, -117.59546487484843],
-	        [50.5317996261746, -118.05225482790418],
-	        [49.19556226596699, -118.12253020529738],
-	        [47.205192628819766, -117.77115331833143],
-	        [46.21741839293661, -117.49005180875866],
-	        [45.8515181584277, -116.18995732698468],
-	        [45.77804736360497, -114.60876133563792],
-	        [45.58165132763327, -113.02756534429116],
-	        [44.66435092300765, -112.04371006078657],
-	        [43.98566142205427, -111.86802161730357],
-	        [42.965769977056944, -111.62205779642741],
-	        [42.007061513275815, -111.27068090946146],
-	        [41.192523777782746, -111.0247170885853],
-	        [40.36772388316521, -110.63820251292277],
-	        [39.47848376516448, -110.49765175813639],
-	        [38.35763788557945, -110.28682562595682],
-	        [37.30306399326198, -109.86517336159771],
-	        [36.293111366396154, -108.95500082583514, "Bitterbridge"]],
-	        "alive":true
-	    },
-	    {
-	        "from":13,
-		    "to":14,
-	        "path":[
-	        [36.29015653031369, -107.44067284153267],
-	        [36.261829360233534, -106.17571604845527],
-	        [36.43163811310814, -104.55938236841193],
-	        [36.79828462366951, -102.80249793358223],
-	        [37.191181076916614, -101.15102656484228],
-	        [37.414780703900526, -99.35900444131597],
-	        [37.47057667659863, -97.77780844996923],
-	        [36.51640353511033, -95.634409439477],
-	        [36.00642274796916, -94.29917726900638],
-	        [35.23523235450371, -92.36660439069371],
-	        [33.90434387680707, -90.92595915413334],
-	        [32.493095197402006, -90.32861844629123],
-	        [31.02925106541787, -89.55558929496617],
-	        [30.57653873472007, -88.36090787928195],
-	        [30.93887935239251, -86.60402344445222],
-	        [31.74912894073118, -85.19851589658846],
-	        [32.493095197402006, -84.07410985829745],
-	        [33.28972281000732, -83.05511688609619],
-	        [33.23095944497165, -82.00098622519837],
-	        [33.113314215206735, -80.49006561124482],
-	        [32.7298791627984, -78.94400730859466],
-	        [31.987857505799358, -77.64391282682067],
-	        [31.389879839113846, -77.32767362855132, "Storm's End"]],
-	        "alive":true
-	    },
-	    {
-	        "from":14,
-		    "to":15,
-	        "path":[
-	        [31.389879839113846, -77.32767362855132, "Storm's End"]],
-	        "alive":true
-	    },
-	    {
-	        "from":15,
-		    "to":16,
-	        "path":[
-	        [32.49871858384166, -77.39364327903883],
-	        [32.982368502194504, -77.77697960551815],
-	        [33.72946808659767, -78.35198409523711],
-	        [34.57539680493824, -78.79920980946295],
-	        [34.99517162795851, -79.8214400134078],
-	        [35.46485729079372, -80.97144899284571],
-	        [36.703980618488345, -81.35478531932502],
-	        [37.46846468264265, -81.92978980904398],
-	        [38.02417094375439, -83.01590940073534],
-	        [38.62562477242207, -83.52702450270775],
-	        [39.51841823043667, -83.8464714414405],
-	        [40.351210245523106, -85.1881485841181],
-	        [40.83634560610648, -86.72149389003532],
-	        [41.55743771645208, -88.31872858369911],
-	        [42.69462650236211, -88.70206491017841],
-	        [43.487766654319245, -89.40484817539047],
-	        [44.22486152718651, -90.17152082834906],
-	        [44.86234247501422, -90.17152082834906],
-	        [45.62704089694391, -89.40484817539047],
-	        [45.71632870219224, -88.8298436856715],
-	        [46.513510893980865, -88.38261797144565],
-	        [46.95140907794413, -89.08540123665772],
-	        [47.125573086925904, -89.9798526651094],
-	        [46.86411385896725, -91.25764042004045],
-	        [46.557460731744754, -92.21598123623872],
-	        [46.11636132632686, -93.62154776666284],
-	        [45.84999334070613, -94.5798885828611],
-	        [46.072055658453536, -95.53822939905938],
-	        [46.38144794226051, -96.68823837849727],
-	        [46.99500337818557, -97.19935348046971],
-	        [47.47219627756673, -97.9660261334283],
-	        [47.773628369566914, -99.24381388835934],
-	        [47.773628369566914, -100.52160164329037],
-	        [47.51536443190817, -101.28827429624899],
-	        [47.082085378827266, -102.11883633695416],
-	        [46.732904430693544, -103.65218164287135],
-	        [46.42550450204406, -105.63275266301446],
-	        [46.42550450204406, -107.0383191934386],
-	        [46.29322808165027, -108.5716644993558],
-	        [46.072055658453536, -110.10500980527301],
-	        [45.67170260511645, -111.57446572344371],
-	        [45.582343576416015, -113.17170041710749],
-	        [45.805474068515245, -114.51337755978507],
-	        [45.805474068515245, -116.0467228657023],
-	        [46.24906477570481, -117.45228939612643],
-	        [47.16902527213997, -117.89951511035228],
-	        [47.29916873132517, -117.83562572260573],
-	        [47.773628369566914, -119.17730286528331],
-	        [48.11599506915826, -119.94397551824191],
-	        [48.201232528183866, -121.22176327317294],
-	        [48.625296874726764, -122.1801040893712],
-	        [49.33810048370896, -123.01066613007639],
-	        [49.79390129468998, -124.28845388500741],
-	        [49.9585927618201, -126.01346735416429],
-	        [50.28629201719463, -127.4190338845884],
-	        [50.814025811086026, -128.8884898027591],
-	        [51.45545248480529, -130.61350327191596, "Oxcross"]],
-	        "alive":true
-	    },
-	    {
-	        "from":16,
-		    "to":17,
-	        "path":[
-	        [51.45545248480529, -130.61350327191596, "Oxcross"]],
-	        "alive":true
-	    },
-	    {
-	        "from":17,
-		    "to":18,
-	        "path":[
-	        [52.24474238488776, -130.29405633318322],
-	        [52.40094190218121, -129.2718261292384],
-	        [53.0970325169453, -129.08015796599872],
-	        [53.51696033471452, -128.12181714980045],
-	        [53.81977293399744, -126.20513551740393],
-	        [53.89513634098723, -124.99123715021945],
-	        [54.493169204546284, -123.84122817078156],
-	        [55.22859204536062, -123.13844490556947],
-	        [55.986421210526586, -122.49955102810395],
-	        [56.974227069508494, -121.0300951099333]],
-	        "alive":true
-	    },
-	    {
-	        "from":18,
-		    "to":20,
-	        "path":[
-	        [56.974227069508494, -121.0300951099333]],
-	        "alive":true
-	    },
-	    {
-	        "from":20,
-		    "to":21,
-	        "path":[
-	        [57.11324983638391, -119.68841796725572],
-	        [57.42415249577191, -118.79396653880399],
-	        [57.52720425307284, -117.32451062063333],
-	        [57.18256624654187, -115.47171837598333],
-	        [57.11324983638391, -114.13004123330575],
-	        [57.45853538078, -113.10781102936095],
-	        [57.732436989140275, -112.59669592738851],
-	        [57.83461894794214, -110.48834613175234],
-	        [57.97041216916898, -108.5716644993558],
-	        [58.20681778870741, -106.59109347921272],
-	        [58.20681778870741, -104.9299693978024],
-	        [58.10569287964284, -102.69384082667311],
-	        [57.80059042486263, -101.03271674526277],
-	        [57.07854291449995, -99.24381388835934],
-	        [56.34216276517164, -98.02991552117486],
-	        [55.192138999863374, -96.68823837849727, "Harrenhal"]],
-	        "alive":true
-	    },
-	    {
-	        "from":21,
-		    "to":22,
-	        "path":[
-	        [56.09348976715208, -99.88270776582485],
-	        [56.65951971182894, -104.03551796935068]],
-	        "alive":true
-	    },
-	    {
-	        "from":22,
-		    "to":23,
-	        "path":[
-	        [56.93939003599202, -105.24941633653515],
-	        [57.21717577027778, -107.4216555199179],
-	        [57.28629754394924, -109.46611592780752],
-	        [57.80059042486263, -111.83002327442992, "Riverrun"]],
-	        "alive":true
-	    },
-	    {
-	        "from":23,
-		    "to":26,
-	        "path":[
-	        [57.80059042486263, -111.83002327442992, "Riverrun"]],
-	        "alive":true
-	    },
-	    {
-	        "from":26,
-		    "to":27,
-	        "path":[
-	        [57.80059042486263, -111.83002327442992, "Riverrun"],
-	        [58.90668113743768, -111.7022444989368],
-	        [59.78611531955249, -110.68001429499198],
-	        [60.95466468735557, -109.2744477645679],
-	        [61.66013130422653, -109.53000531555408],
-	        [62.379486992356355, -109.65778409104719, "Oldstones"],
-	        [63.45557223825415, -110.42445674400581]],
-	        "alive":true
-	    },
-	    {
-	        "from":27,
-		    "to":28,
-	        "path":[
-	        [63.50873712469366, -110.46251406943978]],
-	        "alive":true
-	    },
-	    {
-	        "from":28,
-		    "to":29,
-	        "path":[
-	        [63.55571912112352, -110.56792713552957],
-	        [64.0674384339599, -110.91930402249552],
-	        [64.62988434528124, -111.89391266217646, "Seagard"]],
-	        "alive":true
-	    },
-	    {
-	        "from":29,
-	        "path":[[
-	        64.62988434528124, -111.89391266217646, 28, "Seagard"
-	    ]],
-	        "alive":false
-	    },
-	];
-
-/***/ },
-/* 44 */
-/***/ function(module, exports) {
-
 	var apiLocation = "";
 	var apiToken = "";
 
 /***/ },
-/* 45 */
+/* 44 */
 /***/ function(module, exports) {
 
 	/*____     _____   __  __
@@ -11671,20 +11105,23 @@
 			'filter':false,
 			'timeline':false,
 			'characterBox':false,
-			'cityDetails':function(modal, city) {internalHelpers.loadWikiPage(modal,city);},
-			'characterDetails':function(modal, character) {internalHelpers.loadWikiPage(modal,character);},
+			'cityDetails':function(modal, city) {modal.find('.modal-body').text("Fill this modal by passing the cityDetails Callback Function"+JSON.stringify(city));},
+			'characterDetails':function(modal, character) {modal.find('.modal-body').text("Fill this modal by passing the characterDetails Callback Function"+JSON.stringify(character));},
 			'defaultPersonImg':'http://map.got.show/mockup/img/persons/dummy.jpg',
 			'deadPersonImg':'http://map.got.show/mockup/img/persons/skull.png',
+			'personImageBaseUrl':'https://got-api.bruck.me',
 			'cityDataSource':'https://got-api.bruck.me/api/cities',
-			'realmDataSource':'https://got-api.bruck.me/api/realms',
-			'pathDataSource':'https://got-api.bruck.me/api/paths',
-			'episodeDataSource':'https://got-api.bruck.me/api/episodes/',
-			'characterDataSource':'https://got-api.bruck.me/api/characters/',
+			'realmDataSource':'https://got-api.bruck.me/api/regions',
+			'pathDataSource':'https://got-api.bruck.me/api/characters/paths',
+			'episodeDataSource':'https://got-api.bruck.me/api/episodes',
+			'characterDataSource':'https://got-api.bruck.me/api/characters',
+			'pinDataSource':'https://got-api.bruck.me/api/characters/locations',
 			'bgTiles':'http://tiles.got.show/bg/{z}/y{y}x{x}.png',
 			'labelTiles':'http://tiles.got.show/labels/{z}/y{y}x{x}.png',
 			'errorTile':'http://tiles.got.show/blank.png',
 			'characterColors':['#F44336', '#2196F3', '#4CAF50', '#212121', '#7C4DFF', '#F8BBD0', '#FBC02D', '#795548', 
-			'#00796B', '#536DFE', '#FFFFFF', '#FF5722']
+			'#00796B', '#536DFE', '#FFFFFF', '#FF5722'],
+			'episodesRange': [1,2]
 		};
 		
 		// Merge User and Default Options
@@ -11773,12 +11210,12 @@
 				function (data) {
 					var allCities = (typeof data == "object") ? data : JSON.parse(data);
 					allCities.map(function (place) {
-						place.coords = [parseFloat(place.coordY), parseFloat(place.coordX)]; // 
-						cityStore[place.name] = place;
-						var type = place.type || "other"; // Add Type to display correct label
-						var prio = "prio"+place.priority; // Add priority to hide / show cities
-						var extra = (place.priority == 6 || jQuery.inArray(place.name, ['Shadow Tower', 'Castle Black', 'Eastwatch by the Sea', 'Nightfort']) != -1) ? " wall-label" : ""; 
 						if(place.coordY && place.coordX) {
+							cityStore[place.name] = place;
+							var type = place.type || "other"; // Add Type to display correct label
+							var prio = "prio"+place.priority; // Add priority to hide / show cities
+							var extra = (place.priority == 6 || jQuery.inArray(place.name, ['Shadow Tower', 'Castle Black', 'Eastwatch by the Sea', 'Nightfort']) != -1) ? " wall-label" : ""; 
+							place.coords = L.latLng(parseFloat(place.coordY), parseFloat(place.coordX));
 							L.marker(place.coords, {
 								icon: L.divIcon({className: ['gotmarker', type, prio].join(' ')})
 							}).on('click', function () {
@@ -11812,10 +11249,18 @@
 		
 			jQuery.get(options.realmDataSource, {},
 				function (data){
+					var toCoords = function(str) {
+						str = str.split(",");
+						return [parseFloat(str[0]), parseFloat(str[1])];
+					};
 					var allRealms = (typeof data == "object") ? data : JSON.parse(data);
 					allRealms.map(function (realm) {
+						if(!realm.borders) { // Skip missing borders
+							return;
+						}
+						realm.borders = realm.borders.map(toCoords);
 						//Initilizes the different realms
-						realm.poly = L.polygon(realm.path, {
+						realm.poly = L.polygon(realm.borders, {
 							color: realm.color || 'red', 
 							opacity : 0.4
 						}).bindLabel(realm.name, {
@@ -11823,7 +11268,7 @@
 						}).addTo(realmsLayer);
 						realmStore[realm.name] = realm;	
 						//Initilizes the political map, just showing boarders
-						L.polygon(realm.path, {
+						L.polygon(realm.borders, {
 							color:'red', 
 							opacity : 0.2,
 							fillOpacity: 0.0
@@ -11860,7 +11305,20 @@
 			
 			// Init List
 			episodeStore = [];
-			prevSelected = [1,2];
+			prevSelected = options.episodesRange;
+			
+			// Helper for Episode Info
+			function getEpisodeInfo(i) {
+				if(i < episodeStore.length) {
+					return episodeStore[i].showTitle;
+				} else {
+					return "No Episode found";
+				}
+			}
+			
+			function setInfoText(range) {
+				infoEl.text(getEpisodeInfo(range[0]) + " - " + getEpisodeInfo(range[1]));
+			}
 			
 			// Fetch the Data
 			jQuery.get(options.episodeDataSource, {},
@@ -11886,19 +11344,6 @@
 					});
 				}
 			);
-			
-			function setInfoText(range) {
-				infoEl.text(getEpisodeInfo(range[0]) + " - " + getEpisodeInfo(range[1]));
-			}
-			
-			// Helper for Episode Info
-			function getEpisodeInfo(i) {
-				if(i < episodeStore.length) {
-					return episodeStore[i].showTitle;
-				} else {
-					return "No Episode found";
-				}
-			}
 		})();
 		
 		// INIT Filterbar and Characterlist
@@ -11917,14 +11362,11 @@
 			// Init List
 			characterStore = {}; // Character Store
 			
-			var pathList = ['Eddard Stark', 'Catelyn Stark'];
-			
 			jQuery.get(options.characterDataSource, {}, function(data) {
 				var allCharacters = (typeof data == "object") ? data : JSON.parse(data);
 				allCharacters.map(function (character) {
 					if(character.name) {
-						character.imageLink = character.imageLink ? "http://awoiaf.westeros.org/"+character.imageLink : options.defaultPersonImg;
-						character.pathInfo = pathList.indexOf(character.name) != -1;
+						character.imageLink = character.imageLink ? options.personImageBaseUrl+character.imageLink : options.defaultPersonImg;
 						characterStore[character.name.toLowerCase()] = character;
 					}
 				});
@@ -11989,12 +11431,12 @@
 				inputVal = s;
 				selectedInDropdown = 0;
 				
-				var out = publicFunctions.searchCharacter(inputVal, 20);
+				var out = publicFunctions.searchCharacter(inputVal, 40);
 				
 				l.empty(); // Delete the HTML li Elements
 				if(out.length) {
 					out.map(function(character,i) {
-						var extra = character.pathInfo ? ' class="pathInfo"' : '';
+						var extra = character.hasPath ? ' class="pathInfo"' : '';
 						var item = jQuery('<li'+extra+'><a href="#"><img src="'+character.imageLink+'" class="img-circle"/>'+
 							character.name+'</a></li>'
 						).click(function(e) {
@@ -12076,9 +11518,16 @@
 		//                                                        //
 		//########################################################//
 		
+		publicFunctions.getMap = function() {
+			return map;
+		};
+		
 		// Modal Functions
 		
 		publicFunctions.showModal = function (callback, obj, cssclass) {
+			if(typeof callback != "function") {
+				return;
+			}
 			gotModal.modal('show'); // Show the Modal
 			var title = obj.name; 
 	    	var headerEl = gotModal.find('.modal-header'); // Header Container
@@ -12121,28 +11570,31 @@
 					'<img src="'+options.deadPersonImg+'" /></span>'
 				});
 				// Load Additional Information
-				if(character.pathInfo) {
-					// TODO: Use the DB
-					character.path = paths[id];
+				if(character.hasPath) {
+					character.path = [];
+					jQuery.get(options.pathDataSource+"/"+character.name, {'strict':true}, function (data) {
+						var pathData = (typeof data == "object") ? data : JSON.parse(data);
+						character.path = pathData.data[0].path;
+					character.bounds = false;
+						publicFunctions.updateMap(); 
+						publicFunctions.focusOnCharacter(id);
+					});
 				} else {
 					character.points = [];
-					// TODO: Use the DB
-					jQuery.ajax({url:"https://awoiaf.westeros.org/index.php?action=raw&title="+character.name}).success(function(data) {
-						var re = /\[\[([^\]]+)\]\]/g; // Find Link
-						var m;
-						
-						while ((m = re.exec(data)) !== null) {
-							if (m.index === re.lastIndex) {
-								re.lastIndex++;
+					// Fetch the Data
+					console.log(options.pinDataSource+"/"+character.name);
+					jQuery.get(options.pinDataSource+"/"+character.name, {'strict':true}, function (data) {
+						var locData = (typeof data == "object") ? data : JSON.parse(data);
+						var allCities = locData.data[0].locations;
+						allCities.map(function (place) { // Add points to character
+							if(cityStore[place]) {
+								character.points.push(cityStore[place].coords);
 							}
-							var place = cityStore[m[1].replace('_', ' ')];
-							if(place) {
-								character.points.push(place.coords);
-							}
-						}
-						publicFunctions.updateMap();
+						});
+						character.bounds = L.latLngBounds(character.points); // Calc bounds for view
+						publicFunctions.updateMap(); 
 						publicFunctions.focusOnCharacter(id);
-					}); 
+					});
 				}
 				
 				// Make new element
@@ -12180,9 +11632,6 @@
 				character.el = characterElement; // Save it to be able to delete it later
 				
 				loadedCharacters[id] = character; // Save It
-				
-				publicFunctions.updateMap();
-				publicFunctions.focusOnCharacter(id);
 				
 				return id;
 			}
@@ -12248,39 +11697,36 @@
 		};
 		
 		publicFunctions.searchCharacter = function (search, maxResults) {
-			var o1 = []; // Begins with
-			var o2 = []; // Contains
+			var o0 = []; // Exact match
+			var o1 = []; // Contains
 			var p;
+			var counter = maxResults*3;
 			for(var cName in characterStore) {
 				var pos = cName.indexOf(search);
 				if(pos != -1) {
-					(pos === 0 ? o1 : o2).push(characterStore[cName]);
-					if((maxResults--) === 0) {
-						break;
+					(cName.length == search.length ? o0 : o1).push(characterStore[cName]);
+					if((counter--) === 0) {
+					//	break;
 					}
 				}
 			}
-			return o1.concat(o2); // First beginning with search, then the rest
+			var out = o1.sort(function(c1, c2) { // Sort it
+					var p1 = c1.pageRank || -1;
+					var p2 = c2.pageRank || -1;
+					return p2 - p1;
+			});
+			return o0.concat(out).slice(0, maxResults); // Add the exact match in the beginning
 		};
 		
 		publicFunctions.focusOnCharacter = function (id) {
-			if(loadedCharacters[id]) { 
-			var points = characterLayer.getLayers().filter(function (obj) {
-				return obj.character.name == id;
-			}).reduce(function (init, obj) {
-				if(obj._latlng) {
-					init.push(obj._latlng);
-					return init;
+			if(loadedCharacters[id]) {
+				var bounds = loadedCharacters[id].bounds;
+				if(typeof bounds == "object" && bounds.isValid()) {
+					map.fitBounds(bounds);
+					return true;
 				} else {
-					return init.concat(obj._latlngs);
-					}
-			}, []);
-			if(points.length > 0) {
-				map.fitBounds(L.latLngBounds(points));
-				return true;
-			} else {
-				return false;
-			}
+					return false;
+				}
 			}
 		};
 		
@@ -12303,7 +11749,8 @@
 				if(!path.to) {
 					return selected[1] >= path.from;
 				}
-				return selected[0] <= path.from && selected[1] >= path.to;
+				// As long as the ranges colide, it will show
+				return selected[0] <= path.from && selected[1] >= path.to || path.from <= selected[0] && path.to > selected[1] || path.from >= selected[0] && path.from <= selected[1] || path.to > selected[0] && path.to < selected[1];
 			};
 			
 			var combineCoords = function (paths) {
@@ -12318,8 +11765,43 @@
 				markers.push({
 					'coords':point, 
 					'style': character.markerStyle, 
-					'character':character
+					'character':character,
+					'alive':true
 				});
+			};
+			
+			var nicePopup = function(markers) {
+				markers.sort(function (m1, m2) {
+					return (m1.character.name == m2.character.name) ? 0 : ( (m1.character.name > m2.character.name) ? 1 : -1 );
+				});
+				var html = "<div class=\"popupCharacterList\">";
+				var lastCharacter = false;
+				var mlist = markers.filter(function (marker) {
+					var character = marker.character;
+					if(lastCharacter && lastCharacter == character) {
+						return false;
+					} else {
+						lastCharacter = character;
+						return true;
+					}
+				});
+				if(mlist.length <= 1) { // Only one character
+					return false;
+				}
+				mlist.map(function(marker) {
+					var character = marker.character;
+					html += "<div class=\"character\">";
+					if(marker.alive) {
+						html += "<img src=\""+character.imageLink+"\" class=\"img-circle\" "+
+							"style=\"border-color:"+character.color+"\"/>";
+					} else {
+						html += "<img src=\""+options.deadPersonImg+"\" class=\"img-circle\" "+
+						"style=\"border-color:"+character.color+";background-color:"+character.color+"\"/>";
+					}
+					html += "<span class=\"name\">"+character.name+"</span>";
+					html += "</div>";
+				});
+				return html + "</div>";
 			};
 			
 			for(var id in loadedCharacters) { // Loop through every character
@@ -12327,10 +11809,12 @@
 				if(!character.shown) {
 					continue;
 				}
-				if(character.pathInfo) {
+				if(character.hasPath) {
 					var paths = character.path.filter(pathShown);
+					var polyline = combineCoords(paths);
+					character.bounds = L.latLngBounds(polyline);
 					polylines.push({
-						path: combineCoords(paths),
+						path: polyline,
 						color: character.color,
 						character: character
 					});
@@ -12339,29 +11823,61 @@
 						var firstPath  = paths[0];
 						var firstPoint = firstPath.path[0];
 						markers.push({
-							'coords': firstPoint,
-							'style': firstPath.alive ? character.markerStyle : character.deadStyle,
-							'character':character
+							'coords': L.latLng(firstPoint[0], firstPoint[1]),
+							'character':character,
+							'alive':firstPath.alive
 						});
 					}
 					if(len > 1) {
 						var lastPath  = paths[len-1];
 						var lastPoint = lastPath.path[lastPath.path.length-1];	
 						markers.push({
-							'coords': lastPoint,
-							'style': lastPath.alive ? character.markerStyle : character.deadStyle,
-							'character':character
+							'coords': L.latLng(lastPoint[0], lastPoint[1]),
+							'character':character,
+							'alive':lastPath.alive
 						});
 					}
 				} else {
 					character.points.map(generateMarker);
 				}
 			}
+			console.log(markers);
+			markers.sort(function (marker1, marker2) {
+				var c1 = marker1.coords;
+				var c2 = marker2.coords;
+				var dif = c1.lat - c2.lat;
+				if(dif === 0) {
+					return c1.lng - c2.lng;
+				} else {
+					return dif;
+				}
+			});
+			var lastMarker = false;
+			console.log(markers);
+			markers = markers.filter(function (marker) {
+				if(lastMarker && lastMarker.coords.equals(marker.coords)) {
+					if(!("multi" in lastMarker)) {
+						lastMarker.multi = [lastMarker];
+					}
+					lastMarker.multi.push(marker);
+					return false;
+				}
+				lastMarker = marker;
+				return true;
+			});
+			
+			console.log(markers);
+			var popUpString;
 			markers.map(function(marker) {
-				L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer).character = marker.character;
+				if("multi" in marker && (popUpString = nicePopup(marker.multi)) !== false) {
+					L.marker(marker.coords).addTo(characterLayer).bindPopup(popUpString);
+				} else {
+					var style = marker.alive ? marker.character.markerStyle : marker.character.deadStyle;
+					L.marker(marker.coords, {icon:style}).addTo(characterLayer);
+				}
 			});
 			polylines.map(function(polyline) {
-				L.polyline(polyline.path, {color:polyline.color}).addTo(characterLayer).character = polyline.character;
+				L.polyline(polyline.path, {color:polyline.color}).addTo(characterLayer);
 			});
 		};
 		

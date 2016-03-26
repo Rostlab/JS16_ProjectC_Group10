@@ -14,9 +14,6 @@
 		require("./lib/leaflet.label/Marker.Label.js")
 		require("./lib/leaflet.label/Path.Label.js")
 
-		//data
-		require("../data/paths.js")
-
 		// include js files
 		require("./js/config.js")
 		require("./js/gotmap.js")
