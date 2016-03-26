@@ -12,6 +12,8 @@ Run It
 */
 jQuery(function() {
 	mymap = gotmap('#map', {
+		'apiLocation':apiLocation,
+		'personImageBaseUrl':'https://got-api.bruck.me',
 		'characterBox':'#characters',
 		'timeline':'#timeline',
 		'filter':'#filter input'
