@@ -19,10 +19,10 @@ gotmap = function(mapContainer, options) {
 		'personImageBaseUrl':'https://got-api.bruck.me',
 		'cityDataSource':'https://got-api.bruck.me/api/cities',
 		'realmDataSource':'https://got-api.bruck.me/api/regions',
-		'pathDataSource':'https://got-api.bruck.me/api/paths',
-		'episodeDataSource':'https://got-api.bruck.me/api/episodes/',
-		'characterDataSource':'https://got-api.bruck.me/api/characters/',
-		'pinDataSource':'https://got-api.bruck.me/api/characters/locations/',
+		'pathDataSource':'https://got-api.bruck.me/api/characters/paths',
+		'episodeDataSource':'https://got-api.bruck.me/api/episodes',
+		'characterDataSource':'https://got-api.bruck.me/api/characters',
+		'pinDataSource':'https://got-api.bruck.me/api/characters/locations',
 		'bgTiles':'http://tiles.got.show/bg/{z}/y{y}x{x}.png',
 		'labelTiles':'http://tiles.got.show/labels/{z}/y{y}x{x}.png',
 		'errorTile':'http://tiles.got.show/blank.png',
@@ -214,6 +214,19 @@ gotmap = function(mapContainer, options) {
 		episodeStore = [];
 		prevSelected = options.episodesRange;
 		
+		// Helper for Episode Info
+		function getEpisodeInfo(i) {
+			if(i < episodeStore.length) {
+				return episodeStore[i].showTitle;
+			} else {
+				return "No Episode found";
+			}
+		}
+		
+		function setInfoText(range) {
+			infoEl.text(getEpisodeInfo(range[0]) + " - " + getEpisodeInfo(range[1]));
+		}
+		
 		// Fetch the Data
 		jQuery.get(options.episodeDataSource, {},
 			function (data){
@@ -238,19 +251,6 @@ gotmap = function(mapContainer, options) {
 				});
 			}
 		);
-		
-		function setInfoText(range) {
-			infoEl.text(getEpisodeInfo(range[0]) + " - " + getEpisodeInfo(range[1]));
-		}
-		
-		// Helper for Episode Info
-		function getEpisodeInfo(i) {
-			if(i < episodeStore.length) {
-				return episodeStore[i].showTitle;
-			} else {
-				return "No Episode found";
-			}
-		}
 	})();
 	
 	// INIT Filterbar and Characterlist
@@ -269,18 +269,11 @@ gotmap = function(mapContainer, options) {
 		// Init List
 		characterStore = {}; // Character Store
 		
-		// Delete when DB ready
-		var pathList = ['Eddard Stark', 'Catelyn Stark', 'Tywin Lannister', 'Robb Stark', 'Sansa Stark', 
-		'Bran Stark', 'Arya Stark', 'Rickon Stark', 'Jon Snow', 'Daenerys Targaryen', 'Jaime Lannister', 
-		'Cersei Lannister', 'Tyrion Lannister', 'Drogo', 'Viserys Targaryen', 'Joffrey Baratheon', 'Myrcella Baratheon', 'Tommen Baratheon', 'Robert Baratheon',
-		'Stannis Baratheon','Renly Baratheon','Theon Greyjoy', 'Asha Greyjoy','Victorian Greyjoy','Brienne of Tarth', 'Davos Seaworth', 'Samwell Tarly', 'Petyr Baelish'];
-		
 		jQuery.get(options.characterDataSource, {}, function(data) {
 			var allCharacters = (typeof data == "object") ? data : JSON.parse(data);
 			allCharacters.map(function (character) {
 				if(character.name) {
 					character.imageLink = character.imageLink ? options.personImageBaseUrl+character.imageLink : options.defaultPersonImg;
-					character.hasPath = pathList.indexOf(character.name) != -1; // Delete when DB ready
 					characterStore[character.name.toLowerCase()] = character;
 				}
 			});
@@ -485,22 +478,20 @@ gotmap = function(mapContainer, options) {
 			});
 			// Load Additional Information
 			if(character.hasPath) {
-				/*character.path = []; // Uncomment when DB is ready
-				jQuery.get(options.pathDataSource+"getByName/"+character.name, {}, function (data) {
-					character.path = (typeof data == "object") ? data : JSON.parse(data);
+				character.path = [];
+				console.log(options.pathDataSource+"/"+character.name);
+				jQuery.get(options.pathDataSource+"/"+character.name, {'strict':true}, function (data) {
+					var pathData = (typeof data == "object") ? data : JSON.parse(data);
+					character.path = pathData.data[0].path;
 				character.bounds = false;
 					publicFunctions.updateMap(); 
 					publicFunctions.focusOnCharacter(id);
-				});*/
-				// Delete when DB is ready
-				character.path = paths[id];
-				character.bounds = false;
-				publicFunctions.updateMap(); 
-				publicFunctions.focusOnCharacter(id);
+				});
 			} else {
 				character.points = [];
 				// Fetch the Data
-				jQuery.get(options.pinDataSource+"getByName/"+character.name, {}, function (data) {
+				console.log(options.pathDataSource+"/getByName/"+character.name);
+				jQuery.get(options.pinDataSource+"/getByName/"+character.name, {}, function (data) {
 					var allCities = (typeof data == "object") ? data : JSON.parse(data);
 					allCities.map(function (place) { // Add points to character
 						if(place.coordY && place.coordX) {
