@@ -498,8 +498,6 @@ gotmap = function(mapContainer, options) {
 							character.points.push(cityStore[place].coords);
 						}
 					});
-					
-							console.log(character.points);
 					character.bounds = L.latLngBounds(character.points); // Calc bounds for view
 					publicFunctions.updateMap(); 
 					publicFunctions.focusOnCharacter(id);
@@ -674,17 +672,19 @@ gotmap = function(mapContainer, options) {
 			markers.push({
 				'coords':point, 
 				'style': character.markerStyle, 
-				'character':character
+				'character':character,
+				'alive':true
 			});
 		};
 		
-		var nicePopup = function(characters) {
-			characters.sort(function (c1, c2) {
-				return (c1.name == c2.name) ? 0 : ( (c1.name > c2.name) ? 1 : -1 );
+		var nicePopup = function(markers) {
+			markers.sort(function (m1, m2) {
+				return (m1.character.name == m2.character.name) ? 0 : ( (m1.character.name > m2.character.name) ? 1 : -1 );
 			});
 			var html = "<div class=\"popupCharacterList\">";
 			var lastCharacter = false;
-			var clist = characters.filter(function (character) {
+			var mlist = markers.filter(function (marker) {
+				var character = marker.character;
 				if(lastCharacter && lastCharacter == character) {
 					return false;
 				} else {
@@ -692,12 +692,19 @@ gotmap = function(mapContainer, options) {
 					return true;
 				}
 			});
-			if(clist.length <= 1) { // Only one character
+			if(mlist.length <= 1) { // Only one character
 				return false;
 			}
-			clist.map(function(character) {
+			mlist.map(function(marker) {
+				var character = marker.character;
 				html += "<div class=\"character\">";
-				html += "<img src=\""+character.imageLink+"\" class=\"img-circle\" style=\"border-color:"+character.color+"\"/>";
+				if(marker.alive) {
+					html += "<img src=\""+character.imageLink+"\" class=\"img-circle\" "+
+						"style=\"border-color:"+character.color+"\"/>";
+				} else {
+					html += "<img src=\""+options.deadPersonImg+"\" class=\"img-circle\" "+
+					"style=\"border-color:"+character.color+";background-color:"+character.color+"\"/>";
+				}
 				html += "<span class=\"name\">"+character.name+"</span>";
 				html += "</div>";
 			});
@@ -723,53 +730,57 @@ gotmap = function(mapContainer, options) {
 					var firstPath  = paths[0];
 					var firstPoint = firstPath.path[0];
 					markers.push({
-						'coords': firstPoint,
-						'style': firstPath.alive===false ? character.deadStyle : character.markerStyle,
-						'character':character
+						'coords': L.latLng(firstPoint[0], firstPoint[1]),
+						'character':character,
+						'alive':firstPath.alive
 					});
 				}
 				if(len > 1) {
 					var lastPath  = paths[len-1];
 					var lastPoint = lastPath.path[lastPath.path.length-1];	
 					markers.push({
-						'coords': lastPoint,
-						'style': lastPath.alive ? character.markerStyle : character.deadStyle,
-						'character':character
+						'coords': L.latLng(lastPoint[0], lastPoint[1]),
+						'character':character,
+						'alive':lastPath.alive
 					});
 				}
 			} else {
 				character.points.map(generateMarker);
 			}
 		}
+		console.log(markers);
 		markers.sort(function (marker1, marker2) {
 			var c1 = marker1.coords;
 			var c2 = marker2.coords;
-			var dif = c1[0] - c2[0];
+			var dif = c1.lat - c2.lat;
 			if(dif === 0) {
-				return c1[1] - c2[1];
+				return c1.lng - c2.lng;
 			} else {
 				return dif;
 			}
 		});
 		var lastMarker = false;
+		console.log(markers);
 		markers = markers.filter(function (marker) {
-			var lastCoords = lastMarker.coords;
-			if(lastMarker && marker.coords[0] == lastCoords[0] && marker.coords[1] == lastCoords[1]) {
+			if(lastMarker && lastMarker.coords.equals(marker.coords)) {
 				if(!("multi" in lastMarker)) {
-					lastMarker.multi = [lastMarker.character];
+					lastMarker.multi = [lastMarker];
 				}
-				lastMarker.multi.push(marker.character);
+				lastMarker.multi.push(marker);
 				return false;
 			}
 			lastMarker = marker;
 			return true;
 		});
+		
+		console.log(markers);
 		var popUpString;
 		markers.map(function(marker) {
 			if("multi" in marker && (popUpString = nicePopup(marker.multi)) !== false) {
 				L.marker(marker.coords).addTo(characterLayer).bindPopup(popUpString);
 			} else {
-				L.marker(marker.coords, {icon:marker.style}).addTo(characterLayer);
+				var style = marker.alive ? marker.character.markerStyle : marker.character.deadStyle;
+				L.marker(marker.coords, {icon:style}).addTo(characterLayer);
 			}
 		});
 		polylines.map(function(polyline) {
