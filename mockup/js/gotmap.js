@@ -157,9 +157,9 @@ gotmap = function(mapContainer, options) {
 		jQuery.get(options.realmDataSource, {},
 			function (data){
 				var toCoords = function(str) {
-					var str = str.split(",");
+					str = str.split(",");
 					return [parseFloat(str[0]), parseFloat(str[1])];
-				}
+				};
 				var allRealms = (typeof data == "object") ? data : JSON.parse(data);
 				allRealms.map(function (realm) {
 					if(!realm.borders) { // Skip missing borders
@@ -479,7 +479,6 @@ gotmap = function(mapContainer, options) {
 			// Load Additional Information
 			if(character.hasPath) {
 				character.path = [];
-				console.log(options.pathDataSource+"/"+character.name);
 				jQuery.get(options.pathDataSource+"/"+character.name, {'strict':true}, function (data) {
 					var pathData = (typeof data == "object") ? data : JSON.parse(data);
 					character.path = pathData.data[0].path;
@@ -490,14 +489,17 @@ gotmap = function(mapContainer, options) {
 			} else {
 				character.points = [];
 				// Fetch the Data
-				console.log(options.pathDataSource+"/getByName/"+character.name);
-				jQuery.get(options.pinDataSource+"/getByName/"+character.name, {}, function (data) {
-					var allCities = (typeof data == "object") ? data : JSON.parse(data);
+				console.log(options.pinDataSource+"/"+character.name);
+				jQuery.get(options.pinDataSource+"/"+character.name, {'strict':true}, function (data) {
+					var locData = (typeof data == "object") ? data : JSON.parse(data);
+					var allCities = locData.data[0].locations;
 					allCities.map(function (place) { // Add points to character
-						if(place.coordY && place.coordX) {
-							character.points.push(L.latLng(parseFloat(place.coordY), parseFloat(place.coordX)));
+						if(cityStore[place]) {
+							character.points.push(cityStore[place].coords);
 						}
 					});
+					
+							console.log(character.points);
 					character.bounds = L.latLngBounds(character.points); // Calc bounds for view
 					publicFunctions.updateMap(); 
 					publicFunctions.focusOnCharacter(id);
