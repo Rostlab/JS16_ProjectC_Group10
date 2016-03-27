@@ -10,7 +10,8 @@ L.Label = (L.Layer ? L.Layer : L.Class).extend({
 		noHide: false,
 		offset: [12, -15], // 6 (width of the label triangle) + 6 (padding)
 		opacity: 1,
-		zoomAnimation: true
+		zoomAnimation: true,
+		onClick: false
 	},
 	
 	update: function() {
@@ -119,7 +120,10 @@ L.Label = (L.Layer ? L.Layer : L.Class).extend({
 	},
 
 	_initLayout: function () {
-		this._container = L.DomUtil.create('div', 'leaflet-label ' + this.options.className + ' leaflet-zoom-animated');
+		this._container = L.DomUtil.create('div', 'leaflet-label ' + this.options.className + ' leaflet-zoom-animated'+((this.options.onClick) ? ' leaflet-clickable' : ''));
+		if(this.options.onClick) {
+			L.DomEvent.on(this._container, 'click', this.options.onClick, this);
+		}
 		this.updateZIndex(this._zIndex);
 	},
 
@@ -138,7 +142,8 @@ L.Label = (L.Layer ? L.Layer : L.Class).extend({
 		if (!this._content || !this._map || this._prevContent === this._content) {
 			return;
 		}
-
+		
+		
 		if (typeof this._content === 'string') {
 			this._container.innerHTML = "<span>"+this._content+"</span>";
 
