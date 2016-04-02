@@ -7,17 +7,20 @@
 						:_;
 */
 jQuery(function() {
-	var apiLocation = "http://got-api.bruck.me/api";
+	var apiLocation = "http://api.got.show/api";
 	
-	// Store the current path
+	// Store the current path and the layer for all the markers
 	var path = [];
+	var polyline;
 	var editLayer = new L.layerGroup().addTo(map);
 	
 	// Handle clicks on the map / cities
 	
+	// Default city icon (green dot)
 	var dot = L.divIcon({
 		className: 'point'
 	});
+	// Get all the cities and throw them onto the map
 	jQuery.get(apiLocation+"/cities", {}, function(data)
 	{
 		var cities = (typeof data == "object") ? data : JSON.parse(data);
@@ -29,17 +32,42 @@ jQuery(function() {
 				L.marker([cy, cx], {
 					icon: dot
 				}).on('click', function(e) {
-					addToPolyline({lat:cy, lng:cx}, place.name);
+					addToPolyline({lat:cy, lng:cx}, place.name); // <-- when clicking on city point, this is the coordinate
 				}).bindLabel(place.name, {
 					direction: 'auto'
 				}).addTo(map);
 			}
 		});
 	});
+	
+	// Bei CLick Punkt setzen
 	map.on("click", function(e) {
 		addToPolyline(e.latlng);
 	});
-   
+	
+	// Show helper Line when moving
+	map.on("mousemove", function(e) {
+		showLineToNext(e.latlng);
+	});
+	
+	// Init list to store all the characters
+	var chListEl = jQuery("<ul></ul>").appendTo("#sidebar");
+	var chList = [];
+	
+	// get the characters
+	jQuery.get(apiLocation+"/characters", {}, function(data)
+	{
+		var characters = (typeof data == "object") ? data : JSON.parse(data);
+		characters.map(function(c) 
+	 	{
+		 	if(c.name) {
+			 	jQuery("<li>"+c.name+"</li>").click(function (e) {
+				 	setCharacter(c);
+			 	}).appendTo(chListEl);
+				chList.push(c);
+			}
+		});
+	});
 
 	// Save to JSON Button
 	var jsonCtrl = L.Control.extend({
@@ -61,10 +89,10 @@ jQuery(function() {
 
 	function addToPolyline(c, info) {
 		path.push({coords:c, info:info});
-		showLine();
+		redrawLine();
 	}
-	var polyline;
-	function showLine() {
+	
+	function redrawLine() {
 		var editMarker = L.divIcon({
 			className: 'editMarker'
 		});
@@ -78,28 +106,21 @@ jQuery(function() {
 		polyline = L.polyline(cs, {
 			color: '#03A9F4'
 		}).addTo(editLayer);
-		var lastCoord = false;
 		cs.map(function (c, i) {
 			L.marker(c, {
 				icon: editMarker,
 				draggable: true
 			}).on('drag', function(e) {
+				showPreview = false;
 				path[i].coords = e.latlng;
 				refreshLine();
 			}).on('dragend', function () {
-				showLine();
-			}).on('click', function(e) {
-				//
+				showPreview = true;
+				redrawLine();
+			}).on('contextmenu', function(e) {
+				path.splice(i,1);
+				redrawLine();
 			}).addTo(editLayer);
-			if(lastCoord) {
-				L.marker([(lastCoord.lat+c.lat)/2, (lastCoord.lng+c.lng)/2], {
-					icon: addMarker,
-					draggable: true
-				}).on('click', function(e) {
-					//
-				}).addTo(editLayer);
-			}
-			lastCoord = c;
 		})
 	}
 	
@@ -108,7 +129,25 @@ jQuery(function() {
 			return p.coords;
 		}));
 	}
+	
+	var preview = L.polyline([], {
+		color: '#a00'
+	}).addTo(map);
+	var showPreview = true;
+	function showLineToNext(coords) {
+		var l = path.length;
+		if(showPreview && l > 0) {
+			preview.setLatLngs([path[l-1].coords, coords]);
+		} else {
+			preview.setLatLngs([]);
+		}
+	}
 
+	function setCharacter(c) {
+		
+	}
+	
+	
 	var episodes = [];
 	
 	jQuery.get("../data/episodes.js", {},
@@ -126,4 +165,6 @@ jQuery(function() {
 		var e = episodes[i];
 		return e.showTitle;
 	}
+	
+	
 });

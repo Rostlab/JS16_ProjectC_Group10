@@ -17,7 +17,7 @@ gotmap = function(mapContainer, options) {
 		'characterDetails':function(modal, character) {modal.find('.modal-body').text("Fill this modal by passing the characterDetails Callback Function"+JSON.stringify(character));},
 		'defaultPersonImg':'http://map.got.show/mockup/img/persons/dummy.jpg',
 		'deadPersonImg':'http://map.got.show/mockup/img/persons/skull.png',
-		'personImageBaseUrl':'http://images.got.show',
+		'personImageBaseUrl':'http://api.got.show',
 		'cityDataSource':'/cities',
 		'realmDataSource':'/regions',
 		'pathDataSource':'/characters/paths',
