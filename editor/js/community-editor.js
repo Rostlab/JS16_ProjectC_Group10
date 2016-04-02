@@ -121,7 +121,7 @@ jQuery(function() {
 				path.splice(i,1);
 				redrawLine();
 			}).addTo(editLayer);
-		})
+		});
 	}
 	
 	function refreshLine() {

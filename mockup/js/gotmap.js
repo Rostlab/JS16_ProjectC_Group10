@@ -493,7 +493,6 @@ gotmap = function(mapContainer, options) {
 			} else {
 				character.points = [];
 				// Fetch the Data
-				console.log(options.pinDataSource+"/"+character.name);
 				jQuery.get(options.pinDataSource+"/"+character.name, {'strict':true}, function (data) {
 					var locData = (typeof data == "object") ? data : JSON.parse(data);
 					var allCities = locData.data[0].locations;
@@ -686,13 +685,12 @@ gotmap = function(mapContainer, options) {
 				return (m1.character.name == m2.character.name) ? 0 : ( (m1.character.name > m2.character.name) ? 1 : -1 );
 			});
 			var html = "<div class=\"popupCharacterList\">";
-			var lastCharacter = false;
+			var lastMarker = false;
 			var mlist = markers.filter(function (marker) {
-				var character = marker.character;
-				if(lastCharacter && lastCharacter == character) {
+				if(lastMarker && lastMarker.character == marker.character && lastMarker.alive == marker.alive) {
 					return false;
 				} else {
-					lastCharacter = character;
+					lastMarker = marker;
 					return true;
 				}
 			});
@@ -752,7 +750,6 @@ gotmap = function(mapContainer, options) {
 				character.points.map(generateMarker);
 			}
 		}
-		console.log(markers);
 		markers.sort(function (marker1, marker2) {
 			var c1 = marker1.coords;
 			var c2 = marker2.coords;
@@ -764,7 +761,6 @@ gotmap = function(mapContainer, options) {
 			}
 		});
 		var lastMarker = false;
-		console.log(markers);
 		markers = markers.filter(function (marker) {
 			if(lastMarker && lastMarker.coords.equals(marker.coords)) {
 				if(!("multi" in lastMarker)) {
@@ -776,8 +772,6 @@ gotmap = function(mapContainer, options) {
 			lastMarker = marker;
 			return true;
 		});
-		
-		console.log(markers);
 		var popUpString;
 		markers.map(function(marker) {
 			if("multi" in marker && (popUpString = nicePopup(marker.multi)) !== false) {
