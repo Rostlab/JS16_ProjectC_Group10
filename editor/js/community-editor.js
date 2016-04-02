@@ -7,7 +7,7 @@
 						:_;
 */
 jQuery(function() {
-	var apiLocation = "https://api.got.show/api";
+	var apiLocation = "http://api.got.show/api";
 	
 	// Store the current path and the layer for all the markers
 	var path = [];
