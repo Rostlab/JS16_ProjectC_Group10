@@ -61,12 +61,32 @@ jQuery(function() {
 		characters.map(function(c) 
 	 	{
 		 	if(c.name) {
-			 	jQuery("<li>"+c.name+"</li>").click(function (e) {
+			 	var cEl = jQuery("<li>"+c.name+"</li>");
+			 	cEl.click(function (e) {
 				 	setCharacter(c);
-			 	}).appendTo(chListEl);
+			 	});
+			 	if(c.hasPath) {
+				 	cEl.addClass('onmap');
+			 	}
+			 	c.el = cEl;
 				chList.push(c);
 			}
 		});
+		chList = chList.sort(function(c1,c2) {
+			return (c2.pageRank ||-1) - (c1.pageRank || -1);
+		});
+		refillCharacterList();
+	});
+	
+	function refillCharacterList() {
+		chListEl.empty();
+		for(var i = 0;i<chList.length;i++) {
+			chList[i].el.appendTo(chListEl);
+		}
+	}
+	
+	jQuery("#filter input").on('keyup', function() {
+		
 	});
 
 	// Save to JSON Button
@@ -85,6 +105,22 @@ jQuery(function() {
 		},
 	});
 	map.addControl(new jsonCtrl());
+
+
+	// Switch edit mode Button
+	var editCtrl = L.Control.extend({
+		options: {
+			position: 'topright'
+		},
+		onAdd: function(map) {
+			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon glyphicon-pencil');
+			L.DomEvent.disableClickPropagation(c);
+			c.onclick = function() {
+			};
+			return c;
+		},
+	});
+	map.addControl(new editCtrl());
 
 
 	function addToPolyline(c, info) {
@@ -144,9 +180,10 @@ jQuery(function() {
 	}
 
 	function setCharacter(c) {
-		
+		if(c.hasPath) {
+			alert("Here comes the loading");
+		}
 	}
-	
 	
 	var episodes = [];
 	
