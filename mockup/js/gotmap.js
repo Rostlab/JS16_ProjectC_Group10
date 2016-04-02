@@ -9,15 +9,15 @@
 */
 gotmap = function(mapContainer, options) {
 	var defaultOptions = {
-		'apiLocation':'http://api.got.show',
+		'apiLocation':'https://api.got.show/api',
 		'filter':false,
 		'timeline':false,
 		'characterBox':false,
 		'cityDetails':function(modal, city) {modal.find('.modal-body').text("Fill this modal by passing the cityDetails Callback Function"+JSON.stringify(city));},
 		'characterDetails':function(modal, character) {modal.find('.modal-body').text("Fill this modal by passing the characterDetails Callback Function"+JSON.stringify(character));},
-		'defaultPersonImg':'http://map.got.show/mockup/img/persons/dummy.jpg',
-		'deadPersonImg':'http://map.got.show/mockup/img/persons/skull.png',
-		'personImageBaseUrl':'http://api.got.show',
+		'defaultPersonImg':'https://map.got.show/mockup/img/persons/dummy.jpg',
+		'deadPersonImg':'https://map.got.show/mockup/img/persons/skull.png',
+		'personImageBaseUrl':'https://api.got.show/',
 		'cityDataSource':'/cities',
 		'realmDataSource':'/regions',
 		'pathDataSource':'/characters/paths',
