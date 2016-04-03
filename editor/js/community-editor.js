@@ -177,7 +177,14 @@ jQuery(function() {
 
 	function setCharacter(c) {
 		if(c.hasPath) {
-			alert("Here comes the loading");
+			jQuery.get(apiLocation+"/characters/paths/"+c.name, {}, 
+				function(data) {
+					var pathOfCharacter = (typeof data == "object") ? data : JSON.parse(data);
+					console.log(pathOfCharacter.data[0].path);
+					path = importPath(pathOfCharacter.data[0].path);
+					redrawLine();
+				});
+			
 		}
 	}
 	
@@ -234,5 +241,37 @@ jQuery(function() {
 		info.episode = jQuery("#episode").val();
 		info.status = jQuery("#status").val();
 		point.info = info;
+	}
+	
+	function importPath(pathToC)
+	{
+		newPath = [];
+		for(var i = 0; i < pathToC.length; i++)
+		{
+			newPath = newPath.concat(convertEpisode(pathToC[i].path, pathToC[i].to));
+		}
+		
+		return newPath;
+	}
+	
+	function convertEpisode(imPath, episodeEnd)
+	{
+		var point = {};
+		var path = [];
+		
+		for(var i = 0; i < imPath.length; i++){ 
+			var curr = imPath[i];
+			point = {coords:{lat: curr[0], lng: curr[1]}, info: {}};
+			
+			if(curr.length == 3){
+				point.info.place = curr[2];
+			}
+			
+			if(i == imPath.length-1 && (typeof(episodeEnd) != "undefined")){
+				point.info.episode = episodeEnd;
+			}
+			path.push(point);
+		}
+		return path;
 	}
 });
