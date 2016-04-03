@@ -127,14 +127,16 @@ gotmap = function(mapContainer, options) {
 						var prio = "prio"+place.priority; // Add priority to hide / show cities
 						var extra = (place.priority == 6 || jQuery.inArray(place.name, ['Shadow Tower', 'Castle Black', 'Eastwatch by the Sea', 'Nightfort']) != -1) ? " wall-label" : ""; 
 						place.coords = L.latLng(parseFloat(place.coordY), parseFloat(place.coordX));
+						var clickFunction = function () {
+							publicFunctions.showModal(options.cityDetails, place, place.type);
+						};
 						L.marker(place.coords, {
 							icon: L.divIcon({className: ['gotmarker', type, prio].join(' ')})
-						}).on('click', function () {
-							publicFunctions.showModal(options.cityDetails, place, place.type);
-						}).bindLabel(place.name, {
+						}).on('click', clickFunction).bindLabel(place.name, {
 							noHide: true, 
 							direction:'right',
-							className: ['gotlabel', extra, prio].join(' ')
+							className: ['gotlabel', extra, prio].join(' '),
+							onClick: clickFunction
 						}).addTo(cityLayer);
 					}
 				});
