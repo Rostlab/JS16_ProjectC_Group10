@@ -106,23 +106,6 @@ jQuery(function() {
 	});
 	map.addControl(new jsonCtrl());
 
-
-	// Switch edit mode Button
-	var editCtrl = L.Control.extend({
-		options: {
-			position: 'topright'
-		},
-		onAdd: function(map) {
-			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon glyphicon-pencil');
-			L.DomEvent.disableClickPropagation(c);
-			c.onclick = function() {
-			};
-			return c;
-		},
-	});
-	map.addControl(new editCtrl());
-
-
 	function addToPolyline(c, info) {
 		path.push({coords:c, info:info});
 		redrawLine();
@@ -146,6 +129,8 @@ jQuery(function() {
 			L.marker(c, {
 				icon: editMarker,
 				draggable: true
+			}).on('click', function(e) {
+				jQuery('#editModal').modal('show');
 			}).on('drag', function(e) {
 				showPreview = false;
 				path[i].coords = e.latlng;
@@ -187,7 +172,7 @@ jQuery(function() {
 	
 	var episodes = [];
 	
-	jQuery.get("../data/episodes.js", {},
+	jQuery.get(apiLocation+"/episodes", {},
 			function (data){
 				var allEpisodes = (typeof data == "object") ? data : JSON.parse(data);
 				var episodesCount = allEpisodes.length;
