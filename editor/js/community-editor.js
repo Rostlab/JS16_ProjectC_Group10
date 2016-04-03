@@ -71,6 +71,7 @@ jQuery(function() {
 				 	cEl.addClass('onmap');
 			 	}
 			 	c.el = cEl;
+				c.display = true;
 				chList.push(c);
 			}
 		});
@@ -83,12 +84,18 @@ jQuery(function() {
 	function refillCharacterList() {
 		chListEl.empty();
 		for(var i = 0;i<chList.length;i++) {
-			chList[i].el.appendTo(chListEl);
+			if(chList[i].display) {
+				chList[i].el.appendTo(chListEl);
+			}
 		}
 	}
 	
-	jQuery("#filter input").on('keyup', function() {
-		
+	jQuery("#filter input").on('keyup', function(e) {
+		var search = jQuery("#filter input").val().toLowerCase();
+		for(var i = 0;i<chList.length;i++) {
+			chList[i].display = (chList[i].name.toLowerCase().indexOf(search) !== -1);
+		}
+		refillCharacterList();
 	});
 
 	// Save to JSON Button
