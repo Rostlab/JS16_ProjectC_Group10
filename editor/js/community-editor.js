@@ -185,6 +185,23 @@ jQuery(function() {
 				episodes[episode.totalNr]=episode;
 				jQuery('<option value="'+episode.totalNr+'">'+episode.showTitle+'</option>').appendTo('#episode');
 			});
+			var sliderEl = jQuery('<div></div>').appendTo('#timeline');
+			var infoEl = jQuery('<p></p>').appendTo('#timeline');
+			sliderEl.slider({
+				range: true,
+				min: 1,
+				max: episodesCount,
+				values: [1, episodesCount],
+				animate: "slow",
+				slide: function(event, ui) {
+					var selected = [ui.values[0], ui.values[1]];
+					setInfoText(selected);
+				}
+			});
+			function setInfoText(range) {
+				infoEl.text(getEpisodeInfo(range[0]) + " - " + getEpisodeInfo(range[1]));
+			}
+			setInfoText([1, episodesCount]);
 	});
 
 
