@@ -83,7 +83,9 @@
 
 .point {
 	background: green;
-	border-radius: 6px;
+	border-radius: 5px;
+	width: 10px !important;
+	height: 10px !important;
 }
 
 .leaflet-label {
@@ -100,4 +102,21 @@
 	pointer-events: none;
 	white-space: nowrap;
 	z-index: 6;
+}
+
+.editMarker {
+	background: rgba(127,207,255,.3);
+	border-radius: 6px;
+	border: 1px solid #1976D2;
+	width: 12px !important;
+	height: 12px !important;
+}
+
+.addMarker {
+	background: rgba(127,207,255,.7);
+	border-radius: 3px;
+	border: 1px solid #1976D2;
+	width: 6px !important;
+	height: 6px !important;
+	margin: -3px -3px 0 0;
 }

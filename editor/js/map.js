@@ -6,6 +6,7 @@
                         : :                
                         :_;
 */
+var map, markers;
 jQuery(function() {
     L.CRS.CustomZoom = L.extend({}, L.CRS.EPSG3857, {
         scale: function(zoom) {
@@ -34,21 +35,21 @@ jQuery(function() {
     map.fitBounds(bounds);
     map.setMaxBounds(bounds);
     
-    var r = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/bg/{z}/y{y}x{x}.png", {
+    var r = new L.tileLayer("http://tiles.got.show/bg/{z}/y{y}x{x}.png", {
         minZoom: 0,
         maxZoom: 5,
         bounds: bounds,
-        errorTileUrl: 'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png',
+        errorTileUrl: 'http://tiles.got.show/blank.png',
         noWrap: true,
         attribution: 'Tiles &copy; <a href="http://viewers-guide.hbo.com">HBO</a>'
     });
     map.addLayer(r);
     
-    var labels = new L.tileLayer("https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/labels/{z}/y{y}x{x}.png", {
+    var labels = new L.tileLayer("http://tiles.got.show/labels/{z}/y{y}x{x}.png", {
         minZoom: 0,
         maxZoom: 5,
         bounds: bounds,
-        errorTileUrl: 'https://raw.githubusercontent.com/Rostlab/JS16_ProjectC_Group10/develop/tiles/blank.png',
+        errorTileUrl: 'http://tiles.got.show/blank.png',
         noWrap: true,
         attribution: 'Tiles &copy; <a href="http://viewers-guide.hbo.com">HBO</a>'
     });
