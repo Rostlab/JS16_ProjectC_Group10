@@ -167,11 +167,11 @@ jQuery(function() {
 	function setCharacter(c) {
 		if(c.hasPath) {
 			jQuery.get(apiLocation+"/characters/paths/"+c.name, {}, 
-				function(data){
+				function(data) {
 					var pathOfCharacter = (typeof data == "object") ? data : JSON.parse(data);
 					console.log(pathOfCharacter.data[0].path);
 					path = importPath(pathOfCharacter.data[0].path);
-					redrawLine()
+					redrawLine();
 				});
 			
 		}
@@ -210,7 +210,7 @@ jQuery(function() {
 	
 	function convertEpisode(imPath, episodeEnd)
 	{
-		var point = {}
+		var point = {};
 		var path = [];
 		
 		for(var i = 0; i < imPath.length; i++){ 
