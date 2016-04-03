@@ -81,13 +81,30 @@
       </div>
       <div class="modal-body">
         <form>
-          <div class="form-group">
-	          <input type="text" placeholder="CityName" />
-          </div>
-        </form>
+			<div class="form-group">
+				<label for="cityname">Place Name</label>
+				<select class="form-control" id="placename">
+					<option value="0">No place visited</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="episode">Episode</label>
+				<select class="form-control" id="episode">
+					<option value="0">No Episode Breakpoint</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="status">Character Status</label>
+				<select class="form-control" id="status">
+					<option value="unknown">Unknown</option>
+					<option value="alive">Alive</option>
+					<option value="dead">Dead</option>
+				</select>
+		</form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="editbutton">Save</button>
       </div>
     </div>
   </div>

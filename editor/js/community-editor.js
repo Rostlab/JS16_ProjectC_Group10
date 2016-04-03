@@ -13,6 +13,7 @@ jQuery(function() {
 	var path = [];
 	var polyline;
 	var editLayer = new L.layerGroup().addTo(map);
+	var editPoint = 0; // <-- Point in Polyline to edit
 	
 	// Handle clicks on the map / cities
 	
@@ -32,15 +33,16 @@ jQuery(function() {
 				L.marker([cy, cx], {
 					icon: dot
 				}).on('click', function(e) {
-					addToPolyline({lat:cy, lng:cx}, place.name); // <-- when clicking on city point, this is the coordinate
+					addToPolyline({lat:cy, lng:cx}, {place:place.name}); // <-- when clicking on city point, this is the coordinate
 				}).bindLabel(place.name, {
 					direction: 'auto'
 				}).addTo(map);
+				jQuery('<option>'+place.name+'</option>').appendTo('#placename');
 			}
 		});
 	});
 	
-	// Bei CLick Punkt setzen
+	// Bei Click Punkt setzen
 	map.on("click", function(e) {
 		addToPolyline(e.latlng);
 	});
@@ -131,6 +133,8 @@ jQuery(function() {
 				draggable: true
 			}).on('click', function(e) {
 				jQuery('#editModal').modal('show');
+				fillEditModal(path[i]);
+				editPoint = i;
 			}).on('drag', function(e) {
 				showPreview = false;
 				path[i].coords = e.latlng;
@@ -173,13 +177,14 @@ jQuery(function() {
 	var episodes = [];
 	
 	jQuery.get(apiLocation+"/episodes", {},
-			function (data){
-				var allEpisodes = (typeof data == "object") ? data : JSON.parse(data);
-				var episodesCount = allEpisodes.length;
-				allEpisodes.map(function (episode) {
-					episode.showTitle = "S" + episode.season +"E"+episode.nr+": " + episode.name;
-					episodes[episode.totalNr]=episode;
-				});
+		function (data){
+			var allEpisodes = (typeof data == "object") ? data : JSON.parse(data);
+			var episodesCount = allEpisodes.length;
+			allEpisodes.map(function (episode) {
+				episode.showTitle = "S" + episode.season +"E"+episode.nr+": " + episode.name;
+				episodes[episode.totalNr]=episode;
+				jQuery('<option value="'+episode.totalNr+'">'+episode.showTitle+'</option>').appendTo('#episode');
+			});
 	});
 
 
@@ -188,5 +193,22 @@ jQuery(function() {
 		return e.showTitle;
 	}
 	
+	jQuery("#editbutton").click(function () {
+		saveEditModal(path[editPoint]);
+	});
 	
+	function fillEditModal(point) {
+		var info = point.info || {};
+		jQuery("#placename").val(info.place || 0);
+		jQuery("#episode").val(info.episode || 0);
+		jQuery("#status").val(info.status || "alive");
+	}
+	
+	function saveEditModal(point) {
+		var info = {};
+		info.place = jQuery("#placename").val();
+		info.episode = jQuery("#episode").val();
+		info.status = jQuery("#status").val();
+		point.info = info;
+	}
 });
