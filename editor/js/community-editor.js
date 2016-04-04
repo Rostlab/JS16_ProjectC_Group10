@@ -1,8 +1,9 @@
-/*.--.	 Alex Max Tobi		  ,-. .--. 
+/*
+  .--.	   Alex Max Tobi		 ,-. .--. 
  : .--'   Project C - Map	   .'  :: ,. :
- : : _ .--.  .--. .-..-..---.	`: :: :: :
- : :; :: ..'' .; :: :; :: .; `	: :: :; :
- `.__.':_;  `.__.'`.__.': ._.'	:_;`.__.'
+ : : _ .--.  .--. .-..-..---.  `:  :: :: :
+ : :; :: ..'' .; :: :; :: .; `	:  :: :; :
+ `.__.':_;  `.__.'`.__.': ._.'	:__;`.__.'
 						: :				
 						:_;
 */
@@ -18,6 +19,15 @@ function storageAvailable(type) {
 	catch(e) {
 		return false;
 	}
+}
+
+if (storageAvailable('localStorage')) {
+	if(storage.length){
+		// if a path exists
+	}
+}
+else {
+	// no localStorage
 }
 
 jQuery(function() {
