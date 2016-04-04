@@ -257,8 +257,9 @@ jQuery(function() {
 		function (data){
 			var allEpisodes = (typeof data == "object") ? data : JSON.parse(data);
 			
-			allEpisodes.sort(function(a, b)
-    			{return a.totalNr - b.totalNr;});	
+			allEpisodes.sort(function(a, b) {
+    			return a.totalNr - b.totalNr;
+			});
 			var episodesCount = allEpisodes.length;
 			allEpisodes.map(function (episode) {
 				episode.showTitle = "S" + episode.season +"E"+episode.nr+": " + episode.name;
