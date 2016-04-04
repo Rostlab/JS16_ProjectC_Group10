@@ -46,6 +46,11 @@ jQuery(function() {
 	jQuery.get(apiLocation+"/cities", {}, function(data)
 	{
 		var cities = (typeof data == "object") ? data : JSON.parse(data);
+		
+		cities.sort(function(a, b){
+			if(a.name < b.name) return -1;
+    		if(a.name > b.name) return 1;
+    		return 0;});
 		cities.map(function(place) 
 	 	{
 		 	if(place.coordY && place.coordX) {
@@ -86,6 +91,7 @@ jQuery(function() {
 	jQuery.get(apiLocation+"/characters", {}, function(data)
 	{
 		var characters = (typeof data == "object") ? data : JSON.parse(data);
+		
 		characters.map(function(c) 
 	 	{
 		 	if(c.name) {
@@ -264,6 +270,10 @@ jQuery(function() {
 	jQuery.get(apiLocation+"/episodes", {},
 		function (data){
 			var allEpisodes = (typeof data == "object") ? data : JSON.parse(data);
+			
+			allEpisodes.sort(function(a, b) {
+    			return a.totalNr - b.totalNr;
+			});
 			var episodesCount = allEpisodes.length;
 			allEpisodes.map(function (episode) {
 				episode.showTitle = "S" + episode.season +"E"+episode.nr+": " + episode.name;
