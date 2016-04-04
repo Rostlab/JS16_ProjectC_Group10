@@ -20,6 +20,7 @@ jQuery(function() {
 	var curPlace = false; // <-- Set when mouse over
 	var pathChanged = false;
 	var showPreview = true;
+	var storeItLocally = (typeof(Storage) !== "undefined");
 	
 	// Handle clicks on the map / cities
 	
@@ -151,7 +152,7 @@ jQuery(function() {
 		path.map(function (point, i) {
 			var c = point.coords;
 			var marker = point.info.place ? placeMarker : editMarker;
-			var marker = point.info.episode ? episodeMarker : marker;
+			marker = point.info.episode ? episodeMarker : marker;
 			L.marker(c, {
 				icon: marker,
 				draggable: true
