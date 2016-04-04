@@ -19,6 +19,7 @@ jQuery(function() {
 	var curCharacter = {}; // <-- set When edited
 	var curPlace = false; // <-- Set when mouse over
 	var pathChanged = false;
+	var showPreview = true;
 	
 	// Handle clicks on the map / cities
 	
@@ -42,10 +43,8 @@ jQuery(function() {
 					addToPolyline(place.coords, {place:place.name}); // <-- when clicking on city point, this is the coordinate
 				}).on('mouseover', function() {
 					curPlace = place;
-					jQuery('#amount').text(place.name);
 				}).on('mouseout', function () {
 					curPlace = false;
-					jQuery('#amount').text("");
 				}).bindLabel(place.name, {
 					direction: 'auto'
 				}).addTo(map);
@@ -97,7 +96,11 @@ jQuery(function() {
 	jQuery("#filter input").on('keyup', function(e) {
 		var search = jQuery("#filter input").val().toLowerCase();
 		for(var i = 0;i<chList.length;i++) {
-			(chList[i].name.toLowerCase().indexOf(search) !== -1) ? chList[i].el.show() : chList[i].el.hide();
+			if(chList[i].name.toLowerCase().indexOf(search) !== -1) {
+				chList[i].el.show();
+			} else {
+				chList[i].el.hide();
+			}
 		}
 	});
 
@@ -128,6 +131,12 @@ jQuery(function() {
 		var editMarker = L.divIcon({
 			className: 'editMarker'
 		});
+		var placeMarker = L.divIcon({
+			className: 'editMarker place'
+		});
+		var episodeMarker = L.divIcon({
+			className: 'editMarker episode'
+		});
 		var addMarker = L.divIcon({
 			className: 'addMarker'
 		});
@@ -139,16 +148,19 @@ jQuery(function() {
 			color: '#03A9F4'
 		}).addTo(editLayer);
 		var lastCoord = false;
-		cs.map(function (c, i) {
+		path.map(function (point, i) {
+			var c = point.coords;
+			var marker = point.info.place ? placeMarker : editMarker;
 			L.marker(c, {
-				icon: editMarker,
+				icon: marker,
 				draggable: true
 			}).on('click', function(e) {
 				jQuery('#editModal').modal('show');
 				fillEditModal(path[i]);
 				editPoint = i;
-			}).on('drag', function(e) {
+			}).on('dragstart', function (e) {
 				showPreview = false;
+			}).on('drag', function(e) {
 				path[i].coords = e.latlng;
 				refreshLine();
 			}).on('dragend', function () {
@@ -204,7 +216,6 @@ jQuery(function() {
 	var preview = L.polyline([], {
 		color: '#a00'
 	}).addTo(map);
-	var showPreview = true;
 	function showLineToNext(coords) {
 		var l = path.length;
 		if(showPreview && l > 0) {

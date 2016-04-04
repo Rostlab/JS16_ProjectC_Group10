@@ -110,10 +110,15 @@
 
 .editMarker {
 	background: rgba(127,207,255,.3);
-	border-radius: 6px;
 	border: 1px solid #1976D2;
+	border-radius: 6px;
 	width: 12px !important;
 	height: 12px !important;
+}
+
+.editMarker.place {
+	background: rgba(255,127,207,.3);
+	border: 1px solid #D21976;
 }
 
 .addMarker {
