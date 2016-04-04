@@ -71,33 +71,22 @@ jQuery(function() {
 				 	cEl.addClass('onmap');
 			 	}
 			 	c.el = cEl;
-				c.display = true;
 				chList.push(c);
 			}
 		});
 		chList = chList.sort(function(c1,c2) {
 			return (c2.pageRank ||-1) - (c1.pageRank || -1);
 		});
-		refillCharacterList();
-	});
-	
-	function refillCharacterList() {
-		chListEl.empty();
 		for(var i = 0;i<chList.length;i++) {
-			if(chList[i].display) {
-				chList[i].el.click(function (e) {
-				 	setCharacter(chList[i]);
-			 	}).appendTo(chListEl);
-			}
+			chList[i].el.appendTo(chListEl);
 		}
-	}
+	});
 	
 	jQuery("#filter input").on('keyup', function(e) {
 		var search = jQuery("#filter input").val().toLowerCase();
 		for(var i = 0;i<chList.length;i++) {
-			chList[i].display = (chList[i].name.toLowerCase().indexOf(search) !== -1);
+			(chList[i].name.toLowerCase().indexOf(search) !== -1) ? chList[i].el.show() : chList[i].el.hide();
 		}
-		refillCharacterList();
 	});
 
 	// Save to JSON Button
