@@ -86,7 +86,7 @@ jQuery(function() {
 		for(var i = 0;i<chList.length;i++) {
 			if(chList[i].display) {
 				chList[i].el.click(function (e) {
-				 	setCharacter(c);
+				 	setCharacter(chList[i]);
 			 	}).appendTo(chListEl);
 			}
 		}
