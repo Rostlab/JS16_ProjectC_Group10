@@ -15,6 +15,11 @@ jQuery(function() {
 	var editLayer = new L.layerGroup().addTo(map);
 	var editPoint = 0; // <-- Point in Polyline to edit
 	
+	// State Information
+	var curCharacter = {}; // <-- set When edited
+	var curPlace = false; // <-- Set when mouse over
+	var pathChanged = false;
+	
 	// Handle clicks on the map / cities
 	
 	// Default city icon (green dot)
@@ -30,10 +35,17 @@ jQuery(function() {
 		 	if(place.coordY && place.coordX) {
 			 	var cx = parseFloat(place.coordX);
 			 	var cy = parseFloat(place.coordY);
+			 	place.coords = {lat:cy, lng:cx};
 				L.marker([cy, cx], {
 					icon: dot
-				}).on('click', function(e) {
-					addToPolyline({lat:cy, lng:cx}, {place:place.name}); // <-- when clicking on city point, this is the coordinate
+				}).on('click', function() {
+					addToPolyline(place.coords, {place:place.name}); // <-- when clicking on city point, this is the coordinate
+				}).on('mouseover', function() {
+					curPlace = place;
+					jQuery('#amount').text(place.name);
+				}).on('mouseout', function () {
+					curPlace = false;
+					jQuery('#amount').text("");
 				}).bindLabel(place.name, {
 					direction: 'auto'
 				}).addTo(map);
@@ -107,7 +119,8 @@ jQuery(function() {
 	map.addControl(new jsonCtrl());
 
 	function addToPolyline(c, info) {
-		path.push({coords:c, info:info});
+		path.push({coords:c, info:(info||{})});
+		pathChanged = true;
 		redrawLine();
 	}
 	
@@ -140,6 +153,13 @@ jQuery(function() {
 				refreshLine();
 			}).on('dragend', function () {
 				showPreview = true;
+				pathChanged = true;
+				if(curPlace) {
+					path[i].coords = curPlace.coords;
+					path[i].info.place = curPlace.name;
+				} else {
+					delete path[i].info.place;
+				}
 				redrawLine();
 			}).on('contextmenu', function(e) {
 				path.splice(i,1);
@@ -157,9 +177,17 @@ jQuery(function() {
 					path.splice(i,0,cMiddle);
 				}).on('drag', function(e) {
 					path[i].coords = e.latlng;
+					path[i].info = {};
 					refreshLine();
 				}).on('dragend', function () {
 					showPreview = true;
+					pathChanged = true;
+					if(curPlace) {
+						path[i].coords = curPlace.coords;
+						path[i].info.place = curPlace.name;
+					} else {
+						delete path[i].info.place;
+					}
 					redrawLine();
 				}).addTo(editLayer);
 			}
@@ -187,6 +215,11 @@ jQuery(function() {
 	}
 
 	function setCharacter(c) {
+		if(pathChanged && !confirm('Are you sure to drop the previous changes')) {
+			return;
+		}
+		curCharacter = c;
+		pathChanged = false;
 		if(c.hasPath) {
 			jQuery.get(apiLocation+"/characters/paths/"+c.name, {}, 
 				function(data) {
@@ -252,6 +285,7 @@ jQuery(function() {
 		info.episode = jQuery("#episode").val();
 		info.status = jQuery("#status").val();
 		point.info = info;
+		pathChanged = true;
 	}
 	
 	function importPath(pathToC)
