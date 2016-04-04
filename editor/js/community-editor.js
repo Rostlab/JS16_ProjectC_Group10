@@ -15,6 +15,13 @@ jQuery(function() {
 	var editLayer = new L.layerGroup().addTo(map);
 	var editPoint = 0; // <-- Point in Polyline to edit
 	
+	// State Information
+	var curCharacter = {}; // <-- set When edited
+	var curPlace = false; // <-- Set when mouse over
+	var pathChanged = false;
+	var showPreview = true;
+	var storeItLocally = (typeof(Storage) !== "undefined");
+	
 	// Handle clicks on the map / cities
 	
 	// Default city icon (green dot)
@@ -30,10 +37,15 @@ jQuery(function() {
 		 	if(place.coordY && place.coordX) {
 			 	var cx = parseFloat(place.coordX);
 			 	var cy = parseFloat(place.coordY);
+			 	place.coords = {lat:cy, lng:cx};
 				L.marker([cy, cx], {
 					icon: dot
-				}).on('click', function(e) {
-					addToPolyline({lat:cy, lng:cx}, {place:place.name}); // <-- when clicking on city point, this is the coordinate
+				}).on('click', function() {
+					addToPolyline(place.coords, {place:place.name}); // <-- when clicking on city point, this is the coordinate
+				}).on('mouseover', function() {
+					curPlace = place;
+				}).on('mouseout', function () {
+					curPlace = false;
 				}).bindLabel(place.name, {
 					direction: 'auto'
 				}).addTo(map);
@@ -71,31 +83,26 @@ jQuery(function() {
 				 	cEl.addClass('onmap');
 			 	}
 			 	c.el = cEl;
-				c.display = true;
 				chList.push(c);
 			}
 		});
 		chList = chList.sort(function(c1,c2) {
 			return (c2.pageRank ||-1) - (c1.pageRank || -1);
 		});
-		refillCharacterList();
-	});
-	
-	function refillCharacterList() {
-		chListEl.empty();
 		for(var i = 0;i<chList.length;i++) {
-			if(chList[i].display) {
-				chList[i].el.appendTo(chListEl);
-			}
+			chList[i].el.appendTo(chListEl);
 		}
-	}
+	});
 	
 	jQuery("#filter input").on('keyup', function(e) {
 		var search = jQuery("#filter input").val().toLowerCase();
 		for(var i = 0;i<chList.length;i++) {
-			chList[i].display = (chList[i].name.toLowerCase().indexOf(search) !== -1);
+			if(chList[i].name.toLowerCase().indexOf(search) !== -1) {
+				chList[i].el.show();
+			} else {
+				chList[i].el.hide();
+			}
 		}
-		refillCharacterList();
 	});
 
 	// Save to JSON Button
@@ -116,13 +123,20 @@ jQuery(function() {
 	map.addControl(new jsonCtrl());
 
 	function addToPolyline(c, info) {
-		path.push({coords:c, info:info});
+		path.push({coords:c, info:(info||{})});
+		pathChanged = true;
 		redrawLine();
 	}
 	
 	function redrawLine() {
 		var editMarker = L.divIcon({
 			className: 'editMarker'
+		});
+		var placeMarker = L.divIcon({
+			className: 'editMarker place'
+		});
+		var episodeMarker = L.divIcon({
+			className: 'editMarker episode'
 		});
 		var addMarker = L.divIcon({
 			className: 'addMarker'
@@ -134,25 +148,64 @@ jQuery(function() {
 		polyline = L.polyline(cs, {
 			color: '#03A9F4'
 		}).addTo(editLayer);
-		cs.map(function (c, i) {
+		var lastCoord = false;
+		path.map(function (point, i) {
+			var c = point.coords;
+			var marker = point.info.place ? placeMarker : editMarker;
+			marker = point.info.episode ? episodeMarker : marker;
 			L.marker(c, {
-				icon: editMarker,
+				icon: marker,
 				draggable: true
 			}).on('click', function(e) {
 				jQuery('#editModal').modal('show');
 				fillEditModal(path[i]);
 				editPoint = i;
-			}).on('drag', function(e) {
+			}).on('dragstart', function (e) {
 				showPreview = false;
+			}).on('drag', function(e) {
 				path[i].coords = e.latlng;
 				refreshLine();
 			}).on('dragend', function () {
 				showPreview = true;
+				pathChanged = true;
+				if(curPlace) {
+					path[i].coords = curPlace.coords;
+					path[i].info.place = curPlace.name;
+				} else {
+					delete path[i].info.place;
+				}
 				redrawLine();
 			}).on('contextmenu', function(e) {
 				path.splice(i,1);
 				redrawLine();
 			}).addTo(editLayer);
+			if(lastCoord) {
+				var p1 = map.project(c);
+				var p2 = map.project(lastCoord);
+				var cMiddle = map.unproject(p1._add(p2)._divideBy(2));
+				L.marker(cMiddle, {
+					icon: addMarker,
+					draggable: true
+				}).on('dragstart', function(e) {
+					showPreview = false;
+					path.splice(i,0,cMiddle);
+				}).on('drag', function(e) {
+					path[i].coords = e.latlng;
+					path[i].info = {};
+					refreshLine();
+				}).on('dragend', function () {
+					showPreview = true;
+					pathChanged = true;
+					if(curPlace) {
+						path[i].coords = curPlace.coords;
+						path[i].info.place = curPlace.name;
+					} else {
+						delete path[i].info.place;
+					}
+					redrawLine();
+				}).addTo(editLayer);
+			}
+			lastCoord = c;
 		});
 	}
 	
@@ -165,7 +218,6 @@ jQuery(function() {
 	var preview = L.polyline([], {
 		color: '#a00'
 	}).addTo(map);
-	var showPreview = true;
 	function showLineToNext(coords) {
 		var l = path.length;
 		if(showPreview && l > 0) {
@@ -176,6 +228,11 @@ jQuery(function() {
 	}
 
 	function setCharacter(c) {
+		if(pathChanged && !confirm('Are you sure to drop the previous changes')) {
+			return;
+		}
+		curCharacter = c;
+		pathChanged = false;
 		if(c.hasPath) {
 			jQuery.get(apiLocation+"/characters/paths/"+c.name, {}, 
 				function(data) {
@@ -241,6 +298,7 @@ jQuery(function() {
 		info.episode = jQuery("#episode").val();
 		info.status = jQuery("#status").val();
 		point.info = info;
+		pathChanged = true;
 	}
 	
 	function importPath(pathToC)
