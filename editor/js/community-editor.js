@@ -125,6 +125,7 @@ jQuery(function() {
 		polyline = L.polyline(cs, {
 			color: '#03A9F4'
 		}).addTo(editLayer);
+		var lastCoord = false;
 		cs.map(function (c, i) {
 			L.marker(c, {
 				icon: editMarker,
@@ -144,6 +145,25 @@ jQuery(function() {
 				path.splice(i,1);
 				redrawLine();
 			}).addTo(editLayer);
+			if(lastCoord) {
+				var p1 = map.project(c);
+				var p2 = map.project(lastCoord);
+				var cMiddle = map.unproject(p1._add(p2)._divideBy(2));
+				L.marker(cMiddle, {
+					icon: addMarker,
+					draggable: true
+				}).on('dragstart', function(e) {
+					showPreview = false;
+					path.splice(i,0,cMiddle);
+				}).on('drag', function(e) {
+					path[i].coords = e.latlng;
+					refreshLine();
+				}).on('dragend', function () {
+					showPreview = true;
+					redrawLine();
+				}).addTo(editLayer);
+			}
+			lastCoord = c;
 		});
 	}
 	
