@@ -24,10 +24,14 @@ function storageAvailable(type) {
 if (storageAvailable('localStorage')) {
 	if(storage.length){
 		// if a path exists
+		localStorage.getItem("path");
+	} else {
+		localStorage.setItem("path", JSON.stringify(exportPath());
 	}
 }
 else {
 	// no localStorage
+	// Sorry, your browser does not support Web Storage...
 }
 
 jQuery(function() {
