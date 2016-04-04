@@ -115,7 +115,7 @@ jQuery(function() {
 			L.DomEvent.disableClickPropagation(c);
 			c.onclick = function() {
 				$('#jsonModal').modal('show');
-				$('#jsonArea').val(JSON.stringify(path));
+				$('#jsonArea').val(JSON.stringify(exportPath() /*path*/));
 			};
 			return c;
 		},
@@ -237,14 +237,12 @@ jQuery(function() {
 			jQuery.get(apiLocation+"/characters/paths/"+c.name, {}, 
 				function(data) {
 					var pathOfCharacter = (typeof data == "object") ? data : JSON.parse(data);
-					console.log(pathOfCharacter.data[0].path);
 					path = importPath(pathOfCharacter.data[0].path);
 					redrawLine();
-				});
-			
+				});	
 		}
 	}
-	
+		
 	var episodes = [];
 	
 	jQuery.get(apiLocation+"/episodes", {},
@@ -303,33 +301,90 @@ jQuery(function() {
 	
 	function importPath(pathToC)
 	{
-		newPath = [];
-		for(var i = 0; i < pathToC.length; i++)
-		{
-			newPath = newPath.concat(convertEpisode(pathToC[i].path, pathToC[i].to));
+		var newPath = [];
+		if(pathToC.length > 0){
+			newPath = newPath.concat(convertEpisode(pathToC[0].path, pathToC[0].to, pathToC[0].alive));
 		}
-		
+		for(var i = 1; i < pathToC.length; i++){
+			var lifeStarChanged = (pathToC[i].alive == pathToC[i-1].alive);
+			newPath = newPath.concat(convertEpisode(pathToC[i].path, pathToC[i].to, pathToC[i].alive, newPath[newPath.length-1], lifeStarChanged));
+		}
 		return newPath;
 	}
-	
-	function convertEpisode(imPath, episodeEnd)
+		
+	function convertEpisode(imPath, episodeEnd, lifeStat, lastLocation, lifeStarChanged)
 	{
 		var point = {};
 		var path = [];
+		var i = 0;
 		
-		for(var i = 0; i < imPath.length; i++){ 
+		//Eliminates Duplicates
+		if(typeof(lastLocation) != "undefined" && lastLocation.coords.lat == imPath[0][0] && lastLocation.coords.lng == imPath[0][1] && lifeStarChanged)
+		{
+			i = 1;
+		}
+
+		for(i; i < imPath.length; i++){ 
 			var curr = imPath[i];
-			point = {coords:{lat: curr[0], lng: curr[1]}, info: {}};
+			point = {coords:{lat: curr[0], lng: curr[1]}, info: {"alive": lifeStat}};
 			
 			if(curr.length == 3){
 				point.info.place = curr[2];
 			}
-			
 			if(i == imPath.length-1 && (typeof(episodeEnd) != "undefined")){
 				point.info.episode = episodeEnd;
 			}
 			path.push(point);
 		}
 		return path;
+	}
+	
+	function exportPath()
+	{
+		var exPath = [];
+		var start = 1;
+		var curr;
+		var part = [];
+		var i;
+		var point = [];
+		
+		for(i = 0; i < path.length-1; i++){
+			curr = path[i];
+			
+			if(typeof(curr.info.place) != "undefined")
+			{
+				point = [curr.coords.lat, curr.coords.lng, curr.info.place];
+			}
+			else
+			{
+				point = [curr.coords.lat, curr.coords.lng];
+			}
+			part.push(point);
+			
+			if(typeof(curr.info.episode) != "undefined")
+			{
+				exPath.push({"from": start, "to": curr.info.episode, "path": part, "alive": curr.info.alive});
+				part = [];
+				
+				if(curr.info.alive == path[i+1].info.alive)
+				{
+					part = [point];
+				}
+				
+				start = curr.info.episode;
+			}
+		}
+		
+		if(typeof(path[i].info.place) != "undefined")
+		{
+			part.push([path[i].coords.lat, path[i].coords.lng, path[i].info.place]);
+		}
+		else
+		{
+			part.push([path[i].coords.lat, path[i].coords.lng]);
+		}
+		exPath.push({"from": start, "path": part, "alive": path[i].info.alive});
+		var characterPath = {"name":curCharacter.name, "path": exPath};
+		return characterPath; 
 	}
 });
