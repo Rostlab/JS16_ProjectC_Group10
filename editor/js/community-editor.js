@@ -151,6 +151,7 @@ jQuery(function() {
 		path.map(function (point, i) {
 			var c = point.coords;
 			var marker = point.info.place ? placeMarker : editMarker;
+			var marker = point.info.episode ? episodeMarker : marker;
 			L.marker(c, {
 				icon: marker,
 				draggable: true
