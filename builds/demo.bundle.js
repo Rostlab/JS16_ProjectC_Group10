@@ -415,6 +415,7 @@
 	*/
 	jQuery(function() {
 		mymap = gotmap('#map', {
+			'apiLocation':apiLocation,
 			'characterBox':'#characters',
 			'timeline':'#timeline',
 			'filter':'#filter input'
