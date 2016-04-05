@@ -10545,7 +10545,8 @@
 			noHide: false,
 			offset: [12, -15], // 6 (width of the label triangle) + 6 (padding)
 			opacity: 1,
-			zoomAnimation: true
+			zoomAnimation: true,
+			onClick: false
 		},
 		
 		update: function() {
@@ -10654,7 +10655,10 @@
 		},
 
 		_initLayout: function () {
-			this._container = L.DomUtil.create('div', 'leaflet-label ' + this.options.className + ' leaflet-zoom-animated');
+			this._container = L.DomUtil.create('div', 'leaflet-label ' + this.options.className + ' leaflet-zoom-animated'+((this.options.onClick) ? ' leaflet-clickable' : ''));
+			if(this.options.onClick) {
+				L.DomEvent.on(this._container, 'click', this.options.onClick, this);
+			}
 			this.updateZIndex(this._zIndex);
 		},
 
@@ -10673,7 +10677,8 @@
 			if (!this._content || !this._map || this._prevContent === this._content) {
 				return;
 			}
-
+			
+			
 			if (typeof this._content === 'string') {
 				this._container.innerHTML = "<span>"+this._content+"</span>";
 
@@ -11084,7 +11089,7 @@
 /* 43 */
 /***/ function(module, exports) {
 
-	var apiLocation = "";
+	var apiLocation = "https://api.got.show/api";
 	var apiToken = "";
 
 /***/ },
@@ -11102,6 +11107,7 @@
 	*/
 	gotmap = function(mapContainer, options) {
 		var defaultOptions = {
+			'apiLocation':'http://api.got.show',
 			'filter':false,
 			'timeline':false,
 			'characterBox':false,
@@ -11109,13 +11115,13 @@
 			'characterDetails':function(modal, character) {modal.find('.modal-body').text("Fill this modal by passing the characterDetails Callback Function"+JSON.stringify(character));},
 			'defaultPersonImg':'http://map.got.show/mockup/img/persons/dummy.jpg',
 			'deadPersonImg':'http://map.got.show/mockup/img/persons/skull.png',
-			'personImageBaseUrl':'https://got-api.bruck.me',
-			'cityDataSource':'https://got-api.bruck.me/api/cities',
-			'realmDataSource':'https://got-api.bruck.me/api/regions',
-			'pathDataSource':'https://got-api.bruck.me/api/characters/paths',
-			'episodeDataSource':'https://got-api.bruck.me/api/episodes',
-			'characterDataSource':'https://got-api.bruck.me/api/characters',
-			'pinDataSource':'https://got-api.bruck.me/api/characters/locations',
+			'personImageBaseUrl':'http://api.got.show',
+			'cityDataSource':'/cities',
+			'realmDataSource':'/regions',
+			'pathDataSource':'/characters/paths',
+			'episodeDataSource':'/episodes',
+			'characterDataSource':'/characters',
+			'pinDataSource':'/characters/locations',
 			'bgTiles':'http://tiles.got.show/bg/{z}/y{y}x{x}.png',
 			'labelTiles':'http://tiles.got.show/labels/{z}/y{y}x{x}.png',
 			'errorTile':'http://tiles.got.show/blank.png',
@@ -11129,6 +11135,9 @@
 			for(var option in defaultOptions) {
 				if(!(option in options)) {
 					options[option] = defaultOptions[option];
+				}
+				if(option.indexOf("Source") !== -1) {
+					options[option] = options.apiLocation + options[option];
 				}
 			}
 		} else {
@@ -11216,14 +11225,16 @@
 							var prio = "prio"+place.priority; // Add priority to hide / show cities
 							var extra = (place.priority == 6 || jQuery.inArray(place.name, ['Shadow Tower', 'Castle Black', 'Eastwatch by the Sea', 'Nightfort']) != -1) ? " wall-label" : ""; 
 							place.coords = L.latLng(parseFloat(place.coordY), parseFloat(place.coordX));
+							var clickFunction = function () {
+								publicFunctions.showModal(options.cityDetails, place, place.type);
+							};
 							L.marker(place.coords, {
 								icon: L.divIcon({className: ['gotmarker', type, prio].join(' ')})
-							}).on('click', function () {
-								publicFunctions.showModal(options.cityDetails, place, place.type);
-							}).bindLabel(place.name, {
+							}).on('click', clickFunction).bindLabel(place.name, {
 								noHide: true, 
 								direction:'right',
-								className: ['gotlabel', extra, prio].join(' ')
+								className: ['gotlabel', extra, prio].join(' '),
+								onClick: clickFunction
 							}).addTo(cityLayer);
 						}
 					});
@@ -11286,9 +11297,13 @@
 			    onAdd: function(map) {
 			        var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-flag');
 			        L.DomEvent.disableClickPropagation(c);
-			        c.onclick = function() {
+			        c.setAttribute("data-toggle", "tooltip");
+			        c.setAttribute("data-placement", "bottom");
+			        c.title = 'Show / Hide Realms';
+			        
+			        jQuery(c).on('click', function() {
 				        publicFunctions.toggleRealms();
-			        };
+			        }).tooltip();
 			        return c;
 			    },
 			});
@@ -11582,7 +11597,6 @@
 				} else {
 					character.points = [];
 					// Fetch the Data
-					console.log(options.pinDataSource+"/"+character.name);
 					jQuery.get(options.pinDataSource+"/"+character.name, {'strict':true}, function (data) {
 						var locData = (typeof data == "object") ? data : JSON.parse(data);
 						var allCities = locData.data[0].locations;
@@ -11775,13 +11789,12 @@
 					return (m1.character.name == m2.character.name) ? 0 : ( (m1.character.name > m2.character.name) ? 1 : -1 );
 				});
 				var html = "<div class=\"popupCharacterList\">";
-				var lastCharacter = false;
+				var lastMarker = false;
 				var mlist = markers.filter(function (marker) {
-					var character = marker.character;
-					if(lastCharacter && lastCharacter == character) {
+					if(lastMarker && lastMarker.character == marker.character && lastMarker.alive == marker.alive) {
 						return false;
 					} else {
-						lastCharacter = character;
+						lastMarker = marker;
 						return true;
 					}
 				});
@@ -11841,7 +11854,6 @@
 					character.points.map(generateMarker);
 				}
 			}
-			console.log(markers);
 			markers.sort(function (marker1, marker2) {
 				var c1 = marker1.coords;
 				var c2 = marker2.coords;
@@ -11853,7 +11865,6 @@
 				}
 			});
 			var lastMarker = false;
-			console.log(markers);
 			markers = markers.filter(function (marker) {
 				if(lastMarker && lastMarker.coords.equals(marker.coords)) {
 					if(!("multi" in lastMarker)) {
@@ -11865,8 +11876,6 @@
 				lastMarker = marker;
 				return true;
 			});
-			
-			console.log(markers);
 			var popUpString;
 			markers.map(function(marker) {
 				if("multi" in marker && (popUpString = nicePopup(marker.multi)) !== false) {
