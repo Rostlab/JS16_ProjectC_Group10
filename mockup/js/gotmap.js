@@ -199,9 +199,13 @@ gotmap = function(mapContainer, options) {
 		    onAdd: function(map) {
 		        var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-flag');
 		        L.DomEvent.disableClickPropagation(c);
-		        c.onclick = function() {
+		        c.setAttribute("data-toggle", "tooltip");
+		        c.setAttribute("data-placement", "bottom");
+		        c.title = 'Show / Hide Realms';
+		        
+		        jQuery(c).on('click', function() {
 			        publicFunctions.toggleRealms();
-		        };
+		        }).tooltip();
 		        return c;
 		    },
 		});
