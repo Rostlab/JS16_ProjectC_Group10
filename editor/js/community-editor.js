@@ -7,33 +7,6 @@
 						: :				
 						:_;
 */
-// testing for support and availability of localStorage
-function storageAvailable(type) {
-	try {
-		var storage = window[type],
-			x = '__storage_test__';
-		storage.setItem(x, x);
-		storage.removeItem(x);
-		return true;
-	}
-	catch(e) {
-		return false;
-	}
-}
-
-if (storageAvailable('localStorage')) {
-	if(storage.length){
-		// if a path exists
-		localStorage.getItem("path");
-	} else {
-		localStorage.setItem("path", JSON.stringify(exportPath());
-	}
-}
-else {
-	// no localStorage
-	// Sorry, your browser does not support Web Storage...
-}
-
 jQuery(function() {
 	var apiLocation = "https://api.got.show/api";
 	
@@ -426,3 +399,41 @@ jQuery(function() {
 		return characterPath; 
 	}
 });
+
+// testing for support and availability of localStorage
+function storageAvailable(type) {
+	try {
+		var storage = window[type],
+			x = '__storage_test__';
+		storage.setItem(x, x);
+		storage.removeItem(x);
+		return true;
+	}
+	catch(e) {
+		return false;
+	}
+}
+function loadPathFromCache(){
+if (storageAvailable('localStorage')) {
+    if (localStorage.length) {
+        // if a path exists
+        localStorage.getItem("path");
+    }
+    } else {
+        // no localStorage
+        alert("Sorry, your browser does not support Web Storage...");
+    }
+}
+
+function savePathCache(path){
+if (storageAvailable('localStorage')) {
+    if (localStorage.length) {
+        // if a path exists
+        localStorage.clear();
+    }
+    localStorage.setItem(path);
+    } else {
+        // no localStorage
+        alert("Sorry, your browser does not support Web Storage...");
+    }
+}
