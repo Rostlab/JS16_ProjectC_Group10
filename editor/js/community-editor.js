@@ -21,6 +21,7 @@ jQuery(function() {
 	var pathChanged = false;
 	var showPreview = true;
 	var storeItLocally = (typeof(Storage) !== "undefined");
+	var selectedEpisodes = [1, 100];
 	
 	// Handle clicks on the map / cities
 	
@@ -147,18 +148,24 @@ jQuery(function() {
 		var addMarker = L.divIcon({
 			className: 'addMarker'
 		});
-		var cs = path.map(function(p) {
-			return p.coords;
-		});
+		var cs = [];
+		var hide = false;
+		var hideNext = false;
 		editLayer.clearLayers();
-		polyline = L.polyline(cs, {
-			color: '#03A9F4'
-		}).addTo(editLayer);
 		var lastCoord = false;
 		path.map(function (point, i) {
+			var info = point.info;
+			if(info.episode) {
+				hide = !(selectedEpisodes[0] <= info.episode && info.episode <= selectedEpisodes[1]);
+				hideNext = info.episode == selectedEpisodes[1];
+			}
+			if(hide) {
+				return;
+			}
 			var c = point.coords;
-			var marker = point.info.place ? placeMarker : editMarker;
-			marker = point.info.episode ? episodeMarker : marker;
+			cs.push(c);
+			var marker = info.place ? placeMarker : editMarker;
+			marker = info.episode ? episodeMarker : marker;
 			L.marker(c, {
 				icon: marker,
 				draggable: true
@@ -212,7 +219,13 @@ jQuery(function() {
 				}).addTo(editLayer);
 			}
 			lastCoord = c;
+			if(hideNext) {
+				hide = true;
+			}
 		});
+		polyline = L.polyline(cs, {
+			color: '#03A9F4'
+		}).addTo(editLayer);
 	}
 	
 	function refreshLine() {
@@ -273,8 +286,9 @@ jQuery(function() {
 				values: [1, episodesCount],
 				animate: "slow",
 				slide: function(event, ui) {
-					var selected = [ui.values[0], ui.values[1]];
-					setInfoText(selected);
+					selectedEpisodes = [ui.values[0], ui.values[1]];
+					setInfoText(selectedEpisodes);
+					redrawLine();
 				}
 			});
 			function setInfoText(range) {
