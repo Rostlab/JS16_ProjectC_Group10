@@ -2,9 +2,9 @@ language: node_js
 node_js:
 - stable
 before_script:
-- npm install -g grunt-cli 
-- npm run-script deploy
-- npm run-script build
+- npm install -g grunt-cli
+script:
+- bash ./scripts/deploy.sh
 deploy:
   provider: npm
   email: oleksii.moroz@hotmail.com
@@ -13,3 +13,7 @@ deploy:
   on:
     repo: Rostlab/JS16_ProjectC_Group10
     branch: develop
+env:
+  global:
+    GITHUB_REPO: "Rostlab/JS16_ProjectC_Group10"
+    secure: m4tsOc9Kq6orVy03/NQZrL7BaxkECe0dm0oaARVSQn6T5+1o3Ie4GQ5i3JiSBNkNrDdpJwVm4ZnKlzAue8tt8b3GV9o0KX4+txdbbUZyefM+ioU/Vw0S/KCYupQ8P2KYEAcVQbYkV7lFPipa2m4M6plbxaCCcWVdX/DY8Wq4V8+6orhzN7OTO/mRZTYBdUHn16UcYzIR+F443nKyOkccdjFLx9o04ATe8fUauU0erP7nL3YPsojotbJacXfUx4aFzxPE8p6G4lskMDoFYqtbQtQr1ei5drThgb/lmdqlg/cuX89WWStshyxyb19KG34j0SHUEeEQBMsquiGEyFZqmPvW0pnsjaLWpmV4N69noDw/94CKfqQximC47MeDKMu6Rftg2ToodU4HNyRhvdnjzqLLBf210/n8/ruayYHxCok3EBsAnaxCXpDpezeTENJUD2hktXaISIwZcKXGzhNPZ9gOWDGbdyGtBuA81lfQ/6lDKs4mbdgf+r0aJaPsiEJU1qmSU5BKpN9BFXTVhMNR+/veNnPP2xf6qGOjshMqouGkMtN6OzqXKJu1SqtzvmZz8DlRVMnZ4/YEIu/8dshKE6KUFAAx6/nE6jjjjrZXQrCKMCr1e/1rO1Fu8c3FSJerfimgup55T6e/JjyaLi62Q+eB1KtqQb9JTNzuRHIVPO0=
