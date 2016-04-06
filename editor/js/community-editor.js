@@ -429,9 +429,9 @@ function savePathCache(path){
 if (storageAvailable('localStorage')) {
     if (localStorage.length) {
         // if a path exists
-        localStorage.clear();
+        localStorage.removeItem("path");
     }
-    localStorage.setItem(path);
+    localStorage.setItem("path", path);
     } else {
         // no localStorage
         alert("Sorry, your browser does not support Web Storage...");
