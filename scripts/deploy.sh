@@ -16,7 +16,6 @@ npm run deploy
 
 # deploy
 git checkout $TRAVIS_BRANCH
-echo $TRAVIS_BRANCH
 git add .
 git commit -m"Travis automatic deployment"
 git push "https://${GITHUB_TOKEN}@github.com/Rostlab/JS16_ProjectC_Group10.git" $TRAVIS_BRANCH

@@ -1,2 +1,2 @@
-//require("./css/demo.css");
-//require("./js/demo.js");
+require("./css/demo.css");
+require("./js/demo.js");
