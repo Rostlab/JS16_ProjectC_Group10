@@ -1,8 +1,9 @@
-/*.--.	 Alex Max Tobi		  ,-. .--. 
+/*
+  .--.	   Alex Max Tobi		 ,-. .--. 
  : .--'   Project C - Map	   .'  :: ,. :
- : : _ .--.  .--. .-..-..---.	`: :: :: :
- : :; :: ..'' .; :: :; :: .; `	: :: :; :
- `.__.':_;  `.__.'`.__.': ._.'	:_;`.__.'
+ : : _ .--.  .--. .-..-..---.  `:  :: :: :
+ : :; :: ..'' .; :: :; :: .; `	:  :: :; :
+ `.__.':_;  `.__.'`.__.': ._.'	:__;`.__.'
 						: :				
 						:_;
 */
@@ -16,7 +17,7 @@ jQuery(function() {
 	var editPoint = 0; // <-- Point in Polyline to edit
 	
 	// State Information
-	var curCharacter = {}; // <-- set When edited
+	var curCharacter = ""; // <-- set When edited
 	var curPlace = false; // <-- Set when mouse over
 	var pathChanged = false;
 	var showPreview = true;
@@ -250,7 +251,7 @@ jQuery(function() {
 		if(pathChanged && !confirm('Are you sure to drop the previous changes')) {
 			return;
 		}
-		curCharacter = c;
+		curCharacter = c.name;
 		pathChanged = false;
 		if(c.hasPath) {
 			jQuery.get(apiLocation+"/characters/paths/"+c.name, {}, 
@@ -408,7 +409,64 @@ jQuery(function() {
 			part.push([path[i].coords.lat, path[i].coords.lng]);
 		}
 		exPath.push({"from": start, "path": part, "alive": path[i].info.alive});
-		var characterPath = {"name":curCharacter.name, "path": exPath};
+		var characterPath = {"name":curCharacter, "path": exPath};
 		return characterPath; 
 	}
+	
+	// testing for support and availability of localStorage
+	function storageAvailable(type) {
+		try {
+			var storage = window[type],
+				x = '__storage_test__';
+			storage.setItem(x, x);
+			storage.removeItem(x);
+			return true;
+		}
+		catch(e) {
+			return false;
+		}
+	}
+	function loadPathFromCache(){
+	if (storageAvailable('localStorage')) {
+	    if (localStorage.length) {
+	        // if a path exists
+	        return JSON.parse(localStorage.getItem("path"));
+    	} else {
+    	alert("Sorry, no path found in your Browser Cache...");
+    	}
+    } else {
+    	// no localStorage
+        alert("Sorry, your browser does not support Web Storage...");
+    	}
+	}
+
+	function savePathCache(path){
+	if (storageAvailable('localStorage')) {
+    	if (localStorage.length) {
+        	// if a path exists
+        	localStorage.removeItem("path");
+    	}
+	    localStorage.setItem("path", path);
+    	} else {
+        	// no localStorage
+	        alert("Sorry, your browser does not support Web Storage...");
+    	}
+	}
+
+	jQuery("#savebutton").click(function () {
+		savePathCache(JSON.stringify(exportPath()));
+	});
+
+	jQuery("#loadbutton").click(function () {
+		path = loadPathFromCache();
+		$('#jsonArea').val(JSON.stringify(path));
+		importPerButton(path);
+	});
+	
+	function importPerButton(storedPath){
+		curCharacter = storedPath.name;
+		path = importPath(storedPath.path);
+		redrawLine();
+ }
 });
+
