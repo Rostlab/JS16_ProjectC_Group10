@@ -17,4 +17,4 @@ npm run deploy
 git checkout $TRAVIS_BRANCH
 git add .
 git commit -m"New bundles created"
-git push "https://${GITHUB_TOKEN}@github.com/Rostlab/JS16_ProjectC_Group10.git" $TRAVIS_BRANCH
+git push -q "https://${GITHUB_TOKEN}@github.com/Rostlab/JS16_ProjectC_Group10.git" $TRAVIS_BRANCH
