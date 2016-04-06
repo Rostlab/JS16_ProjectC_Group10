@@ -17,7 +17,7 @@ jQuery(function() {
 	var editPoint = 0; // <-- Point in Polyline to edit
 	
 	// State Information
-	var curCharacter = {}; // <-- set When edited
+	var curCharacter = ""; // <-- set When edited
 	var curPlace = false; // <-- Set when mouse over
 	var pathChanged = false;
 	var showPreview = true;
@@ -251,7 +251,7 @@ jQuery(function() {
 		if(pathChanged && !confirm('Are you sure to drop the previous changes')) {
 			return;
 		}
-		curCharacter = c;
+		curCharacter = c.name;
 		pathChanged = false;
 		if(c.hasPath) {
 			jQuery.get(apiLocation+"/characters/paths/"+c.name, {}, 
@@ -409,7 +409,7 @@ jQuery(function() {
 			part.push([path[i].coords.lat, path[i].coords.lng]);
 		}
 		exPath.push({"from": start, "path": part, "alive": path[i].info.alive});
-		var characterPath = {"name":curCharacter.name, "path": exPath};
+		var characterPath = {"name":curCharacter, "path": exPath};
 		return characterPath; 
 	}
 	
@@ -458,8 +458,15 @@ jQuery(function() {
 	});
 
 	jQuery("#loadbutton").click(function () {
-		$('#jsonArea').val(JSON.stringify(loadPathFromCache()));
-		
+		path = loadPathFromCache();
+		$('#jsonArea').val(JSON.stringify(path));
+		importPerButton(path);
 	});
+	
+	function importPerButton(storedPath){
+		curCharacter = storedPath.name;
+		path = importPath(storedPath.path);
+		redrawLine();
+ }
 });
 
