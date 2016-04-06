@@ -10464,7 +10464,7 @@
 
 
 	// module
-	exports.push([module.id, "/*____     _____   __  __             \n / ___| __|_   _| |  \\/  | __ _ _ __  \n| |  _ / _ \\| |   | |\\/| |/ _` | '_ \\ \n| |_| | (_) | |   | |  | | (_| | |_) |\n \\____|\\___/|_|   |_|  |_|\\__,_| .__/ \n Maximilian Bandle @mbandle    |_|    \n Alexander Beischl @AlexBeischl\n Tobias Piffrader  @tpiffrader\n \n Basic styles for the gotmap to work correctly\n*/\n\n/* @group Map */ \n.gotmap .deleteButton {\n\twidth: 30px;\n\theight: 30px;\n\tbackground-color: #fff;\n\tfont-size: 20px;\n\tfont-weight: bold;\n\ttext-align: center;\n}\n\n/* @group Colorful Character Marker */\n.gotmap .colormarker {\n\tfont-size: 32px;\n\tcolor: #a00;\n}\n\n.gotmap .colormarker span {\n\tleft: -16px;\n\ttop: -32px;\n}\n\n.gotmap .colormarker img{\n\tposition: relative;\n\twidth: 16px;\n\theight: 16px;\n\tborder-radius: 8px;\n\ttop:-7px;\n\tleft: -23px;\n}\n\n.gotmap.zoom5 .colormarker span {\n\tleft: -32px;\n\ttop: -64px;\n}\n\n.gotmap.zoom5 .colormarker {\n\tfont-size: 64px;\n\tmargin-left: 16px;\n\tmargin-top: 32px; \n}\n\n.gotmap.zoom5 .colormarker img {\n\twidth: 32px;\n\theight: 32px;\n\tborder-radius: 16px;\n\ttop: -16px;\n\tleft: -45px;\n}\n/* @end */\n\n/* @group Map Features */\n.gotmap .leaflet-marker-icon.gotmarker {\n\twidth: 16px !important;\n\theight: 16px !important;\n\tmargin-left: -10px !important;\n\tmargin-top: -10px !important;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.city, .gotmap-modal .city .modal-title {\n\tbackground: transparent url(" + __webpack_require__(27) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.town, .gotmap-modal .town .modal-title {\n\tbackground: transparent url(" + __webpack_require__(28) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.castle, .gotmap-modal .castle .modal-title {\n\tbackground: transparent url(" + __webpack_require__(29) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.ruin, .gotmap-modal .ruin .modal-title {\n\tbackground: transparent url(" + __webpack_require__(30) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.other, .gotmap-modal .other .modal-title {\n\tbackground: transparent url(" + __webpack_require__(31) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap.zoom5 .leaflet-marker-icon.got {\n\twidth: 32px !important;\n\theight: 32px !important;\n\tmargin-left: -19px !important;\n\tmargin-top: -19px !important;\n\tbackground-size: 32px;\n}\n\n.gotmap.zoom0 .prio6, .gotmap.zoom1 .prio6, .gotmap.zoom2 .prio6, .gotmap.zoom3 .prio6, .gotmap.zoom4 .prio6,\n.gotmap.zoom0 .prio5, .gotmap.zoom1 .prio5, .gotmap.zoom2 .prio5, .gotmap.zoom3 .prio5, .gotmap.zoom4 .prio5,\n.gotmap.zoom0 .prio4, .gotmap.zoom1 .prio4, .gotmap.zoom2 .prio4, .gotmap.zoom3 .prio4, \n.gotmap.zoom0 .prio3, .gotmap.zoom1 .prio3, .gotmap.zoom2 .prio3,\n.gotmap.zoom0 .prio2, .gotmap.zoom1 .prio2,\n.gotmap.zoom0 .prio1 {\n\tdisplay: none;\n}\n\n.gotmap.zoom5 .wall-label span {\n\tpadding: 0;\n\tmargin-top: 24px; \n\tmargin-left: -8px; \n\ttransform-origin: top left;\n\tdisplay: inline-block;\n\ttransform: rotate(45deg);\n}\n/* @end */\n\n/* @group Labels */\n.gotmap .leaflet-label {\n\ttext-shadow: #FFF -1px 0px 0px, #FFF 1px 0px 0px, #FFF 0px 1px 0px, #FFF 0px -1px 0px, #FFF -1px -1px 0px,#FFF 1px 1px 0px,#FFF 1px -1px 0px,#FFF -1px 1px 0px;\n\tcolor: #111;\n\tdisplay: block;\n\tfont: 12px/12px \"Helvetica Neue\", Arial, Helvetica, sans-serif;\n\tfont-weight: bold;\n\tpadding: 1px 6px;\n\tposition: absolute;\n\t-webkit-user-select: none;\n\t   -moz-user-select: none;\n\t    -ms-user-select: none;\n\t        user-select: none;\n\tpointer-events: none;\n\twhite-space: nowrap;\n\tz-index: 6;\n}\n\n.gotmap .leaflet-label.leaflet-clickable {\n\tcursor: pointer;\n\tpointer-events: auto;\n}\n\n.gotmap .leaflet-control-custom {\n\twidth: 30px;\n\theight: 30px;\n\tbackground-color: #fff;\n\tpadding: 3px;\n\tfont-size: 20px;\n\tfont-weight: bold;\n\ttext-align: center;\n}\n/* @end */\n\n/* @group Multi Markers */\n.popupCharacterList .character {\n\tclear: both;\n\theight: 3em;\n\toverflow: hidden;\n\tmargin: .25em;\n}\n\t\n.popupCharacterList img {\n\twidth: 3em;\n\theight: 3em;\n\tborder: 4px solid gray;\n}\n\n.popupCharacterList .name {\n\tpadding: .5em;\n\tfont-weight: bold;\n}\n\t\n/* @end */\n\n/* @end */\n\n\n/* @group Character List */\n.gotmap-character .character {\n\tpadding: .5em 0;\n\tborder-bottom: 1px solid #B6B6B6;\n\ttransition: all .3s;\n\tposition: relative;\n\twidth: 100%;\n}\n\n.gotmap-character .character.disabled {\n\topacity: 0.9;\n}\n\n.gotmap-character .character.disabled:hover {\n\topacity: 1;\n}\n\n.gotmap-character .character.disabled img {\n\tborder-color: #888 !important;\n\t-webkit-filter: grayscale(1);\n\tfilter: grayscale(100%);\n}\n\n.gotmap-character .character.disabled img:hover {\n\t-webkit-filter: grayscale(0);\n\tfilter: grayscale(0);\n}\n\n.gotmap-character .character img {\n\tfloat: left;\n\twidth: 75px;\n\theight: 75px;\n\tmargin-right: .5em;\n\tborder: 5px solid #FFA000;\n\ttransition: all .3s;\n}\n.gotmap-character .character .characterinfo {\n\tpadding: 1em 0;\n\tvertical-align: middle;\n\theight: 75px;\n}\n.gotmap-character .character .name {\n\tfont-weight: bold;\n\tfont-size: 1.25em;\n\toverflow:hidden;\n\theight: 1.25em;\n}\n\n.gotmap-character .character .house {\n\tcolor: #727272;\n}\n\n.gotmap-character .character .delete {\n\tcolor: #AAA;\n\tposition: absolute;\n\tright: 14px;\n\ttop: 50%;\n\tmargin-top: -7px;\n\tfont-size: 14px;\n}\n\n.gotmap-character .character .delete:hover {\n\tcolor: #727272;\n}\n/* @end */\n\n\n/* @group Filter */\n\nul.gotmap-dropdown img {\n\theight: 2em;\n\twidth: 2em;\n\tmargin: 0 .5em 0 -1em;\n}\n\nul.gotmap-dropdown .pathInfo {\n\tborder-left: 5px solid green;\n}\n\nul.gotmap-dropdown .hover, ul.gotmap-dropdown li:hover {\n\tcolor: #262626;\n\ttext-decoration: none;\n\tbackground-color: #d5d5d5;\n}\n/* @end */\n\n/* @group Timeline */\n.gotmap-timeline .ui-slider {\n\tposition: relative;\n\ttext-align: left;\n}\n\n.gotmap-timeline .ui-slider .ui-slider-handle {\n\tposition: absolute;\n\tz-index: 2;\n\twidth: 20px;\n\theight: 20px;\n\tcursor: default;\n\t-ms-touch-action: none;\n\ttouch-action: none;\n}\n\n.gotmap-timeline .ui-slider .ui-slider-range {\n\tposition: absolute;\n\tz-index: 1;\n\tdisplay: block;\n\tborder: 0;\n}\n\n.gotmap-timeline .ui-slider-horizontal {\n\theight: 10px;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-handle {\n\ttop: -.3em;\n\tmargin-left: -.6em;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-range {\n\ttop: 0;\n\theight: 100%;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-range-min {\n\tleft: 0;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-range-max {\n\tright: 0;\n}\n\n/* Component containers\n----------------------------------*/\n.gotmap-timeline .ui-widget-content {\n\tborder: 1px solid #404040;\n\tbackground: #121212;\n}\n\n.gotmap-timeline .ui-widget-header {\n\tborder: 1px solid #404040;\n\tbackground: #888888;\n}\n\n.gotmap-timeline .ui-state-default {\n\tborder: 1px solid #cccccc;\n\tbackground: #adadad;\n}\n\n.gotmap-timeline .ui-corner-all {\n\tborder-radius: 8px;\n}\n/* @end */\n\n/* @group Modal */\n/* @group Glyph Stuff */\n.gotmap-modal .glyph-big {\n\tfont-size: 6em;\n}\n\n.gotmap-modal .glyph-spin {\n    -webkit-animation: gotmap-spin 3000ms infinite linear;\n    -moz-animation: gotmap-spin 3000ms infinite linear;\n    animation: gotmap-spin 3000ms infinite linear;\n}\n\n@-webkit-keyframes gotmap-spin {\n    0% {\n        -webkit-transform: rotate(0deg);\n        transform: rotate(0deg);\n    }\n    100% {\n        -webkit-transform: rotate(359deg);\n        transform: rotate(359deg);\n    }\n}\n\n@keyframes gotmap-spin {\n    0% {\n        -webkit-transform: rotate(0deg);\n        transform: rotate(0deg);\n    }\n    100% {\n        -webkit-transform: rotate(359deg);\n        transform: rotate(359deg);\n    }\n}\n/* @end */\n\n/* @group Header */\n.gotmap-modal .city .modal-title {\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .town .modal-title {\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .castle .modal-title {\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .ruin .modal-title {\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .other .modal-title {\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .person .modal-title {\n\tbackground: transparent url(" + __webpack_require__(32) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.stark .modal-title {\n\tbackground: transparent url(" + __webpack_require__(33) + ") no-repeat;\n\tbackground-size: 26px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.baratheon .modal-title {\n\tbackground: transparent url(" + __webpack_require__(34) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.lannister .modal-title {\n\tbackground: transparent url(" + __webpack_require__(35) + ") no-repeat;\n\tbackground-size: 31px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.targaryen .modal-title {\n\tbackground: transparent url(" + __webpack_require__(36) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n/* @end */\n\n/* @group Footer */\n.gotmap-modal .modal-footer {\n\tclear: both;\n}\n/* @end */\n\n/* @group dynModal wiki */\n.gotmap-modal #contentSub, .gotmap-modal #siteSub, .gotmap-modal #jump-to-nav, .gotmap-modal #mw-data-after-content, .gotmap-modal .printfooter, .gotmap-modal .navbox, .gotmap-modal .references, .gotmap-modal .references-small, .gotmap-modal .catlinks, .gotmap-modal .reference {\n\tdisplay: none;\n}\n\n.gotmap-modal h2:last-of-type {\n\tdisplay: none;\n} \n\n/* @group Top Right Infobox */\n.gotmap-modal .infobox {\n\tborder: 1px solid #aaa;\n\tbackground-color: #f9f9f9;\n\tcolor: black;\n\tmargin-bottom: 0.5em;\n\tmargin-left: 1em;\n\tpadding: 0.2em;\n\tfloat: right;\n\tclear: right\n}\n\n.gotmap-modal .infobox.bordered {\n    border-collapse: collapse\n}\n\n.gotmap-modal .infobox.bordered td, .gotmap-modal .infobox.bordered th {\n    border: 1px solid #aaa\n}\n\n.gotmap-modal .infobox.bordered .borderless td, .gotmap-modal .infobox.bordered .borderless th {\n    border: 0\n}\n\n.gotmap-modal .infobox th[scope=\"row\"] {\n\tpadding-left: 0.5em;\n}\n\n.gotmap-modal .infobox caption {\n\tfont-size: larger;\n\tmargin-left: inherit;\n\tcolor: #000;\n\tpadding: 0;\n\ttext-align: center;\n}\n\n.gotmap-modal .floatleft {\n\tmargin: 0 .5em .5em 0;\n\tborder: 0;\n\tfloat: left;\n\tclear: left;\n}\n\n.gotmap-modal .floatright {\n\tmargin: 0 0 .5em .5em;\n\tborder: 0;\n\tfloat: right;\n\tclear: right;\n}\n/* @end */\n\n/* @group TOC */\n.gotmap-modal .toc {\n     border: 1px solid #aaa;\n     background-color: #f9f9f9;\n     padding: .5em;\n     font-size: 95%;\n     display: table;\n}\n\n.gotmap-modal #toctitle  {\n    text-align: center;\n}\n\n.gotmap-modal .toc h2  {\n    display: inline;\n    border: none;\n    padding: 0;\n    font-size: 100%;\n    font-weight: bold;\n}\n\n.gotmap-modal .toc ul {\n    list-style-type: none;\n    list-style-image: none;\n    margin-left: 0;\n    padding: 0;\n    text-align: left\n}\n\n.gotmap-modal  .toc ul ul {\n    margin: 0 0 0 2em\n}\n\n.gotmap-modal  .toc .toctoggle {\n    font-size: 94%\n}\n/* @end */\n\n/* @group Floats */\n.gotmap-modal .tright {\n    margin: .5em 0 1.5em 1.5em;\n    clear: right;\n    float: right;\n}\n\n.gotmap-modal .tleft {\n    margin: .5em 1.5em 1.5em 0;\n    float: left;\n    clear: left;\n}\n    \n.gotmap-modal .thumb {\n    margin-bottom: .5em;\n    width: auto;\n}\n    \n.gotmap-modal div.thumbinner {\n    border: 1px solid #ccc;\n    padding: 3px;\n    background-color: #f9f9f9;\n    font-size: 94%;\n    text-align: center;\n    overflow: hidden\n}\n    \n.gotmap-modal .thumbcaption {\n    border: none;\n    line-height: 1.4em;\n    padding: 3px;\n    font-size: 94%;\n    text-align: left;\n}\n/* @group @end */\n\n/* @end */\n\n/* @end */", ""]);
+	exports.push([module.id, "/*____     _____   __  __             \n / ___| __|_   _| |  \\/  | __ _ _ __  \n| |  _ / _ \\| |   | |\\/| |/ _` | '_ \\ \n| |_| | (_) | |   | |  | | (_| | |_) |\n \\____|\\___/|_|   |_|  |_|\\__,_| .__/ \n Maximilian Bandle @mbandle    |_|    \n Alexander Beischl @AlexBeischl\n Tobias Piffrader  @tpiffrader\n \n Basic styles for the gotmap to work correctly\n*/\n\n/* @group Map */ \n.gotmap .deleteButton {\n\twidth: 30px;\n\theight: 30px;\n\tbackground-color: #fff;\n\tfont-size: 20px;\n\tfont-weight: bold;\n\ttext-align: center;\n}\n\n/* @group Colorful Character Marker */\n.gotmap .colormarker {\n\tfont-size: 32px;\n\tcolor: #a00;\n}\n\n.gotmap .colormarker span {\n\tleft: -16px;\n\ttop: -32px;\n}\n\n.gotmap .colormarker img{\n\tposition: relative;\n\twidth: 16px;\n\theight: 16px;\n\tborder-radius: 8px;\n\ttop:-7px;\n\tleft: -23px;\n}\n\n.gotmap.zoom5 .colormarker span {\n\tleft: -32px;\n\ttop: -64px;\n}\n\n.gotmap.zoom5 .colormarker {\n\tfont-size: 64px;\n\tmargin-left: 16px;\n\tmargin-top: 32px; \n}\n\n.gotmap.zoom5 .colormarker img {\n\twidth: 32px;\n\theight: 32px;\n\tborder-radius: 16px;\n\ttop: -16px;\n\tleft: -45px;\n}\n/* @end */\n\n/* @group Map Features */\n.gotmap .leaflet-marker-icon.gotmarker {\n\twidth: 16px !important;\n\theight: 16px !important;\n\tmargin-left: -10px !important;\n\tmargin-top: -10px !important;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.city, .gotmap-modal .city .modal-title {\n\tbackground: transparent url(" + __webpack_require__(27) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.town, .gotmap-modal .town .modal-title {\n\tbackground: transparent url(" + __webpack_require__(28) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.castle, .gotmap-modal .castle .modal-title {\n\tbackground: transparent url(" + __webpack_require__(29) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.ruin, .gotmap-modal .ruin .modal-title {\n\tbackground: transparent url(" + __webpack_require__(30) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap .leaflet-marker-icon.gotmarker.other, .gotmap-modal .other .modal-title {\n\tbackground: transparent url(" + __webpack_require__(31) + ") no-repeat;\n\tbackground-size: 16px;\n}\n\n.gotmap.zoom5 .leaflet-marker-icon.got {\n\twidth: 32px !important;\n\theight: 32px !important;\n\tmargin-left: -19px !important;\n\tmargin-top: -19px !important;\n\tbackground-size: 32px;\n}\n\n.gotmap.zoom0 .prio6, .gotmap.zoom1 .prio6, .gotmap.zoom2 .prio6, .gotmap.zoom3 .prio6, .gotmap.zoom4 .prio6,\n.gotmap.zoom0 .prio5, .gotmap.zoom1 .prio5, .gotmap.zoom2 .prio5, .gotmap.zoom3 .prio5, .gotmap.zoom4 .prio5,\n.gotmap.zoom0 .prio4, .gotmap.zoom1 .prio4, .gotmap.zoom2 .prio4, .gotmap.zoom3 .prio4, \n.gotmap.zoom0 .prio3, .gotmap.zoom1 .prio3, .gotmap.zoom2 .prio3,\n.gotmap.zoom0 .prio2, .gotmap.zoom1 .prio2,\n.gotmap.zoom0 .prio1 {\n\tdisplay: none;\n}\n\n.gotmap.zoom5 .wall-label span {\n\tpadding: 0;\n\tmargin-top: 24px; \n\tmargin-left: -8px; \n\ttransform-origin: top left;\n\tdisplay: inline-block;\n\ttransform: rotate(45deg);\n}\n/* @end */\n\n/* @group Labels */\n.gotmap .leaflet-label {\n\ttext-shadow: #FFF -1px 0px 0px, #FFF 1px 0px 0px, #FFF 0px 1px 0px, #FFF 0px -1px 0px, #FFF -1px -1px 0px,#FFF 1px 1px 0px,#FFF 1px -1px 0px,#FFF -1px 1px 0px;\n\tcolor: #111;\n\tdisplay: block;\n\tfont: 12px/12px \"Helvetica Neue\", Arial, Helvetica, sans-serif;\n\tfont-weight: bold;\n\tpadding: 1px 6px;\n\tposition: absolute;\n\t-webkit-user-select: none;\n\t   -moz-user-select: none;\n\t    -ms-user-select: none;\n\t        user-select: none;\n\tpointer-events: none;\n\twhite-space: nowrap;\n\tz-index: 6;\n}\n\n.gotmap .leaflet-label.leaflet-clickable {\n\tcursor: pointer;\n\tpointer-events: auto;\n}\n\n.gotmap .leaflet-control-custom {\n\twidth: 30px;\n\theight: 30px;\n\tbackground-color: #fff;\n\tpadding: 3px;\n\tfont-size: 20px;\n\tfont-weight: bold;\n\ttext-align: center;\n}\n/* @end */\n\n/* @group Multi Markers */\n.popupCharacterList .character {\n\tclear: both;\n\theight: 3em;\n\toverflow: hidden;\n\tmargin: .25em;\n}\n\t\n.popupCharacterList img {\n\twidth: 3em;\n\theight: 3em;\n\tborder: 4px solid gray;\n}\n\n.popupCharacterList .name {\n\tpadding: .5em;\n\tfont-weight: bold;\n}\n\t\n/* @end */\n\n/* @end */\n\n\n/* @group Character List */\n.gotmap-character .character {\n\tpadding: .5em 0;\n\tborder-bottom: 1px solid #B6B6B6;\n\ttransition: all .3s;\n\tposition: relative;\n\twidth: 100%;\n}\n\n.gotmap-character .character.disabled {\n\topacity: 0.9;\n}\n\n.gotmap-character .character.disabled:hover {\n\topacity: 1;\n}\n\n.gotmap-character .character.disabled img {\n\tborder-color: #888 !important;\n\t-webkit-filter: grayscale(1);\n\tfilter: grayscale(100%);\n}\n\n.gotmap-character .character.disabled img:hover {\n\t-webkit-filter: grayscale(0);\n\tfilter: grayscale(0);\n}\n\n.gotmap-character .character img {\n\tfloat: left;\n\twidth: 75px;\n\theight: 75px;\n\tmargin-right: .5em;\n\tborder: 5px solid #FFA000;\n\ttransition: all .3s;\n}\n.gotmap-character .character .characterinfo {\n\tpadding: 1em 0;\n\tvertical-align: middle;\n\theight: 75px;\n}\n.gotmap-character .character .name {\n\tfont-weight: bold;\n\tfont-size: 1.25em;\n\toverflow:hidden;\n\theight: 1.25em;\n}\n\n.gotmap-character .character .house {\n\tcolor: #727272;\n\toverflow: hidden;\n\ttext-overflow: ellipsis;\n\tpadding-right: 1em;\n\twhite-space: pre;\n}\n\n.gotmap-character .character .delete {\n\tcolor: #AAA;\n\tposition: absolute;\n\tright: 14px;\n\ttop: 50%;\n\tmargin-top: -7px;\n\tfont-size: 14px;\n}\n\n.gotmap-character .character .delete:hover {\n\tcolor: #727272;\n}\n/* @end */\n\n\n/* @group Filter */\n\nul.gotmap-dropdown img {\n\theight: 2em;\n\twidth: 2em;\n\tmargin: 0 .5em 0 -1em;\n}\n\nul.gotmap-dropdown .pathInfo {\n\tborder-left: 5px solid green;\n}\n\nul.gotmap-dropdown .hover, ul.gotmap-dropdown li:hover {\n\tcolor: #262626;\n\ttext-decoration: none;\n\tbackground-color: #d5d5d5;\n}\n/* @end */\n\n/* @group Timeline */\n.gotmap-timeline .ui-slider {\n\tposition: relative;\n\ttext-align: left;\n}\n\n.gotmap-timeline .ui-slider .ui-slider-handle {\n\tposition: absolute;\n\tz-index: 2;\n\twidth: 20px;\n\theight: 20px;\n\tcursor: default;\n\t-ms-touch-action: none;\n\ttouch-action: none;\n}\n\n.gotmap-timeline .ui-slider .ui-slider-range {\n\tposition: absolute;\n\tz-index: 1;\n\tdisplay: block;\n\tborder: 0;\n}\n\n.gotmap-timeline .ui-slider-horizontal {\n\theight: 10px;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-handle {\n\ttop: -.3em;\n\tmargin-left: -.6em;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-range {\n\ttop: 0;\n\theight: 100%;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-range-min {\n\tleft: 0;\n}\n\n.gotmap-timeline .ui-slider-horizontal .ui-slider-range-max {\n\tright: 0;\n}\n\n/* Component containers\n----------------------------------*/\n.gotmap-timeline .ui-widget-content {\n\tborder: 1px solid #404040;\n\tbackground: #121212;\n}\n\n.gotmap-timeline .ui-widget-header {\n\tborder: 1px solid #404040;\n\tbackground: #888888;\n}\n\n.gotmap-timeline .ui-state-default {\n\tborder: 1px solid #cccccc;\n\tbackground: #adadad;\n}\n\n.gotmap-timeline .ui-corner-all {\n\tborder-radius: 8px;\n}\n/* @end */\n\n/* @group Modal */\n/* @group Glyph Stuff */\n.gotmap-modal .glyph-big {\n\tfont-size: 6em;\n}\n\n.gotmap-modal .glyph-spin {\n    -webkit-animation: gotmap-spin 3000ms infinite linear;\n    -moz-animation: gotmap-spin 3000ms infinite linear;\n    animation: gotmap-spin 3000ms infinite linear;\n}\n\n@-webkit-keyframes gotmap-spin {\n    0% {\n        -webkit-transform: rotate(0deg);\n        transform: rotate(0deg);\n    }\n    100% {\n        -webkit-transform: rotate(359deg);\n        transform: rotate(359deg);\n    }\n}\n\n@keyframes gotmap-spin {\n    0% {\n        -webkit-transform: rotate(0deg);\n        transform: rotate(0deg);\n    }\n    100% {\n        -webkit-transform: rotate(359deg);\n        transform: rotate(359deg);\n    }\n}\n/* @end */\n\n/* @group Header */\n.gotmap-modal .city .modal-title {\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .town .modal-title {\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .castle .modal-title {\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .ruin .modal-title {\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .other .modal-title {\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .person .modal-title {\n\tbackground: transparent url(" + __webpack_require__(32) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.stark .modal-title {\n\tbackground: transparent url(" + __webpack_require__(33) + ") no-repeat;\n\tbackground-size: 26px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.baratheon .modal-title {\n\tbackground: transparent url(" + __webpack_require__(34) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.lannister .modal-title {\n\tbackground: transparent url(" + __webpack_require__(35) + ") no-repeat;\n\tbackground-size: 31px;\n\tpadding-left: 40px;\n}\n\n.gotmap-modal .house.targaryen .modal-title {\n\tbackground: transparent url(" + __webpack_require__(36) + ") no-repeat;\n\tbackground-size: 32px;\n\tpadding-left: 40px;\n}\n/* @end */\n\n/* @group Footer */\n.gotmap-modal .modal-footer {\n\tclear: both;\n}\n/* @end */\n\n/* @group dynModal wiki */\n.gotmap-modal #contentSub, .gotmap-modal #siteSub, .gotmap-modal #jump-to-nav, .gotmap-modal #mw-data-after-content, .gotmap-modal .printfooter, .gotmap-modal .navbox, .gotmap-modal .references, .gotmap-modal .references-small, .gotmap-modal .catlinks, .gotmap-modal .reference {\n\tdisplay: none;\n}\n\n.gotmap-modal h2:last-of-type {\n\tdisplay: none;\n} \n\n/* @group Top Right Infobox */\n.gotmap-modal .infobox {\n\tborder: 1px solid #aaa;\n\tbackground-color: #f9f9f9;\n\tcolor: black;\n\tmargin-bottom: 0.5em;\n\tmargin-left: 1em;\n\tpadding: 0.2em;\n\tfloat: right;\n\tclear: right\n}\n\n.gotmap-modal .infobox.bordered {\n    border-collapse: collapse\n}\n\n.gotmap-modal .infobox.bordered td, .gotmap-modal .infobox.bordered th {\n    border: 1px solid #aaa\n}\n\n.gotmap-modal .infobox.bordered .borderless td, .gotmap-modal .infobox.bordered .borderless th {\n    border: 0\n}\n\n.gotmap-modal .infobox th[scope=\"row\"] {\n\tpadding-left: 0.5em;\n}\n\n.gotmap-modal .infobox caption {\n\tfont-size: larger;\n\tmargin-left: inherit;\n\tcolor: #000;\n\tpadding: 0;\n\ttext-align: center;\n}\n\n.gotmap-modal .floatleft {\n\tmargin: 0 .5em .5em 0;\n\tborder: 0;\n\tfloat: left;\n\tclear: left;\n}\n\n.gotmap-modal .floatright {\n\tmargin: 0 0 .5em .5em;\n\tborder: 0;\n\tfloat: right;\n\tclear: right;\n}\n/* @end */\n\n/* @group TOC */\n.gotmap-modal .toc {\n     border: 1px solid #aaa;\n     background-color: #f9f9f9;\n     padding: .5em;\n     font-size: 95%;\n     display: table;\n}\n\n.gotmap-modal #toctitle  {\n    text-align: center;\n}\n\n.gotmap-modal .toc h2  {\n    display: inline;\n    border: none;\n    padding: 0;\n    font-size: 100%;\n    font-weight: bold;\n}\n\n.gotmap-modal .toc ul {\n    list-style-type: none;\n    list-style-image: none;\n    margin-left: 0;\n    padding: 0;\n    text-align: left\n}\n\n.gotmap-modal  .toc ul ul {\n    margin: 0 0 0 2em\n}\n\n.gotmap-modal  .toc .toctoggle {\n    font-size: 94%\n}\n/* @end */\n\n/* @group Floats */\n.gotmap-modal .tright {\n    margin: .5em 0 1.5em 1.5em;\n    clear: right;\n    float: right;\n}\n\n.gotmap-modal .tleft {\n    margin: .5em 1.5em 1.5em 0;\n    float: left;\n    clear: left;\n}\n    \n.gotmap-modal .thumb {\n    margin-bottom: .5em;\n    width: auto;\n}\n    \n.gotmap-modal div.thumbinner {\n    border: 1px solid #ccc;\n    padding: 3px;\n    background-color: #f9f9f9;\n    font-size: 94%;\n    text-align: center;\n    overflow: hidden\n}\n    \n.gotmap-modal .thumbcaption {\n    border: none;\n    line-height: 1.4em;\n    padding: 3px;\n    font-size: 94%;\n    text-align: left;\n}\n/* @group @end */\n\n/* @end */\n\n/* @end */\n", ""]);
 
 	// exports
 
@@ -10545,7 +10545,8 @@
 			noHide: false,
 			offset: [12, -15], // 6 (width of the label triangle) + 6 (padding)
 			opacity: 1,
-			zoomAnimation: true
+			zoomAnimation: true,
+			onClick: false
 		},
 		
 		update: function() {
@@ -10654,7 +10655,10 @@
 		},
 
 		_initLayout: function () {
-			this._container = L.DomUtil.create('div', 'leaflet-label ' + this.options.className + ' leaflet-zoom-animated');
+			this._container = L.DomUtil.create('div', 'leaflet-label ' + this.options.className + ' leaflet-zoom-animated'+((this.options.onClick) ? ' leaflet-clickable' : ''));
+			if(this.options.onClick) {
+				L.DomEvent.on(this._container, 'click', this.options.onClick, this);
+			}
 			this.updateZIndex(this._zIndex);
 		},
 
@@ -10673,7 +10677,8 @@
 			if (!this._content || !this._map || this._prevContent === this._content) {
 				return;
 			}
-
+			
+			
 			if (typeof this._content === 'string') {
 				this._container.innerHTML = "<span>"+this._content+"</span>";
 
@@ -11084,7 +11089,7 @@
 /* 43 */
 /***/ function(module, exports) {
 
-	var apiLocation = "";
+	var apiLocation = "https://api.got.show/api";
 	var apiToken = "";
 
 /***/ },
@@ -11102,6 +11107,7 @@
 	*/
 	gotmap = function(mapContainer, options) {
 		var defaultOptions = {
+			'apiLocation':'http://api.got.show',
 			'filter':false,
 			'timeline':false,
 			'characterBox':false,
@@ -11109,13 +11115,13 @@
 			'characterDetails':function(modal, character) {modal.find('.modal-body').text("Fill this modal by passing the characterDetails Callback Function"+JSON.stringify(character));},
 			'defaultPersonImg':'http://map.got.show/mockup/img/persons/dummy.jpg',
 			'deadPersonImg':'http://map.got.show/mockup/img/persons/skull.png',
-			'personImageBaseUrl':'https://got-api.bruck.me',
-			'cityDataSource':'https://got-api.bruck.me/api/cities',
-			'realmDataSource':'https://got-api.bruck.me/api/regions',
-			'pathDataSource':'https://got-api.bruck.me/api/characters/paths',
-			'episodeDataSource':'https://got-api.bruck.me/api/episodes',
-			'characterDataSource':'https://got-api.bruck.me/api/characters',
-			'pinDataSource':'https://got-api.bruck.me/api/characters/locations',
+			'personImageBaseUrl':'http://api.got.show',
+			'cityDataSource':'/cities',
+			'realmDataSource':'/regions',
+			'pathDataSource':'/characters/paths',
+			'episodeDataSource':'/episodes',
+			'characterDataSource':'/characters',
+			'pinDataSource':'/characters/locations',
 			'bgTiles':'http://tiles.got.show/bg/{z}/y{y}x{x}.png',
 			'labelTiles':'http://tiles.got.show/labels/{z}/y{y}x{x}.png',
 			'errorTile':'http://tiles.got.show/blank.png',
@@ -11124,11 +11130,16 @@
 			'episodesRange': [1,2]
 		};
 		
+		L.Icon.Default.imagePath = "http://cdn.leafletjs.com/leaflet/v0.7.7/images";
+		
 		// Merge User and Default Options
 		if(typeof options == 'object') {
 			for(var option in defaultOptions) {
 				if(!(option in options)) {
 					options[option] = defaultOptions[option];
+				}
+				if(option.indexOf("Source") !== -1) {
+					options[option] = options.apiLocation + options[option];
 				}
 			}
 		} else {
@@ -11216,14 +11227,16 @@
 							var prio = "prio"+place.priority; // Add priority to hide / show cities
 							var extra = (place.priority == 6 || jQuery.inArray(place.name, ['Shadow Tower', 'Castle Black', 'Eastwatch by the Sea', 'Nightfort']) != -1) ? " wall-label" : ""; 
 							place.coords = L.latLng(parseFloat(place.coordY), parseFloat(place.coordX));
+							var clickFunction = function () {
+								publicFunctions.showModal(options.cityDetails, place, place.type);
+							};
 							L.marker(place.coords, {
 								icon: L.divIcon({className: ['gotmarker', type, prio].join(' ')})
-							}).on('click', function () {
-								publicFunctions.showModal(options.cityDetails, place, place.type);
-							}).bindLabel(place.name, {
+							}).on('click', clickFunction).bindLabel(place.name, {
 								noHide: true, 
 								direction:'right',
-								className: ['gotlabel', extra, prio].join(' ')
+								className: ['gotlabel', extra, prio].join(' '),
+								onClick: clickFunction
 							}).addTo(cityLayer);
 						}
 					});
@@ -11286,9 +11299,13 @@
 			    onAdd: function(map) {
 			        var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-flag');
 			        L.DomEvent.disableClickPropagation(c);
-			        c.onclick = function() {
+			        c.setAttribute("data-toggle", "tooltip");
+			        c.setAttribute("data-placement", "bottom");
+			        c.title = 'Show / Hide Realms';
+			        
+			        jQuery(c).on('click', function() {
 				        publicFunctions.toggleRealms();
-			        };
+			        }).tooltip();
 			        return c;
 			    },
 			});
@@ -11582,7 +11599,6 @@
 				} else {
 					character.points = [];
 					// Fetch the Data
-					console.log(options.pinDataSource+"/"+character.name);
 					jQuery.get(options.pinDataSource+"/"+character.name, {'strict':true}, function (data) {
 						var locData = (typeof data == "object") ? data : JSON.parse(data);
 						var allCities = locData.data[0].locations;
@@ -11775,13 +11791,12 @@
 					return (m1.character.name == m2.character.name) ? 0 : ( (m1.character.name > m2.character.name) ? 1 : -1 );
 				});
 				var html = "<div class=\"popupCharacterList\">";
-				var lastCharacter = false;
+				var lastMarker = false;
 				var mlist = markers.filter(function (marker) {
-					var character = marker.character;
-					if(lastCharacter && lastCharacter == character) {
+					if(lastMarker && lastMarker.character == marker.character && lastMarker.alive == marker.alive) {
 						return false;
 					} else {
-						lastCharacter = character;
+						lastMarker = marker;
 						return true;
 					}
 				});
@@ -11841,7 +11856,6 @@
 					character.points.map(generateMarker);
 				}
 			}
-			console.log(markers);
 			markers.sort(function (marker1, marker2) {
 				var c1 = marker1.coords;
 				var c2 = marker2.coords;
@@ -11853,7 +11867,6 @@
 				}
 			});
 			var lastMarker = false;
-			console.log(markers);
 			markers = markers.filter(function (marker) {
 				if(lastMarker && lastMarker.coords.equals(marker.coords)) {
 					if(!("multi" in lastMarker)) {
@@ -11865,8 +11878,6 @@
 				lastMarker = marker;
 				return true;
 			});
-			
-			console.log(markers);
 			var popUpString;
 			markers.map(function(marker) {
 				if("multi" in marker && (popUpString = nicePopup(marker.multi)) !== false) {

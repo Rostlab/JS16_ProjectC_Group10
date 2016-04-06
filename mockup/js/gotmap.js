@@ -32,6 +32,8 @@ gotmap = function(mapContainer, options) {
 		'episodesRange': [1,2]
 	};
 	
+	L.Icon.Default.imagePath = "http://cdn.leafletjs.com/leaflet/v0.7.7/images";
+	
 	// Merge User and Default Options
 	if(typeof options == 'object') {
 		for(var option in defaultOptions) {
@@ -199,9 +201,13 @@ gotmap = function(mapContainer, options) {
 		    onAdd: function(map) {
 		        var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-flag');
 		        L.DomEvent.disableClickPropagation(c);
-		        c.onclick = function() {
+		        c.setAttribute("data-toggle", "tooltip");
+		        c.setAttribute("data-placement", "bottom");
+		        c.title = 'Show / Hide Realms';
+		        
+		        jQuery(c).on('click', function() {
 			        publicFunctions.toggleRealms();
-		        };
+		        }).tooltip();
 		        return c;
 		    },
 		});
