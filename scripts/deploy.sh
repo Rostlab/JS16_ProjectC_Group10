@@ -14,6 +14,7 @@ npm run build
 npm run deploy
 
 # deploy
+git pull origin develop
 git add .
 git commit -m "Travis automatic deployment"
-git push --force --quiet "https://${GITHUB_TOKEN}@$github.com/${GITHUB_REPO}.git" develop > /dev/null 2>&1
+git push
