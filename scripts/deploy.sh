@@ -1,6 +1,6 @@
 #!/bin/bash
 # See https://medium.com/@nthgergo/publishing-gh-pages-with-travis-ci-53a8270e87db
-set -o errexit
+#set -o errexit
 
 rm -rf builds
 mkdir builds
@@ -16,4 +16,4 @@ npm run deploy
 # deploy
 git add .
 git commit -m "Travis automatic deployment"
-git push "https://${GITHUB_TOKEN}@github.com/Rostlab/JS16_ProjectC_Group10.git" bundles
+git push "https://${GITHUB_TOKEN}@github.com/Rostlab/JS16_ProjectC_Group10.git"
