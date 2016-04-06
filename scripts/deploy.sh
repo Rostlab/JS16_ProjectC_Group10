@@ -16,4 +16,4 @@ npm run deploy
 # deploy
 git add .
 git commit -m "Travis automatic deployment"
-git push --force --quiet "https://${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git" bundles
+git push "https://${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git" bundles
