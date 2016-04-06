@@ -1,8 +1,10 @@
 #!/bin/bash
 set -o errexit
 
-rm -rf ../builds
-mkdir ../builds
+cd ..
+rm -rf builds
+mkdir builds
+
 
 # config
 git config user.email "oleksii.moroz@tum.de"
