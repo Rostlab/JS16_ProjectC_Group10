@@ -3,7 +3,6 @@ node_js:
 - stable
 before_script:
 - npm install -g grunt-cli
-script:
 - bash scripts/deploy.sh
 deploy:
   provider: npm
