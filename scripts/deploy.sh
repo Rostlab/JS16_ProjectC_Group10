@@ -1,7 +1,7 @@
 #!/bin/bash
 set -o errexit
 
-cd ..
+
 rm -rf builds
 mkdir builds
 
