@@ -228,6 +228,10 @@
 
 .gotmap-character .character .house {
 	color: #727272;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding-right: 1em;
+	white-space: pre;
 }
 
 .gotmap-character .character .delete {
