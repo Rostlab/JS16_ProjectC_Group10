@@ -412,42 +412,54 @@ jQuery(function() {
 		var characterPath = {"name":curCharacter.name, "path": exPath};
 		return characterPath; 
 	}
+	
+	// testing for support and availability of localStorage
+	function storageAvailable(type) {
+		try {
+			var storage = window[type],
+				x = '__storage_test__';
+			storage.setItem(x, x);
+			storage.removeItem(x);
+			return true;
+		}
+		catch(e) {
+			return false;
+		}
+	}
+	function loadPathFromCache(){
+	if (storageAvailable('localStorage')) {
+	    if (localStorage.length) {
+	        // if a path exists
+	        return JSON.parse(localStorage.getItem("path"));
+    	} else {
+    	alert("Sorry, no path found in your Browser Cache...");
+    	}
+    } else {
+    	// no localStorage
+        alert("Sorry, your browser does not support Web Storage...");
+    	}
+	}
+
+	function savePathCache(path){
+	if (storageAvailable('localStorage')) {
+    	if (localStorage.length) {
+        	// if a path exists
+        	localStorage.removeItem("path");
+    	}
+	    localStorage.setItem("path", path);
+    	} else {
+        	// no localStorage
+	        alert("Sorry, your browser does not support Web Storage...");
+    	}
+	}
+
+	jQuery("#savebutton").click(function () {
+		savePathCache(JSON.stringify(exportPath()));
+	});
+
+	jQuery("#loadbutton").click(function () {
+		$('#jsonArea').val(JSON.stringify(loadPathFromCache()));
+		
+	});
 });
 
-// testing for support and availability of localStorage
-function storageAvailable(type) {
-	try {
-		var storage = window[type],
-			x = '__storage_test__';
-		storage.setItem(x, x);
-		storage.removeItem(x);
-		return true;
-	}
-	catch(e) {
-		return false;
-	}
-}
-function loadPathFromCache(){
-if (storageAvailable('localStorage')) {
-    if (localStorage.length) {
-        // if a path exists
-        localStorage.getItem("path");
-    }
-    } else {
-        // no localStorage
-        alert("Sorry, your browser does not support Web Storage...");
-    }
-}
-
-function savePathCache(path){
-if (storageAvailable('localStorage')) {
-    if (localStorage.length) {
-        // if a path exists
-        localStorage.removeItem("path");
-    }
-    localStorage.setItem("path", path);
-    } else {
-        // no localStorage
-        alert("Sorry, your browser does not support Web Storage...");
-    }
-}
