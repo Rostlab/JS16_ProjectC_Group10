@@ -1,5 +1,4 @@
 #!/bin/bash
-set -o errexit
 
 
 rm -rf builds
