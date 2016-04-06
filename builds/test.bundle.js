@@ -327,7 +327,6 @@
 	function applyToTag(styleElement, obj) {
 		var css = obj.css;
 		var media = obj.media;
-		var sourceMap = obj.sourceMap;
 
 		if(media) {
 			styleElement.setAttribute("media", media)
@@ -345,7 +344,6 @@
 
 	function updateLink(linkElement, obj) {
 		var css = obj.css;
-		var media = obj.media;
 		var sourceMap = obj.sourceMap;
 
 		if(sourceMap) {
@@ -384,7 +382,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	 * jQuery JavaScript Library v2.2.2
+	 * jQuery JavaScript Library v2.2.3
 	 * http://jquery.com/
 	 *
 	 * Includes Sizzle.js
@@ -394,7 +392,7 @@
 	 * Released under the MIT license
 	 * http://jquery.org/license
 	 *
-	 * Date: 2016-03-17T17:51Z
+	 * Date: 2016-04-05T19:26Z
 	 */
 
 	(function( global, factory ) {
@@ -450,7 +448,7 @@
 
 
 	var
-		version = "2.2.2",
+		version = "2.2.3",
 
 		// Define a local copy of jQuery
 		jQuery = function( selector, context ) {
@@ -9860,7 +9858,7 @@
 			// If it fails, this function gets "jqXHR", "status", "error"
 			} ).always( callback && function( jqXHR, status ) {
 				self.each( function() {
-					callback.apply( self, response || [ jqXHR.responseText, status, jqXHR ] );
+					callback.apply( this, response || [ jqXHR.responseText, status, jqXHR ] );
 				} );
 			} );
 		}
@@ -10353,7 +10351,7 @@
 /* 19 */
 /***/ function(module, exports) {
 
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAMAAACelLz8AAABy1BMVEX///9zc3N5eXlzc3OLi4tzc3ONjY2GhoaPj4+Ojo5zc3OZmZmioqJzc3OoqKhzc3Otra25ublzc3OwsLDOzs65ubm1tbVycnJzc3O6urq/v79zc3PDw8PGxsZzc3PJycnPz8/U1NRzc3PY2Njc3Nzf39/n5+fp6enj4+PHx8fo6Ohzc3Po6Ojg4ODm5uaNjY1zc3Nzc3Pk5ORzc3OHh4eLi4vj4+OHh4ePj49zc3OEhISNjY2SkpJ/f3+BgYGenp6Dg4OIiIiWlpZ7e3uampp8fHyenp50dHR6enp0dHR4eHiioqJ0dHTh4eF2dnZ0dHR1dXV3d3elpaW5ubl0dHR1dXV0dHSoqKjNzc3g4OB0dHS5ubmrq6uurq7g4OCwsLDf39+ysrLExMSzs7O1tbXe3t62tra3t7fe3t64uLiFhYW4uLjd3d2Dg4OFhYW5ubnMzMyAgICBgYGCgoKEhISHh4eIiIiKioqOjo6Pj4+UlJSWlpaXl5eYmJibm5uenp6jo6OoqKipqamqqqqrq6utra2wsLCxsbGzs7O0tLS4uLi5ubm6urq+vr6/v7/BwcHDw8PHx8fLy8vMzMzNzc3Pz8/U1NTa2trd3d2WLyQWAAAAcXRSTlMAAQEEBgsLDxASExQcHicsMjs8Pz9ES05OVV9iaHN2fIOIiY2SlZWVlpqanZ6lqayvsLe/v7+/wMDBwcHBwsLCw8PDxsbHycrLzc3N0NDR0tLS0tLU1dbW1tjZ2dvg4OXn6ezt8vP1+Pj7/f39/v7+/lAAr3YAAAGgSURBVBgZdcEJO1RxFAfgnzXZQ8a+c+xbJVKNQkUkrfatCFHGjLEb+3KPbczB/+O6c5/7PDO294W/wEDcIzozMxp3CU3JJ8pPCcUt8dlkyI7HdZHpBWQqSI+ET3ByHulKu7tLSZeXHAxTbBZ51YwrNV5DXlmx8IpIKyRd+ZAyDJWTrjAtAkjMJV1x+5QyTbUXky43EY1FRFQ9qvyMVhNRUSMsPRVlA+qGgbKKHgsQVj99qG44nK4PAxK65Mi5dK78nC85j6QrAQ0jIp4t2+alMl1u2rY8IiMNsHRYZ0Tcy3MnynAyt+wWmbF2WIAHTydZRDTH2oVSF2sOTUT435uHwKOvvONYcYt41md3d2fXPSLuFccO9z7Gq2FmzWXbFpHTxcVTEdm2uTTmX6+R9O3lX+aDhfljMRzPLxww/3/blgSE5HT+ZOYNu+tM5Mxl32DmvtacEHjF1L34zayt2vf37asa89jzJzEwBaT+aGLmPadzj5nffU4NgE94yYd+Ngw2l4TjuriWZ3+YJ2rfx+GWoIzvH798ygjCXaKqKqPgcwUkbrYNHRyaCwAAAABJRU5ErkJggg=="
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAMAAACelLz8AAABy1BMVEX///9zc3N5eXlzc3OLi4tzc3ONjY2GhoaPj4+Ojo5zc3OZmZmioqJzc3OoqKhzc3Otra25ublzc3OwsLDOzs65ubm1tbVycnJzc3O6urq/v79zc3PDw8PGxsZzc3PJycnPz8/U1NRzc3PY2Njc3Nzf39/n5+fp6enj4+PHx8fo6Ohzc3Po6Ojg4ODm5uaNjY1zc3Nzc3Pk5ORzc3OHh4eLi4vj4+OHh4ePj49zc3OEhISNjY2SkpJ/f3+BgYGenp6Dg4OIiIiWlpZ7e3uampp8fHyenp50dHR6enp0dHR4eHiioqJ0dHTh4eF2dnZ0dHR1dXV3d3elpaW5ubl0dHR1dXV0dHSoqKjNzc3g4OB0dHS5ubmrq6uurq7g4OCwsLDf39+ysrLExMSzs7O1tbXe3t62tra3t7fe3t64uLiFhYW4uLjd3d2Dg4OFhYW5ubnMzMyAgICBgYGCgoKEhISHh4eIiIiKioqOjo6Pj4+UlJSWlpaXl5eYmJibm5uenp6jo6OoqKipqamqqqqrq6utra2wsLCxsbGzs7O0tLS4uLi5ubm6urq+vr6/v7/BwcHDw8PHx8fLy8vMzMzNzc3Pz8/U1NTa2trd3d2WLyQWAAAAcXRSTlMAAQEEBgsLDxASExQcHicsMjs8Pz9ES05OVV9iaHN2fIOIiY2SlZWVlpqanZ6lqayvsLe/v7+/wMDBwcHBwsLCw8PDxsbHycrLzc3N0NDR0tLS0tLU1dbW1tjZ2dvg4OXn6ezt8vP1+Pj7/f39/v7+/lAAr3YAAAGgSURBVBgZdcEJO1RxFAfgnzXZQ8a+c+xbJVKNQkUkrfatCFHGjLEb+3KPbczB/+O6c5/7PDO29wX8BAbiHtGZmdG4S2hKPlF+Sihuic8mQ3Y8rotMLyBTQXokfIKT80hX2t1dSrq85GCYYrPIq2ZcqfEa8sqKhVdEWiHpyoeUYaicdIVpEUBiLumK26eUaaq9mHS5iWgsIqLqUeVntJqIihph6akoG1A3DJRV9FiAsPrpQ3XD4XR9GJDQJUfOpXPl53zJeSRdCWgYEfFs2TYvlely07blERlpgKXDOiPiXp47UYaTuWW3yIy1wwI8eDrJIqI51i6UulhzaCLC/948BB595R3HilvEsz67uzu77hFxrzh2uPcxXg0zay7btoicLi6eisi2zaUx/3qNpG8v/zIfLMwfi+F4fuGA+f/btiQgJKfzJzNv2F1nImcu+wYz97XmhMArpu7Fb2Zt1b6/b1/VmMeeP4mBKSD1RxMz7zmde8z87nNqAHzCSz70s2GwuSQc18W1PPvDPFH7Pg63BGV8//jlU0YQ7hJVVRkFnyskbrYNHzsGGwAAAABJRU5ErkJggg=="
 
 /***/ },
 /* 20 */
