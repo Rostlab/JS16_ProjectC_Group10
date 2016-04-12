@@ -313,6 +313,29 @@ jQuery(function() {
 		jQuery("#placename").val(info.place || 0);
 		jQuery("#episode").val(info.episode || 0);
 		jQuery("#status").val(info.status || "alive");
+		/*
+		var lastEpisode = 0, nextEpisode = 0, afterPoint = false;
+		// Search for allowed episodes
+		for(var i = 0;i<path.length;i++) {
+			afterPoint = afterPoint || path[i] == point;
+			var e = path[i].info.episode;
+			if(e) {
+				if(afterPoint) {
+					lastEpisode = e;
+				} else {
+					nextEpisode = e;
+				}
+			}
+		}
+		jQuery("#episode option").each(function (i, el) {
+			el = jQuery(el);
+			if(i==0 || (lastEpisode == 0 || lastEpisode < i) && (nextEpisode == 0 || i < nextEpisode)) {
+				el.prop( "disabled", false);
+			} else {
+				el.prop( "disabled", true);
+			}
+		});
+		*/
 	}
 	
 	function saveEditModal(point) {
