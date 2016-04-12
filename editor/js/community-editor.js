@@ -21,6 +21,7 @@ jQuery(function() {
 	var curPlace = false; // <-- Set when mouse over
 	var pathChanged = false;
 	var showPreview = true;
+	var allowEdit = true;
 	var storeItLocally = (typeof(Storage) !== "undefined");
 	var selectedEpisodes = [1, 100];
 	
@@ -123,17 +124,42 @@ jQuery(function() {
 			L.DomEvent.disableClickPropagation(c);
 			c.onclick = function() {
 				$('#jsonModal').modal('show');
-				$('#jsonArea').val(JSON.stringify(exportPath() /*path*/));
+				$('#jsonArea').val(JSON.stringify(exportPath()));
 			};
 			return c;
 		},
 	});
 	map.addControl(new jsonCtrl());
 
+	// Editmode on/off button
+	var editCtrl = L.Control.extend({
+		options: {
+			position: 'topright'
+		},
+		onAdd: function(map) {
+			var c = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom glyphicon glyphicon-edit');
+			L.DomEvent.disableClickPropagation(c);
+			c.onclick = function() {
+				if(allowEdit){
+					$(c).removeClass("glyphicon-edit").addClass("glyphicon-unchecked");
+				}else{
+					$(c).removeClass("glyphicon-unchecked").addClass("glyphicon-edit");
+				}
+				allowEdit = !allowEdit;
+				showPreview = allowEdit;
+			};
+			return c;
+		},
+	});
+	map.addControl(new editCtrl());
+
+
 	function addToPolyline(c, info) {
-		path.push({coords:c, info:(info||{})});
-		pathChanged = true;
-		redrawLine();
+		if(showPreview){
+			path.push({coords:c, info:(info||{})});
+			pathChanged = true;
+			redrawLine();
+		}
 	}
 	
 	function redrawLine() {
@@ -180,7 +206,7 @@ jQuery(function() {
 				path[i].coords = e.latlng;
 				refreshLine();
 			}).on('dragend', function () {
-				showPreview = true;
+				if(allowEdit){showPreview = true;}
 				pathChanged = true;
 				if(curPlace) {
 					path[i].coords = curPlace.coords;
@@ -208,7 +234,7 @@ jQuery(function() {
 					path[i].info = {};
 					refreshLine();
 				}).on('dragend', function () {
-					showPreview = true;
+					if(allowEdit){ showPreview = true;}
 					pathChanged = true;
 					if(curPlace) {
 						path[i].coords = curPlace.coords;
