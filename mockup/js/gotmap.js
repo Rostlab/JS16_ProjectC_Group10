@@ -29,10 +29,9 @@ gotmap = function(mapContainer, options) {
 		'errorTile':'http://tiles.got.show/blank.png',
 		'characterColors':['#F44336', '#2196F3', '#4CAF50', '#212121', '#7C4DFF', '#F8BBD0', '#FBC02D', '#795548', 
 		'#00796B', '#536DFE', '#FFFFFF', '#FF5722'],
-		'episodesRange': [1,2]
+		'episodesRange': [1,2],
+		'markerBasePath': "http://cdn.leafletjs.com/leaflet/v0.7.7/images"
 	};
-	
-	L.Icon.Default.imagePath = "http://cdn.leafletjs.com/leaflet/v0.7.7/images";
 	
 	// Merge User and Default Options
 	if(typeof options == 'object') {
@@ -47,6 +46,8 @@ gotmap = function(mapContainer, options) {
 	} else {
 		options = defaultOptions;
 	}
+	
+	L.Icon.Default.imagePath = options.markerBasePath; // Set the base path
 	
 	// Will be later returned
 	var publicFunctions = {};
