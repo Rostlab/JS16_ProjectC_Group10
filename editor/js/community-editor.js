@@ -1,11 +1,11 @@
-/*
-  .--.	   Alex Max Tobi		 ,-. .--. 
- : .--'   Project C - Map	   .'  :: ,. :
- : : _ .--.  .--. .-..-..---.  `:  :: :: :
- : :; :: ..'' .; :: :; :: .; `	:  :: :; :
- `.__.':_;  `.__.'`.__.': ._.'	:__;`.__.'
-						: :				
-						:_;
+/*____     _____   __  __
+ / ___| __|_   _| |  \/  | __ _ _ __
+| |  _ / _ \| |   | |\/| |/ _` | '_ \
+| |_| | (_) | |   | |  | | (_| | |_) |
+ \____|\___/|_|   |_|  |_|\__,_| .__/
+ Maximilian Bandle @mbandle    |_|
+ Alexander Beischl @AlexBeischl
+ Tobias Piffrader  @tPiffrader
 */
 jQuery(function() {
 	var apiLocation = "https://api.got.show/api";
@@ -277,6 +277,7 @@ jQuery(function() {
 		if(pathChanged && !confirm('Are you sure to drop the previous changes')) {
 			return;
 		}
+		jQuery("#spinner").fadeIn();
 		curCharacter = c.name;
 		pathChanged = false;
 		if(c.hasPath) {
@@ -285,6 +286,7 @@ jQuery(function() {
 					var pathOfCharacter = (typeof data == "object") ? data : JSON.parse(data);
 					path = importPath(pathOfCharacter.data[0].path);
 					redrawLine();
+					jQuery("#spinner").fadeOut();		
 				});	
 		}
 	}
@@ -503,10 +505,16 @@ jQuery(function() {
 	}
 
 	jQuery("#savebutton").click(function () {
+		if(!confirm('Are you sure you want to drop the previous changes')) {
+			return;
+		}
 		savePathCache(JSON.stringify(exportPath()));
 	});
 
 	jQuery("#loadbutton").click(function () {
+		if(!confirm('Are you sure you want to drop the previous changes')) {
+			return;
+		}
 		path = loadPathFromCache();
 		$('#jsonArea').val(JSON.stringify(path));
 		importPerButton(path);

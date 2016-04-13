@@ -5,7 +5,7 @@ console.log("| |_| | (_) | |   | |  | | (_| | |_) |");
 console.log(" \\____|\\___/|_|   |_|  |_|\\__,_| .__/");
 console.log(" Maximilian Bandle @mbandle    |_|");
 console.log(" Alexander Beischl @AlexBeischl");
-console.log(" Tobias Piffrader  @tpiffrader");
+console.log(" Tobias Piffrader  @tPiffrader");
 console.log(" Path Combining Tool v0.1");
 
 if(process.argv.length != 4) {

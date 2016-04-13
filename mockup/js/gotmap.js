@@ -5,7 +5,7 @@
  \____|\___/|_|   |_|  |_|\__,_| .__/
  Maximilian Bandle @mbandle    |_|
  Alexander Beischl @AlexBeischl
- Tobias Piffrader  @tpiffrader
+ Tobias Piffrader  @tPiffrader
 */
 gotmap = function(mapContainer, options) {
 	var defaultOptions = {
@@ -855,7 +855,7 @@ gotmap = function(mapContainer, options) {
 	 * @return ourNames
 	 */
 	publicFunctions.getCredits = function() {
-		return "GotMap by Maximilian Bandle @mbandle, Alexander Beischl @AlexBeischl, Tobias Piffrader @tpiffrader";
+		return "GotMap by Maximilian Bandle @mbandle, Alexander Beischl @AlexBeischl, Tobias Piffrader @tPiffrader";
 	};
 	
 	return publicFunctions;
