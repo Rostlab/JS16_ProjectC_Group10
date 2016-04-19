@@ -417,7 +417,7 @@ jQuery(function() {
 	
 	function exportPath()
 	{
-		if (path.length == 0){
+		if (path.length === 0){
 		return [];
 		}
 		var exPath = [];
