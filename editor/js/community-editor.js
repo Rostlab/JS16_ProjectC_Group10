@@ -23,6 +23,7 @@ jQuery(function() {
 	var showPreview = true;
 	var storeItLocally = (typeof(Storage) !== "undefined");
 	var selectedEpisodes = [1, 100];
+	var pointInfo = {};
 	
 	// Handle clicks on the map / cities
 	
@@ -313,8 +314,9 @@ jQuery(function() {
 		jQuery("#placename").val(info.place || 0);
 		jQuery("#episode").val(info.episode || 0);
 		jQuery("#status").val(info.status || "alive");
-		/*
+		
 		var lastEpisode = 0, nextEpisode = 0, afterPoint = false;
+		var status;
 		// Search for allowed episodes
 		for(var i = 0;i<path.length;i++) {
 			afterPoint = afterPoint || path[i] == point;
@@ -326,6 +328,10 @@ jQuery(function() {
 					nextEpisode = e;
 				}
 			}
+			var s = path[i].info.status;
+			if(s && !afterPoint) {
+				status = s;
+			}
 		}
 		jQuery("#episode option").each(function (i, el) {
 			el = jQuery(el);
@@ -335,7 +341,7 @@ jQuery(function() {
 				el.prop( "disabled", true);
 			}
 		});
-		*/
+		
 	}
 	
 	function saveEditModal(point) {
