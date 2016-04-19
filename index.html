@@ -1,60 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>GoT Map</title>
+	<title>Leaflet GOT Map - Group 10</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" href="mockup/lib/leaflet.css" />
-	
-	<!-- GoT Map CSS -->
-	<link rel="stylesheet" href="mockup/css/gotmap.css" />
-
-	<!-- config -->
-	<script type="text/javascript" src="mockup/js/config.js"></script>
-	
+	<!-- Leaflet CSS -->
+	<link rel="stylesheet" href="https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/master/leaflet.css" />
+	<!-- Our Code -->
+	<link rel="stylesheet" href="editor/css/main.css" />
 	<!-- jQuery -->
-    <script src="http://code.jquery.com/jquery-2.2.2.min.js"></script>
-    <script src="mockup/lib/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/vader/jquery-ui.css" />
     <!-- Bootstrap (depends on jQuery) -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<!-- Leaflet -->
-	<script src="mockup/lib/leaflet.js"></script>
-	<script src="mockup/lib/label.js"></script>
-	<script src="mockup/lib/leaflet.label/BaseMarkerMethods.js"></script>
-	<script src="mockup/lib/leaflet.label/Marker.Label.js"></script>
-	<script src="mockup/lib/leaflet.label/Path.Label.js"></script>
-	<script src="mockup/lib/leaflet.label/Map.Label.js"></script>
-	<script src="mockup/lib/leaflet.label/FeatureGroup.Label.js"></script>
-
-	<!-- GoT Map JS -->
-	<script src="data/paths.js"></script>
-	<script src="mockup/js/gotmap.js"></script>
+	<script src="https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/master/leaflet.js"></script>
+	<!-- Our Code -->
+	<script src="editor/js/map.js"></script>
+	<script src="editor/js/community-editor.js"></script>	
 	
-	<!-- Get the Demo Running -->
-	<link rel="stylesheet" href="mockup/css/demo.css" />
-	<script src="mockup/js/demo.js"></script>
-	
+	<!-- Alex-->
+	<script src="editor/leaflet.label/Label.js"></script>
+	<script src="editor/leaflet.label/BaseMarkerMethods.js"></script>
+	<script src="editor/leaflet.label/Marker.Label.js"></script>
+	<script src="editor/leaflet.label/Path.Label.js"></script>
+	<script src="editor/leaflet.label/Map.Label.js"></script>
+	<script src="editor/leaflet.label/FeatureGroup.Label.js"></script>
 </head>
 <body>
-	<div id="map">
-		<!-- Filled in gotmap.js -->
+	<div id="map" class="withtimeline">
+		<!-- Filled in map.js -->
 	</div>
-	<div id="sidebar">
 		<form id="filter">
-			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Search for...">
-				<i class="glyphicon glyphicon-search form-control-feedback"></i>
-			</div>
+		<div class="input-group">
+      		<input type="text" class="form-control" placeholder="Search for..."><i class="glyphicon glyphicon-search form-control-feedback"></i>
+	  		
+    	</div>
 		</form>
-		<!-- /input-group -->
-		<hr />
-		<div id="characters"><!-- Filled by gotmap.js --></div>
+	<div id="sidebar">
+			<!-- Filled in filter.js -->
 	</div>
 	
-	<div id="timeline"><!-- Filled by gotmap.js --></div>
+	<div id="timeline">
+		<div id="slider-range"></div>
+		<p id="amount">
+		</p>
+	</div>
+	
+<div class="modal fade" id="jsonModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalLabel">Download JSON</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+	          <textarea id="jsonArea" class="form-control" rows="15"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="savebutton">Save in Browser Cache</button>
+		<button type="button" class="btn btn-success" data-dismiss="modal" id="loadbutton">Load from Browser Cache</button>
+		<button type="button" class="btn btn-primary" data-dismiss="modal" id="loadJSONbutton">Load</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalLabel">Add Point Information</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+			<div class="form-group">
+				<label for="cityname">Place Name</label>
+				<select class="form-control" id="placename">
+					<option value="0">No place visited</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="episode">Episode</label>
+				<select class="form-control" id="episode">
+					<option value="0">No Episode Breakpoint</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="status">Character Status</label>
+				<select class="form-control" id="status">
+					<option value="unknown">Unknown</option>
+					<option value="alive">Alive</option>
+					<option value="dead">Dead</option>
+				</select>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="editbutton">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="spinner" class="overlay">
+<span class='glyphicon glyphicon-cog glyph-spin glyph-big'></span> 
+</div>
+
 </body>
 </html>
 
