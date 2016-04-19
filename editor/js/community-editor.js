@@ -417,6 +417,9 @@ jQuery(function() {
 	
 	function exportPath()
 	{
+		if (path.length == 0){
+		return [];
+		}
 		var exPath = [];
 		var start = 1;
 		var curr;
@@ -524,7 +527,7 @@ jQuery(function() {
 		if(!confirm('Are you sure you want to drop the previous changes')) {
 			return;
 		}
-		path = $('#jsonArea').val();
+		path = JSON.parse($('#jsonArea').val());
 		importPerButton(path);
 	});
 	
