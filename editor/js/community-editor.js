@@ -277,10 +277,10 @@ jQuery(function() {
 		if(pathChanged && !confirm('Are you sure to drop the previous changes')) {
 			return;
 		}
-		jQuery("#spinner").fadeIn();
 		curCharacter = c.name;
 		pathChanged = false;
 		if(c.hasPath) {
+			jQuery("#spinner").fadeIn();
 			jQuery.get(apiLocation+"/characters/paths/"+c.name, {}, 
 				function(data) {
 					var pathOfCharacter = (typeof data == "object") ? data : JSON.parse(data);
@@ -417,6 +417,9 @@ jQuery(function() {
 	
 	function exportPath()
 	{
+		if (path.length === 0){
+		return [];
+		}
 		var exPath = [];
 		var start = 1;
 		var curr;
@@ -517,6 +520,14 @@ jQuery(function() {
 		}
 		path = loadPathFromCache();
 		$('#jsonArea').val(JSON.stringify(path));
+		importPerButton(path);
+	});
+	
+	jQuery("#loadJSONbutton").click(function () {
+		if(!confirm('Are you sure you want to drop the previous changes')) {
+			return;
+		}
+		path = JSON.parse($('#jsonArea').val());
 		importPerButton(path);
 	});
 	
